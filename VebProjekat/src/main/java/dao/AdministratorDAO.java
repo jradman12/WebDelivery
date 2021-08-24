@@ -21,14 +21,21 @@ public class AdministratorDAO {
 
 	private Gson gs = new Gson();
 	private HashMap<String, Administrator> admins = new HashMap<String, Administrator>(); // delete the initialization after creating the file!
-	private String path = "C:\\Users\\hp\\Desktop\\web-proj\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json"; 
+	private String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json"; 
 
+	public AdministratorDAO(String contextPath) {
+		loadAdmins(contextPath);
+	}
 	
-	public void loadAdmins() {
+	public Administrator find(String username) {
+		return admins.containsKey(username) ? admins.get(username) : null;
+	}
+	
+	public void loadAdmins(String contextPath) {
 		
 		// maybe we should add predefined values for boolean attributes, so we don't do this in constructors :(
 		admins.put("admin", new Administrator("admin", "admin", "Adam", "Martinez", Gender.MALE, new Date(), Role.ADMINISTRATOR, false, false));
-		
+		System.out.println("henlo");
 		String json = gs.toJson(admins);
 		byte[] strInBytes = json.getBytes();
 
