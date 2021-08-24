@@ -1,7 +1,9 @@
 package beans;
 
-public class Administrator {
+public class Administrator extends User {
 	
+	public Administrator() {
+		super();
+	}
 	
-
 }

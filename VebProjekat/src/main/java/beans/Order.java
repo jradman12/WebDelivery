@@ -8,22 +8,23 @@ import enums.OrderStatus;
 public class Order {
 	
 	private String id;
-	private List<CartItem> items;
+	private List<CartItem> orderedItems;
 	private Restaurant restaurant;
 	private Date dateAndTime;
 	private double price;
 	private Customer customer;
 	private OrderStatus status;
+	private boolean isDeleted;
 	
 	public Order() {
 		
 	}
 
-	public Order(String id, List<CartItem> items, Restaurant restaurant, Date dateAndTime, double price,
+	public Order(String id, List<CartItem> orderedItems, Restaurant restaurant, Date dateAndTime, double price,
 			Customer customer, OrderStatus status) {
 		super();
 		this.id = id;
-		this.items = items;
+		this.orderedItems = orderedItems;
 		this.restaurant = restaurant;
 		this.dateAndTime = dateAndTime;
 		this.price = price;
@@ -39,12 +40,12 @@ public class Order {
 		this.id = id;
 	}
 
-	public List<CartItem> getItems() {
-		return items;
+	public List<CartItem> getOrderedItems() {
+		return orderedItems;
 	}
 
-	public void setItems(List<CartItem> items) {
-		this.items = items;
+	public void setOrderedItems(List<CartItem> orderedItems) {
+		this.orderedItems = orderedItems;
 	}
 
 	public Restaurant getRestaurant() {
@@ -86,13 +87,13 @@ public class Order {
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 }

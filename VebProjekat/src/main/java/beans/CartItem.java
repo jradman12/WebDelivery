@@ -1,94 +1,29 @@
 package beans;
 
-import enums.CartItemType;
 
 public class CartItem {
 
-	private String name;
-	private double price;
-	private CartItemType type;
-	private Restaurant restaurant;
-	private int quantity;
-	private String description;
-	//slika artikla
+	private Product product;
 	private int amount;
+	private boolean isDeleted; // delete if not needed
 	
-	
-	public CartItem() {
-		
+	public CartItem() {		
 	}
 
-	public CartItem(String name, double price, CartItemType type, Restaurant restaurant, int quantity,
-			String description, int amount) {
+	public CartItem(Product product, int amount, boolean isDeleted) {
 		super();
-		this.name = name;
-		this.price = price;
-		this.type = type;
-		this.restaurant = restaurant;
-		this.quantity = quantity;
-		this.description = description;
+		this.product = product;
 		this.amount = amount;
+		this.isDeleted = isDeleted;
 	}
 
-
-
-
-
-
-
-
-
-
-
-	public String getName() {
-		return name;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public CartItemType getType() {
-		return type;
-	}
-
-	public void setType(CartItemType type) {
-		this.type = type;
-	}
-
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
 
 	public int getAmount() {
 		return amount;
@@ -97,11 +32,14 @@ public class CartItem {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	
-	
-	
-	
-	
-	
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	
 }

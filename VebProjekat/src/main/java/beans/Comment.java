@@ -6,11 +6,11 @@ public class Comment {
 	private Restaurant restaurant;
 	private String text;
 	private int rating;
+	private boolean isApproved;
+	private boolean isDeleted;
 	
 	public Comment() {
-		
 	}
-	
 	
 	public Comment(Customer author, Restaurant restaurant, String text, int rating) {
 		super();
@@ -52,10 +52,26 @@ public class Comment {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
 	
-	
-	
-	
+	public boolean isApproved() {
+		return isApproved;
+	}
+
+
+	public void setApproved(boolean isApproved) {
+		this.isApproved = isApproved;
+	}
+
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 	
 	
 }

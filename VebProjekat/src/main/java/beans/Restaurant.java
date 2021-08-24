@@ -11,6 +11,7 @@ public class Restaurant {
 	private List<CartItem> menu;
 	private RestaurantStatus status;
 	private Location location;
+	private boolean isDeleted;
 	//logo restorana - slika
 	
 	
@@ -67,13 +68,13 @@ public class Restaurant {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 	
 }

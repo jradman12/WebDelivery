@@ -1,6 +1,6 @@
 package enums;
 
-public enum CartItemType {
+public enum ProductType {
 	FOOD,
 	DRINK
 }
