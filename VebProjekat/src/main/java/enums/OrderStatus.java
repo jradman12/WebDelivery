@@ -1,0 +1,11 @@
+package enums;
+
+public enum OrderStatus {
+	PENDING,
+	IN_PREPARATION,
+	AWAITING_DELIVERER,
+	SHIPPING,
+	DELIVERED,
+	CANCELED
+	
+}
