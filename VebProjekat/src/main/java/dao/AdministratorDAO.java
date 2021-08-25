@@ -1,11 +1,11 @@
 package dao;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,8 +15,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Administrator;
-import enums.Gender;
-import enums.Role;
 
 public class AdministratorDAO {
 
@@ -64,33 +62,34 @@ public class AdministratorDAO {
 		
 		Gson gs = new Gson();
 		// maybe we should add predefined values for boolean attributes, so we don't do this in constructors :(
-				admins.put("admin", new Administrator("admin", "admin", "Adam", "Martinez", Gender.MALE, new Date(), Role.ADMINISTRATOR, false, false));
-				System.out.println("henlo");
-				String json = gs.toJson(admins);
-				byte[] strInBytes = json.getBytes();
-
-				// writing in file for the first time; should be removed after the file is created
-				FileOutputStream fos = null;
-				try {
-					fos = new FileOutputStream("C:\\Users\\hp\\Desktop\\web-proj\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\nzm.json");
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-				try {
-					fos.write(strInBytes);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				try {
-					fos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+//				admins.put("adam", new Administrator("adam", "admin", "Adam", "Martinez", Gender.MALE, parseDate("24.09.1992."), Role.ADMINISTRATOR, false, false));
+//				admins.put("ella", new Administrator("ella", "admin", "Ella", "Williams", Gender.FEMALE, parseDate("02.03.1989."), Role.ADMINISTRATOR, false, false));
+//				System.out.println("henlo");
+//				String json = gs.toJson(admins);
+//				byte[] strInBytes = json.getBytes();
+//
+//				// writing in file for the first time; should be removed after the file is created
+//				FileOutputStream fos = null;
+//				try {
+//					fos = new FileOutputStream("C:\\Users\\hp\\Desktop\\web-proj\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json");
+//				} catch (FileNotFoundException e) {
+//					e.printStackTrace();
+//				}
+//				try {
+//					fos.write(strInBytes);
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//				try {
+//					fos.close();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
 				//----------------------------------------
 				
 				String adminsJson = "";
 				try {
-					adminsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\web-proj\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\nzm.json")));
+					adminsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\web-proj\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -101,7 +100,7 @@ public class AdministratorDAO {
 				
 				//just to check it out 
 				for(Map.Entry<String, Administrator> entry : admins.entrySet()) {
-					System.out.println(entry.getValue().getUsername());
+					System.out.println(entry.getValue().getFistName());
 				}
 		
 		
@@ -178,6 +177,14 @@ public class AdministratorDAO {
 //			}
 //		}
 	}
+	
+	public static Date parseDate(String date) {
+	     try {
+	         return new SimpleDateFormat("dd.MM.yyyy.").parse(date);
+	     } catch (ParseException e) {
+	         return null;
+	     }
+	  }
 	
 }
 
