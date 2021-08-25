@@ -1,17 +1,14 @@
 package dao;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import java.util.StringTokenizer;
 
 import beans.Administrator;
 import enums.Gender;
@@ -19,60 +16,118 @@ import enums.Role;
 
 public class AdministratorDAO {
 
-	private Gson gs = new Gson();
-	private HashMap<String, Administrator> admins = new HashMap<String, Administrator>(); // delete the initialization after creating the file!
-	private String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json"; 
-
+	private Map<String, Administrator> admins = new HashMap<>();
+	
+	
+	public AdministratorDAO() {
+		
+	}
+	
+	/***
+	 * @param contextPath Putanja do aplikacije u Tomcatu. Može se pristupiti samo iz servleta.
+	 */
 	public AdministratorDAO(String contextPath) {
 		loadAdmins(contextPath);
 	}
 	
-	public Administrator find(String username) {
-		return admins.containsKey(username) ? admins.get(username) : null;
+	/**
+	 * Vraæa korisnika za prosleðeno korisnièko ime i šifru. Vraæa null ako korisnik ne postoji
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public Administrator find(String username, String password) {
+		if (!admins.containsKey(username)) {
+			return null;
+		}
+		Administrator admin = admins.get(username);
+		if (!admin.getPassword().equals(password)) {
+			return null;
+		}
+		return admin;
 	}
 	
-	public void loadAdmins(String contextPath) {
-		
-		// maybe we should add predefined values for boolean attributes, so we don't do this in constructors :(
-		admins.put("admin", new Administrator("admin", "admin", "Adam", "Martinez", Gender.MALE, new Date(), Role.ADMINISTRATOR, false, false));
-		System.out.println("henlo");
-		String json = gs.toJson(admins);
-		byte[] strInBytes = json.getBytes();
-
-		// writing in file for the first time; should be removed after the file is created
-		FileOutputStream fos = null;
+	public Collection<Administrator> findAll() {
+		return admins.values();
+	}
+	
+	/**
+	 * Uèitava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
+	 * Kljuè je korisnièko ime korisnika.
+	 * @param contextPath Putanja do aplikacije u Tomcatu
+	 */
+	private void loadAdmins(String contextPath) {
+		BufferedReader in = null;
 		try {
-			fos = new FileOutputStream(path);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		try {
-			fos.write(strInBytes);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		//----------------------------------------
-		
-		String adminsJson = "";
-		try {
-			adminsJson = new String(Files.readAllBytes(Paths.get(path)));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		Type type = new TypeToken<Map<String, Administrator>>() {}.getType();
-		admins.clear();
-		admins = gs.fromJson(adminsJson, type);
-		
-		//just to check it out 
-		for(Map.Entry<String, Administrator> entry : admins.entrySet()) {
-			System.out.println(entry.getValue().getUsername());
+			File file = new File(contextPath + "/data/users.txt");
+			in = new BufferedReader(new FileReader(file));
+			String line;
+			StringTokenizer st;
+			while ((line = in.readLine()) != null) {
+				line = line.trim();
+				if (line.equals("") || line.indexOf('#') == 0)
+					continue;
+				st = new StringTokenizer(line, ";");
+				while (st.hasMoreTokens()) {
+					String username = st.nextToken().trim();
+					String password = st.nextToken().trim();
+					String firstName = st.nextToken().trim();
+					String lastName = st.nextToken().trim();
+					String genderStr = st.nextToken().trim();
+					String dateStr = st.nextToken().trim();
+					String roleStr = st.nextToken().trim();
+					String isDeletedStr = st.nextToken().trim();
+					String isBlockedStr = st.nextToken().trim();
+					Gender gender;
+					if(genderStr.equals("MALE")) {
+						gender=Gender.MALE;
+					}else if(genderStr.equals("FEMALE")) {
+						gender=Gender.FEMALE;
+					}else {
+						gender=Gender.OTHER;
+					}
+					Role role;
+					if(roleStr.equals("ADMINISTRATOR")) {
+						role=Role.ADMINISTRATOR;
+					}else if(roleStr.equals("CUSTOMER")) {
+						role=Role.CUSTOMER;
+					}else if(roleStr.equals("DELIVERER")) {
+						role=Role.DELIVERER;
+					}else {
+						role = Role.MANAGER;
+					}
+					
+					Boolean isDeleted;
+					if(isDeletedStr.equals("false")) {
+						isDeleted=false;
+					}else {
+						isDeleted=true;
+					}
+					
+					Boolean isBlocked;
+					if(isBlockedStr.equals("false")) {
+						isBlocked=false;
+					}else {
+						isBlocked=true;
+					}
+					 
+				    Date dateOfBirth=new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);  
+					admins.put(username, new Administrator(username, password, firstName, lastName,gender, dateOfBirth,role,isDeleted,isBlocked));
+					
+				}
+				
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				}
+				catch (Exception e) { }
+			}
 		}
 	}
+	
 }
 
