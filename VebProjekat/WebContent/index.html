@@ -58,15 +58,16 @@ http://www.templatemo.com/tm-515-eatery
                <!-- MENU LINKS -->
                <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-nav-first">
-                         <li><a href="#home" class="smoothScroll">Home</a></li>
-                         <li><a href="#about" class="smoothScroll">About</a></li>
-                         <li><a href="#team" class="smoothScroll">Chef</a></li>
+                         <li><a href="#home" class="smoothScroll">Početna</a></li>
+                         <li><a href="#about" class="smoothScroll">O nama</a></li>
+                         <li><a href="#team" class="smoothScroll">Restorani</a></li>
                          <li><a href="#menu" class="smoothScroll">Menu</a></li>
-                         <li><a href="#contact" class="smoothScroll">Contact</a></li>
+                         <li><a href="#contact" class="smoothScroll">Kontakt</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                         <button type="button" class="section-btn" data-toggle="modal" data-target="#loginModal">LOG IN</button>
+                         <button type="button" class="section-btn" data-toggle="modal" data-target="#loginModal">PRIJAVA</button>
+                         <button type="button" class="section-btn" data-toggle="modal" data-target="#registerModal">REGISTRACIJA</button>
                     </ul>
                </div>
 
@@ -83,17 +84,17 @@ http://www.templatemo.com/tm-515-eatery
               </div>
               <div class="modal-body">
                 <div class="form-title text-center">
-                  <h4>Login</h4>
+                  <h4>Prijava</h4>
                 </div>
                 <div class="d-flex flex-column text-center">
                   <form>
                     <div class="form-group">
-                      <input type="email" class="form-control" name="username" id="email1"placeholder="Username">
+                      <input type="email" class="form-control" name="username" id="email1"placeholder="Korisničko ime">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control" name="password" id="password1" placeholder="Password">
+                      <input type="password" class="form-control" name="password" id="password1" placeholder="Lozinka">
                     </div>
-                    <button type="button" class="btn btn-info btn-block btn-round">Login</button>
+                    <button type="button" class="btn btn-info btn-block btn-round">Prijava</button>
                   </form>
                   
                   <!-- <div class="text-center text-muted delimiter">or use a social network</div>
@@ -108,14 +109,71 @@ http://www.templatemo.com/tm-515-eatery
                       <i class="fab fa-linkedin"></i>
                     </button>
                   </div>-->
-                </div> 
+                </div>
               </div>
             </div>
-              <div class="modal-footer d-flex justify-content-center">
-                <div class="signup-section">Not a member yet? <a href="#a" class="text-info"> Sign Up</a>.</div>
-              </div>
           </div>
         </div>
+
+        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header border-bottom-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-title text-center">
+                  <h4>Registracija novog korisnika</h4>
+                </div>
+                <div class="d-flex flex-column text-center">
+                  <form>
+                    <div class="form-group">
+                         <input type="text" class="form-control" name="newFirstName" id="newFirstName1"placeholder="Ime">
+                       </div>
+                       <div class="form-group">
+                         <input type="text" class="form-control" name="newLastName" id="newLastName1"placeholder="Prezime">
+                       </div>
+                       <div class="form-group">
+                         <input type="date" class="form-control" name="newDateOfBirth" id="newDateOfBirth1">
+                       </div>
+                       <div class="form-group">
+                        <select name="selectionOfGender" class="form-control">
+                             <option value="" selected disabled>Pol</option>
+                             <option value="male" >Muško</option>
+                             <option value="female" >Žensko</option>
+                             <option value="other">Ostalo</option>
+                        </select>
+                       </div>
+
+                    <div class="form-group">
+                      <input type="email" class="form-control" name="newUsername" id="newUsername1"placeholder="Korisničko ime">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control" name="newPassword" id="newPassword1" placeholder="Lozinka">
+                    </div>
+                    <button type="button" class="btn btn-info btn-block btn-round">Potvrda</button>
+                  </form>
+                  
+                  <!-- <div class="text-center text-muted delimiter">or use a social network</div>
+                  <div class="d-flex justify-content-center social-buttons">
+                    <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip" data-placement="top" title="Twitter">
+                      <i class="fab fa-twitter"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip" data-placement="top" title="Facebook">
+                      <i class="fab fa-facebook"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip" data-placement="top" title="Linkedin">
+                      <i class="fab fa-linkedin"></i>
+                    </button>
+                  </div>-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
 
      <!-- HOME -->
