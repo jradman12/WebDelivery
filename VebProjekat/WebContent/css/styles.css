@@ -1,8 +1,7 @@
 body {
-    background-image: url(../images/background-food.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    background-color: black;
+    background-color: white;
     background-position-y: 70px;
     
 }
@@ -13,6 +12,7 @@ body {
     font-weight: bold;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
-    color: white;
+    color: Black;
     letter-spacing: 10px;
 }
+
