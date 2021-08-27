@@ -47,6 +47,8 @@ public class LoginService {
 		}
 		request.getSession().setAttribute("user", loggedUser);
 		System.out.println(loggedUser.getFistName() + " is currently logged in.");
+		
+		
 		return Response.status(200).build();
 	}
 	
