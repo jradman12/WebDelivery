@@ -11,15 +11,15 @@ let reg = new Vue({
 		checkRegistration: function (event) {
             event.preventDefault();
 			
-			console.log(this.newUser.firstName)
+			console.log(this.newUser.fistName)
 			
             this.errors = [];
-
+            
             if (!this.errors.length) {
                 axios
                     .post('rest/registerService/registration', {
                    
-                                 "fistName": this.newUser.firstName,
+                                 "fistName": this.newUser.fistName,
                                  "lastName" : this.newUser.lastName,
                                  "dateOfBirth" : this.newUser.dateOfBirth,
 								 "gender" : this.newUser.gender,
@@ -28,23 +28,15 @@ let reg = new Vue({
                     })
                     .then(response => {
                         this.message = response.data;
-                        console.log("\n\n ------- PODACI -------\n");
-                        console.log(response.data);
-                        //toastr["success"]("Let's go, Log in !!", "Success registration!");
-                        console.log("\n\n ----------------------\n\n");
-                                              location.href = response.data; // we get from backend redirection to login with this
                     })
                     .catch(err => {
-                        console.log("\n\n ------- ERROR -------\n");
+                        console.log("There has been an error! Please check this out: ");
                         console.log(err);
-                 //       toastr["error"]("We have alredy user with same username, try another one", "Fail");
-                        console.log("\n\n ----------------------\n\n");
                     })
                 return true;
             }
 			this.errors.forEach(element => {
                 console.log(element)
-               // toastr["error"](element, "Fail")
             });
         }
 

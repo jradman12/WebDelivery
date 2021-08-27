@@ -42,6 +42,7 @@ public class RegisterCustomerService {
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registration(UserDTO customer) {
+		System.out.println("UserDTO object Ive recieved is : " + customer);
 		System.out.println("prva");
 		CustomerDAO allCustomerDAO = getCustomers();
 

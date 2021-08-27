@@ -1,5 +1,7 @@
 package dao;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -11,20 +13,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tomcat.jni.File;
-
-import java.io.FileWriter;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import java.io.FileOutputStream;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
-
 
 import beans.Customer;
 import beans.UserDTO;
@@ -140,17 +130,43 @@ private static Map<String, Customer> customers = new HashMap<>();
 			allCustomers.put(c.getUsername(),c);
 		}
 
-		ObjectMapper objectMapper = new ObjectMapper();
-		//Gson gson=new GsonBuilder().setPrettyPrinting().create();
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		//Gson gson=new GsonBuilder().setPrettyPrinting().create();
+//		try {
+//			// Write them to the file
+//			objectMapper.writeValue(new FileOutputStream(path), allCustomers);
+//			/*FileWriter writer = new FileWriter(path);
+//			gson.toJson(allCustomers,writer);
+//			writer.close();*/
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		Gson gs = new Gson();
+		String json = gs.toJson(allCustomers);
+		byte[] inBytes = json.getBytes();
+		
+		FileOutputStream fos = null;
+		
 		try {
-			// Write them to the file
-			objectMapper.writeValue(new FileOutputStream(path), allCustomers);
-			/*FileWriter writer = new FileWriter(path);
-			gson.toJson(allCustomers,writer);
-			writer.close();*/
+			fos = new FileOutputStream(path);
+		}catch (FileNotFoundException e) {
+			// TODO: handle exception
+			System.out.println("Check the path u gave me!!");
+		}
+		try {
+			fos.write(inBytes);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			fos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	
@@ -164,7 +180,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 	public void addNewCustomer(UserDTO user) {
 		Customer newCustomer = new Customer();
 		newCustomer.setFistName(user.getFistName());
-		newCustomer.setLastName(user.getUsername());
+		newCustomer.setLastName(user.getLastName());
 		newCustomer.setUsername(user.getUsername());
 		newCustomer.setPassword(user.getPassword());
 		newCustomer.setDateOfBirth(user.getDateOfBirth());

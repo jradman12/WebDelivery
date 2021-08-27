@@ -77,7 +77,12 @@ public class UserDTO {
 	}
 	
 	
-	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.getFistName() + " " + this.getLastName() + ", username: " + this.getUsername() + ", pass: " +
+				this.getPassword() + ", dob: " + this.getDateOfBirth() + ", gender: " + this.getGender();
+	}
 	
 
 }
