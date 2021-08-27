@@ -90,7 +90,7 @@ public class AdministratorDAO {
 				String adminsJson = "";
 				try {
 					//adminsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\web-proj\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json")));
-					adminsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json")));
+					adminsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
