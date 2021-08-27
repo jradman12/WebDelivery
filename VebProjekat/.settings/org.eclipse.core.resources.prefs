@@ -1,3 +1,4 @@
 eclipse.preferences.version=1
+encoding//WebContent/register.html=UTF-8
 encoding//src/main/java/services/LoginService.java=UTF-8
 encoding//src/main/java/services/RegisterCustomerService.java=UTF-8
