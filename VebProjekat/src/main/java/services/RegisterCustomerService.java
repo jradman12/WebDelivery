@@ -10,8 +10,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import beans.Customer;
 
-import beans.UserDTO;
 import dao.CustomerDAO;
 
 
@@ -41,9 +41,8 @@ public class RegisterCustomerService {
 	@Path("/registration")
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response registration(UserDTO customer) {
-		System.out.println("UserDTO object Ive recieved is : " + customer);
-		System.out.println("prva");
+	public Response registration(Customer customer) {
+		System.out.println("Customer object Ive recieved is : " + customer);
 		CustomerDAO allCustomerDAO = getCustomers();
 
 		if (allCustomerDAO.getCustomerByUsername(customer.getUsername()) != null) {

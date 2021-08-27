@@ -17,12 +17,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Customer;
-import beans.UserDTO;
 import enums.Role;
 
 public class CustomerDAO {
 
 private static Map<String, Customer> customers = new HashMap<>();
+
 	
 	
 	public CustomerDAO() {
@@ -70,7 +70,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 				
 				String customersJson = "";
 				try {
-					customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
+					customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
 					//customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -117,7 +117,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 	public void saveCustomersJSON() {
 
 		//String path="C:\\Users\\hp\\Desktop\\web-proj\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
 		// Get all users
 		/*List<Customer> allCustomers = new ArrayList<Customer>();
 		for (Customer c : getValues()) {
@@ -177,14 +177,14 @@ private static Map<String, Customer> customers = new HashMap<>();
 		
 	}
 	
-	public void addNewCustomer(UserDTO user) {
+	public void addNewCustomer(Customer customer) {
 		Customer newCustomer = new Customer();
-		newCustomer.setFistName(user.getFistName());
-		newCustomer.setLastName(user.getLastName());
-		newCustomer.setUsername(user.getUsername());
-		newCustomer.setPassword(user.getPassword());
-		newCustomer.setDateOfBirth(user.getDateOfBirth());
-		newCustomer.setGender(user.getGender());
+		newCustomer.setFistName(customer.getFistName());
+		newCustomer.setLastName(customer.getLastName());
+		newCustomer.setUsername(customer.getUsername());
+		newCustomer.setPassword(customer.getPassword());
+		newCustomer.setDateOfBirth(customer.getDateOfBirth());
+		newCustomer.setGender(customer.getGender());
 		newCustomer.setRole(Role.CUSTOMER);
 		newCustomer.setDeleted(false);
 		newCustomer.setBlocked(false);
