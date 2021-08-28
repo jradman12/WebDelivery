@@ -1,10 +1,3 @@
-/*
-
-Eatery Cafe Template 
-
-http://www.templatemo.com/tm-515-eatery
-
-*/
 
   @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 
@@ -214,8 +207,8 @@ http://www.templatemo.com/tm-515-eatery
     padding: 25px 0;
   }
 
+  /* // this is the colour of the logo */
   .custom-navbar .navbar-brand {
-    color: #ffffff;
     font-size: 18px;
     font-weight: bold;
   }
@@ -324,6 +317,67 @@ http://www.templatemo.com/tm-515-eatery
     }
   }
 
+  /* ---------------------------------------
+      ADMIN DASHBOARD              
+  -----------------------------------------*/
+
+  .admin-dash {
+    background-color: #000000;
+  }
+
+  
+  .admin-dash .section-title {
+    padding-top: 20px;
+  }
+
+  .admin-dash .section-title h1 {
+    margin: 0;
+    color: #bfbdbd;
+  }
+
+  .admin-dash .section-title h5 {
+    color: #bfbdbd;
+    font-size: 20px;
+    letter-spacing: 1px;
+    
+  }
+
+  
+.features-item {
+  border-radius: 5px;
+  padding: 60px 30px;
+  text-align: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.features-item h2 {
+  z-index: 9;
+  position: absolute;
+  top: 15px;
+  left: 45px;
+  font-size: 50px;
+  font-weight: 600;
+  color: #fac8c8;
+}
+
+.features-item img {
+  z-index: 10;
+  position: relative;
+  max-width: 100%;
+  margin-bottom: 40px;
+}
+
+.features-item h4 {
+  margin-top: 0px;
+  font-size: 22px;
+  color: #1e1e1e;
+  margin-bottom: 25px;
+}
+
+.features-item .main-button {
+  margin-top: 35px;
+  display: inline-block;
+}
 
 
   /*---------------------------------------
@@ -333,6 +387,8 @@ http://www.templatemo.com/tm-515-eatery
   #home {
     padding: 0;
   }
+
+
 
   #home h1 {
     color: #ffffff;
