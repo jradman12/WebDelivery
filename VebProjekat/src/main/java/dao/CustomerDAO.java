@@ -17,11 +17,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Customer;
+import beans.User;
 import enums.Role;
 
 public class CustomerDAO {
 
 private static Map<String, Customer> customers = new HashMap<>();
+private static Map<String, User> users = new HashMap<>();
 
 	
 	
@@ -72,6 +74,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 				try {
 					customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
 					//customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -125,7 +128,6 @@ private static Map<String, Customer> customers = new HashMap<>();
 		}*/
 		
 		Map<String, Customer> allCustomers = new HashMap<>();
-		
 		for (Customer c : findAll()) {
 			allCustomers.put(c.getUsername(),c);
 		}
@@ -179,6 +181,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 	
 	public void addNewCustomer(Customer customer) {
 		Customer newCustomer = new Customer();
+		User newUser = new User(customer.getUsername(),customer.getPassword(),customer.getFistName(),customer.getLastName(),customer.getGender(),customer.getDateOfBirth(),customer.getRole(),false,false);
 		newCustomer.setFistName(customer.getFistName());
 		newCustomer.setLastName(customer.getLastName());
 		newCustomer.setUsername(customer.getUsername());
@@ -189,6 +192,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 		newCustomer.setDeleted(false);
 		newCustomer.setBlocked(false);
 		addCustomer(newCustomer);
+		UserDAO.addNewUser(newUser);
 		saveCustomersJSON();
 	}
 	
