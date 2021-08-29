@@ -4,6 +4,8 @@ import enums.ProductType;
 
 public class Product {
 
+	//dodatno polje za id
+	private String id;
 	private String name;
 	private double price;
 	private ProductType type;
@@ -17,9 +19,12 @@ public class Product {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Product(String name, double price, ProductType type, Restaurant restaurant, int quantity, String description,
-			boolean isDeleted) {
+	
+
+	public Product(String id, String name, double price, ProductType type, Restaurant restaurant, int quantity,
+			String description, boolean isDeleted) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.type = type;
@@ -28,6 +33,8 @@ public class Product {
 		this.description = description;
 		this.isDeleted = isDeleted;
 	}
+
+
 
 	public String getName() {
 		return name;
@@ -84,6 +91,20 @@ public class Product {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
+
+
+	public String getId() {
+		return id;
+	}
+
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	
 	
 	
 }

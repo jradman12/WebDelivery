@@ -2,6 +2,7 @@ package beans;
 
 public class Comment {
 
+	private String id;
 	private Customer author;
 	private Restaurant restaurant;
 	private String text;
@@ -12,13 +13,22 @@ public class Comment {
 	public Comment() {
 	}
 	
-	public Comment(Customer author, Restaurant restaurant, String text, int rating) {
+	
+
+
+	public Comment(String id, Customer author, Restaurant restaurant, String text, int rating, boolean isApproved,
+			boolean isDeleted) {
 		super();
+		this.id = id;
 		this.author = author;
 		this.restaurant = restaurant;
 		this.text = text;
 		this.rating = rating;
+		this.isApproved = isApproved;
+		this.isDeleted = isDeleted;
 	}
+
+
 
 
 	public Customer getAuthor() {
@@ -72,6 +82,15 @@ public class Comment {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	
 	
 }

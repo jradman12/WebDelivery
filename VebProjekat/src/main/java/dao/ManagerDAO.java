@@ -66,20 +66,16 @@ private static Map<String, Manager> managers = new HashMap<>();
 		
 			
 				Gson gs = new Gson();
-
-				
-				String customersJson = "";
+				String managersJson = "";
 				try {
-					customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json")));
-					//customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
-					
+					managersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				
 				Type type = new TypeToken<Map<String, Manager>>() {}.getType();
 				managers.clear();
-				managers = gs.fromJson(customersJson, type);
+				managers = gs.fromJson(managersJson, type);
 				
 				//just to check it out 
 				for(Map.Entry<String, Manager> entry : managers.entrySet()) {
@@ -92,12 +88,11 @@ private static Map<String, Manager> managers = new HashMap<>();
 	
 	public void saveManagersJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
 		Map<String, Manager> allManagers = new HashMap<>();
 		for (Manager m : findAll()) {
 			allManagers.put(m.getUsername(),m);
 		}
-
 		Gson gs = new Gson();
 		String json = gs.toJson(allManagers);
 		byte[] inBytes = json.getBytes();
@@ -143,7 +138,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 		newManager.setPassword(manager.getPassword());
 		newManager.setDateOfBirth(manager.getDateOfBirth());
 		newManager.setGender(manager.getGender());
-		newManager.setRole(Role.CUSTOMER);
+		newManager.setRole(Role.MANAGER);
 		newManager.setDeleted(false);
 		newManager.setBlocked(false);
 		addManager(newManager);

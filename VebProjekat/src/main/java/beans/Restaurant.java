@@ -5,7 +5,7 @@ import java.util.List;
 import enums.RestaurantStatus;
 
 public class Restaurant {
-
+	private String id;
 	private String name;
 	private String typeOfRestaurant;
 	private List<CartItem> menu;
@@ -19,15 +19,21 @@ public class Restaurant {
 		
 	}
 	
-	public Restaurant(String name, String typeOfRestaurant, List<CartItem> menu, RestaurantStatus status,
-			Location location) {
+	
+
+	public Restaurant(String id, String name, String typeOfRestaurant, List<CartItem> menu, RestaurantStatus status,
+			Location location, boolean isDeleted) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.typeOfRestaurant = typeOfRestaurant;
 		this.menu = menu;
 		this.status = status;
 		this.location = location;
+		this.isDeleted = isDeleted;
 	}
+
+
 
 	public String getName() {
 		return name;
@@ -76,5 +82,19 @@ public class Restaurant {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
+
+
+	public String getId() {
+		return id;
+	}
+
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	
 	
 }

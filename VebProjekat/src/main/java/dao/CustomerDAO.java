@@ -66,14 +66,10 @@ private static Map<String, Customer> customers = new HashMap<>();
 	 */
 	public void loadCustomers(String contextPath) {
 		
-			
 				Gson gs = new Gson();
-
-				
 				String customersJson = "";
 				try {
 					customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
-					//customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -87,31 +83,6 @@ private static Map<String, Customer> customers = new HashMap<>();
 				for(Map.Entry<String, Customer> entry : customers.entrySet()) {
 					System.out.println(entry.getValue().getFistName());
 				}
-		
-		/*ObjectMapper objectMapper = new ObjectMapper();
-		//String path="C:\\Users\\hp\\Desktop\\web-proj\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
-		String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
-		
-
-		Map<String, Customer> customersMap = new HashMap<>();
-		try {
-
-			customersMap = (Map<String, Customer>) objectMapper.readValue(path, new TypeReference<Map<String,Customer>>() {});
-
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println("\n\n ucitavam preko object mapera \n\n");
-		for (Customer c : customersMap.values()) {
-			System.out.println("ime: " + c.getUsername());
-			customersMap.put(c.getUsername(), c);
-		}
-		System.out.println("\n\n");*/
 
 	}
 	
@@ -119,30 +90,12 @@ private static Map<String, Customer> customers = new HashMap<>();
 	
 	public void saveCustomersJSON() {
 
-		//String path="C:\\Users\\hp\\Desktop\\web-proj\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
 		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
-		// Get all users
-		/*List<Customer> allCustomers = new ArrayList<Customer>();
-		for (Customer c : getValues()) {
-			allCustomers.add(c);
-		}*/
-		
 		Map<String, Customer> allCustomers = new HashMap<>();
 		for (Customer c : findAll()) {
 			allCustomers.put(c.getUsername(),c);
 		}
 
-//		ObjectMapper objectMapper = new ObjectMapper();
-//		//Gson gson=new GsonBuilder().setPrettyPrinting().create();
-//		try {
-//			// Write them to the file
-//			objectMapper.writeValue(new FileOutputStream(path), allCustomers);
-//			/*FileWriter writer = new FileWriter(path);
-//			gson.toJson(allCustomers,writer);
-//			writer.close();*/
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 		Gson gs = new Gson();
 		String json = gs.toJson(allCustomers);
 		byte[] inBytes = json.getBytes();
