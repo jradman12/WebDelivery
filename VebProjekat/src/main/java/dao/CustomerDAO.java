@@ -23,7 +23,7 @@ import enums.Role;
 public class CustomerDAO {
 
 private static Map<String, Customer> customers = new HashMap<>();
-private static Map<String, User> users = new HashMap<>();
+
 
 	
 	
