@@ -380,6 +380,46 @@
   display: inline-block;
 }
 
+ /*---------------------------------------
+      sortable            
+  -----------------------------------------*/
+
+  table.sortable {
+    border-top: none;
+    width: 100%;
+  }
+  
+  table.sortable td, table.sortable th {
+    padding: 10px;
+  }
+  
+  table.sortable thead tr .header {
+    background-image: url(../images/icons8-sort-24.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+    border:1px solid #fff;
+  }
+  
+  table.sortable thead tr .headerSortUp {
+    background-image: url(../images/icons8-sort-up-4.png);
+  }
+  
+  table.sortable thead tr .headerSortDown {
+    background-image: url(../images/icons8-sort-down-24.png);
+  }
+  
+  .searchable-header {
+    border-left:1px solid #fff;
+    border-right:1px solid #fff;
+    overflow:hidden;
+    padding:10px;
+  }
+  
+  
+
+
+
   /*---------------------------------------
       ADMIN - USERS              
   -----------------------------------------*/
