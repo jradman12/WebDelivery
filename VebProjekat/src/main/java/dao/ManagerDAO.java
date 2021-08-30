@@ -131,7 +131,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 	
 	public void addNewManager(Manager manager) {
 		Manager newManager = new Manager();
-		User newUser = new User(manager.getUsername(),manager.getPassword(),manager.getFistName(),manager.getLastName(),manager.getGender(),manager.getDateOfBirth(),manager.getRole(),false,false);
+		User newUser = new User(manager.getUsername(),manager.getPassword(),manager.getFistName(),manager.getLastName(),manager.getGender(),manager.getDateOfBirth(),Role.MANAGER,false,false);
 		newManager.setFistName(manager.getFistName());
 		newManager.setLastName(manager.getLastName());
 		newManager.setUsername(manager.getUsername());
