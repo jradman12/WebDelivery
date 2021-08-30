@@ -464,6 +464,7 @@
   
   .tbl-header {
     background-color: rgba(179, 133, 133, 0.13);
+    cursor:pointer;
   }
   
   .tbl-content {

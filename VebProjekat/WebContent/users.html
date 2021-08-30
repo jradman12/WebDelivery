@@ -99,7 +99,7 @@
         <div  class="tbl-content">
           <table  class="sortable" cellpadding="0" cellspacing="0" border="0">
             <tbody>
-              <tr v-for="user in sortedCats">
+              <tr v-for="user in sortedUsers">
                    <td>{{user.username}}</td>
                    <td>{{user.fistName}}</td>
                    <td>{{user.lastName}}</td>
@@ -112,16 +112,16 @@
             </tbody>
           </table>
         </div>
-</div>
+
 
 <div class="r-gap"></div>
 <div class="r-gap"></div>
 
 <div class="r-row">
   <div class="col-6">
-    <input id="searchField" type="text" v-model="filter" placeholder="Pretraži korisnike..." style="width: 300px; margin-bottom: 10px;">
+    <input type="search" v-model="filter" placeholder="Pretraži korisnike..." style="width: 300px; margin-bottom: 10px;">
     <span class="r-span"></span>
-    <a href="#"  class="main-button-small">Search</a>
+    <a href="#"  class="main-button-small">{{ filter }}</a>
     <span class="r-span2">
 
     <select id="sort" name="sort" style="width: 300px;">
@@ -147,7 +147,7 @@
 </div>
 
 <div class="r-gap"></div>
-
+</div>
 </section>
 
 <section>
