@@ -19,7 +19,7 @@ import enums.Role;
 
 public class UserDAO {
  
-private static Map<String, User> users = new HashMap<>();	
+public static Map<String, User> users = new HashMap<>();	
 	public UserDAO() {
 		
 	}

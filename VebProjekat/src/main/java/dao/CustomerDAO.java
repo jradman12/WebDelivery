@@ -181,7 +181,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 	
 	public void addNewCustomer(Customer customer) {
 		Customer newCustomer = new Customer();
-		User newUser = new User(customer.getUsername(),customer.getPassword(),customer.getFistName(),customer.getLastName(),customer.getGender(),customer.getDateOfBirth(),customer.getRole(),false,false);
+		User newUser = new User(customer.getUsername(),customer.getPassword(),customer.getFistName(),customer.getLastName(),customer.getGender(),customer.getDateOfBirth(),Role.CUSTOMER,false,false);
 		newCustomer.setFistName(customer.getFistName());
 		newCustomer.setLastName(customer.getLastName());
 		newCustomer.setUsername(customer.getUsername());
