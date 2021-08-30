@@ -132,7 +132,7 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 	
 	public void addNewDeliverer(Deliverer deliverer) {
 		Deliverer newDeliverer = new Deliverer();
-		User newUser = new User(deliverer.getUsername(),deliverer.getPassword(),deliverer.getFistName(),deliverer.getLastName(),deliverer.getGender(),deliverer.getDateOfBirth(),deliverer.getRole(),false,false);
+		User newUser = new User(deliverer.getUsername(),deliverer.getPassword(),deliverer.getFistName(),deliverer.getLastName(),deliverer.getGender(),deliverer.getDateOfBirth(),Role.DELIVERER,false,false);
 		newDeliverer.setFistName(deliverer.getFistName());
 		newDeliverer.setLastName(deliverer.getLastName());
 		newDeliverer.setUsername(deliverer.getUsername());
