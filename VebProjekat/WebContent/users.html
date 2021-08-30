@@ -24,7 +24,7 @@
 
 </head>
 <body>
-
+<div id="app">
      <!-- PRE LOADER -->
      <section class="preloader">
           <div class="spinner">
@@ -102,11 +102,12 @@
            <td>{{user.username}}</td>
            <td>{{user.fistName}}</td>
            <td>{{user.lastName}}</td>
-           <td>{{user.dateOfBirth}}</td>
+           <td>{{user.dateOfBirth  | dateFormat('DD.MM.YYYY.')}}</td>
            <td>{{user.gender}}</td>
-           <td>{{user.isBlocked}}</td>
+           <td v-if="!(user.isBlocked)">NIJE BLOKIRAN</td>
+           <td v-else>BLOKIRAN</td>
            <td>{{user.role}}</td>
-           <td> <button>Obrisi</button></td>
+           <td> <button>Obriši</button></td>
            </tr>
     </tbody>
   </table>
@@ -177,10 +178,13 @@
                </div>
           </div>
      </footer>
+</div>
+
 
 
      <!-- SCRIPTS -->
      <script src="js/vue.js"></script>
+	<script src="js/moment.min.js"></script>
      <script src="js/axios.js"></script>
      <script src="js/jquery.js"></script>
      <script src="js/bootstrap.min.js"></script>
