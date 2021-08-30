@@ -65,7 +65,7 @@ public static Map<String, User> users = new HashMap<>();
 				
 				String usersJson = "";
 				try {
-					usersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json")));
+					usersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json")));
 					//customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -76,15 +76,15 @@ public static Map<String, User> users = new HashMap<>();
 				users = gs.fromJson(usersJson, type);
 				
 				//just to check it out 
-				for(Map.Entry<String, User> entry : users.entrySet()) {
-					System.out.println(entry.getValue().getFistName());
-				}
+//				for(Map.Entry<String, User> entry : users.entrySet()) {
+//					System.out.println(entry.getValue());
+//				}
 	}
 	
 		
 		
 	public static void saveUsersJson() {
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json";
 		
 
 		Map<String, User> allUsers = new HashMap<>();

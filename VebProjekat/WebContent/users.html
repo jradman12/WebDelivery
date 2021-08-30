@@ -78,39 +78,40 @@
 
 <div class="r-gap"></div>
 
-<div class="tbl-header">
-  <table class="r-table" cellpadding="0" cellspacing="0" border="0">
-    <thead>
-      <tr>
-        <th>Korisničko ime</th>
-        <th>Ime</th>
-        <th>Prezime</th>
-        <th>Datum rođenja</th>
-        <th>Pol</th>
-        <th>Status</th>  
-        <th>Uloga</th>
-        <th>Obriši korisnika</th>
-      </tr>
-    </thead>
-  </table>
-</div>
-
-<div class="tbl-content">
-  <table  class="sortable" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr v-for="user in users">
-           <td>{{user.username}}</td>
-           <td>{{user.fistName}}</td>
-           <td>{{user.lastName}}</td>
-           <td>{{user.dateOfBirth  | dateFormat('DD.MM.YYYY.')}}</td>
-           <td>{{user.gender}}</td>
-           <td v-if="!(user.isBlocked)">NIJE BLOKIRAN</td>
-           <td v-else>BLOKIRAN</td>
-           <td>{{user.role}}</td>
-           <td> <button>Obriši</button></td>
-           </tr>
-    </tbody>
-  </table>
+<div id="usersiii">
+     <div class="tbl-header">
+          <table class="r-table" cellpadding="0" cellspacing="0" border="0">
+            <thead>
+              <tr>
+                <th @click="sort('username')">Korisničko ime</th>
+                <th @click="sort('fistName')">Ime</th>
+                <th @click="sort('lastName')">Prezime</th>
+                <th >Datum rođenja</th>
+                <th>Pol</th>
+                <th>Status</th>  
+                <th>Uloga</th>
+                <th>Obriši korisnika</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        
+        <div  class="tbl-content">
+          <table  class="sortable" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              <tr v-for="user in sortedCats">
+                   <td>{{user.username}}</td>
+                   <td>{{user.fistName}}</td>
+                   <td>{{user.lastName}}</td>
+                   <td>{{user.dateOfBirth  | dateFormat('DD.MM.YYYY.')}}</td>
+                   <td>{{user.gender}}</td>
+                   <td>{{user.blocked ? 'Blokiran' : 'Nije blokiran'}}</td>
+                   <td>{{user.role}}</td>
+                   <td> <button>Obriši</button></td>
+                   </tr>
+            </tbody>
+          </table>
+        </div>
 </div>
 
 <div class="r-gap"></div>
@@ -118,7 +119,7 @@
 
 <div class="r-row">
   <div class="col-6">
-    <input id="searchField" type="text" placeholder="Pretraži korisnike..." style="width: 300px; margin-bottom: 10px;">
+    <input id="searchField" type="text" v-model="filter" placeholder="Pretraži korisnike..." style="width: 300px; margin-bottom: 10px;">
     <span class="r-span"></span>
     <a href="#"  class="main-button-small">Search</a>
     <span class="r-span2">

@@ -43,7 +43,14 @@ public class UserService {
 	public Collection<User> getAllUsers(){
 		Map<String, User> users = new HashMap<>();
 		UserDAO.loadUsers("");
-		users=UserDAO.users;
+		users = UserDAO.users;
+		System.out.println("get users request returns following users: ");
+		for(Map.Entry<String, User> entry : users.entrySet()) {
+			System.out.println(entry.getValue());
+		}
+		
+		
+		
 		return users.values();
 	}
 
