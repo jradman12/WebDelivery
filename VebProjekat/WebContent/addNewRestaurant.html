@@ -74,9 +74,9 @@
      </section>
 
      <!-- ------------------------ form ------------------- -->
-     <div class="container">
+     <div id="idk" class="container">
 
-          <form class="well form-horizontal" >
+          <form class="well form-horizontal">
                <fieldset>
 
                     <!-- Form Name -->
@@ -93,7 +93,7 @@
                          <div class="col-md-4 inputGroupContainer">
                               <div class="input-group">
                                    <input placeholder="Naziv restorana" class="form-control" style="width: 300px;"
-                                        type="text" v-model="newRestaurant.name" >
+                                        type="text" v-model="newRestaurant.name">
                               </div>
                          </div>
                     </div>
@@ -102,7 +102,8 @@
                          <label class="col-md-4 control-label">Tip</label>
                          <div class="col-md-4 selectContainer">
                               <div class="input-group">
-                                   <select v-model="newRestaurant.typeOfRestaurant" name="department" style="width: 300px;" class="form-control selectpicker">
+                                   <select v-model="newRestaurant.typeOfRestaurant" name="department"
+                                        style="width: 300px;" class="form-control selectpicker">
                                         <option value="">Tip restorana</option>
                                         <option value="Italijanski">Italijanski</option>
                                         <option value="Kineski">Kineski</option>
@@ -129,7 +130,9 @@
                          <label class="col-md-4 control-label">Logo</label>
                          <div class="col-md-4 inputGroupContainer">
                               <div class="custom-file">
-                                   <input type="file" type="file" id="file" ref="file" v-on:change="onChangeFileUpload()" class="custom-file-input" style="width: 300px;">
+                                   <input type="file" type="file" id="file" ref="file"
+                                        v-on:change="onChangeFileUpload()" class="custom-file-input"
+                                        style="width: 300px;">
                                    <!-- poravnaj ga imma kill myself ughhhh -->
                               </div>
                          </div>
@@ -156,18 +159,18 @@
                     <!-- Select Basic -->
 
                     <!-- Success message -->
-                   <!---- <div class="alert alert-success" role="alert" id="success_message"> <i
+                    <!---- <div class="alert alert-success" role="alert" id="success_message"> <i
                               class="glyphicon glyphicon-thumbs-up"></i> Uspješno kreiran restoran!</div>-->
 
                     <!-- Button -->
-                    <div class="form-group">
+                    <div class="form-group" style="align-content: center;">
                          <label class="col-md-4 control-label"></label>
                          <div class="col-md-4"><br>
-                              &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button
-                                   type="submit" class="btn btn-warning" @click="registerRestaurant">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSUBMIT
-                                 </button>
+                              &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  <button style="text-align: center;" type="submit" @click="registerRestaurant"
+                                   class="section-btn">Potvrda</button>
                          </div>
                     </div>
+
 
                     <div><br><br><br><br><br><br><br><br><br><br><br><br><br></div>
 

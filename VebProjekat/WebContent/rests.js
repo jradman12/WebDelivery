@@ -10,12 +10,12 @@ let rests = new Vue({
         managers : []
 	},
 
-    mounted () 
+   /* mounted () 
         {
             axios
             .get('rest/restaurants/getAllRestaurants')
             .then(response => (this.rests=response.data))
-        },
+        },*/
 
         methods: {
             onChangeFileUpload ($event) {
