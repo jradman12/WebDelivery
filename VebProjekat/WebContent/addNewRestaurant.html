@@ -79,14 +79,7 @@
           <form class="well form-horizontal" >
                <fieldset>
 
-                    <!-- Form Name -->
-                    <legend>
-                         <center>
-                              <h2><b>Dodaj novi restoran</b></h2>
-                         </center>
-                    </legend><br>
-
-                    <!-- Text input-->
+                    <legend><h2><b>Dodaj novi restoran</b></h2></legend><br>
 
                     <div class="form-group">
                          <label class="col-md-4 control-label">Naziv</label>
@@ -114,8 +107,6 @@
                          </div>
                     </div>
 
-                    <!-- Text input-->
-
                     <div class="form-group">
                          <label class="col-md-4 control-label">Lokacija</label>
                          <div class="col-md-4 inputGroupContainer">
@@ -140,7 +131,7 @@
                          <label class="col-md-4 control-label">Menadžer</label>
                          <div class="col-md-4 selectContainer">
                               <div class="input-group">
-                                   <select name="department" class="form-control selectpicker" style="width: 300px;">
+                                   <select name="department" class="form-control selectpicker" style="width: 300px; {visibility: managersExist ? 'visible' : 'hidden'}">
                                         <option value="">Izaberi menadžera</option>
                                         <option></option>
                                         <option></option>
@@ -152,9 +143,6 @@
                          </div>
                     </div>
 
-
-                    <!-- Select Basic -->
-
                     <!-- Success message -->
                     <div class="alert alert-success" role="alert" id="success_message"> <i
                               class="glyphicon glyphicon-thumbs-up"></i> Uspješno kreiran restoran!</div>
@@ -164,9 +152,8 @@
                          <label class="col-md-4 control-label"></label>
                          <div class="col-md-4"><br>
                               &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button
-                                   type="submit" class="btn btn-warning">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSUBMIT
-                                   <span
-                                        class="glyphicon glyphicon-send"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
+                                   type="submit" class="btn btn-warning" @submit="registerRestaurant">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPOTVRDI
+                                   &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
                          </div>
                     </div>
 
@@ -257,6 +244,7 @@
      <script src="js/smoothscroll.js"></script>
      <script src="js/custom.js"></script>
 
+     <script src="addNewRestaurant.js"></script>
 
 </body>
 
