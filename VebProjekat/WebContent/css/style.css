@@ -7,6 +7,9 @@
     overflow-x: hidden;
   }
 
+  #success_message{ display: none;}
+
+
  /*
 ---------------------------------------------
 Recent Listing 

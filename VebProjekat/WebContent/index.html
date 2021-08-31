@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
      <title>Crust food delivery service</title>
@@ -17,12 +18,13 @@
      <link rel="stylesheet" href="css/owl.theme.default.min.css">
      <link rel="stylesheet" href="css/magnific-popup.css">
      <script src="js/jquery-3.3.1.min.js"></script>
-	
+
 
      <!-- MAIN CSS -->
      <link rel="stylesheet" href="css/style.css">
 
 </head>
+
 <body>
 
      <!-- PRE LOADER -->
@@ -30,7 +32,7 @@
           <div class="spinner">
 
                <span class="spinner-rotate"></span>
-               
+
           </div>
      </section>
 
@@ -61,8 +63,10 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                         <button type="button" class="section-btn" data-toggle="modal" data-target="#loginModal">PRIJAVA</button>
-                         <button type="button" class="section-btn" data-toggle="modal" data-target="#registerModal">REGISTRACIJA</button>
+                         <button type="button" class="section-btn" data-toggle="modal"
+                              data-target="#loginModal">PRIJAVA</button>
+                         <button type="button" class="section-btn" data-toggle="modal"
+                              data-target="#registerModal">REGISTRACIJA</button>
                     </ul>
                </div>
 
@@ -71,30 +75,34 @@
 
      <!-- --------------------LOGIN ------------------ -->
 
-     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header border-bottom-0">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="form-title text-center">
-                  <h4>Prijava</h4>
-                </div>
-                <div id='log' class="d-flex flex-column text-center">
-                  <form > 
-                    <div class="form-group">
-                      <input type="text" class="form-control" v-model="user.username" placeholder="Korisničko ime">
+               <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                         </button>
                     </div>
-                    <div class="form-group">
-                      <input type="password" class="form-control" v-model="user.password" placeholder="Lozinka">
-                    </div>
-                    <button type="submit" @click="checkLogin" class="btn btn-info btn-block btn-round">Prijava</button>
-                  </form>
-                  
-                  <!-- <div class="text-center text-muted delimiter">or use a social network</div>
+                    <div class="modal-body">
+                         <div class="form-title text-center">
+                              <h4>Prijava</h4>
+                         </div>
+                         <div id='log' class="d-flex flex-column text-center">
+                              <form>
+                                   <div class="form-group">
+                                        <input type="text" class="form-control" v-model="user.username"
+                                             placeholder="Korisničko ime">
+                                   </div>
+                                   <div class="form-group">
+                                        <input type="password" class="form-control" v-model="user.password"
+                                             placeholder="Lozinka">
+                                   </div>
+                                   <button type="submit" @click="checkLogin"
+                                        class="btn btn-info btn-block btn-round">Prijava</button>
+                              </form>
+
+                              <!-- <div class="text-center text-muted delimiter">or use a social network</div>
                   <div class="d-flex justify-content-center social-buttons">
                     <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip" data-placement="top" title="Twitter">
                       <i class="fab fa-twitter"></i>
@@ -106,54 +114,62 @@
                       <i class="fab fa-linkedin"></i>
                     </button>
                   </div>-->
-                </div>
-              </div>
-            </div>
+                         </div>
+                    </div>
+               </div>
           </div>
-        </div>
+     </div>
 
-        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <!-- ------------------- REGISTRATION ------------------------- -->
+
+     <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header border-bottom-0">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="form-title text-center">
-                  <h4>Registracija novog korisnika</h4>
-                </div>
-                <div  id='burn' class="d-flex flex-column text-center">
-                  <form>
-                    <div class="form-group" >
-                         <input type="text" class="form-control" v-model="newUser.fistName" placeholder="Ime">
-                       </div>
-                       <div class="form-group">
-                         <input type="text" class="form-control" v-model="newUser.lastName" placeholder="Prezime">
-                       </div>
-                       <div class="form-group">
-                         <input type="date" class="form-control" v-model="newUser.dateOfBirth" >
-                       </div>
-                       <div class="form-group">
-                        <select name="selectionOfGender" v-model="newUser.gender" class="form-control">
-                             <option value="" selected disabled>Pol</option>
-                             <option value="MALE" >Muško</option>
-                             <option value="FEMALE" >Žensko</option>
-                             <option value="OTHER">Ostalo</option>
-                        </select>
-                       </div>
+               <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                         </button>
+                    </div>
+                    <div class="modal-body">
+                         <div class="form-title text-center">
+                              <h4>Registracija novog korisnika</h4>
+                         </div>
+                         <div id='burn' class="d-flex flex-column text-center">
+                              <form>
+                                   <div class="form-group">
+                                        <input type="text" class="form-control" v-model="newUser.fistName"
+                                             placeholder="Ime">
+                                   </div>
+                                   <div class="form-group">
+                                        <input type="text" class="form-control" v-model="newUser.lastName"
+                                             placeholder="Prezime">
+                                   </div>
+                                   <div class="form-group">
+                                        <input type="date" class="form-control" v-model="newUser.dateOfBirth">
+                                   </div>
+                                   <div class="form-group">
+                                        <select name="selectionOfGender" v-model="newUser.gender" class="form-control">
+                                             <option value="" selected disabled>Pol</option>
+                                             <option value="MALE">Muško</option>
+                                             <option value="FEMALE">Žensko</option>
+                                             <option value="OTHER">Ostalo</option>
+                                        </select>
+                                   </div>
 
-                    <div class="form-group">
-                      <input type="text" class="form-control" v-model="newUser.username" name="newUsername" id="newUsername1"placeholder="Korisničko ime">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" class="form-control" v-model="newUser.password"  name="newPassword" id="newPassword1" placeholder="Lozinka">
-                    </div>
-                    <button type="submit" @click="checkRegistration" class="btn btn-info btn-block btn-round">Potvrda</button>
-                  </form>
-                  
-                  <!-- <div class="text-center text-muted delimiter">or use a social network</div>
+                                   <div class="form-group">
+                                        <input type="text" class="form-control" v-model="newUser.username"
+                                             name="newUsername" id="newUsername1" placeholder="Korisničko ime">
+                                   </div>
+                                   <div class="form-group">
+                                        <input type="password" class="form-control" v-model="newUser.password"
+                                             name="newPassword" id="newPassword1" placeholder="Lozinka">
+                                   </div>
+                                   <button type="submit" @click="checkRegistration"
+                                        class="btn btn-info btn-block btn-round">Potvrda</button>
+                              </form>
+
+                              <!-- <div class="text-center text-muted delimiter">or use a social network</div>
                   <div class="d-flex justify-content-center social-buttons">
                     <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip" data-placement="top" title="Twitter">
                       <i class="fab fa-twitter"></i>
@@ -165,11 +181,11 @@
                       <i class="fab fa-linkedin"></i>
                     </button>
                   </div>-->
-                </div>
-              </div>
-            </div>
+                         </div>
+                    </div>
+               </div>
           </div>
-        </div>
+     </div>
 
 
 
@@ -177,43 +193,45 @@
      <section id="home" class="slider" data-stellar-background-ratio="0.5">
           <div class="row">
 
-                    <div class="owl-carousel owl-theme">
-                         <div class="item item-first">
-                              <div class="caption">
-                                   <div class="container">
-                                        <div class="col-md-8 col-sm-12">
-                                             <h3>Online food delivery service</h3>
-                                             <h1>Giving your hunger a new option</h1>
-                                             <a href="#team" class="section-btn btn btn-default smoothScroll">About us</a>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
-
-                         <div class="item item-second">
-                              <div class="caption">
-                                   <div class="container">
-                                        <div class="col-md-8 col-sm-12">
-                                             <h3>Best Service to fulfil your expectations</h3>
-                                             <h1>Straight out of the oven to your doorstep</h1>
-                                             <a href="#menu" class="section-btn btn btn-default smoothScroll">Look for flavours of your wish</a>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
-
-                         <div class="item item-third">
-                              <div class="caption">
-                                   <div class="container">
-                                        <div class="col-md-8 col-sm-12">
-                                             <h3>Get served as an emperor</h3>
-                                             <h1>Why starve when you have us?</h1>
-                                             <a href="#contact" class="section-btn btn btn-default smoothScroll">Make an order</a>
-                                        </div>
+               <div class="owl-carousel owl-theme">
+                    <div class="item item-first">
+                         <div class="caption">
+                              <div class="container">
+                                   <div class="col-md-8 col-sm-12">
+                                        <h3>Online food delivery service</h3>
+                                        <h1>Giving your hunger a new option</h1>
+                                        <a href="#team" class="section-btn btn btn-default smoothScroll">About us</a>
                                    </div>
                               </div>
                          </div>
                     </div>
+
+                    <div class="item item-second">
+                         <div class="caption">
+                              <div class="container">
+                                   <div class="col-md-8 col-sm-12">
+                                        <h3>Best Service to fulfil your expectations</h3>
+                                        <h1>Straight out of the oven to your doorstep</h1>
+                                        <a href="#menu" class="section-btn btn btn-default smoothScroll">Look for
+                                             flavours of your wish</a>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+
+                    <div class="item item-third">
+                         <div class="caption">
+                              <div class="container">
+                                   <div class="col-md-8 col-sm-12">
+                                        <h3>Get served as an emperor</h3>
+                                        <h1>Why starve when you have us?</h1>
+                                        <a href="#contact" class="section-btn btn btn-default smoothScroll">Make an
+                                             order</a>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
 
           </div>
      </section>
@@ -232,8 +250,13 @@
                               </div>
 
                               <div class="wow fadeInUp" data-wow-delay="0.4s">
-                                   <p>I guess this is the place where we write a funny, unique but honest story about who we are and what we do. I also guess I will never know what to put here, so there this is. Enjoy it!</p>
-                                   <p>We are two girls in love with food, but still cursed with a lack of imagination for creative writing. Instead, we are pretty good in pragmatic stuff, so we aren't really sorry. Most of you will probably just skip this text and use this awesome website we made.</p>
+                                   <p>I guess this is the place where we write a funny, unique but honest story about
+                                        who we are and what we do. I also guess I will never know what to put here, so
+                                        there this is. Enjoy it!</p>
+                                   <p>We are two girls in love with food, but still cursed with a lack of imagination
+                                        for creative writing. Instead, we are pretty good in pragmatic stuff, so we
+                                        aren't really sorry. Most of you will probably just skip this text and use this
+                                        awesome website we made.</p>
                                    <p>Well, you're welcome, bitches!</p>
                               </div>
                          </div>
@@ -244,24 +267,24 @@
                               <img src="images/about-image.jpg" class="img-responsive" alt="">
                          </div>
                     </div>
-                    
+
                </div>
           </div>
      </section>
 
 
      <!-- restaurants -->
-	<section  class="rmain-section new-bg">
-		<div id = "rests" class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<h2 class="text-center text-uppercase">Restorani u ponudi</h2>
-					<hr>
-				</div>
-				<div v-for = "rest in rests">
+     <section class="rmain-section new-bg">
+          <div id="rests" class="container">
+               <div class="row">
+                    <div class="col-md-12">
+                         <h2 class="text-center text-uppercase">Restorani u ponudi</h2>
+                         <hr>
+                    </div>
+                    <div v-for="rest in rests">
                          <div class="col-md-3 col-sm-3">
                               <div class="rsts-wrapper">
-                                   <img src= "images/order.png" class="img-responsive rsts-img" alt="biću logo">
+                                   <img src="images/order.png" class="img-responsive rsts-img" alt="biću logo">
                                    <div class="gallery-des">
                                         <h3>{{rest.name}}</h3>
                                         <h5>{{rest.location}}</h5>
@@ -271,15 +294,17 @@
                               </div>
                          </div>
                     </div>
-			</div>
-               <section><row></row></section>
+               </div>
+               <section>
+                    <row></row>
+               </section>
                <div class="row">
                     <div class="col-md-4 col-md-offset-4 text-center">
                          <button><a href="restaurants.html" class="smoothScroll">Pogledaj više...</a></button>
                     </div>
                </div>
-		</div>
-	</section>
+          </div>
+     </section>
 
 
      <!-- MENU-->
@@ -417,39 +442,42 @@
      <!-- TESTIMONIAL -->
      <section id="testimonial" data-stellar-background-ratio="0.5">
           <div class="overlay"></div>
-          <div class="container" >
+          <div class="container">
                <div class="row">
 
                     <div class="col-md-12 col-sm-12">
                          <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
                               <h2>Testimonials</h2>
                          </div>
-                    </div>  
+                    </div>
 
                     <div class="col-md-offset-2 col-md-8 col-sm-12">
                          <div class="owl-carousel owl-theme">
                               <div class="item">
-                                   <p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas faucibus mollis interdum ullamcorper nulla non.</p>
-                                        <div class="tst-author">
-                                             <h4>Digital Carlson</h4>
-                                             <span>Pharetra quam sit amet</span>
-                                        </div>
+                                   <p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas
+                                        faucibus mollis interdum ullamcorper nulla non.</p>
+                                   <div class="tst-author">
+                                        <h4>Digital Carlson</h4>
+                                        <span>Pharetra quam sit amet</span>
+                                   </div>
                               </div>
 
                               <div class="item">
-                                   <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed vestibulum orci quam.</p>
-                                        <div class="tst-author">
-                                             <h4>Johnny Stephen</h4>
-                                             <span>Magna nisi porta ligula</span>
-                                        </div>
+                                   <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                                        turpis egestas. Sed vestibulum orci quam.</p>
+                                   <div class="tst-author">
+                                        <h4>Johnny Stephen</h4>
+                                        <span>Magna nisi porta ligula</span>
+                                   </div>
                               </div>
 
                               <div class="item">
-                                   <p>Vivamus aliquet felis eu diam ultricies congue. Morbi porta lorem nec consectetur porta quis dui elit habitant morbi.</p>
-                                        <div class="tst-author">
-                                             <h4>Jessie White</h4>
-                                             <span>Vitae lacinia augue urna quis</span>
-                                        </div>
+                                   <p>Vivamus aliquet felis eu diam ultricies congue. Morbi porta lorem nec consectetur
+                                        porta quis dui elit habitant morbi.</p>
+                                   <div class="tst-author">
+                                        <h4>Jessie White</h4>
+                                        <span>Vitae lacinia augue urna quis</span>
+                                   </div>
                               </div>
 
                          </div>
@@ -457,14 +485,14 @@
 
                </div>
           </div>
-     </section>  
+     </section>
 
 
      <!-- CONTACT -->
      <section id="contact" data-stellar-background-ratio="0.5">
           <div class="container">
                <div class="row">
-	<!-- How to change your own map point
+                    <!-- How to change your own map point
             1. Go to Google Maps
             2. Click on your location point
             3. Click "Share" and choose "Embed map" tab
@@ -472,9 +500,11 @@
 	-->
                     <div class="wow fadeInUp col-md-6 col-sm-12" data-wow-delay="0.4s">
                          <div id="google-map">
-                              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3647.3030413476204!2d100.5641230193719!3d13.757206847615207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf51ce6427b7918fc!2sG+Tower!5e0!3m2!1sen!2sth!4v1510722015945" allowfullscreen></iframe>
+                              <iframe
+                                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3647.3030413476204!2d100.5641230193719!3d13.757206847615207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf51ce6427b7918fc!2sG+Tower!5e0!3m2!1sen!2sth!4v1510722015945"
+                                   allowfullscreen></iframe>
                          </div>
-                    </div>    
+                    </div>
 
                     <div class="col-md-6 col-sm-12">
 
@@ -485,35 +515,42 @@
                          </div>
 
                          <!-- CONTACT FORM -->
-                         <form action="#" method="post" class="wow fadeInUp" id="contact-form" role="form" data-wow-delay="0.8s">
+                         <form action="#" method="post" class="wow fadeInUp" id="contact-form" role="form"
+                              data-wow-delay="0.8s">
 
                               <!-- IF MAIL SENT SUCCESSFUL  // connect this with custom JS -->
                               <h6 class="text-success">Your message has been sent successfully.</h6>
-                              
+
                               <!-- IF MAIL NOT SENT -->
-                              <h6 class="text-danger">E-mail must be valid and message must be longer than 1 character.</h6>
+                              <h6 class="text-danger">E-mail must be valid and message must be longer than 1 character.
+                              </h6>
 
                               <div class="col-md-6 col-sm-6">
-                                   <input type="text" class="form-control" id="cf-name" name="name" placeholder="Full name">
+                                   <input type="text" class="form-control" id="cf-name" name="name"
+                                        placeholder="Full name">
                               </div>
 
                               <div class="col-md-6 col-sm-6">
-                                   <input type="email" class="form-control" id="cf-email" name="email" placeholder="Email address">
+                                   <input type="email" class="form-control" id="cf-email" name="email"
+                                        placeholder="Email address">
                               </div>
 
                               <div class="col-md-12 col-sm-12">
-                                   <input type="text" class="form-control" id="cf-subject" name="subject" placeholder="Subject">
+                                   <input type="text" class="form-control" id="cf-subject" name="subject"
+                                        placeholder="Subject">
 
-                                   <textarea class="form-control" rows="6" id="cf-message" name="message" placeholder="Tell about your project"></textarea>
+                                   <textarea class="form-control" rows="6" id="cf-message" name="message"
+                                        placeholder="Tell about your project"></textarea>
 
-                                   <button type="submit" class="form-control" id="cf-submit" name="submit">Send Message</button>
+                                   <button type="submit" class="form-control" id="cf-submit" name="submit">Send
+                                        Message</button>
                               </div>
                          </form>
                     </div>
 
                </div>
           </div>
-     </section>          
+     </section>
 
 
      <!-- FOOTER -->
@@ -572,12 +609,12 @@
                               <li><a href="#" class="fa fa-google"></a></li>
                          </ul>
 
-                         <div class="wow fadeInUp copyright-text" data-wow-delay="0.8s"> 
-                              <p><br>Copyright &copy; 2021 <br>Jela & Boba 
+                         <div class="wow fadeInUp copyright-text" data-wow-delay="0.8s">
+                              <p><br>Copyright &copy; 2021 <br>Jela & Boba
 
                          </div>
                     </div>
-                    
+
                </div>
           </div>
      </footer>
@@ -595,10 +632,11 @@
      <script src="js/smoothscroll.js"></script>
      <script src="js/custom.js"></script>
 
-     
+
      <script src="rests.js"></script>
-	<script src="login.js"></script>
-	<script src="register.js"></script>     
+     <script src="login.js"></script>
+     <script src="register.js"></script>
 
 </body>
+
 </html>
