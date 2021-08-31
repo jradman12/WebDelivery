@@ -1,6 +1,6 @@
 let rests = new Vue({
 
-	el : ".container",
+	el : "#idk",
 
 	data : {
 		rests: null,
