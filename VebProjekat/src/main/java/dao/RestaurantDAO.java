@@ -11,14 +11,20 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import beans.Address;
+import beans.CartItem;
+import beans.Location;
 import beans.Restaurant;
+import enums.RestaurantStatus;
 
 public class RestaurantDAO {
-private static Map<String, Restaurant> restaurants = new HashMap<>();
+public static Map<String, Restaurant> restaurants = new HashMap<>();
 
 
 	
@@ -45,7 +51,7 @@ private static Map<String, Restaurant> restaurants = new HashMap<>();
 		return null;
 	}
 	
-	public Collection<Restaurant> findAll() {
+	public static Collection<Restaurant> findAll() {
 		return restaurants.values();
 	}
 	
@@ -54,7 +60,7 @@ private static Map<String, Restaurant> restaurants = new HashMap<>();
 	 * Kljuè je korisnièko ime korisnika.
 	 * @param contextPath Putanja do aplikacije u Tomcatu
 	 */
-	public void loadRestaurants(String contextPath) {
+	public static void loadRestaurants(String contextPath) {
 		
 				Gson gs = new Gson();
 				String restaurantsJson = "";
@@ -72,10 +78,39 @@ private static Map<String, Restaurant> restaurants = new HashMap<>();
 				for(Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
 					System.out.println(entry.getValue().getName());
 				}
+				
+				//dodajParRestorana();
 	}
 		
 		
-	public void saveRestaurantsJSON() {
+	private static void dodajParRestorana() {
+		Restaurant r1 = new Restaurant();
+		r1.setName("Ciao pizzeria");
+		r1.setLocation(new Location(0.0,0.0,new Address("Nikole Tesle6/22","Janja","76316")));
+		r1.setLogo("images/kfc2.jpg");
+		r1.setMenu(new ArrayList<CartItem>());
+		r1.setStatus(RestaurantStatus.OPEN);
+		r1.setTypeOfRestaurant("domaci");
+		r1.setId("123hj4");
+		r1.setStatus(RestaurantStatus.OPEN);	
+		Restaurant r2 = new Restaurant();
+		r2.setName("Ciao pizzeria");
+		r2.setLocation(new Location(0.0,0.0,new Address("Nikole Tesle6/22","Janja","76316")));
+		r2.setLogo("images/kfc2.jpg");
+		r2.setMenu(new ArrayList<CartItem>());
+		r2.setStatus(RestaurantStatus.OPEN);
+		r2.setTypeOfRestaurant("domaci");
+		r2.setId("21345g");
+		r2.setStatus(RestaurantStatus.OPEN);
+		addNewRestaurant(r1);
+		addNewRestaurant(r2);
+
+		
+		
+		
+	}
+
+	public static void saveRestaurantsJSON() {
 
 		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json";
 		Map<String, Restaurant> allRestaurants = new HashMap<>();
@@ -111,21 +146,25 @@ private static Map<String, Restaurant> restaurants = new HashMap<>();
 	}
 	
 	
-	public void addRestaurant(Restaurant restaurant) {
+	public static void addRestaurant(Restaurant restaurant) {
 		if (!restaurants.containsValue(restaurant)) {
 			restaurants.put(restaurant.getId(), restaurant);
 		}
 		
 	}
 	
-	public void addNewRestaurant(Restaurant restaurant) {
+	public static void addNewRestaurant(Restaurant restaurant) {
 		Restaurant newRestaurant = new Restaurant();
 		newRestaurant.setName(restaurant.getName());
 		newRestaurant.setId(restaurant.getId());
 		newRestaurant.setMenu(restaurant.getMenu());
 		newRestaurant.setLocation(restaurant.getLocation());
-		newRestaurant.setStatus(restaurant.getStatus());
+		//newRestaurant.setStatus(restaurant.getStatus());
+		newRestaurant.setStatus(RestaurantStatus.OPEN);
 		newRestaurant.setTypeOfRestaurant(restaurant.getTypeOfRestaurant());
+		newRestaurant.setAverageRating(0.0);	
+		newRestaurant.setLogo(restaurant.getLogo());
+		newRestaurant.setDeleted(false);
 		addRestaurant(newRestaurant);
 		saveRestaurantsJSON();
 	}

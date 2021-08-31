@@ -19,11 +19,11 @@ let getUsers = new Vue({
         roleFilter : ''
 	},
 
-    // created : function() {
-    //     axios
-    //       .get('rest/users/getAllUsers')
-    //       .then(response => (this.users = fixData(response.data)))
-    // },
+    created : function() {
+         axios
+        .get('rest/users/getAllUsers')
+        .then(response => (this.users = fixData(response.data)))
+    },
 
     methods : {
         sort:function(s) {

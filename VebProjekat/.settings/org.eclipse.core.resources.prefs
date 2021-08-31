@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/main/java/services/LoginService.java=UTF-8
 encoding//src/main/java/services/RegisterCustomerService.java=UTF-8
+encoding//src/main/java/services/RestaurantService.java=UTF-8
 encoding//src/main/java/services/UserService.java=UTF-8

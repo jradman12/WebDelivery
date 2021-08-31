@@ -20,7 +20,7 @@
 	
 
      <!-- MAIN CSS -->
-     <link rel="stylesheet" href="css/templatemo-style.css">
+     <link rel="stylesheet" href="css/style.css">
 
 </head>
 <body>
@@ -80,75 +80,39 @@
 <table class="sortable">
     <thead>
     <tr style="background-color: #ebebeb;">
-    <th class = "header">Athlete</th>
-    <th class = "header">Age</th>
-    <th class = "header">Country</th>
-    <th class = "header">Gold Medals</th>
+    <th class = "header">Ime</th>
+    <th class = "header">Status</th>
+    <th class = "header">Slika</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-    <td>David Boudia</td>
-    <td>23</td>
-    <td>United States</td>
-    <td>1</td>
-    </tr>
-    <tr>
-    <td>Chen Ruolin</td>
-    <td>19</td>
-    <td>China</td>
-    <td>2</td>
-    </tr>
-    <tr>
-    <td>He Zi</td>
-    <td>21</td>
-    <td>China</td>
-    <td>1</td>
-    </tr>
-    <tr>
-    <td>Qin Kai</td>
-    <td>26</td>
-    <td>China</td>
-    <td>1</td>
-    </tr>
-    <tr>
-    <td>Wu Minxia</td>
-    <td>26</td>
-    <td>China</td>
-    <td>2</td>
-    </tr>
-    <tr>
-    <td>Ilya Zakharov</td>
-    <td>21</td>
-    <td>Russia</td>
-    <td>1</td>
-    </tr>
-    <tr>
-    <td>Cao Yuan</td>
-    <td>17</td>
-    <td>China</td>
-    <td>1</td>
-    </tr>
-    <tr>
-    <td>Luo Yutong</td>
-    <td>26</td>
-    <td>China</td>
-    <td>1</td>
-    </tr>
-    <tr>
-    <td>Wang Hao</td>
-    <td>19</td>
-    <td>China</td>
-    <td>1</td>
-    </tr>
-    <tr>
-    <td>Zhang Yanquan</td>
-    <td>18</td>
-    <td>China</td>
-    <td>1</td>
+    <tr v-for="rest in rests">
+    <td>{{rest.name}}</td>
+    <td>{{rest.status}}</td>
+    <td><img v-bind:src="rest.logo" /></td>
     </tr>
     </tbody>
     </table>    
+
+
+
+<div>
+     <table>
+          <tr>
+               <td><label>Id</label></td>
+               <td><input type="text" v-model="newRestaurant.id"></td>
+          </tr>
+          <tr>
+               <td><label>Ime restorana</label></td>
+               <td><input type="text" v-model="newRestaurant.name"></td>
+          </tr>
+          <tr>
+               <td><label>Logo restorana</label></td>
+               <td><input type="file" id="file" ref="file" v-on:change="onChangeFileUpload()" ></td>
+          </tr>
+          <tr><input type="submit" @click="registerRestaurant" class="btn btn-info btn-block btn-round" /></tr>
+          </table>
+</div>
 
 </section>
 
@@ -186,6 +150,7 @@
      <script src="js/jquery.magnific-popup.min.js"></script>
      <script src="js/smoothscroll.js"></script>
      <script src="js/custom.js"></script>
+     <script src="rests.js"></script>
 
 
 	
