@@ -198,6 +198,7 @@ Recent Listing
 
   /* restaurants view */
   .gtco-section {
+    width: 80%;
     padding: 7em 0;
     clear: both;
     position: relative;
