@@ -60,17 +60,16 @@ public class RestaurantService {
 
 	
 	@POST
-	@Path("/addNewRestaurant")
+	@Path("/registerNewRestaurant")
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registration(Restaurant restaurant) {
 		System.out.println("Customer object Ive recieved is : " + restaurant);
-		RestaurantDAO allRestaurantsDAO = getRestaurants();
 
-		if (allRestaurantsDAO.getRestaurantById(restaurant.getId()) != null) {
+		/*if (allRestaurantsDAO.getRestaurantById(restaurant.getId()) != null) {
 			return Response.status(Response.Status.BAD_REQUEST)
 					.entity("We have alredy restaurant with same id. Please try another one").build();
-		}
+		}*/
 		RestaurantDAO.addNewRestaurant(restaurant);
 
 		return Response.status(Response.Status.ACCEPTED).build(); 																						// accepted

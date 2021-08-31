@@ -1,12 +1,13 @@
 let rests = new Vue({
 
-	el : ".r-section",
+	el : ".container",
 
 	data : {
 		rests: null,
         newRestaurant : {},
         file : {},
-        errors : []
+        errors : [],
+        managers : []
 	},
 
     mounted () 
@@ -38,11 +39,13 @@ let rests = new Vue({
                 this.errors = [];
                 if (!this.errors.length) {
                     axios
-                        .post('rest/restaurants/addNewRestaurant', {
+                        .post('rest/restaurants/registerNewRestaurant', {
                        
-                                     "id" : this.newRestaurant.id,
+                                     "typeOfRestaurant" : this.newRestaurant.typeOfRestaurant,
                                      "name": this.newRestaurant.name,
-                                     "logo" : this.newRestaurant.logo
+                                     "logo" : this.newRestaurant.logo,
+                                     //"location" : this.newRestaurant.location.address.addressName
+
                                      
                                     
                         })
