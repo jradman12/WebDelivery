@@ -24,7 +24,8 @@ import beans.Restaurant;
 import enums.RestaurantStatus;
 
 public class RestaurantDAO {
-public static Map<String, Restaurant> restaurants = new HashMap<>();
+	
+	public static Map<String, Restaurant> restaurants = new HashMap<>();
 
 
 	
@@ -91,7 +92,7 @@ public static Map<String, Restaurant> restaurants = new HashMap<>();
 		r1.setMenu(new ArrayList<CartItem>());
 		r1.setStatus(RestaurantStatus.OPEN);
 		r1.setTypeOfRestaurant("domaci");
-		r1.setId("123hj4");
+		r1.setId(generateNextId());
 		r1.setStatus(RestaurantStatus.OPEN);	
 		Restaurant r2 = new Restaurant();
 		r2.setName("Ciao pizzeria");
@@ -100,7 +101,7 @@ public static Map<String, Restaurant> restaurants = new HashMap<>();
 		r2.setMenu(new ArrayList<CartItem>());
 		r2.setStatus(RestaurantStatus.OPEN);
 		r2.setTypeOfRestaurant("domaci");
-		r2.setId("21345g");
+		r2.setId(generateNextId());
 		r2.setStatus(RestaurantStatus.OPEN);
 		addNewRestaurant(r1);
 		addNewRestaurant(r2);
@@ -108,6 +109,10 @@ public static Map<String, Restaurant> restaurants = new HashMap<>();
 		
 		
 		
+	}
+	
+	public static String generateNextId() {
+		return Integer.toString(restaurants.size() + 1);
 	}
 
 	public static void saveRestaurantsJSON() {
@@ -156,7 +161,7 @@ public static Map<String, Restaurant> restaurants = new HashMap<>();
 	public static void addNewRestaurant(Restaurant restaurant) {
 		Restaurant newRestaurant = new Restaurant();
 		newRestaurant.setName(restaurant.getName());
-		newRestaurant.setId(restaurant.getId());
+		newRestaurant.setId(generateNextId());
 		newRestaurant.setMenu(restaurant.getMenu());
 		newRestaurant.setLocation(restaurant.getLocation());
 		//newRestaurant.setStatus(restaurant.getStatus());
@@ -188,6 +193,20 @@ public static Map<String, Restaurant> restaurants = new HashMap<>();
 		return null;
 	}
 	
+	public boolean deleteRestaurant(String id) {
+		for(Restaurant r : findAll()) {
+			if(r.getId().equals(id)) {
+				r.setDeleted(true);
+				saveRestaurantsJSON();
+				return true;
+			}
+		}
+		
+		return false;
+		
+	}
+}
+	
 	
 
-}
+
