@@ -9,13 +9,17 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import beans.Restaurant;
 import dao.RestaurantDAO;
+
+
 @Path("/restaurants")
 public class RestaurantService {
 	
@@ -85,5 +89,25 @@ public class RestaurantService {
 
 		return restaurants;
 	}
+	
+	
+	@DELETE
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteRestaurant(@PathParam("id") String id) {
+		
+		RestaurantDAO restaurantsDAO = getRestaurants();
+		boolean deleted=restaurantsDAO.deleteRestaurant(id);
+		if(deleted) {
+			return Response.status(Response.Status.OK).entity("Logičko brisanje za restoran sa idijem" + id + "je uspješno izvršeno!").build();
+		}else {
+			return Response.status(404).entity("Logičko brisanje nije uspjelo!").build();
+		}
+	
+		
+	}
+
+	
 
 }
