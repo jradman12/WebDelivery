@@ -50,7 +50,7 @@ public class CommentDAO {
 					e.printStackTrace();
 				}
 				
-				Type type = new TypeToken<Map<String, Product>>() {}.getType();
+				Type type = new TypeToken<Map<String, Comment>>() {}.getType();
 				comments.clear();
 				comments = gs.fromJson(commentsJson, type);
 			
