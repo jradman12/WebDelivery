@@ -55,7 +55,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 		return customer;
 	}
 	
-	public Collection<Customer> findAll() {
+	public static Collection<Customer> findAll() {
 		return customers.values();
 	}
 	
@@ -64,7 +64,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 	 * Kljuè je korisnièko ime korisnika.
 	 * @param contextPath Putanja do aplikacije u Tomcatu
 	 */
-	public void loadCustomers(String contextPath) {
+	public static void loadCustomers(String contextPath) {
 		
 				Gson gs = new Gson();
 				String customersJson = "";
@@ -88,7 +88,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 	
 	
 	
-	public void saveCustomersJSON() {
+	public static void saveCustomersJSON() {
 
 		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
 		Map<String, Customer> allCustomers = new HashMap<>();
@@ -166,6 +166,24 @@ private static Map<String, Customer> customers = new HashMap<>();
 		}
 
 		return null;
+	}
+	
+	public static Boolean changeCustomer(User user) {
+
+		// Find user with that name, and change his data.
+		loadCustomers("");
+		for (Customer c : customers.values()) {
+			if (c.getUsername().equals(user.getUsername())) {
+				c.setFistName(user.getFistName());
+				c.setLastName(user.getLastName());
+				c.setPassword(user.getPassword());
+				UserDAO.changeUser(user);
+				saveCustomersJSON();
+
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

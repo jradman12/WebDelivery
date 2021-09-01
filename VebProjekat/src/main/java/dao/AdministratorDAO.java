@@ -1,5 +1,7 @@
 package dao;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -15,10 +17,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Administrator;
+import beans.User;
+
 
 public class AdministratorDAO {
 
-	private Map<String, Administrator> admins = new HashMap<>();
+	private static Map<String, Administrator> admins = new HashMap<>();
 	
 	
 	public AdministratorDAO() {
@@ -49,7 +53,7 @@ public class AdministratorDAO {
 		return admin;
 	}
 	
-	public Collection<Administrator> findAll() {
+	public static Collection<Administrator> findAll() {
 		return admins.values();
 	}
 	
@@ -58,7 +62,7 @@ public class AdministratorDAO {
 	 * Kljuè je korisnièko ime korisnika.
 	 * @param contextPath Putanja do aplikacije u Tomcatu
 	 */
-	private void loadAdmins(String contextPath) {
+	private static void loadAdmins(String contextPath) {
 		
 		Gson gs = new Gson();
 		// maybe we should add predefined values for boolean attributes, so we don't do this in constructors :(
@@ -178,6 +182,44 @@ public class AdministratorDAO {
 //		}
 	}
 	
+	public static void saveAdministratorsJSON() {
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
+		
+
+		Map<String, Administrator> allAdmins = new HashMap<>();
+		
+		for (Administrator a : findAll()) {
+			allAdmins.put(a.getUsername(),a);
+		}
+
+		Gson gs = new Gson();
+		String json = gs.toJson(allAdmins);
+		byte[] inBytes = json.getBytes();
+		
+		FileOutputStream fos = null;
+		
+		try {
+			fos = new FileOutputStream(path);
+		}catch (FileNotFoundException e) {
+			// TODO: handle exception
+			System.out.println("Check the path u gave me!!");
+		}
+		try {
+			fos.write(inBytes);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			fos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 	public static Date parseDate(String date) {
 	     try {
 	         return new SimpleDateFormat("dd.MM.yyyy.").parse(date);
@@ -185,6 +227,25 @@ public class AdministratorDAO {
 	         return null;
 	     }
 	  }
+	
+	public static boolean changeAdministrator(User user) {
+		loadAdmins("");
+		System.out.println(user.getLastName());
+		for (Administrator a : admins.values()) {
+			if (a.getUsername().equals(user.getUsername())) {
+				a.setFistName(user.getFistName());
+				a.setLastName(user.getLastName());
+				a.setPassword(user.getPassword());
+				UserDAO.changeUser(user);
+				saveAdministratorsJSON();
+				return true;
+				
+			}
+		}
+		
+		return false;
+		
+	}
 	
 }
 

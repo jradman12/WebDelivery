@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+     <title>Crust food delivery service</title>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+     <meta name="description" content="">
+     <meta name="keywords" content="">
+     <meta name="author" content="">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+     <link rel="stylesheet" href="css/bootstrap.min.css">
+     <link rel="stylesheet" href="css/font-awesome.min.css">
+     <link rel="stylesheet" href="css/animate.css">
+     <link rel="stylesheet" href="css/owl.carousel.css">
+     <link rel="stylesheet" href="css/owl.theme.default.min.css">
+     <link rel="stylesheet" href="css/magnific-popup.css">
+     <script src="js/jquery-3.3.1.min.js"></script>
+
+
+     <!-- MAIN CSS -->
+     <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+<div id="profilePage">
+     <!-- PRE LOADER -->
+     <section class="preloader">
+          <div class="spinner">
+
+               <span class="spinner-rotate"></span>
+
+          </div>
+     </section>
+
+
+     <!-- MENU -->
+     <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+          <div class="container">
+
+               <div class="navbar-header">
+                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                         <span class="icon icon-bar"></span>
+                         <span class="icon icon-bar"></span>
+                         <span class="icon icon-bar"></span>
+                    </button>
+
+                    <!-- lOGO TEXT HERE -->
+                    <a href="index.html" class="navbar-brand" style="margin-left: auto;">c r u s t</a>
+               </div>
+          </div>
+     </section>
+
+     <!-- ------------------------ form ------------------- -->
+     <div id="idk" class="container">
+
+          <form id="formForEdit" class="well form-horizontal">
+               <fieldset>
+
+                    <!-- Form Name -->
+                    <legend>
+                         <center>
+                              <h2><b>PREGLED PROFILA</b></h2>
+                         </center>
+                    </legend><br>
+
+                    <!-- Text input-->
+
+                    <div class="form-group">
+                         <label class="col-md-4 control-label">Ime</label>
+                         <div class="col-md-4 inputGroupContainer">
+                              <div class="input-group">
+                                   <input  class="form-control" style="width: 300px;"
+                                        type="text" v-model="loggedUser.fistName" v-bind:disabled="mode=='BROWSE'">
+                              </div>
+                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Prezime</label>
+                        <div class="col-md-4 inputGroupContainer">
+                             <div class="input-group">
+                                  <input  class="form-control" style="width: 300px;"
+                                       type="text" v-model="loggedUser.lastName" v-bind:disabled="mode=='BROWSE'">
+                             </div>
+                        </div>
+                   </div>
+
+                    
+
+                    <!-- Text input-->
+
+                    <div class="form-group">
+                         <label class="col-md-4 control-label">Korisničko ime</label>
+                         <div class="col-md-4 inputGroupContainer">
+                              <div class="input-group">
+                                   <input  class="form-control" type="text" style="width: 300px;" v-model="loggedUser.username" disabled>
+                              </div>
+                         </div>
+                    </div>
+                    
+                   <div class="form-group">
+                    <label class="col-md-4 control-label">Datum rođenja</label>
+                    <div class="col-md-4 inputGroupContainer">
+                         <div class="input-group">
+                            <vuejs-datepicker v-model="loggedUser.dateOfBirth" format="dd.MM.yyyy" disabled></vuejs-datepicker> 
+                         </div>
+                    </div>
+               </div>
+
+                    
+
+
+                    <!-- Select Basic -->
+
+                    <!-- Success message -->
+                    <!---- <div class="alert alert-success" role="alert" id="success_message"> <i
+                              class="glyphicon glyphicon-thumbs-up"></i> Uspješno kreiran restoran!</div>-->
+
+                    <!-- Button -->
+                    <div class="form-group" style="align-content: center;">
+                        <div class="row">
+                           
+                            
+                            <div class="col-sm">
+                                <div class="col-md-6"><br>
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <button style="text-align: center;"  
+                                         class="section-btn" v-on:click="updateUser(loggedUser)" v-bind:disabled="mode=='BROWSE'">Potvrda</button>
+                               </div>
+                              
+                            </div>
+                            <div class="col-sm">
+                                <div class="col-md-6"><br>
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  <button style="text-align: center;" 
+                                         class="section-btn" v-on:click="changeMode">Izmijeni</button>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div><br><br><br><br><br><br><br><br><br><br><br><br><br></div>
+
+               </fieldset>
+          </form>
+     </div>
+     </div><!-- /.container -->
+     
+
+     <!-- SCRIPTS -->
+     <script src="js/vue.js"></script>
+     <script src="js/axios.js"></script>
+     <script src="js/jquery.js"></script>
+     <script src="js/bootstrap.min.js"></script>
+     <script src="js/jquery.stellar.min.js"></script>
+     <script src="js/wow.min.js"></script>
+     <script src="js/moment.min.js"></script>
+     <script src="js/owl.carousel.min.js"></script>
+     <script src="js/jquery.magnific-popup.min.js"></script>
+     <script src="js/smoothscroll.js"></script>
+     <script src="js/custom.js"></script>
+     <script src="js/vuejs-datepicker.min.js"></script>
+     <script src="profile.js"></script>
+
+
+</body>
+
+</html>

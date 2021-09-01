@@ -53,7 +53,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 		return manager;
 	}
 	
-	public Collection<Manager> findAll() {
+	public static Collection<Manager> findAll() {
 		return managers.values();
 	}
 	
@@ -62,7 +62,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 	 * Kljuè je korisnièko ime korisnika.
 	 * @param contextPath Putanja do aplikacije u Tomcatu
 	 */
-	public void loadManagers(String contextPath) {
+	public static void loadManagers(String contextPath) {
 		
 			
 				Gson gs = new Gson();
@@ -86,7 +86,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 	
 	
 	
-	public void saveManagersJSON() {
+	public static void saveManagersJSON() {
 
 		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
 		Map<String, Manager> allManagers = new HashMap<>();
@@ -164,5 +164,23 @@ private static Map<String, Manager> managers = new HashMap<>();
 
 		return null;
 	}
+	
+	public static Boolean changeManager(User user) {
+
+		loadManagers("");
+		for (Manager m : managers.values()) {
+			if (m.getUsername().equals(user.getUsername())) {
+				m.setFistName(user.getFistName());
+				m.setLastName(user.getLastName());
+				m.setPassword(user.getPassword());
+				UserDAO.changeUser(user);
+				saveManagersJSON();
+
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 }

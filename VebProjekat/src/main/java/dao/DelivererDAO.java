@@ -54,7 +54,7 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 		return deliverer;
 	}
 	
-	public Collection<Deliverer> findAll() {
+	public static Collection<Deliverer> findAll() {
 		return deliverers.values();
 	}
 	
@@ -63,7 +63,7 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 	 * Kljuè je korisnièko ime korisnika.
 	 * @param contextPath Putanja do aplikacije u Tomcatu
 	 */
-	public void loadDeliverers(String contextPath) {
+	public static void loadDeliverers(String contextPath) {
 		
 				Gson gs = new Gson();
 				String deliverersJson = "";
@@ -86,7 +86,7 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 	
 	
 	
-	public void saveDeliverersJSON() {
+	public static void saveDeliverersJSON() {
 		
 		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json";
 		Map<String, Deliverer> allDeliverers = new HashMap<>();
@@ -164,5 +164,22 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 		}
 
 		return null;
+	}
+	
+	public static Boolean changeDeliverer(User user) {
+
+		loadDeliverers("");
+		for (Deliverer d : deliverers.values()) {
+			if (d.getUsername().equals(user.getUsername())) {
+				d.setFistName(user.getFistName());
+				d.setLastName(user.getLastName());
+				d.setPassword(user.getPassword());
+				UserDAO.changeUser(user);
+				saveDeliverersJSON();
+
+				return true;
+			}
+		}
+		return false;
 	}
 }

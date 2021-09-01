@@ -46,7 +46,7 @@ public class LoginService {
 		if (loggedUser == null) {
 			return Response.status(400).entity("Invalid username and/or password").build();
 		}
-		request.getSession().setAttribute("user", loggedUser);
+		request.getSession().setAttribute("loggedInUser", loggedUser);
 		System.out.println(loggedUser.getFistName() + " is currently logged in.");
 		
 		if (loggedUser.getRole().equals(Role.ADMINISTRATOR)) {

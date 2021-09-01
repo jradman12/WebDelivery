@@ -15,13 +15,21 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import beans.User;
+import dao.AdministratorDAO;
+import dao.CustomerDAO;
+import dao.DelivererDAO;
+import dao.ManagerDAO;
 import dao.UserDAO;
+import enums.Role;
 
 @Path("/users")
 public class UserService {
 	
 	@Context
 	ServletContext ctx;
+	private boolean success=false;;
+	@Context
+	HttpServletRequest request;
 	public UserService() {
 		
 	}
@@ -52,6 +60,66 @@ public class UserService {
 		
 		
 		return users.values();
+	}
+	
+	@GET
+	@Path("/getLoggedUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	public User getLoggedUser(@Context HttpServletRequest request){
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		if(user == null) {
+			return null;
+		}
+		
+		return user;
+		
+	}
+	
+	
+	@POST
+	@Path("/updateUser")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response updateUserInformation(User user) {
+		
+		System.out.println("usao");
+		if(user.getRole().equals(Role.ADMINISTRATOR)) {
+			changeAdministratorInformation(user);
+		}
+		if(user.getRole().equals(Role.CUSTOMER)) {
+			changeCustomerInformation(user);
+		}
+		if(user.getRole().equals(Role.DELIVERER)) {
+			changeDelivererInformation(user);
+		}
+		if(user.getRole().equals(Role.MANAGER)) {
+			changeManagerInformation(user);
+		}
+		
+		if(success) {
+			return Response.status(200).entity("Uspjesno izmijenjene info!").build();
+		}else {
+		return Response.status(400).entity("Neuspjesno izmijenjene info!").build();
+		}
+		
+	}
+
+	private void changeManagerInformation(User user) {
+		success=ManagerDAO.changeManager(user);
+	}
+
+	private void changeDelivererInformation(User user) {
+		success=DelivererDAO.changeDeliverer(user);
+	}
+
+	private void changeCustomerInformation(User user) {
+		success=CustomerDAO.changeCustomer(user);
+	}
+
+	private void changeAdministratorInformation(User user) {
+		
+		success=AdministratorDAO.changeAdministrator(user);
+		System.out.println(success);
 	}
 
 }

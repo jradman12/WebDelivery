@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import beans.Manager;
 import beans.User;
 import enums.Role;
 
@@ -65,7 +67,7 @@ public static Map<String, User> users = new HashMap<>();
 				
 				String usersJson = "";
 				try {
-					usersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json")));
+					usersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json")));
 					//customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -84,7 +86,7 @@ public static Map<String, User> users = new HashMap<>();
 		
 		
 	public static void saveUsersJson() {
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json";
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json";
 		
 
 		Map<String, User> allUsers = new HashMap<>();
@@ -117,6 +119,7 @@ public static Map<String, User> users = new HashMap<>();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 		
 	}
@@ -170,6 +173,23 @@ public static Map<String, User> users = new HashMap<>();
 		}
 
 		return null;
+	}
+
+	public static void changeUser(User user) {
+		loadUsers("");
+		System.out.println("userDAO");
+		for (User u : users.values()) {
+			if (u.getUsername().equals(user.getUsername())) {
+				u.setFistName(user.getFistName());
+				u.setLastName(user.getLastName());
+				u.setPassword(user.getPassword());
+				saveUsersJson();
+				
+			}
+		}
+		
+		
+		
 	}
 	
 	
