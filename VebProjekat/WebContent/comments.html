@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
      <title>Crust food delivery service</title>
@@ -17,12 +18,13 @@
      <link rel="stylesheet" href="css/owl.theme.default.min.css">
      <link rel="stylesheet" href="css/magnific-popup.css">
      <script src="js/jquery-3.3.1.min.js"></script>
-	
+
 
      <!-- MAIN CSS -->
      <link rel="stylesheet" href="css/style.css">
 
 </head>
+
 <body>
 
      <!-- PRE LOADER -->
@@ -30,13 +32,13 @@
           <div class="spinner">
 
                <span class="spinner-rotate"></span>
-               
+
           </div>
      </section>
 
- <!-- MENU -->
- <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
-     <div class = "container">
+     <!-- MENU -->
+     <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+          <div class="container">
 
                <div class="navbar-header">
                     <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -60,41 +62,58 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                         <button type="button" class="section-btn" data-toggle="modal" data-target="#loginModal">Moj profil</button>
-                         <a type="button" href="index.html" class="section-btn" data-toggle="modal" >Odjava</a>
+                         <button type="button" class="section-btn" data-toggle="modal" data-target="#loginModal">Moj
+                              profil</button>
+                         <a type="button" href="index.html" class="section-btn" data-toggle="modal">Odjava</a>
                     </ul>
                </div>
 
-          <!-- </div> -->
-     </div>
-</section>
+               <!-- </div> -->
+          </div>
+     </section>
 
-<img src="images/ce3232.png" width="100%" height="90px">
-
-
-<section class="r-section">
-<h1>Pregled komentara</h1>
-
-<div class="r-gap"></div>
-
-<div class="tbl-header">
-  <table class="r-table" cellpadding="0" cellspacing="0" border="0">
-    <thead>
-      <tr>
-        <th>Kupac</th>
-        <th>Restoran</th>
-        <th>Komentar</th>
-        <th>Ocjena</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-  </table>
-</div>
+     <img src="images/ce3232.png" width="100%" height="90px">
 
 
-<div class="r-gap"></div>
+     <section class="r-section">
+          <h1>Pregled komentara</h1>
 
-</section>
+          <div class="r-gap"></div>
+
+          <div id="coms">
+               <div class="tbl-header">
+                    <table  class="r-table" cellpadding="0" cellspacing="0" border="0">
+                         <thead>
+                              <tr>
+                                   <th>Kupac</th>
+                                   <th>Restoran</th>
+                                   <th>Komentar</th>
+                                   <th>Ocjena</th>
+                                   <th>Status</th>
+                              </tr>
+                         </thead>
+                    </table>
+               </div>
+               <div class="tbl-content">
+                    <table class="r-table" cellpadding="0" cellspacing="0" border="0">
+                         <tbody>
+                              <tr v-for="comm in comments">
+                                   <td> {{ comm.author.username }} </td>
+                                   <td> {{ comm.restaurant.name }} </td>
+                                   <td> {{ comm.text }} </td>
+                                   <td> {{ comm.rating }} </td>
+                                   <td> {{ comm.approved ? "Odobren" : "Odbijen" }} </td>
+                     
+                              </tr>
+                         </tbody>
+                    </table>
+               </div>
+          </div>
+
+
+          <div class="r-gap"></div>
+
+     </section>
 
      <!-- FOOTER -->
      <footer id="footer" data-stellar-background-ratio="0.5">
@@ -109,12 +128,12 @@
                               <li><a href="#" class="fa fa-google"></a></li>
                          </ul>
 
-                         <div class="wow fadeInUp copyright-text" data-wow-delay="0.8s"> 
-                              <p><br>Copyright &copy; 2021 <br>Jela & Boba 
+                         <div class="wow fadeInUp copyright-text" data-wow-delay="0.8s">
+                              <p><br>Copyright &copy; 2021 <br>Jela & Boba
 
                          </div>
                     </div>
-                    
+
                </div>
           </div>
      </footer>
@@ -131,8 +150,10 @@
      <script src="js/smoothscroll.js"></script>
      <script src="js/custom.js"></script>
 
+     <script src="comments.js"></script>
 
-	
+
 
 </body>
+
 </html>
