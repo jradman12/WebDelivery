@@ -151,7 +151,7 @@
                                                         <li><i class="fa fa-star-o"></i></li>
                                                         <li>{{rest.averageRating}}</li>
                                                     </ul>
-                                                    <span>{{rest.location}}</span>
+                                                    <span>{{ (rest.location).address }}</span>
                                                     <div v-bind="typeFilter">
                                                         <span>
                                                             <h6>{{rest.typeOfRestaurant}}</h6>
