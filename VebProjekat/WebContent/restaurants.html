@@ -20,6 +20,7 @@
     <script src="js/jquery-3.3.1.min.js"></script>
 
 
+
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="css/style.css">
 
@@ -39,7 +40,6 @@
         <!-- MENU -->
         <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
             <div class="container">
-                <!-- <div class="adminDash"> -->
 
                 <div class="navbar-header">
                     <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -77,41 +77,90 @@
 
 
         <section class="r-section">
-            <div class="recent-listing">
+            <div id="usersiii" class="recent-listing">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="section-heading">
                                 <h1>Restorani u ponudi</h1>
-                                <h6>Check Them Out</h6>
                             </div>
                         </div>
-                        <!-- @onclick here -->
-                    <div v-for="rest in rests">
+
                         <div class="col-lg-12">
-                            <div class="item">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="listing-item">
-                                            <div class="left-image" >
-                                                <a href="restaurant.html"><img v-bind:src="rest.logo" alt="" ></a>
-                                            </div>
-                                            <div class="right-content align-self-center">
-                                                <a href="restaurant.html">
-                                                    <h4>{{rest.name}}</h4>
-                                                </a>
-                                                <h6>{{rest.status == "OPEN" ? 'Otvoren' : 'Zatvoren'}}</h6>
-                                                <ul class="rate">
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li>{{rest.averageRating}}</li>
-                                                </ul>
-                                                <span>{{rest.location}}</span>
-                                                <div class="main-white-button">
-                                                    <a href="#"><i class="fa fa-eye"></i>Pogledaj restoran</a>
+                            <!-- ----- pretraga ----- -->
+                            <input type="search" v-model="filter" placeholder="Pretraži restorane..."
+                                style="width: 300px; margin-bottom: 10px;">
+                                <span class="r-span2"></span>
+                                <!-- ----- filteri ----- -->
+                                <select v-model="typeFilter" style="width: 160px;">
+                                    <option value="">Tip restorana</option>
+                                    <option value="Kineski">Kineski</option>
+                                    <option value="Fast food">Fast food</option>
+                                    <option value="Indijski">Indijski</option>
+                                    <option value="Italijanski">Italijanski</option>
+                                    <option value="Roštilj">Roštilj</option>
+                                    <option value="Picerija">Picerija</option>
+                                </select>
+                                <span class="r-span"></span>
+                                <select v-model="openFilter" style="width: 160px;">
+                                    <option value="">Svi restorani</option>
+                                    <option value="OPEN">Samo otvoreni</option>
+                                </select>
+                                <span class="r-span"></span>
+                                <!-- ----- sort ----- -->
+                                <select v-model="sortFilter" @change="sort()" style="width: 160px;">
+                                    <option value="">Sortiraj</option>
+                                    <option value="name, asc">Naziv, asc</option>
+                                    <option value="name, desc">Naziv, desc</option>
+                                    <option value="type, asc">Tip, asc</option>
+                                    <option value="type, desc">Tip, desc</option>
+                                    <option value="avgRate, asc">Prosječna ocjena, asc</option>
+                                    <option value="avgRate, desc">Prosječna ocjena, desc</option>
+                                </select>
+
+
+<!--                            
+                            <button @click="sort('name')">Sort po nazivu</button>
+                            <span class="r-span"></span>
+                            <button @click="sort('typeOfRestaurant')">Sort po tipu</button>
+                            <span class="r-span"></span>
+                            <button @click="sort('averageRating')">Sort po ocjeni</button>  -->
+                        </div>
+                        <!-- @onclick here -->
+
+                        <div v-for="rest in sortedRests">
+                            <div class="col-lg-12">
+                                <div class="item">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="listing-item">
+                                                <div class="left-image">
+                                                    <a href="restaurant.html"><img class="rest-img"
+                                                            v-bind:src="rest.logo" alt=""></a>
+                                                </div>
+                                                <div class="right-content align-self-center">
+                                                    <a href="restaurant.html">
+                                                        <h4>{{rest.name}}</h4>
+                                                    </a>
+                                                    <h6>{{rest.status == "OPEN" ? 'Otvoren' : 'Zatvoren'}}</h6>
+                                                    <ul class="rate">
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                        <li>{{rest.averageRating}}</li>
+                                                    </ul>
+                                                    <span>{{rest.location}}</span>
+                                                    <div v-bind="typeFilter">
+                                                        <span>
+                                                            <h6>{{rest.typeOfRestaurant}}</h6>
+                                                        </span>
+
+                                                    </div>
+                                                    <div class="main-white-button">
+                                                        <a href="#"><i class="fa fa-eye"></i>Pogledaj restoran</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -121,7 +170,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
 
         </section>
@@ -164,8 +212,8 @@
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/smoothscroll.js"></script>
     <script src="js/custom.js"></script>
+    <!-- <script src="ssf-rest.js"></script> -->
     <script src="rests.js"></script>
-
 
 
 
