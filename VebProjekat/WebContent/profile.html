@@ -110,6 +110,15 @@
                          </div>
                     </div>
                </div>
+               <div class="form-group">
+                    <label class="col-md-4 control-label">Lozinka</label>
+                    <div class="col-md-4 inputGroupContainer">
+                         <div class="input-group">
+                              <input  class="form-control" type="password" style="width: 300px;" v-model="loggedUser.password" v-bind:disabled="mode=='BROWSE'">
+                         </div>
+                    </div>
+               </div>
+              
 
                     
 
@@ -127,18 +136,24 @@
                             
                             <div class="col-sm">
                                 <div class="col-md-6"><br>
-                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <button style="text-align: center;"  
-                                         class="section-btn" v-on:click="updateUser(loggedUser)" v-bind:disabled="mode=='BROWSE'">Potvrda</button>
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp 
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                     <button style="text-align: center;"  
+                                         class="section-btn" v-on:click="updateUser" v-bind:disabled="mode=='BROWSE'">Potvrda</button>
                                </div>
                               
                             </div>
                             <div class="col-sm">
                                 <div class="col-md-6"><br>
-                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  <button style="text-align: center;" 
+                                     <button style="text-align: center;" 
                                          class="section-btn" v-on:click="changeMode">Izmijeni</button>
                                </div>
                             </div>
+                            
                         </div>
                     </div>
 

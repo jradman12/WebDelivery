@@ -9,7 +9,8 @@ var user = new Vue({
     el: '#profilePage',
     data: {
         loggedUser: {},
-        mode : 'BROWSE'
+        mode : 'BROWSE',
+        message : null
         
     },
     mounted () {
@@ -24,21 +25,34 @@ var user = new Vue({
                 this.mode='EDIT'
         },
 
-        updateUser : function(loggedUser){
+        updateUser : function(e){
             
-
+            e.preventDefault()
             axios
-    		.post("rest/users/updateUser",loggedUser)
+    		.post("rest/users/updateUser", 
+                {"fistName": this.loggedUser.fistName,
+                "lastName" : this.loggedUser.lastName,
+                "dateOfBirth" : this.loggedUser.dateOfBirth,
+                "gender" : this.loggedUser.gender,
+                "username": this.loggedUser.username, 
+                "password" : this.loggedUser.password,
+                "role" : this.loggedUser.role})
+            .then(response => {
+                this.message = response.data;
+            })
             .catch(err => {
                 console.log("There has been an error! Please check this out: ");
                 console.log(err);
             })
+            return true;
+        }
 
+          
 
            
     		
 
-        }
+        
     },
     components: {
       	vuejsDatepicker
