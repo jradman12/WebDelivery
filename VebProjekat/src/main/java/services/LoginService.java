@@ -56,11 +56,11 @@ public class LoginService {
 			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/managerDashboard.html").build();
 
 		} else if (loggedUser.getRole().equals(Role.DELIVERER)) {
-			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebPojekat/delivererDashboard.html").build();
+			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/delivererDashboard.html").build();
 
 		}
 		else if (loggedUser.getRole().equals(Role.CUSTOMER)) {
-			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebPojekat/customerDashboard.html").build();
+			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/customerDashboard.html").build();
 
 		}
 		
