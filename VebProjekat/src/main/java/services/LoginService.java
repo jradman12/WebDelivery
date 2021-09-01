@@ -39,7 +39,7 @@ public class LoginService {
 	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response login(User user, @Context HttpServletRequest request) {
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
 		User loggedUser = userDAO.find(user.getUsername(), user.getPassword());
@@ -50,21 +50,21 @@ public class LoginService {
 		System.out.println(loggedUser.getFistName() + " is currently logged in.");
 		
 		if (loggedUser.getRole().equals(Role.ADMINISTRATOR)) {
-			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/WebContent/adminDashboard.html").build();
+			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/adminDashboard.html").build();
 
 		} else if (loggedUser.getRole().equals(Role.MANAGER)) {
-			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/WebContent/manager.html").build();
+			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/managerDashboard.html").build();
 
 		} else if (loggedUser.getRole().equals(Role.DELIVERER)) {
-			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebPojekat/WebContent/deliverer.html").build();
+			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/delivererDashboard.html").build();
 
 		}
 		else if (loggedUser.getRole().equals(Role.CUSTOMER)) {
-			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebPojekat/WebContent/index.html").build();
+			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/customerDashboard.html").build();
 
 		}
 		
-		return Response.status(200).build();
+		return Response.status(404).build();
 	}
 	
 }

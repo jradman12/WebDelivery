@@ -20,6 +20,7 @@ let login = new Vue({
 				})
 				.then(response => {
 					this.message = response.data;
+					window.location.assign(response.data)
 				})
 				.catch(err => {
 					console.log("There has been an error! Please check this out: ");
@@ -27,9 +28,7 @@ let login = new Vue({
 				})
 				return true;
 
-				this.errors.forEach(element => {
-					console.log(element)
-				});
+				
 		}
 		
 	},
