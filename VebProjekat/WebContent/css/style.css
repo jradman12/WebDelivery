@@ -9,6 +9,13 @@
 
   #success_message{ display: none;}
 
+  .rest-img{
+    width:250px;
+    height:300px;
+    object-fit:scale-down;
+
+ }
+
 
  /*
 ---------------------------------------------
