@@ -100,7 +100,7 @@
                     </div>
 
                     <div class="tbl-content">
-                         <table class="sortable" cellpadding="0" cellspacing="0" border="0">
+                         <table class="r-table" cellpadding="0" cellspacing="0" border="0">
                               <tbody>
                                    <tr v-for="user in sortedUsers">
                                         <td>{{user.username}}</td>
@@ -108,7 +108,11 @@
                                         <td>{{user.lastName}}</td>
                                         <td>{{user.dateOfBirth | dateFormat('DD.MM.YYYY.')}}</td>
                                         <td>{{user.gender}}</td>
-                                        <td>{{user.blocked ? 'Blokiran' : 'Nije blokiran'}}</td>
+                                        <td><button v-if="user.blocked && user.role != 'ADMINISTRATOR'" @click="unblock(user)"><i class="fa fa-ban"></i> Deblokiraj</button>
+                                        	<button v-if="!user.blocked && user.role != 'ADMINISTRATOR'" @click="block(user)"><i class="fa fa-ban"></i> Blokiraj</button>
+                                             <span v-if="user.role == 'ADMINISTRATOR'">-</span>
+                                        </td>
+                                         
                                         <td>{{user.role}}</td>
                                         <td> <button>Obriši</button></td>
                                    </tr>
@@ -133,8 +137,9 @@
                                    <select v-model="roleFilter" style="width: 160px;">
                                         <option value="">Svi korisnici</option>
                                         <option value="CUSTOMER">Kupci</option>
-                                        <option value="MANAGER">Menadžeri</option>
                                         <option value="DELIVERER">Dostavljači</option>
+                                        <option value="MANAGER">Menadžeri</option>
+                                        <option value="ADMINISTRATOR">Administratori</option>
                                    </select>
                               </div>
 
@@ -146,7 +151,7 @@
 
           <section>
                <div class="r-section">
-                    <button class="section-btn">Dodaj novog korisnika</button>
+                    <a href="addNewUser.html" class="section-btn">Dodaj novog korisnika</a>
                </div>
 
           </section>
