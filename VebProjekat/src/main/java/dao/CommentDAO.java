@@ -19,7 +19,7 @@ import beans.Comment;
 
 public class CommentDAO {
 	
-	private static Map<String, Comment> comments = new HashMap<>();
+	public static Map<String, Comment> comments = new HashMap<>();
 
 
 	
@@ -39,13 +39,13 @@ public class CommentDAO {
 		return comments.values();
 	}
 	
-	public void loadComments(String contextPath) {
+	public static void loadComments(String contextPath) {
 		
 			
 				Gson gs = new Gson();
 				String commentsJson = "";
 				try {
-					commentsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json")));	
+					commentsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json")));	
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -60,7 +60,7 @@ public class CommentDAO {
 	
 	public void saveCommentsJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
 		Map<String, Comment> allComments = new HashMap<>();
 		for (Comment c : findAll()) {
 			allComments.put(c.getId(),c);

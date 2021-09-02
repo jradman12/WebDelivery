@@ -16,12 +16,12 @@ let restss = new Vue({
         sortFilter: ''
 	},
 
-    // mounted () 
-    //     {
-    //         axios
-    //         .get('rest/restaurants/getAllRestaurants')
-    //         .then(response => (this.rests=response.data))
-    //     },
+     mounted () 
+         {
+             axios
+             .get('rest/restaurants/getAllRestaurants')
+             .then(response => (this.rests=response.data))
+         },
 
         methods: {
             sort: function () {

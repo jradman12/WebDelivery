@@ -275,7 +275,7 @@
 
      <!-- restaurants -->
      <section class="rmain-section new-bg">
-          <div id="rests" class="container">
+          <div id="usersiii" class="container">
                <div class="row">
                     <div class="col-md-12">
                          <h2 class="text-center text-uppercase">Restorani u ponudi</h2>
@@ -284,19 +284,24 @@
                     <div v-for="rest in rests">
                          <div class="col-md-3 col-sm-3">
                               <div class="rsts-wrapper">
-                                   <img src="images/order.png" class="img-responsive rsts-img" alt="biću logo">
+                                   <a href="restaurant.html"><img class="rest-img"
+                                                            v-bind:src="rest.logo" alt=""></a>
                                    <div class="gallery-des">
                                         <h3>{{rest.name}}</h3>
-                                        <h5>{{rest.location}}</h5>
-                                        <h6>Tip: {{ rest.type }}</h6>
-                                        <h6>Prosečna ocjena: {{rest.rating}} / 5</h6>
+                                        <h5>  <span>{{ (rest.location).address.addressName  }}</span>
+                                                    <span>, </span>
+                                                    <span>{{ (rest.location).address.city }}</span>
+                                                    <span>, </span>
+                                                    <span>{{ (rest.location).address.postalCode  }}</span>
+                                        </h5>
+                                        <h6>Tip: {{ rest.typeOfRestaurant }}</h6>
+                                        <h6>Prosečna ocjena: {{rest.averageRating}} / 5</h6>
                                    </div>
                               </div>
                          </div>
                     </div>
                </div>
                <section>
-                    <row></row>
                </section>
                <div class="row">
                     <div class="col-md-4 col-md-offset-4 text-center">
