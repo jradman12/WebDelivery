@@ -66,7 +66,7 @@ public class RestaurantDAO {
 				Gson gs = new Gson();
 				String restaurantsJson = "";
 				try {
-					restaurantsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json")));
+					restaurantsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

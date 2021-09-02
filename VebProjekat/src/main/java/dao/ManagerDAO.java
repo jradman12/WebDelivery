@@ -15,6 +15,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import beans.Manager;
+import beans.Restaurant;
 import beans.User;
 import enums.Role;
 
@@ -181,6 +182,19 @@ private static Map<String, Manager> managers = new HashMap<>();
 		}
 		return false;
 	}
+	
+	public static Restaurant getRestaurantForManager(String username) {
+
+		loadManagers("");
+		for (Manager m : managers.values()) {
+			if (m.getUsername().equals(username)) {
+				return m.getRestaurant();
+			}
+		}
+		return null;
+	}
+	
+	
 
 
 }

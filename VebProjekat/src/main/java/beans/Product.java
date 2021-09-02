@@ -13,16 +13,14 @@ public class Product {
 	private int quantity; // in g or mL
 	private String description;
 	private boolean isDeleted;
-	//slika artikla
+	private String logo;
 	
 	public Product() {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-
 	public Product(String id, String name, double price, ProductType type, Restaurant restaurant, int quantity,
-			String description, boolean isDeleted) {
+			String description, boolean isDeleted, String logo) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -32,9 +30,8 @@ public class Product {
 		this.quantity = quantity;
 		this.description = description;
 		this.isDeleted = isDeleted;
+		this.logo = logo;
 	}
-
-
 
 	public String getName() {
 		return name;
@@ -92,17 +89,23 @@ public class Product {
 		this.isDeleted = isDeleted;
 	}
 
-
-
 	public String getId() {
 		return id;
 	}
 
-
-
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+	
+	
 	
 	
 	
