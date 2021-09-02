@@ -11,7 +11,7 @@ let getUsers = new Vue({
 	el : "#usersiii",
 
 	data : {
-		    //users :[{"username":"adam","password":"admin","fistName":"Adam","lastName":"Martinez","gender":"MALE","dateOfBirth":"Sep 24, 1992, 12:00:00 AM","role":"DELIVERER","isDeleted":false,"isBlocked":false}, {"username":"ella","password":"admin","fistName":"Ella","lastName":"Williams","gender":"FEMALE","dateOfBirth":"Mar 2, 1989, 12:00:00 AM","role":"DELIVERER","isDeleted":false,"isBlocked":true}, {"username":"mini","password":"minkica","fistName":"Minka","lastName":"Minkica","gender":"FEMALE","dateOfBirth":"Dec 12, 1999, 1:00:00 AM","role":"CUSTOMER","isDeleted":false,"isBlocked":false}],
+		//users :[{"username":"adam","password":"admin","fistName":"Adam","lastName":"Martinez","gender":"MALE","dateOfBirth":"Sep 24, 1992, 12:00:00 AM","role":"DELIVERER","isDeleted":false,"isBlocked":false}, {"username":"ella","password":"admin","fistName":"Ella","lastName":"Williams","gender":"FEMALE","dateOfBirth":"Mar 2, 1989, 12:00:00 AM","role":"DELIVERER","isDeleted":false,"isBlocked":true}, {"username":"mini","password":"minkica","fistName":"Minka","lastName":"Minkica","gender":"FEMALE","dateOfBirth":"Dec 12, 1999, 1:00:00 AM","role":"CUSTOMER","isDeleted":false,"isBlocked":false}],
         users  : [],
         currentSort:'username',
         currentSortDir:'asc',
@@ -26,6 +26,30 @@ let getUsers = new Vue({
     },
 
     methods : {
+		block:function(userToBlock){
+			axios
+                .post('rest/users/blockUser', userToBlock)
+                .then(response => {
+                    this.users = [];
+                    response.data.forEach(x => {
+                        this.users.push(x);
+                    });
+                    return this.users;
+                });
+        },
+		unblock:function(userToUnblock){
+			axios
+                .post('rest/users/unblockUser', userToUnblock)
+                .then(response => {
+                    this.users = [];
+                    response.data.forEach(x => {
+                        this.users.push(x);
+                    });
+                    return this.users;
+                });
+
+		},
+		
         sort:function(s) {
             if(s === this.currentSort) {
               this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
@@ -33,7 +57,7 @@ let getUsers = new Vue({
             this.currentSort = s;
           }
         },
-        computed:{
+        computed: {
             filteredUsers: function() {
                 return this.users.filter(c => {
                   if(this.filter == '') return true;

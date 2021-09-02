@@ -1,5 +1,6 @@
 function myMap() {
-	
+
+	//var location =  rest.address.addressName + rest.address.city + rest.address.postalCode;
 	var location = "Jevrejska 8 Novi Sad 21000";
 			geocode(location);
 		

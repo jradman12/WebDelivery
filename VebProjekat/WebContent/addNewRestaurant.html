@@ -74,7 +74,7 @@
      </section>
 
      <!-- ------------------------ form ------------------- -->
-     <div id="idk" class="container">
+     <div id="usersiii" class="container">
 
           <form class="well form-horizontal">
                <fieldset>
@@ -142,16 +142,21 @@
                     <div class="form-group">
                          <label class="col-md-4 control-label">Menadžer</label>
                          <div class="col-md-4 selectContainer">
-                              <div class="input-group">
-                                   <select name="department" class="form-control selectpicker" style="width: 300px;">
-                                        <option value="">Izaberi menadžera</option>
-                                        <option></option>
-                                        <option></option>
-                                        <option></option>
-                                        <option></option>
-                                        <option></option>
-                                   </select>
+                              <div v-if="availableManagers != []">
+                                   <div class="input-group">
+                                        <select name="department" class="form-control selectpicker"
+                                             style="width: 300px;">
+                                             <option value="">Izaberi menadžera</option>
+                                             <option v-for="man in availableManagers">{{ man.username }}</option>
+                                        </select>
+                                   </div>
                               </div>
+                              <div v-else>
+                                   <div class="input-group">
+                                        <a href="addNewUser.html" >Dodaj novog menadžera</a>
+                                   </div>
+                              </div>
+
                          </div>
                     </div>
 
