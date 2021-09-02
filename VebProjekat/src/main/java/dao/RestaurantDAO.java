@@ -35,7 +35,7 @@ public class RestaurantDAO {
 	}
 	
 	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Može se pristupiti samo iz servleta.
+	 * @param contextPath Putanja do aplikacije u Tomcatu. Moï¿½e se pristupiti samo iz servleta.
 	 */
 	public RestaurantDAO(String contextPath) {
 		loadRestaurants(contextPath);
@@ -57,8 +57,8 @@ public class RestaurantDAO {
 	}
 	
 	/**
-	 * Uèitava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Kljuè je korisnièko ime korisnika.
+	 * Uï¿½itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
+	 * Kljuï¿½ je korisniï¿½ko ime korisnika.
 	 * @param contextPath Putanja do aplikacije u Tomcatu
 	 */
 	public static void loadRestaurants(String contextPath) {
@@ -66,7 +66,7 @@ public class RestaurantDAO {
 				Gson gs = new Gson();
 				String restaurantsJson = "";
 				try {
-					restaurantsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json")));
+					restaurantsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

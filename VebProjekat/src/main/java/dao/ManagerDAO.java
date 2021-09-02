@@ -31,14 +31,14 @@ private static Map<String, Manager> managers = new HashMap<>();
 	}
 	
 	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Može se pristupiti samo iz servleta.
+	 * @param contextPath Putanja do aplikacije u Tomcatu. Moï¿½e se pristupiti samo iz servleta.
 	 */
 	public ManagerDAO(String contextPath) {
 		loadManagers(contextPath);
 	}
 	
 	/**
-	 * Vraæa korisnika za prosleðeno korisnièko ime i šifru. Vraæa null ako korisnik ne postoji
+	 * Vraï¿½a korisnika za prosleï¿½eno korisniï¿½ko ime i ï¿½ifru. Vraï¿½a null ako korisnik ne postoji
 	 * @param username
 	 * @param password
 	 * @return
@@ -59,8 +59,8 @@ private static Map<String, Manager> managers = new HashMap<>();
 	}
 	
 	/**
-	 * Uèitava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Kljuè je korisnièko ime korisnika.
+	 * Uï¿½itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
+	 * Kljuï¿½ je korisniï¿½ko ime korisnika.
 	 * @param contextPath Putanja do aplikacije u Tomcatu
 	 */
 	public static void loadManagers(String contextPath) {
@@ -69,7 +69,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 				Gson gs = new Gson();
 				String managersJson = "";
 				try {
-					managersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json")));
+					managersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -89,7 +89,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 	
 	public static void saveManagersJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
 		Map<String, Manager> allManagers = new HashMap<>();
 		for (Manager m : findAll()) {
 			allManagers.put(m.getUsername(),m);
@@ -188,6 +188,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 		loadManagers("");
 		for (Manager m : managers.values()) {
 			if (m.getUsername().equals(username)) {
+				System.out.println(m.getRestaurant());
 				return m.getRestaurant();
 			}
 		}

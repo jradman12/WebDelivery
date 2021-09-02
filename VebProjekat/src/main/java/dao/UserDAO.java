@@ -27,14 +27,14 @@ public static Map<String, User> users = new HashMap<>();
 	}
 	
 	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Može se pristupiti samo iz servleta.
+	 * @param contextPath Putanja do aplikacije u Tomcatu. Moï¿½e se pristupiti samo iz servleta.
 	 */
 	public UserDAO(String contextPath) {
 		loadUsers(contextPath);
 	}
 	
 	/**
-	 * Vraæa korisnika za prosleðeno korisnièko ime i šifru. Vraæa null ako korisnik ne postoji
+	 * Vraï¿½a korisnika za prosleï¿½eno korisniï¿½ko ime i ï¿½ifru. Vraï¿½a null ako korisnik ne postoji
 	 * @param username
 	 * @param password
 	 * @return
@@ -55,8 +55,8 @@ public static Map<String, User> users = new HashMap<>();
 	}
 	
 	/**
-	 * Uèitava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Kljuè je korisnièko ime korisnika.
+	 * Uï¿½itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
+	 * Kljuï¿½ je korisniï¿½ko ime korisnika.
 	 * @param contextPath Putanja do aplikacije u Tomcatu
 	 */
 	public static void loadUsers(String contextPath) {
@@ -67,7 +67,7 @@ public static Map<String, User> users = new HashMap<>();
 				
 				String usersJson = "";
 				try {
-					usersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json")));
+					usersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json")));
 					//customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -86,7 +86,7 @@ public static Map<String, User> users = new HashMap<>();
 		
 		
 	public static void saveUsersJson() {
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json";
 		
 
 		Map<String, User> allUsers = new HashMap<>();

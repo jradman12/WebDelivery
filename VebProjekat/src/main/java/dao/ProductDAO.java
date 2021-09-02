@@ -29,7 +29,7 @@ public class ProductDAO {
 	}
 	
 	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Može se pristupiti samo iz servleta.
+	 * @param contextPath Putanja do aplikacije u Tomcatu. Moï¿½e se pristupiti samo iz servleta.
 	 */
 	public ProductDAO(String contextPath) {
 		loadProducts(contextPath);
@@ -45,7 +45,7 @@ public class ProductDAO {
 				Gson gs = new Gson();
 				String productsJson = "";
 				try {
-					productsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\products.json")));	
+					productsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\products.json")));	
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -60,7 +60,7 @@ public class ProductDAO {
 	
 	public void saveProductsJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\products.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\products.json";
 		Map<String, Product> allProducts = new HashMap<>();
 		for (Product p : findAll()) {
 			allProducts.put(p.getId(),p);

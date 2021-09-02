@@ -114,7 +114,11 @@ public class Restaurant {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return this.getName() + ", " +  this.getLocation().getAddress().getAddressName();
 	
+	}
 	
 	
 }
