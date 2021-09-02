@@ -103,6 +103,34 @@ public class UserService {
 		}
 		
 	}
+	
+	// blocking and unblocking user
+	@POST
+	@Path("/unblockUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response unblockUser(User userToUnblock){
+		
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+		userDAO.unblockUserById(userToUnblock.getUsername());
+		
+		return Response
+				.status(Response.Status.ACCEPTED).entity("Uspjesno deblokiran korisnik!").entity(UserDAO.users.values()).build();
+	}
+	
+	@POST
+	@Path("/blockUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response blockUser(User userToBlock){
+		
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+		userDAO.blockUserById(userToBlock.getUsername());
+		
+		return Response
+				.status(Response.Status.ACCEPTED).entity("Uspjesno blokiran korisnik!").entity(UserDAO.users.values()).build();
+	}
+	
 
 	private void changeManagerInformation(User user) {
 		success=ManagerDAO.changeManager(user);
@@ -121,5 +149,7 @@ public class UserService {
 		success=AdministratorDAO.changeAdministrator(user);
 		System.out.println(success);
 	}
+	
+	
 
 }
