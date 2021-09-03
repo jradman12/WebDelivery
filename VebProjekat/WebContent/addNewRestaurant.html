@@ -121,7 +121,7 @@
                          <label class="col-md-4 control-label">Lokacija</label>
                          <div class="col-md-4 inputGroupContainer">
                               <div class="input-group">
-                                   <input placeholder="Lokacija" class="form-control" type="text" style="width: 300px;">
+                                   <input v-model="newRestaurant.location" placeholder="Lokacija" class="form-control" type="text" style="width: 300px;">
                               </div>
                          </div>
                     </div>
@@ -133,7 +133,6 @@
                                    <input type="file" type="file" id="file" ref="file"
                                         v-on:change="onChangeFileUpload()" class="custom-file-input"
                                         style="width: 300px;">
-                                   <!-- poravnaj ga imma kill myself ughhhh -->
                               </div>
                          </div>
                     </div>
@@ -142,20 +141,16 @@
                     <div class="form-group">
                          <label class="col-md-4 control-label">Menadžer</label>
                          <div class="col-md-4 selectContainer">
-                              <div v-if="availableManagers != []">
-                                   <div class="input-group">
+                                   <div class="input-group" v-if="availableManagers.length">
                                         <select name="department" class="form-control selectpicker"
                                              style="width: 300px;">
-                                             <option value="">Izaberi menadžera</option>
+                                             <option value="">Izaberi menadžera - ovo jede govna: {{ availableManagers.length}}</option>
                                              <option v-for="man in availableManagers">{{ man.username }}</option>
                                         </select>
                                    </div>
-                              </div>
-                              <div v-else>
-                                   <div class="input-group">
+                                   <div class="input-group" v-if="!availableManagers.length">
                                         <a href="addNewUser.html" >Dodaj novog menadžera</a>
                                    </div>
-                              </div>
 
                          </div>
                     </div>
@@ -171,7 +166,8 @@
                     <div class="form-group" style="align-content: center;">
                          <label class="col-md-4 control-label"></label>
                          <div class="col-md-4"><br>
-                              &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  <button style="text-align: center;" type="submit" @click="registerRestaurant"
+                              &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  
+                              <button style="text-align: center;" type="submit" @click="registerRestaurant"
                                    class="section-btn">Potvrda</button>
                          </div>
                     </div>

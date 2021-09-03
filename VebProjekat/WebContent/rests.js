@@ -23,7 +23,7 @@ let restss = new Vue({
             .then(response => (this.rests = response.data)),
 
             axios
-                .get('rest/restaurants/getAllAvailableManagers')
+                .get('rest/managers/getAllAvailableManagers')
                 .then(response => (this.availableManagers = response.data))
     },
 
@@ -61,16 +61,25 @@ let restss = new Vue({
 
             this.errors = [];
             if (!this.errors.length) {
+                let aName = this.newRestaurant.location.split(",")[0];
+                let aCity = this.newRestaurant.location.split(",")[1];
+                let aPostCode = this.newRestaurant.location.split(",")[2];
+
                 axios
                     .post('rest/restaurants/registerNewRestaurant', {
 
                         "typeOfRestaurant": this.newRestaurant.typeOfRestaurant,
                         "name": this.newRestaurant.name,
                         "logo": this.newRestaurant.logo,
-                        //"location" : this.newRestaurant.location.address.addressName
-
-
-
+                        "location" : {
+                            "latitude" : 19.84,
+                            "longitude" : 24.24,
+                            "address" : {
+								"addressName" : aName,
+								"city" : aCity,
+								"postalCode" : aPostCode
+							}
+                        }
                     })
                     .then(response => {
                         this.message = response.data;

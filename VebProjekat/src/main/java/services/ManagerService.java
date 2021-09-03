@@ -1,5 +1,8 @@
 package services;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Manager;
 import beans.Restaurant;
 import beans.User;
 import dao.ManagerDAO;
@@ -16,7 +20,7 @@ import enums.Role;
 
 
 
-@Path("/manager")
+@Path("/managers")
 public class ManagerService {
 
 	
@@ -57,4 +61,21 @@ public class ManagerService {
 		return ManagerDAO.getRestaurantForManager(username);
 		
 	}
+	
+	
+	@GET
+	@Path("/getAllAvailableManagers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Manager> getAllAvailableManagers(@Context HttpServletRequest request){
+		ManagerDAO.loadManagers("");
+		List<Manager> availableManager = new ArrayList<Manager>();
+		for(Manager m : ManagerDAO.findAll()) {
+			if(m.getRestaurant() == null) {
+				availableManager.add(m);
+			}
+		}
+		return availableManager;
+		
+	}
+	
 }
