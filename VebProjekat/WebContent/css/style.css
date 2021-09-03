@@ -623,7 +623,7 @@ Recent Listing
   .custom-navbar .nav li a {
     font-size: 12px;
     font-weight: bold;
-    color: #ffffff;
+    color: black;
     padding-right: 22px;
     padding-left: 22px;
     text-transform: uppercase;
@@ -641,7 +641,7 @@ Recent Listing
 
   .custom-navbar .nav li.active > a {
     background-color: transparent;
-    color: #ce3232;
+    
   }
 
   .custom-navbar .navbar-toggle {
@@ -677,11 +677,11 @@ Recent Listing
     }
 
     .top-nav-collapse .nav li a {
-      color: #575757;
+      color: black;
     }
 
     .top-nav-collapse .nav .section-btn a {
-      color: #ffffff;
+      color: black;
     }
   }
 
