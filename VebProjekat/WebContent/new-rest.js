@@ -162,16 +162,16 @@ Vue.component("new-rest", {
         }
 	},
 	mounted () {
-          this.$bus.$on('sendin', function(x) {
+          this.$root.$on('sendin', function(x) {
                console.log('poslali smo ovo: ' + x);
              this.myManager.username = x;
           }.bind(this));
-        axios
+        /*axios
             .get('rest/restaurants/getAllRestaurants')
             .then(response => (this.rests = response.data)),
             axios
             .get('rest/managers/getAllAvailableManagers')
-            .then(response => (this.availableManagers = response.data))
+            .then(response => (this.availableManagers = response.data))*/
            
     }
 });

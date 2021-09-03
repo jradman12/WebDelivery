@@ -115,7 +115,7 @@ Vue.component("new-user", {
     methods: {
         sendme:function(){
             console.log('clicked sendme');
-            this.$bus.$emit('sendin', this.newManager.username)
+            this.$root.$emit('sendin', this.newManager.username)
         }
       },
 
