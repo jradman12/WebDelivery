@@ -20,6 +20,8 @@ import com.google.gson.reflect.TypeToken;
 import beans.Address;
 import beans.CartItem;
 import beans.Location;
+import beans.Manager;
+import beans.Product;
 import beans.Restaurant;
 import enums.RestaurantStatus;
 
@@ -89,7 +91,7 @@ public class RestaurantDAO {
 		r1.setName("Ciao pizzeria");
 		r1.setLocation(new Location(0.0,0.0,new Address("Nikole Tesle6/22","Janja","76316")));
 		r1.setLogo("images/kfc2.jpg");
-		r1.setMenu(new ArrayList<CartItem>());
+		r1.setMenu(new ArrayList<Product>());
 		r1.setStatus(RestaurantStatus.OPEN);
 		r1.setTypeOfRestaurant("domaci");
 		r1.setId(generateNextId());
@@ -98,7 +100,7 @@ public class RestaurantDAO {
 		r2.setName("Ciao pizzeria");
 		r2.setLocation(new Location(0.0,0.0,new Address("Nikole Tesle6/22","Janja","76316")));
 		r2.setLogo("images/kfc2.jpg");
-		r2.setMenu(new ArrayList<CartItem>());
+		r2.setMenu(new ArrayList<Product>());
 		r2.setStatus(RestaurantStatus.OPEN);
 		r2.setTypeOfRestaurant("domaci");
 		r2.setId(generateNextId());
@@ -204,6 +206,35 @@ public class RestaurantDAO {
 		return false;
 		
 	}
+
+	public static void addNewProduct(String id, Product product) {
+		// TODO Auto-generated method stub
+		loadRestaurants("");
+		for(Restaurant r : findAll()) {
+			if(r.getId().equals(id)) {
+				Product newProduct=new Product();
+				newProduct.setName(product.getName());
+				newProduct.setDeleted(false);
+				newProduct.setDescription(product.getDescription());
+				newProduct.setLogo(product.getLogo());
+				newProduct.setPrice(product.getPrice());
+				newProduct.setRestaurant(r);
+				newProduct.setType(product.getType());
+				r.getMenu().add(newProduct);
+	
+				saveRestaurantsJSON();
+				
+				return;
+				
+			}
+		}
+		
+		
+		
+		
+	}
+
+	
 }
 	
 	

@@ -3,14 +3,20 @@ package services;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
+import beans.Customer;
+import beans.Product;
 import beans.Restaurant;
 import beans.User;
+import dao.CustomerDAO;
 import dao.ManagerDAO;
 import enums.Role;
 
@@ -56,5 +62,54 @@ public class ManagerService {
 		String username = user.getUsername();	
 		return ManagerDAO.getRestaurantForManager(username);
 		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@POST
+	@Path("/addNewArticle")
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addArticle(Product product,@Context HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		System.out.println("dosao");
+		if(user == null || !user.getRole().equals((Role.MANAGER))) {
+			return Response.status(403).entity("Ne možete pristupiti ovoj funkcionalnosti!").build();
+		}
+		
+		for(Product p : ManagerDAO.getProductsForRestaurant(user.getUsername())) {
+			if(p.getName().equals(product.getName())) {
+				return Response.status(403).entity("Ne mogu postojati dva proizvoda sa istim nazivom!").build();
+			}
+		}
+
+		boolean success=ManagerDAO.addNewProductToManagersRestaurant(user.getUsername(), product);	
+		if(success) {
+			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/managerRestaurant.html").build();
+		}else {
+			return Response.status(400).entity("nije dodat novi artikl!").build();
+		}
 	}
 }

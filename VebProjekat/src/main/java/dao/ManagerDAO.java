@@ -1,6 +1,7 @@
 package dao;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -15,6 +16,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import beans.Manager;
+import beans.Product;
 import beans.Restaurant;
 import beans.User;
 import enums.Role;
@@ -69,7 +71,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 				Gson gs = new Gson();
 				String managersJson = "";
 				try {
-					managersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json")));
+					managersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -89,7 +91,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 	
 	public static void saveManagersJSON() {
 
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
 		Map<String, Manager> allManagers = new HashMap<>();
 		for (Manager m : findAll()) {
 			allManagers.put(m.getUsername(),m);
@@ -194,6 +196,42 @@ private static Map<String, Manager> managers = new HashMap<>();
 		}
 		return null;
 	}
+	
+	
+	public static List<Product> getProductsForRestaurant(String username) {
+
+		Restaurant r=getRestaurantForManager(username);
+		return r.getMenu();
+		
+	}
+	
+	public static boolean addNewProductToManagersRestaurant(String username,Product product) {
+		loadManagers("");
+		for(Manager m : findAll()) {
+			if(m.getUsername().equals(username)) {
+				Product newProduct=new Product();
+				newProduct.setName(product.getName());
+				newProduct.setDeleted(false);
+				newProduct.setDescription(product.getDescription());
+				newProduct.setLogo(product.getLogo());
+				newProduct.setPrice(product.getPrice());
+				newProduct.setRestaurant(m.getRestaurant());
+				newProduct.setType(product.getType());
+				m.getRestaurant().getMenu().add(newProduct);
+				
+				saveManagersJSON();
+				RestaurantDAO.addNewProduct(m.getRestaurant().getId(),product);
+				return true;
+				
+			}
+		}
+		
+		return false;
+		
+	}
+	
+	
+	
 	
 	
 
