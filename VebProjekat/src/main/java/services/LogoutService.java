@@ -48,7 +48,7 @@ public class LogoutService {
 		if(isUserAdmin() || isUserManager() || isUserCustomer() || isUserDeliverer()) {
 		
 			HttpSession session = request.getSession();
-			if(session != null && session.getAttribute("loggedUser") != null) {
+			if(session != null && session.getAttribute("loggedInUser") != null) {
 				session.invalidate();
 			}
 			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/index.html").build();
@@ -60,7 +60,7 @@ public class LogoutService {
 	
 	
 	private boolean isUserAdmin() {
-		User user = (User) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedInUser");
 		
 		if(user!= null) {
 			if(user.getRole().equals(Role.ADMINISTRATOR)) {	
@@ -71,7 +71,7 @@ public class LogoutService {
 	}
 	
 	private boolean isUserDeliverer() {
-		User user = (User) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedInUser");
 		
 		if(user!= null) {
 			if(user.getRole().equals(Role.DELIVERER)) {
@@ -82,7 +82,7 @@ public class LogoutService {
 	}
 	
 	private boolean isUserCustomer() {
-		User user = (User) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedInUser");
 		
 		if(user!= null) {
 			if(user.getRole().equals(Role.CUSTOMER)) {
@@ -93,7 +93,7 @@ public class LogoutService {
 	}
 	
 	private boolean isUserManager() {
-		User user = (User) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedInUser");
 		
 		if(user!= null) {
 			if(user.getRole().equals(Role.MANAGER)) {

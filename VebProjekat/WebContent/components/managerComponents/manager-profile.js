@@ -126,26 +126,24 @@ Vue.component("manager-profile", {
         },
 
         updateUser : function(e){
-            
-            e.preventDefault()
+             e.preventDefault();
             axios
-    		.put("rest/users/updateUser/" + this.loggedUser.username, 
-                {"fistName": this.loggedUser.fistName,
-                "lastName" : this.loggedUser.lastName,
-                "dateOfBirth" : this.loggedUser.dateOfBirth,
-                "gender" : this.loggedUser.gender,
-                "username": this.loggedUser.username, 
-                "password" : this.loggedUser.password,
-                "role" : this.loggedUser.role})
-            .then(response => {
-                this.message = response.data;
-            })
-            .catch(err => {
-                console.log("There has been an error! Please check this out: ");
-                console.log(err);
-            })
-            return true;
-        } 
+               .put("rest/users/updateUser/" + this.loggedUser.username, 
+                    {"fistName": this.loggedUser.fistName,
+                    "lastName" : this.loggedUser.lastName,
+                    "dateOfBirth" : this.loggedUser.dateOfBirth,
+                    "gender" : this.loggedUser.gender,
+                    "username": this.loggedUser.username, 
+                    "password" : this.loggedUser.password,
+                    "role" : this.loggedUser.role})
+               .then(response => {
+                    this.message = response.data;
+               })
+               .catch(err => {
+                    console.log("There has been an error! Please check this out: ");
+                    console.log(err);
+               })
+          } 
     },
     components: {
       	vuejsDatepicker

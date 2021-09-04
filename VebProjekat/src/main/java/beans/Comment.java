@@ -1,5 +1,7 @@
 package beans;
 
+import enums.StatusOfComment;
+
 public class Comment {
 
 	private String id;
@@ -7,7 +9,7 @@ public class Comment {
 	private Restaurant restaurant;
 	private String text;
 	private int rating;
-	private boolean isApproved;
+	private StatusOfComment isApproved;
 	private boolean isDeleted;
 	
 	public Comment() {
@@ -16,7 +18,7 @@ public class Comment {
 	
 
 
-	public Comment(String id, Customer author, Restaurant restaurant, String text, int rating, boolean isApproved,
+	public Comment(String id, Customer author, Restaurant restaurant, String text, int rating, StatusOfComment isApproved,
 			boolean isDeleted) {
 		super();
 		this.id = id;
@@ -64,12 +66,12 @@ public class Comment {
 	}
 
 	
-	public boolean isApproved() {
+	public StatusOfComment isApproved() {
 		return isApproved;
 	}
 
 
-	public void setApproved(boolean isApproved) {
+	public void setApproved(StatusOfComment isApproved) {
 		this.isApproved = isApproved;
 	}
 

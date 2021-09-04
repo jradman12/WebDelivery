@@ -67,24 +67,28 @@ public class UserService {
 	@GET
 	@Path("/getLoggedUser")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User getLoggedUser(@Context HttpServletRequest request){
-		User user = (User) request.getSession().getAttribute("loggedInUser");
-		if(user == null) {
-			return null;
+	public Response getLoggedUser(){
+		if(isUserAdmin() || isUserManager() || isUserCustomer() || isUserDeliverer()) {
+			
+			User user = (User) request.getSession().getAttribute("loggedInUser");		
+
+			return Response
+					.status(Response.Status.ACCEPTED)
+					.entity( user)
+					.build();
 		}
-		
-		return user;
-		
+		return Response.status(403).type("text/plain")
+				.entity("Ne možete pristupiti ovom resursu!").build();
 	}
 	
 	
 	@PUT
 	@Path("/updateUser/{username}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateUserInformation(@PathParam("username") String username,User user) {
 		
-		System.out.println("usao");
+		System.out.println("izmjena");
 		if(user.getRole().equals(Role.ADMINISTRATOR)) {
 			changeAdministratorInformation(username,user);
 		}
@@ -99,6 +103,7 @@ public class UserService {
 		}
 		
 		if(success) {
+			request.getSession().setAttribute("loggedInUser", user);
 			return Response.status(200).entity("Uspjesno izmijenjene info!").build();
 		}else {
 		return Response.status(400).entity("Neuspjesno izmijenjene info!").build();
@@ -123,5 +128,50 @@ public class UserService {
 		success=AdministratorDAO.changeAdministrator(username,user);
 		System.out.println(success);
 	}
+	
+	private boolean isUserAdmin() {
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		
+		if(user!= null) {
+			if(user.getRole().equals(Role.ADMINISTRATOR)) {	
+				return true;
+			}
+		}	
+		return false;
+	}
+	
+	private boolean isUserDeliverer() {
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		
+		if(user!= null) {
+			if(user.getRole().equals(Role.DELIVERER)) {
+				return true;
+			}
+		}	
+		return false;
+	}
+	
+	private boolean isUserCustomer() {
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		
+		if(user!= null) {
+			if(user.getRole().equals(Role.CUSTOMER)) {
+				return true;
+			}
+		}	
+		return false;
+	}
+	
+	private boolean isUserManager() {
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		
+		if(user!= null) {
+			if(user.getRole().equals(Role.MANAGER)) {
+				return true;
+			}
+		}	
+		return false;
+	}
+
 
 }

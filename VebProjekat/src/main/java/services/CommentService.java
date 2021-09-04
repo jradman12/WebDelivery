@@ -1,32 +1,35 @@
 package services;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
-import com.google.gson.Gson;
-
+import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.ArrayList;
 import beans.Comment;
 import beans.Restaurant;
+import beans.User;
 import dao.CommentDAO;
-import dao.RestaurantDAO;
+import dao.ManagerDAO;
+import enums.Role;
 
 @Path("/comments")
 public class CommentService {
 	
 	@Context
 	ServletContext ctx;
+	
+	@Context
+	HttpServletRequest request;
+	
 	
 	public CommentService() {
 		// TODO Auto-generated constructor stub
@@ -57,6 +60,35 @@ public class CommentService {
 		}
 		
 		return comments.values();
+	}
+	
+	@GET
+	@Path("/getAllCommentsForRestaurant")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllCommentsForResaturant(){
+		 
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		if(user == null || !user.getRole().equals(Role.MANAGER)) {
+			return Response.status(403).entity("Ne možete pristupiti ovom resursu!").build();	
+		}
+			
+		Map<String, Comment> comments = new HashMap<>();
+		List<Comment> commentsForRestaurant = new ArrayList<Comment>();
+		//CommentDAO.saveCommentsJSON();
+		CommentDAO.loadComments("");//dobavljamo sve komentare
+		comments = CommentDAO.comments; 
+		for(Comment c : comments.values()) {
+			System.out.println(c.getRestaurant().getName());
+		}
+		Restaurant r = ManagerDAO.getRestaurantForManager(user.getUsername());
+		for(Comment c : comments.values()) {
+			if(c.getRestaurant().equals(r)) {
+				commentsForRestaurant.add(c);
+				
+			}
+			
+		}
+		return Response.status(202).entity(commentsForRestaurant).build();
 	}
 	
 	

@@ -15,6 +15,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import beans.Product;
+import enums.StatusOfComment;
 import beans.Comment;
 
 public class CommentDAO {
@@ -45,13 +46,15 @@ public class CommentDAO {
 				Gson gs = new Gson();
 				String commentsJson = "";
 				try {
-					commentsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json")));	
+					commentsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json")));	
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				
 				Type type = new TypeToken<Map<String, Comment>>() {}.getType();
+				
 				comments.clear();
+				
 				comments = gs.fromJson(commentsJson, type);
 			
 	}
@@ -60,7 +63,7 @@ public class CommentDAO {
 	
 	public void saveCommentsJSON() {
 
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
 		Map<String, Comment> allComments = new HashMap<>();
 		for (Comment c : findAll()) {
 			allComments.put(c.getId(),c);
@@ -104,7 +107,7 @@ public class CommentDAO {
 	public void addNewComment(Comment comment) {
 		Comment newComment = new Comment();
 		newComment.setDeleted(false);
-		newComment.setApproved(false);
+		newComment.setApproved(StatusOfComment.WAITING_FOR_APPROVING);
 		newComment.setAuthor(comment.getAuthor());
 		newComment.setId(comment.getId());
 		newComment.setRating(comment.getRating());
