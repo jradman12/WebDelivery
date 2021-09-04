@@ -182,6 +182,19 @@ Vue.component("new-rest", {
                });
 
                location.href = "adminDashboard.html"
+          },
+          onChangeFileUpload ($event) {
+               this.file=this.$refs.file.files[0];
+               this.encodeImage(this.file)
+               console.log(this.newRestaurant.logo)
+           },
+           encodeImage(input){
+               if(input){
+               const reader = new FileReader()
+               reader.onload=(e)=>{
+                   this.newRestaurant.logo = e.target.result}
+               reader.readAsDataURL(input)
+           }
           }
      },
 
