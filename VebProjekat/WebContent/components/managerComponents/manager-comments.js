@@ -38,8 +38,8 @@ Vue.component("manager-comments", {
                             <td v-if="comm.status=='WAITING'">Čeka na odobravanje</td>
                             <td v-else-if="comm.status=='REJECTED'">Odbijen</td>
                             <td v-else>Odobren</td>
-                            <td><button v-if="comm.status=='WAITING'">Odobri</button>
-                            <button v-if="comm.status=='WAITING'">Odbij</button>
+                            <td><button v-if="comm.status=='WAITING'" @click="approveComment(comm)">Odobri</button>
+                            <button v-if="comm.status=='WAITING'" @click="declineComment(comm)" >Odbij</button>
                             <span v-else>-</span></td>
                
                         </tr>
@@ -72,4 +72,18 @@ mounted : function() {
     axios
    .get('rest/comments/getAllCommentsForRestaurant')
    .then(response => (this.comments = response.data))
-}});
+},
+
+methods:{
+     approveComment : function(comment){
+          axios
+          .put('rest/approveComment/' + this.comment.id)
+          .then(
+               console.log(response.data)
+          )
+     },
+
+
+}
+
+});

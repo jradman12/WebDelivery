@@ -6,8 +6,11 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +23,7 @@ import beans.User;
 import dao.CommentDAO;
 import dao.ManagerDAO;
 import enums.Role;
+import enums.StatusOfComment;
 
 @Path("/comments")
 public class CommentService {
@@ -91,6 +95,52 @@ public class CommentService {
 		
 		return commentsForRestaurant;
 	}
+	
+	@PUT
+	@Path("/approveComment/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response approveComment(@PathParam("id") String id,Comment comment) {
+		
+		System.out.println("izmjena");
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		if(user == null || !user.getRole().equals(Role.MANAGER)) {
+			return Response.status(403).entity("Ne možete pristupiti resursu").build();
+		}
+		
+		boolean success=CommentDAO.changeStatus(StatusOfComment.APPROVED, id);
+		if(success) {
+			return Response.status(202).entity("Uspjeh").build();
+		}else {
+			return Response.status(400).entity("Neuspjeh").build();
+		}
+		
+		
+	}
+	
+	@PUT
+	@Path("/rejectComment/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response rejectComment(@PathParam("id") String id,Comment comment) {
+		
+		System.out.println("izmjena");
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		if(user == null || !user.getRole().equals(Role.MANAGER)) {
+			return Response.status(403).entity("Ne možete pristupiti resursu").build();
+		}
+		
+		boolean success=CommentDAO.changeStatus(StatusOfComment.REJECTED, id);
+		if(success) {
+			return Response.status(202).entity("Uspjeh").build();
+		}else {
+			return Response.status(400).entity("Neuspjeh").build();
+		}
+		
+		
+	}
+	
+	
 	
 	
 

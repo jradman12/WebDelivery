@@ -108,7 +108,7 @@ public class CommentDAO {
 		newComment.setDeleted(false);
 		newComment.setStatus(StatusOfComment.WAITING);
 		newComment.setAuthor(comment.getAuthor());
-		newComment.setId(comment.getId());
+		newComment.setId(generateNextId());
 		newComment.setRating(comment.getRating());
 		newComment.setRestaurant(comment.getRestaurant());
 		newComment.setText(comment.getText());
@@ -127,6 +127,21 @@ public class CommentDAO {
 	     }
 	  }
 	
+	public static String generateNextId() {
+		return Integer.toString(comments.size() + 1);
+	}
+	
+	public static boolean changeStatus(StatusOfComment soc,String id) {
+		loadComments("");
+		for(Comment c : comments.values()) {
+			if(c.getId().equals(id)) {
+				c.setStatus(soc);
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 
 }
