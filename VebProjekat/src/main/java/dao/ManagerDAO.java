@@ -58,6 +58,15 @@ private static Map<String, Manager> managers = new HashMap<>();
 		return managers.values();
 	}
 	
+	public void updateManagersRest(Manager managerToUpdate, Restaurant newRest) {
+		for(Manager m : managers.values()) {
+			if(m.getUsername().equals(managerToUpdate.getUsername())) {
+				m.setRestaurant(newRest);
+			}
+		}
+		saveManagersJSON();
+	}
+	
 	/**
 	 * U�itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
 	 * Klju� je korisni�ko ime korisnika.

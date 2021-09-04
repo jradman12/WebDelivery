@@ -1,14 +1,15 @@
 Vue.component("new-rest", {
-	data: function () {
-		    return {
-                rests : [],
-                availableManagers: [],
-                newRestaurant : {},
-                message : {},
-                dobio : '-'
-		    }
-	},
-	template: ` 
+     data: function () {
+          return {
+               rests: [],
+               availableManagers: [],
+               newRestaurant: {},
+               message: {},
+               myManager: {},
+               manager : ''
+          }
+     },
+     template: ` 
     <div class="container">
 
           <form class="well form-horizontal">
@@ -77,15 +78,16 @@ Vue.component("new-rest", {
                          <label class="col-md-4 control-label">Menadžer</label>
                          <div class="col-md-4 selectContainer">
                                    <div class="input-group" v-if="availableManagers.length">
-                                        <select name="department" class="form-control selectpicker"
+                                        <select v-model="manager" class="form-control selectpicker"
                                              style="width: 300px;">
                                              <option value="">Izaberi menadžera</option>
                                              <option v-for="man in availableManagers">{{ man.username }}</option>
                                         </select>
                                    </div>
                                    <div class="input-group" v-if="!availableManagers.length">
-                                        <a href="addNewRest.html#/newManager" >Dodaj novog menadžera {{ dobio }}</a>
+                                        <a href="addNewRest.html#/newManager" >Dodaj novog menadžera </a>
                                    </div>
+                                
 
                          </div>
                     </div>
@@ -118,60 +120,86 @@ Vue.component("new-rest", {
           </form>
      </div>
 `
-	, 
-	methods : {
-        registerRestaurant: function (event) {
-            event.preventDefault();
+     ,
+     methods: {
+          registerRestaurant: function (event) {
+               event.preventDefault();
 
-            console.log(this.newRestaurant.logo)
+               console.log(this.newRestaurant.logo)
 
-            this.errors = [];
-            if (!this.errors.length) {
-                let aName = this.newRestaurant.location.split(",")[0];
-                let aCity = this.newRestaurant.location.split(",")[1];
-                let aPostCode = this.newRestaurant.location.split(",")[2];
+               this.errors = [];
+               if (!this.errors.length) {
+                    let aName = this.newRestaurant.location.split(",")[0];
+                    let aCity = this.newRestaurant.location.split(",")[1];
+                    let aPostCode = this.newRestaurant.location.split(",")[2];
 
-                axios
-                    .post('rest/restaurants/registerNewRestaurant', {
+                    axios.all([
+                         axios
+                              .post('rest/restaurants/registerNewRestaurant', {
 
-                        "typeOfRestaurant": this.newRestaurant.typeOfRestaurant,
-                        "name": this.newRestaurant.name,
-                        "logo": this.newRestaurant.logo,
-                        "location" : {
-                            "latitude" : 19.84,
-                            "longitude" : 24.24,
-                            "address" : {
-								"addressName" : aName,
-								"city" : aCity,
-								"postalCode" : aPostCode
-							}
-                        }
-                    })
-                    .then(response => {
-                        this.message = response.data;
-                    })
-                    .catch(err => {
-                        console.log("There has been an error! Please check this out: ");
-                        console.log(err);
-                    })
-                return true;
-            }
-            this.errors.forEach(element => {
-                console.log(element)
-            });
-        }
-	},
-	mounted () {
-          this.$root.$on('sendin', function(x) {
-               console.log('poslali smo ovo: ' + x);
-             this.myManager.username = x;
-          }.bind(this));
-        /*axios
-            .get('rest/restaurants/getAllRestaurants')
-            .then(response => (this.rests = response.data)),
-            axios
-            .get('rest/managers/getAllAvailableManagers')
-            .then(response => (this.availableManagers = response.data))*/
-           
-    }
+                                   "typeOfRestaurant": this.newRestaurant.typeOfRestaurant,
+                                   "name": this.newRestaurant.name,
+                                   "logo": this.newRestaurant.logo,
+                                   "location": {
+                                        "latitude": 19.84,
+                                        "longitude": 24.24,
+                                        "address": {
+                                             "addressName": aName,
+                                             "city": aCity,
+                                             "postalCode": aPostCode
+                                        }
+                                   }
+                              }),
+                         axios
+                              .put('rest/managers/'+this.manager, 
+                              {
+
+                                   "typeOfRestaurant": this.newRestaurant.typeOfRestaurant,
+                                   "name": this.newRestaurant.name,
+                                   "logo": this.newRestaurant.logo,
+                                   "location": {
+                                        "latitude": 19.84,
+                                        "longitude": 24.24,
+                                        "address": {
+                                             "addressName": aName,
+                                             "city": aCity,
+                                             "postalCode": aPostCode
+                                        }
+                                   }
+                              }
+                              )
+                    ])
+                         .then(axios.spread((data1, data2) => {
+                              this.message = data1;
+                              this.message2 = data2;
+                         }))
+               }
+
+               this.errors.forEach(element => {
+                    console.log(element)
+               });
+          }
+     },
+
+     mounted() {
+          console.log('new-rest mounted');
+
+          axios
+               .get('rest/managers/getAllAvailableManagers')
+               .then(response => {
+                    this.availableManagers = response.data;
+               })
+
+          // this.$root.$on('sendin', function(x) {
+          //      console.log('poslali smo ovo: ' + x.username);
+          //    this.myManager = x;
+          //    this.availableManagers.push(x);
+          //    this.rrkey += 1; 
+          //    this.$forceUpdate();
+          //      console.log('ovo u mom manageru je ' + this.availableManagers[0].username)
+          // }.bind(this));
+
+
+
+     }
 });

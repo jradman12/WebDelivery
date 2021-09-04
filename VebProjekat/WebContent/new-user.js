@@ -42,7 +42,7 @@ Vue.component("new-user", {
                     <label class="col-md-4 control-label">Lozinka</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input v-model="newManager.password" placeholder="Lozinka..." class="form-control" style="width: 300px;" type="text">
+                            <input v-model="newManager.password"  placeholder="Lozinka..." class="form-control" style="width: 300px;" type="text">
                         </div>
                     </div>
                 </div>
@@ -80,9 +80,9 @@ Vue.component("new-user", {
                         <div class="input-group">
                             <select v-model="newManager.gender" style="width: 300px;" class="form-control selectpicker">
                                 <option value="">Pol</option>
-                                <option>Muški</option>
-                                <option>Ženski</option>
-                                <option>Ostalo</option>
+                                <option>MALE</option>
+                                <option>FEMALE</option>
+                                <option>OTHER</option>
                             </select>
                         </div>
                     </div>
@@ -97,10 +97,7 @@ Vue.component("new-user", {
                     <div class="form-group">
                         <label class="col-md-4 control-label"></label>
                         <div class="col-md-4"><br>
-                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button type="submit"
-                            class="section-btn" v-on:click="sendme()">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="addNewRest.html#/">POTVRDI</a>
-                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
-
+                            <button type="button" class="section-btn" @click="addNewManager()"> Potvrdi </button>
                         </div>
                     </div>
 
@@ -113,15 +110,41 @@ Vue.component("new-user", {
 `
     ,
     methods: {
-        sendme:function(){
-            console.log('clicked sendme');
-            this.$root.$emit('sendin', this.newManager.username)
-        }
-      },
+        addNewManager:function(){
 
-    mounted() {
+            // console.log('clicked sendme');
+            // this.$root.$emit('sendin', this.newManager);
+        //    this.$router.push('/')
+
+        // add logic for registering new manager, so when mounted other route will fetch new data FROM BACKEND
+        // also u should try this with prevent default bc u forgot u dumbass
+        // also try without push goddamit as i remember it causes reload aka lost data so yeAH two more lol
+        console.log('in ADDNEWMANAGER')
         axios
-            .get('rest/managers/getAllAvailableManagers')
-            .then(response => (this.availableManagers = response.data))
-    }
+        .post('rest/managers/registration', {
+       
+                     "fistName": this.newManager.fistName,
+                     "lastName" : this.newManager.lastName,
+                     "dateOfBirth" : this.newManager.dateOfBirth,
+                     "gender" : this.newManager.gender,
+                     "username": this.newManager.username, 
+                     "password" : this.newManager.password,
+                     "restaurant" : null,
+                     "role" : "MANAGER"
+        })
+        .then(response => {
+            this.message = response.data;
+            window.location.assign(response.data)
+        })
+        .catch(err => {
+            console.log("There has been an error! Please check this out: ");
+            console.log(err);
+        })
+
+         console.log('lets push it back!')
+         this.$router.push('/')
+            // it should cause page to reload???
+            //this.$router.push('/') it does not :)))
+         }
+      }
 });
