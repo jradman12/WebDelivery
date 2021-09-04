@@ -67,6 +67,9 @@ public class ManagerService {
 		}
 		managers.addNewManager(newManager);
 		
+		//since I havent found a better solution for my not updating list of available managers, I do redirecting like this
+		//but this means it redirects logged in admin to this form even after 'basic' user adding
+		//so here we should leave 'adminDashboard.html' redirect but let it happen after I find a way to deal with it on the frontend
 		return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/addNewRest.html").build(); 																						// accepted
 	}
 	

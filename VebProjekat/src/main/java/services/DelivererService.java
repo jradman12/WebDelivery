@@ -53,6 +53,6 @@ public class DelivererService {
 		}
 		deliverers.addNewDeliverer(newDeliverer);
 		
-		return Response.status(Response.Status.ACCEPTED).build(); 																						// accepted
+		return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/adminDashboard.html").build(); 																						// accepted
 	}
 }
