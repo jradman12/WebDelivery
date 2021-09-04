@@ -228,7 +228,7 @@ public class AdministratorDAO {
 	     }
 	  }
 	
-	public static boolean changeAdministrator(User user) {
+	public static boolean changeAdministrator(String username,User user) {
 		loadAdmins("");
 		System.out.println(user.getLastName());
 		for (Administrator a : admins.values()) {
@@ -236,7 +236,7 @@ public class AdministratorDAO {
 				a.setFistName(user.getFistName());
 				a.setLastName(user.getLastName());
 				a.setPassword(user.getPassword());
-				UserDAO.changeUser(user);
+				UserDAO.changeUser(username,user);
 				saveAdministratorsJSON();
 				return true;
 				

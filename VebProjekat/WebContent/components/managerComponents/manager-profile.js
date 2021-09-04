@@ -129,7 +129,7 @@ Vue.component("manager-profile", {
             
             e.preventDefault()
             axios
-    		.post("rest/users/updateUser", 
+    		.put("rest/users/updateUser/" + this.loggedUser.username, 
                 {"fistName": this.loggedUser.fistName,
                 "lastName" : this.loggedUser.lastName,
                 "dateOfBirth" : this.loggedUser.dateOfBirth,

@@ -168,15 +168,15 @@ private static Map<String, Manager> managers = new HashMap<>();
 		return null;
 	}
 	
-	public static Boolean changeManager(User user) {
+	public static Boolean changeManager(String username,User user) {
 
 		loadManagers("");
 		for (Manager m : managers.values()) {
-			if (m.getUsername().equals(user.getUsername())) {
+			if (m.getUsername().equals(username)) {
 				m.setFistName(user.getFistName());
 				m.setLastName(user.getLastName());
 				m.setPassword(user.getPassword());
-				UserDAO.changeUser(user);
+				UserDAO.changeUser(username,user);
 				saveManagersJSON();
 
 				return true;

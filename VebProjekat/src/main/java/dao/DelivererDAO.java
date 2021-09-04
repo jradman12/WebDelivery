@@ -166,15 +166,15 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 		return null;
 	}
 	
-	public static Boolean changeDeliverer(User user) {
+	public static Boolean changeDeliverer(String username,User user) {
 
 		loadDeliverers("");
 		for (Deliverer d : deliverers.values()) {
-			if (d.getUsername().equals(user.getUsername())) {
+			if (d.getUsername().equals(username)) {
 				d.setFistName(user.getFistName());
 				d.setLastName(user.getLastName());
 				d.setPassword(user.getPassword());
-				UserDAO.changeUser(user);
+				UserDAO.changeUser(username,user);
 				saveDeliverersJSON();
 
 				return true;

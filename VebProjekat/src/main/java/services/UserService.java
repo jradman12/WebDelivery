@@ -7,10 +7,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -76,24 +78,24 @@ public class UserService {
 	}
 	
 	
-	@POST
-	@Path("/updateUser")
+	@PUT
+	@Path("/updateUser/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response updateUserInformation(User user) {
+	public Response updateUserInformation(@PathParam("username") String username,User user) {
 		
 		System.out.println("usao");
 		if(user.getRole().equals(Role.ADMINISTRATOR)) {
-			changeAdministratorInformation(user);
+			changeAdministratorInformation(username,user);
 		}
 		if(user.getRole().equals(Role.CUSTOMER)) {
-			changeCustomerInformation(user);
+			changeCustomerInformation(username,user);
 		}
 		if(user.getRole().equals(Role.DELIVERER)) {
-			changeDelivererInformation(user);
+			changeDelivererInformation(username,user);
 		}
 		if(user.getRole().equals(Role.MANAGER)) {
-			changeManagerInformation(user);
+			changeManagerInformation(username,user);
 		}
 		
 		if(success) {
@@ -104,21 +106,21 @@ public class UserService {
 		
 	}
 
-	private void changeManagerInformation(User user) {
-		success=ManagerDAO.changeManager(user);
+	private void changeManagerInformation(String username,User user) {
+		success=ManagerDAO.changeManager(username,user);
 	}
 
-	private void changeDelivererInformation(User user) {
-		success=DelivererDAO.changeDeliverer(user);
+	private void changeDelivererInformation(String username,User user) {
+		success=DelivererDAO.changeDeliverer(username,user);
 	}
 
-	private void changeCustomerInformation(User user) {
-		success=CustomerDAO.changeCustomer(user);
+	private void changeCustomerInformation(String username,User user) {
+		success=CustomerDAO.changeCustomer(username,user);
 	}
 
-	private void changeAdministratorInformation(User user) {
+	private void changeAdministratorInformation(String username,User user) {
 		
-		success=AdministratorDAO.changeAdministrator(user);
+		success=AdministratorDAO.changeAdministrator(username,user);
 		System.out.println(success);
 	}
 

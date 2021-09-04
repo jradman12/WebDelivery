@@ -175,11 +175,11 @@ public static Map<String, User> users = new HashMap<>();
 		return null;
 	}
 
-	public static void changeUser(User user) {
+	public static void changeUser(String username,User user) {
 		loadUsers("");
 		System.out.println("userDAO");
 		for (User u : users.values()) {
-			if (u.getUsername().equals(user.getUsername())) {
+			if (u.getUsername().equals(username)) {
 				u.setFistName(user.getFistName());
 				u.setLastName(user.getLastName());
 				u.setPassword(user.getPassword());
