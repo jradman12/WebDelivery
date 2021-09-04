@@ -49,19 +49,8 @@ Vue.component("new-rest", {
                                    </select>
                               </div>
                          </div>
-                    </div>
-
-                    <!-- Text input-->
-
-                    <div class="form-group">
-                         <label class="col-md-4 control-label">Lokacija</label>
-                         <div class="col-md-4 inputGroupContainer">
-                              <div class="input-group">
-                                   <input v-model="newRestaurant.location" placeholder="Lokacija" class="form-control" type="text" style="width: 300px;">
-                              </div>
-                         </div>
-                    </div>
-
+                    </div>add
+          
                     <div class="form-group">
                          <label class="col-md-4 control-label">Logo</label>
                          <div class="col-md-4 inputGroupContainer">
@@ -93,30 +82,43 @@ Vue.component("new-rest", {
                     </div>
 
 
-                    <!-- Select Basic -->
-
-                    <!-- Success message -->
-                    <!---- <div class="alert alert-success" role="alert" id="success_message"> <i
-                              class="glyphicon glyphicon-thumbs-up"></i> Uspješno kreiran restoran!</div>-->
-
-                    <!-- Button -->
-                    <div class="form-group" style="align-content: center;">
-                         <label class="col-md-4 control-label"></label>
-                         <div class="col-md-4"><br>
-                              &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  
-                              <button style="text-align: center;" type="submit" @click="registerRestaurant"
-                                   class="section-btn">Potvrda</button>
+                    <div class="form-group">
+                    <label class="col-md-4 control-label">Lokacija</label>
+                    <div class="col-md-4 inputGroupContainer">
+                         <div class="input-group">
+                              <input v-model="newRestaurant.location" id="pac-input" placeholder="Traži.." class="form-control"
+                                   type="text" style="width: 300px;">
                          </div>
                     </div>
+               </div>
 
-                    <div class="form-group" style="align-content: center;">
-                    </div>
+               <div class="form-group">
                     
+                    <div id="map"
+                         style="width:70%;height:400px; margin:auto; border-style:inset; border-color:#ce32322d;">
+                    </div>
+               </div>
+
+               <!-- Select Basic -->
+
+               <!-- Success message -->
+               <!---- <div class="alert alert-success" role="alert" id="success_message"> <i
+                         class="glyphicon glyphicon-thumbs-up"></i> Uspješno kreiran restoran!</div>-->
+
+               <!-- Button -->
+               <div class="form-group" style="align-content: center;">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-4"><br>
+                         &nbsp&nbsp&nbsp  &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                         <button style="text-align: center;" type="submit" @click="registerRestaurant"
+                              class="section-btn">Potvrda</button>
+                    </div>
+               </div>
 
 
-                    <div><br><br><br><br><br><br><br><br><br><br><br><br><br></div>
+               <div><br><br><br><br><br></div>
 
-               </fieldset>
+          </fieldset>
           </form>
      </div>
 `
@@ -178,6 +180,8 @@ Vue.component("new-rest", {
                this.errors.forEach(element => {
                     console.log(element)
                });
+
+               location.href = "adminDashboard.html"
           }
      },
 

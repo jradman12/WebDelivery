@@ -14,7 +14,9 @@ let restss = new Vue({
         filter: '',
         typeFilter: '',
         openFilter: '',
-        sortFilter: ''
+        sortFilter: '',
+        restId : '',
+        mapLocation : ''
     },
 
     mounted() {
@@ -28,6 +30,15 @@ let restss = new Vue({
     },
 
     methods: {
+        setRest: function(rest, event){
+            event.preventDefault();
+            console.log('usao u set rest iz rests.html, parametar koji je proslijedjen je ' + rest);
+
+            axios
+            .post('rest/restaurants/setCurrentRestaurant', rest)
+            
+            location.href = "restaurant.html";
+        },
         sort: function () {
             console.log(this.sortFilter);
             if (this.sortFilter.includes("name")) {
@@ -100,9 +111,13 @@ let restss = new Vue({
         filteredRests: function () {
             return this.rests.filter(c => {
                 if (this.filter == '') return true;
-                let city = c.location.address.split(",")[1];
-                console.log(city)
-                return (c.name.toLowerCase().indexOf(this.filter.toLowerCase()) >= 0 || city.toLowerCase().indexOf(this.filter.toLowerCase()) >= 0 || c.averageRating === parseFloat(this.filter));
+				let location = parts;
+				console.log(location);
+				let split = location.split(',');
+				let addrName = split[0];
+				let city = split[1];
+				let postal = split[2];
+                return (c.location.address.addressName.includes(addrName) || c.location.address.city.includes(city) || c.location.address.postalCode.includes(postal) || c.name.toLowerCase().indexOf(this.filter.toLowerCase()) >= 0 || c.averageRating === parseFloat(this.filter));
             })
         },
         filterType() {

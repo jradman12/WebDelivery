@@ -75,8 +75,8 @@ public class RestaurantService {
 		return Response.status(Response.Status.ACCEPTED).build(); 																						// accepted
 	}
 	
+	
 	private RestaurantDAO getRestaurants() {
-		System.out.println("getCustomers");
 		RestaurantDAO restaurants = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
 		
 		if (restaurants == null) {
@@ -103,10 +103,25 @@ public class RestaurantService {
 		}else {
 			return Response.status(404).entity("Logičko brisanje nije uspjelo!").build();
 		}
-	
-		
 	}
 
-	
+	@GET
+	@Path("getCurrentRestaurant")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Restaurant getCurrentRestaurant() {
+		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
+		String currentRestID = (String) ctx.getAttribute("currentRestID");
+		System.out.println("tryna get the currentRestID attribute, rn it is " + currentRestID);
+		return rDAO.getRestaurantById(currentRestID);
+	}
+
+	@POST
+	@Path("setCurrentRestaurant")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void setCurrentRestaurant(Restaurant rest) {
+		System.out.println("setting attribute currentRestID on " + rest.getId() );
+		ctx.setAttribute("currentRestID", rest.getId());
+		System.out.println("currentRestID attribute now is " + (String) ctx.getAttribute("currentRestID"));
+	}
 
 }
