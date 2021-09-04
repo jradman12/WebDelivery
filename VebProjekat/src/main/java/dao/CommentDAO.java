@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import beans.Product;
 import enums.StatusOfComment;
 import beans.Comment;
 
@@ -107,7 +106,7 @@ public class CommentDAO {
 	public void addNewComment(Comment comment) {
 		Comment newComment = new Comment();
 		newComment.setDeleted(false);
-		newComment.setApproved(StatusOfComment.WAITING_FOR_APPROVING);
+		newComment.setStatus(StatusOfComment.WAITING);
 		newComment.setAuthor(comment.getAuthor());
 		newComment.setId(comment.getId());
 		newComment.setRating(comment.getRating());

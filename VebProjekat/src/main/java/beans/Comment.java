@@ -9,16 +9,14 @@ public class Comment {
 	private Restaurant restaurant;
 	private String text;
 	private int rating;
-	private StatusOfComment isApproved;
+	private StatusOfComment status;
 	private boolean isDeleted;
 	
 	public Comment() {
 	}
 	
-	
 
-
-	public Comment(String id, Customer author, Restaurant restaurant, String text, int rating, StatusOfComment isApproved,
+	public Comment(String id, Customer author, Restaurant restaurant, String text, int rating, StatusOfComment status,
 			boolean isDeleted) {
 		super();
 		this.id = id;
@@ -26,12 +24,18 @@ public class Comment {
 		this.restaurant = restaurant;
 		this.text = text;
 		this.rating = rating;
-		this.isApproved = isApproved;
+		this.status = status;
 		this.isDeleted = isDeleted;
 	}
 
 
+	public StatusOfComment getStatus() {
+		return status;
+	}
 
+	public void setStatus(StatusOfComment status) {
+		this.status = status;
+	}
 
 	public Customer getAuthor() {
 		return author;
@@ -66,14 +70,6 @@ public class Comment {
 	}
 
 	
-	public StatusOfComment isApproved() {
-		return isApproved;
-	}
-
-
-	public void setApproved(StatusOfComment isApproved) {
-		this.isApproved = isApproved;
-	}
 
 
 	public boolean isDeleted() {

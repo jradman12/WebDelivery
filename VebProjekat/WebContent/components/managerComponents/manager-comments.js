@@ -10,7 +10,7 @@ Vue.component("manager-comments", {
     <div id="container">
    
     <section class="r-section" v-if="comments.length!=0">
-    <h1>Pregled komentara</h1>
+    <h1></h1>
 
     <div class="r-gap"></div>
 
@@ -23,6 +23,7 @@ Vue.component("manager-comments", {
                              <th>Komentar</th>
                              <th>Ocjena</th>
                              <th>Status</th>
+                             <th></th>
                         </tr>
                    </thead>
               </table>
@@ -34,9 +35,12 @@ Vue.component("manager-comments", {
                              <td> {{ comm.author.username }} </td>
                              <td> {{ comm.text }} </td>
                              <td> {{ comm.rating }} </td>
-                             <td v-if="comm.approved=='APPROVED'"> Odobren </td>
-                             <td v-else-if="comm.approved=='REJECTED'"> Odbijen</td>
-                             <td v-else>Čeka na odobravanje</td>
+                            <td v-if="comm.status=='WAITING'">Čeka na odobravanje</td>
+                            <td v-else-if="comm.status=='REJECTED'">Odbijen</td>
+                            <td v-else>Odobren</td>
+                            <td><button v-if="comm.status=='WAITING'">Odobri</button>
+                            <button v-if="comm.status=='WAITING'">Odbij</button>
+                            <span v-else>-</span></td>
                
                         </tr>
                    </tbody>

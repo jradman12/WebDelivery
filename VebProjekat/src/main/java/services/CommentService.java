@@ -65,11 +65,11 @@ public class CommentService {
 	@GET
 	@Path("/getAllCommentsForRestaurant")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllCommentsForResaturant(){
+	public Collection<Comment> getAllCommentsForResaturant(){
 		 
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
-			return Response.status(403).entity("Ne možete pristupiti ovom resursu!").build();	
+			return null;
 		}
 			
 		Map<String, Comment> comments = new HashMap<>();
@@ -82,13 +82,14 @@ public class CommentService {
 		}
 		Restaurant r = ManagerDAO.getRestaurantForManager(user.getUsername());
 		for(Comment c : comments.values()) {
-			if(c.getRestaurant().equals(r)) {
+			if(c.getRestaurant().getId().equals(r.getId())) {
 				commentsForRestaurant.add(c);
 				
 			}
 			
 		}
-		return Response.status(202).entity(commentsForRestaurant).build();
+		
+		return commentsForRestaurant;
 	}
 	
 	

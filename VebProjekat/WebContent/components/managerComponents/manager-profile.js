@@ -17,6 +17,7 @@ Vue.component("manager-profile", {
 	
 	template: ` 
 <div class="container">
+<h1></h1>
 <section data-stellar-background-ratio="0.5">
 <form id="formForEdit" class="well form-horizontal">
             <div class="form-group">

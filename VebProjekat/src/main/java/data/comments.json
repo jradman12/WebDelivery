@@ -31,10 +31,10 @@
 				}
 			}
 		},
-		"text" : "Veoma brza i vrhunska dostava.Hrana je preukusna.",
-		"rating" : 5.0,
-		"isApproved" : "WAITING_FOR_APPROVING",
-		"isDeleted" : false
+		"text" :"Veoma brza i vrhunska dostava.Hrana je preukusna.",
+		"status" :"WAITING",
+		"isDeleted" : false,
+		"rating" : 5
 		
 	}
 }
