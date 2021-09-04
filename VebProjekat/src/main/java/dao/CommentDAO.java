@@ -35,7 +35,7 @@ public class CommentDAO {
 		loadComments(contextPath);
 	}
 		
-	public Collection<Comment> findAll() {
+	public static Collection<Comment> findAll() {
 		return comments.values();
 	}
 	
@@ -60,7 +60,7 @@ public class CommentDAO {
 	
 	
 	
-	public void saveCommentsJSON() {
+	public static void saveCommentsJSON() {
 
 		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
 		Map<String, Comment> allComments = new HashMap<>();
@@ -136,6 +136,7 @@ public class CommentDAO {
 		for(Comment c : comments.values()) {
 			if(c.getId().equals(id)) {
 				c.setStatus(soc);
+				saveCommentsJSON();
 				return true;
 			}
 		}

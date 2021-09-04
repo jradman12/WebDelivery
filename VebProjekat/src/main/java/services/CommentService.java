@@ -98,7 +98,7 @@ public class CommentService {
 	
 	@PUT
 	@Path("/approveComment/{id}")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response approveComment(@PathParam("id") String id,Comment comment) {
 		
@@ -110,7 +110,7 @@ public class CommentService {
 		
 		boolean success=CommentDAO.changeStatus(StatusOfComment.APPROVED, id);
 		if(success) {
-			return Response.status(202).entity("Uspjeh").build();
+			return Response.status(202).entity(CommentDAO.comments.values()).build();
 		}else {
 			return Response.status(400).entity("Neuspjeh").build();
 		}
@@ -120,7 +120,7 @@ public class CommentService {
 	
 	@PUT
 	@Path("/rejectComment/{id}")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response rejectComment(@PathParam("id") String id,Comment comment) {
 		
@@ -132,7 +132,7 @@ public class CommentService {
 		
 		boolean success=CommentDAO.changeStatus(StatusOfComment.REJECTED, id);
 		if(success) {
-			return Response.status(202).entity("Uspjeh").build();
+			return Response.status(202).entity(CommentDAO.comments.values()).build();
 		}else {
 			return Response.status(400).entity("Neuspjeh").build();
 		}

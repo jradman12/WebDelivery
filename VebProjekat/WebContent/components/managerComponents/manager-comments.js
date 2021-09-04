@@ -77,11 +77,28 @@ mounted : function() {
 methods:{
      approveComment : function(comment){
           axios
-          .put('rest/approveComment/' + this.comment.id)
-          .then(
-               console.log(response.data)
+          .put('rest/comments/approveComment/' + comment.id)
+          .then(response=>{
+               this.comments = [];
+               response.data.forEach(x => {
+                   this.comments.push(x);
+               });
+               return this.comments;
+          }
           )
      },
+     declineComment : function(comment){
+          axios
+          .put('rest/comments/rejectComment/' + comment.id)
+          .then(response=>{
+               this.comments = [];
+               response.data.forEach(x => {
+                   this.comments.push(x);
+               });
+               return this.comments;
+          }
+          )
+     }
 
 
 }
