@@ -76,7 +76,7 @@
     <!-- ------------------------ form ------------------- -->
     <div class="container">
 
-        <form class="well form-horizontal" style="align-content: center;">
+        <form id="newUser" class="well form-horizontal" style="align-content: center;">
             <fieldset>
 
                 <legend>
@@ -87,10 +87,10 @@
                     <label class="col-md-4 control-label">Tip</label>
                     <div class="col-md-4 selectContainer">
                         <div class="input-group">
-                            <select style="width: 300px;" class="form-control selectpicker">
+                            <select v-model="newUser.type" style="width: 300px;" class="form-control selectpicker">
                                 <option value="">Tip korisnika</option>
-                                <option>Menadžer</option>
-                                <option>Dostavljač</option>
+                                <option value="MANAGER">Menadžer</option>
+                                <option value="DELIVERER">Dostavljač</option>
                             </select>
                         </div>
                     </div>
@@ -100,8 +100,8 @@
                     <label class="col-md-4 control-label">Korisničko ime</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input placeholder="Korisničko ime..." class="form-control" style="width: 300px;"
-                                type="text">
+                            <input v-model="newUser.username" placeholder="Korisničko ime..." class="form-control"
+                                style="width: 300px;" type="text">
                         </div>
                     </div>
                 </div>
@@ -110,7 +110,8 @@
                     <label class="col-md-4 control-label">Lozinka</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input placeholder="Lozinka..." class="form-control" style="width: 300px;" type="text">
+                            <input v-model="newUser.password" placeholder="Lozinka..." class="form-control"
+                                style="width: 300px;" type="text">
                         </div>
                     </div>
                 </div>
@@ -119,7 +120,8 @@
                     <label class="col-md-4 control-label">Ime</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input placeholder="Ime..." class="form-control" style="width: 300px;" type="text">
+                            <input v-model="newUser.fistName" placeholder="Ime..." class="form-control"
+                                style="width: 300px;" type="text">
                         </div>
                     </div>
                 </div>
@@ -128,7 +130,8 @@
                     <label class="col-md-4 control-label">Prezime</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input placeholder="Prezime..." class="form-control" style="width: 300px;" type="text">
+                            <input v-model="newUser.lastName" placeholder="Prezime..." class="form-control"
+                                style="width: 300px;" type="text">
                         </div>
                     </div>
                 </div>
@@ -137,8 +140,8 @@
                     <label class="col-md-4 control-label">Datum rođenja</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input type="date" class="form-control" style="width: 300px;" >
-                       </div>
+                            <input v-model="newUser.dateOfBirth" type="date" class="form-control" style="width: 300px;">
+                        </div>
                     </div>
                 </div>
 
@@ -146,17 +149,17 @@
                     <label class="col-md-4 control-label">Pol</label>
                     <div class="col-md-4 selectContainer">
                         <div class="input-group">
-                            <select style="width: 300px;" class="form-control selectpicker">
+                            <select v-model="newUser.gender" style="width: 300px;" class="form-control selectpicker">
                                 <option value="">Pol</option>
-                                <option>Muški</option>
-                                <option>Ženski</option>
-                                <option>Ostalo</option>
+                                <option value="MALE">Muško</option>
+                                <option value="FEMALE">Žensko</option>
+                                <option value="OTHER">Ostalo</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                
+
 
                 <!-- Success message -->
                 <div class="alert alert-success" role="alert" id="success_message"> <i
@@ -167,7 +170,7 @@
                     <label class="col-md-4 control-label"></label>
                     <div class="col-md-4"><br>
                         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button type="submit"
-                        class="section-btn" @click="sendManagerData()">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="addNewRest.html#/">POTVRDI</a>
+                            class="section-btn" @click="addNewUser">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPOTVRDI
                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
                     </div>
                 </div>
@@ -193,6 +196,9 @@
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/smoothscroll.js"></script>
     <script src="js/custom.js"></script>
+
+    <script src="addNewUser.js"></script>
+
 
 
 </body>
