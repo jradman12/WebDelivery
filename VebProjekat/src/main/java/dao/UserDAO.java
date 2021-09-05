@@ -148,8 +148,21 @@ public static Map<String, User> users = new HashMap<>();
 		saveUsersJson();
 	}
 	
-	
+	public void unblockUserById(String username) {
 		
+		if (users.containsKey(username)) {
+			users.get(username).setBlocked(false);
+		}		
+		saveUsersJson();
+	}
+		
+	public void blockUserById(String username) {
+		
+		if (users.containsKey(username)) {
+			users.get(username).setBlocked(true);
+		}		
+		saveUsersJson();
+	}
 	
 	public static Date parseDate(String date) {
 	     try {

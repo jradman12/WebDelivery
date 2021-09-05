@@ -1,5 +1,8 @@
 package services;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -16,12 +19,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import beans.Customer;
 import beans.User;
 import dao.AdministratorDAO;
 import dao.CustomerDAO;
 import dao.DelivererDAO;
 import dao.ManagerDAO;
 import dao.UserDAO;
+import dto.UserDTO;
 import enums.Role;
 
 @Path("/users")
@@ -47,21 +52,63 @@ public class UserService {
 		}
 	}
 	
+//	@GET
+//	@Path("/getAllUsers")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Collection<User> getAllUsers(){
+//		Map<String, User> users = new HashMap<>();
+//		UserDAO.loadUsers("");
+//		users = UserDAO.users;
+//		System.out.println("get users request returns following users: ");
+//		for(Map.Entry<String, User> entry : users.entrySet()) {
+//			System.out.println(entry.getValue());
+//		}
+//		
+//		
+//		
+//		return users.values();
+//	}
+	
 	@GET
 	@Path("/getAllUsers")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<User> getAllUsers(){
+	public Collection<UserDTO> getAllUsers(){
 		Map<String, User> users = new HashMap<>();
 		UserDAO.loadUsers("");
 		users = UserDAO.users;
-		System.out.println("get users request returns following users: ");
-		for(Map.Entry<String, User> entry : users.entrySet()) {
-			System.out.println(entry.getValue());
+		Map<String, Customer> customers = new HashMap<>();
+		CustomerDAO.loadCustomers("");
+		customers = CustomerDAO.customers;
+		List<UserDTO> dto = new ArrayList<UserDTO>(); 
+		
+		for(User u : users.values()) {
+			if(u.getRole() != Role.CUSTOMER) 
+				dto.add(new UserDTO(u));
+		}
+		for(Customer c : customers.values()) {
+			dto.add(new UserDTO(c));
 		}
 		
-		
-		
-		return users.values();
+		System.out.println("get usersDTO request returns following users: ");
+		for(UserDTO dTo : dto) {
+			System.out.println(dTo);
+		}
+
+		return dto;
+	}
+
+	
+	@GET
+	@Path("/getAllCustomers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Customer> getAllCustomers(){
+		Map<String, Customer> customers = new HashMap<>();
+		CustomerDAO.loadCustomers("");
+		customers = CustomerDAO.customers;
+		for(Map.Entry<String, Customer> entry : customers.entrySet()) {
+			System.out.println(entry.getValue());
+		}
+		return customers.values();
 	}
 	
 	@GET
@@ -110,6 +157,34 @@ public class UserService {
 		}
 		
 	}
+	
+	// blocking and unblocking user
+	@POST
+	@Path("/unblockUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response unblockUser(User userToUnblock){
+		
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+		userDAO.unblockUserById(userToUnblock.getUsername());
+		
+		return Response
+				.status(Response.Status.ACCEPTED).entity("Uspjesno deblokiran korisnik!").entity(UserDAO.users.values()).build();
+	}
+	
+	@POST
+	@Path("/blockUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response blockUser(User userToBlock){
+		
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+		userDAO.blockUserById(userToBlock.getUsername());
+		
+		return Response
+				.status(Response.Status.ACCEPTED).entity("Uspjesno blokiran korisnik!").entity(UserDAO.users.values()).build();
+	}
+	
 
 	private void changeManagerInformation(String username,User user) {
 		success=ManagerDAO.changeManager(username,user);
@@ -172,6 +247,7 @@ public class UserService {
 		}	
 		return false;
 	}
+
 
 
 }

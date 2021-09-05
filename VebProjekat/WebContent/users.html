@@ -92,7 +92,8 @@
                                         <th>Datum rođenja</th>
                                         <th>Pol</th>
                                         <th>Status</th>
-                                        <th>Uloga</th>
+                                        <th>Tip</th>
+                                        <!-- <th>Tip kupca</th> -->
                                         <th>Obriši korisnika</th>
                                    </tr>
                               </thead>
@@ -100,7 +101,7 @@
                     </div>
 
                     <div class="tbl-content">
-                         <table class="sortable" cellpadding="0" cellspacing="0" border="0">
+                         <table class="r-table" cellpadding="0" cellspacing="0" border="0">
                               <tbody>
                                    <tr v-for="user in sortedUsers">
                                         <td>{{user.username}}</td>
@@ -108,8 +109,14 @@
                                         <td>{{user.lastName}}</td>
                                         <td>{{user.dateOfBirth | dateFormat('DD.MM.YYYY.')}}</td>
                                         <td>{{user.gender}}</td>
-                                        <td>{{user.blocked ? 'Blokiran' : 'Nije blokiran'}}</td>
-                                        <td>{{user.role}}</td>
+                                        <td><button v-if="user.blocked && user.role != 'ADMINISTRATOR'"
+                                                  @click="unblock(user)"><i class="fa fa-ban"></i> Deblokiraj</button>
+                                             <button v-if="!user.blocked && user.role != 'ADMINISTRATOR'"
+                                                  @click="block(user)"><i class="fa fa-ban"></i> Blokiraj</button>
+                                             <span v-if="user.role == 'ADMINISTRATOR'">-</span>
+                                        </td>
+
+                                        <td>{{roleFilter==='CUSTOMER' ? user.type.typeName : user.role}}</td>
                                         <td> <button>Obriši</button></td>
                                    </tr>
                               </tbody>
@@ -125,18 +132,36 @@
                               <input type="search" v-model="filter" placeholder="Pretraži korisnike..."
                                    style="width: 300px; margin-bottom: 10px;">
                               <span class="r-span"></span>
-                              <a href="#" class="main-button-small">{{ filter }}</a>
                               <span class="r-span2">
+                                   <span class="r-span2">
+                                        <span class="r-span2">
+                                             <span class="r-span2">
+
+
+
                          </div>
-                         <span class="r-span2">
-                              <div align="right" class="col-6">
-                                   <select v-model="roleFilter" style="width: 160px;">
-                                        <option value="">Svi korisnici</option>
-                                        <option value="CUSTOMER">Kupci</option>
-                                        <option value="MANAGER">Menadžeri</option>
-                                        <option value="DELIVERER">Dostavljači</option>
-                                   </select>
-                              </div>
+                         <!-- <span class="r-span"> -->
+                         <div align="right" class="col-6">
+                              <select v-model="roleFilter" style="width: 160px;">
+                                   <option value="">Svi korisnici</option>
+                                   <option value="CUSTOMER">Kupci</option>
+                                   <option value="DELIVERER">Dostavljači</option>
+                                   <option value="MANAGER">Menadžeri</option>
+                                   <option value="ADMINISTRATOR">Administratori</option>
+                              </select>
+                         </div>
+                         <span class="r-span">
+                              <span v-show="roleFilter === 'CUSTOMER'">
+                                   <div align="right" class="col-6">
+                                        <select v-model="typeFilter" style="width: 160px;">
+                                             <option value="">Svi kupci</option>
+                                             <option value="GOLD">Zlatni</option>
+                                             <option value="SILVER">Srebrni</option>
+                                             <option value="PLATINUM">Platinum</option>
+                                        </select>
+                                   </div>
+                              </span>
+
 
                     </div>
 
@@ -146,7 +171,7 @@
 
           <section>
                <div class="r-section">
-                    <button class="section-btn">Dodaj novog korisnika</button>
+                    <a href="addNewUser.html" class="section-btn">Dodaj novog korisnika</a>
                </div>
 
           </section>

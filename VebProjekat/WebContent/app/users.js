@@ -11,12 +11,13 @@ let getUsers = new Vue({
 	el : "#usersiii",
 
 	data : {
-		    //users :[{"username":"adam","password":"admin","fistName":"Adam","lastName":"Martinez","gender":"MALE","dateOfBirth":"Sep 24, 1992, 12:00:00 AM","role":"DELIVERER","isDeleted":false,"isBlocked":false}, {"username":"ella","password":"admin","fistName":"Ella","lastName":"Williams","gender":"FEMALE","dateOfBirth":"Mar 2, 1989, 12:00:00 AM","role":"DELIVERER","isDeleted":false,"isBlocked":true}, {"username":"mini","password":"minkica","fistName":"Minka","lastName":"Minkica","gender":"FEMALE","dateOfBirth":"Dec 12, 1999, 1:00:00 AM","role":"CUSTOMER","isDeleted":false,"isBlocked":false}],
-        users  : [],
+        //users : [{"username":"adam","password":"adamin","fistName":"Adam","lastName":"Martinez","gender":"OTHER","dateOfBirth":717285600000,"role":"ADMINISTRATOR","type":null,"deleted":false,"blocked":false},{"username":"ella","password":"admin","fistName":"Ella","lastName":"Williams","gender":"FEMALE","dateOfBirth":604796400000,"role":"ADMINISTRATOR","type":null,"deleted":false,"blocked":true},{"username":"sanja","password":"sanja123","fistName":"Sanja","lastName":"Suvira","gender":"FEMALE","dateOfBirth":716594400000,"role":"MANAGER","type":null,"deleted":false,"blocked":false},{"username":"xoforlife","password":"abel","fistName":"Anastasija","lastName":"Lazic","gender":"FEMALE","dateOfBirth":911433600000,"role":"DELIVERER","type":null,"deleted":false,"blocked":false},{"username":"acomatic","password":"acika","fistName":"Aleksandar","lastName":"Matic","gender":"MALE","dateOfBirth":848793600000,"role":"MANAGER","type":null,"deleted":false,"blocked":false},{"username":"mini","password":"minkica","fistName":"Minka","lastName":"Minkicaa","gender":"FEMALE","dateOfBirth":944956800000,"role":"CUSTOMER","type":{"typeName":"GOLD","discount":0,"points":0},"deleted":false,"blocked":false},{"username":"jessie","password":"bbjess","fistName":"Jessica","lastName":"Evans","gender":"FEMALE","dateOfBirth":788659200000,"role":"CUSTOMER","type":{"typeName":"PLATINUM","discount":0,"points":0},"deleted":false,"blocked":false},{"username":"stef","password":"stefko","fistName":"Stefan","lastName":"Zec","gender":"MALE","dateOfBirth":608166000000,"role":"CUSTOMER","type":{"typeName":"SILVER","discount":0,"points":0},"deleted":false,"blocked":false},{"username":"zenin","password":"husbando","fistName":"Toji","lastName":"Fushiguro","gender":"MALE","dateOfBirth":946598400000,"role":"CUSTOMER","type":{"typeName":"GOLD","discount":0,"points":0},"deleted":false,"blocked":false}],
+        users : [],
         currentSort:'username',
         currentSortDir:'asc',
         filter:'',
-        roleFilter : ''
+        roleFilter : '',
+        typeFilter : ''
 	},
 
     created : function() {
@@ -26,6 +27,30 @@ let getUsers = new Vue({
     },
 
     methods : {
+		block:function(userToBlock){
+			axios
+                .post('rest/users/blockUser', userToBlock)
+                .then(response => {
+                    this.users = [];
+                    response.data.forEach(x => {
+                        this.users.push(x);
+                    });
+                    return this.users;
+                });
+        },
+		unblock:function(userToUnblock){
+			axios
+                .post('rest/users/unblockUser', userToUnblock)
+                .then(response => {
+                    this.users = [];
+                    response.data.forEach(x => {
+                        this.users.push(x);
+                    });
+                    return this.users;
+                });
+
+		},
+		
         sort:function(s) {
             if(s === this.currentSort) {
               this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
@@ -33,7 +58,7 @@ let getUsers = new Vue({
             this.currentSort = s;
           }
         },
-        computed:{
+        computed: {
             filteredUsers: function() {
                 return this.users.filter(c => {
                   if(this.filter == '') return true;
@@ -46,8 +71,20 @@ let getUsers = new Vue({
                 return (x.role === this.roleFilter);
               })
             },
+            filterType(){
+              console.log('usao u filter type, ovde je typeFilter: ' + this.typeFilter)
+              return this.filterRole.filter( x => {
+                if(!this.typeFilter) return true;
+                // console.log('filter type za : ' + this.x.username + ', tu je njegov tip ' + x.type.typeName)
+               return (x.type.typeName === this.typeFilter);
+              })
+            }, 
+
             sortedUsers:function() {
-              let usss = !this.roleFilter ? this.filteredUsers : this.filterRole;
+              console.log('usao u sortedUsers, ovde je typeFilter: ' + this.typeFilter)
+              console.log('usao u sortedUsers, ovde je roleFilter: ' + this.roleFilter)
+
+              let usss = !this.roleFilter ? this.filteredUsers : (!this.typeFilter ? this.filterRole : this.filterType);
               return usss.sort((a,b) => {
               let modifier = 1;
               if(this.currentSortDir === 'desc') modifier = -1;

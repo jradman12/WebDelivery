@@ -22,7 +22,7 @@ import enums.Role;
 
 public class CustomerDAO {
 
-private static Map<String, Customer> customers = new HashMap<>();
+public static Map<String, Customer> customers = new HashMap<>();
 
 
 	
@@ -32,14 +32,14 @@ private static Map<String, Customer> customers = new HashMap<>();
 	}
 	
 	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Može se pristupiti samo iz servleta.
+	 * @param contextPath Putanja do aplikacije u Tomcatu. Moï¿½e se pristupiti samo iz servleta.
 	 */
 	public CustomerDAO(String contextPath) {
 		loadCustomers(contextPath);
 	}
 	
 	/**
-	 * Vraæa korisnika za prosleðeno korisnièko ime i šifru. Vraæa null ako korisnik ne postoji
+	 * Vraï¿½a korisnika za prosleï¿½eno korisniï¿½ko ime i ï¿½ifru. Vraï¿½a null ako korisnik ne postoji
 	 * @param username
 	 * @param password
 	 * @return
@@ -60,8 +60,8 @@ private static Map<String, Customer> customers = new HashMap<>();
 	}
 	
 	/**
-	 * Uèitava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Kljuè je korisnièko ime korisnika.
+	 * Uï¿½itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
+	 * Kljuï¿½ je korisniï¿½ko ime korisnika.
 	 * @param contextPath Putanja do aplikacije u Tomcatu
 	 */
 	public static void loadCustomers(String contextPath) {
@@ -69,7 +69,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 				Gson gs = new Gson();
 				String customersJson = "";
 				try {
-					customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
+					customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -90,7 +90,7 @@ private static Map<String, Customer> customers = new HashMap<>();
 	
 	public static void saveCustomersJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
 		Map<String, Customer> allCustomers = new HashMap<>();
 		for (Customer c : findAll()) {
 			allCustomers.put(c.getUsername(),c);

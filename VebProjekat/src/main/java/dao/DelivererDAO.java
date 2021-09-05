@@ -31,14 +31,14 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 	}
 	
 	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Može se pristupiti samo iz servleta.
+	 * @param contextPath Putanja do aplikacije u Tomcatu. Moï¿½e se pristupiti samo iz servleta.
 	 */
 	public DelivererDAO(String contextPath) {
 		loadDeliverers(contextPath);
 	}
 	
 	/**
-	 * Vraæa korisnika za prosleðeno korisnièko ime i šifru. Vraæa null ako korisnik ne postoji
+	 * Vraï¿½a korisnika za prosleï¿½eno korisniï¿½ko ime i ï¿½ifru. Vraï¿½a null ako korisnik ne postoji
 	 * @param username
 	 * @param password
 	 * @return
@@ -59,8 +59,8 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 	}
 	
 	/**
-	 * Uèitava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Kljuè je korisnièko ime korisnika.
+	 * Uï¿½itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
+	 * Kljuï¿½ je korisniï¿½ko ime korisnika.
 	 * @param contextPath Putanja do aplikacije u Tomcatu
 	 */
 	public static void loadDeliverers(String contextPath) {
@@ -68,7 +68,7 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 				Gson gs = new Gson();
 				String deliverersJson = "";
 				try {
-					deliverersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json")));
+					deliverersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json")));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -88,7 +88,7 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 	
 	public static void saveDeliverersJSON() {
 		
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json";
 		Map<String, Deliverer> allDeliverers = new HashMap<>();
 		for (Deliverer d : findAll()) {
 			allDeliverers.put(d.getUsername(),d);

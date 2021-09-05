@@ -9,7 +9,7 @@ let manRest = new Vue({
 
     mounted(){
         axios
-        .get("rest/manager/getRestaurantFromLoggedManager")
+        .get("rest/managers/getRestaurantFromLoggedManager")
         .then(response => (this.restaurant=response.data))
     }
 

@@ -1,1 +1,70 @@
-{"mini":{"points":0,"username":"mini","password":"minkica","fistName":"Minka","lastName":"Minkicaa","gender":"FEMALE","dateOfBirth":"Dec 12, 1999, 1:00:00 AM","role":"CUSTOMER","isDeleted":false,"isBlocked":false}}
+{
+	"mini": {
+		"points": 0,
+		"username": "mini",
+		"password": "minkica",
+		"fistName": "Minka",
+		"lastName": "Minkicaa",
+		"gender": "FEMALE",
+		"dateOfBirth": "Dec 12, 1999, 1:00:00 AM",
+		"role": "CUSTOMER",
+		"isDeleted": false,
+		"isBlocked": false,
+		"type": {
+			"typeName" : "GOLD",
+			"discount" : 0,
+			"points" : 0
+		}
+	},
+	"jessie": {
+		"points": 0,
+		"username": "jessie",
+		"password": "bbjess",
+		"fistName": "Jessica",
+		"lastName": "Evans",
+		"gender": "FEMALE",
+		"dateOfBirth": "Dec 29, 1994, 1:00:00 AM",
+		"role": "CUSTOMER",
+		"isDeleted": false,
+		"isBlocked": false,
+		"type": {
+			"typeName" : "PLATINUM",
+			"discount" : 0,
+			"points" : 0
+		}
+	},
+	"stef": {
+		"points": 0,
+		"username": "stef",
+		"password": "stefko",
+		"fistName": "Stefan",
+		"lastName": "Zec",
+		"gender": "MALE",
+		"dateOfBirth": "Apr 10, 1989, 1:00:00 AM",
+		"role": "CUSTOMER",
+		"isDeleted": false,
+		"isBlocked": false,
+		"type": {
+			"typeName" : "SILVER",
+			"discount" : 0,
+			"points" : 0
+		}
+	},
+	"husbando": {
+		"points": 0,
+		"username": "husbando",
+		"password": "zenin",
+		"fistName": "Toji",
+		"lastName": "Fushiguro",
+		"gender": "MALE",
+		"dateOfBirth": "Dec 31, 1999, 1:00:00 AM",
+		"role": "CUSTOMER",
+		"isDeleted": false,
+		"isBlocked": false,
+		"type": {
+			"typeName" : "GOLD",
+			"discount" : 0,
+			"points" : 0
+		}
+	}
+}

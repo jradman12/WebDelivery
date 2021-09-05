@@ -76,8 +76,8 @@
 
 
         <section class="r-section">
-            <div class="recent-listing">
-                <div class="container">
+            <div id = "xxx" class="recent-listing">
+                <div  class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="item">
@@ -85,15 +85,19 @@
                                     <div class="col-lg-12">
                                         <div class="listing-item">
                                             <div class="left-image">
-                                                <a href="restaurant.html"><img src="" alt=""></a>
+                                                <a href="restaurant.html"><img v-bind:src="restaurant.logo" class="rest-img" alt=""></a>
                                             </div>
-                                            <div class="right-content align-self-center">
+                                            <div  class="right-content align-self-center">
                                                 <a href="restaurant.html">
-                                                    <h4>KFC</h4>
+                                                    <h4>{{restaurant.name}}</h4>
                                                 </a>
-                                                <h6>Open</h6>
-                                                <p>bila mama kukunka</p>
-                                                <p>bio tata taranta</p>
+                                                <h6>{{restaurant.status == 'OPEN' ? 'Otvoren' : 'Zatvoren'}}</h6>
+                                                <p>{{restaurant.averageRating}}</p>
+                                                <span>{{ (restaurant.location).address.addressName  }}</span>
+                                                <span>, </span>
+                                                <span>{{ (restaurant.location).address.city }}</span>
+                                                <span>, </span>
+                                                <span>{{ (restaurant.location).address.postalCode  }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +109,7 @@
                         <row></row>
                     </div>
                     <div class="listing-item">
-                        <div id="googleMap" style="width:80%;height:500px"></div>
+                        <div id="googleMap" style="width:80%;height:500px; border-style: inset; border-color:#ce32322d;"></div>
                     </div>
 
                     <section>
@@ -113,102 +117,30 @@
                             <div class="gtco-container">
                                 <div class="row">
                                     <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-                                        <h1 class="cursive-font primary-color">MENU</h1>
+                                        <h1 class="cursive-font primary-color">JELOVNIK</h1>
                                         <p>Uživajte</p>
                                     </div>
                                 </div>
-                                <div class="row">
 
-                                    <div class="col-lg-4 col-md-4 col-sm-6">
-                                        <a href="images/testimonial-bg.jpg" class="fh5co-card-item image-popup">
+                                <div class="row" v-if="restaurant.menu==null">
+
+                                    <h3>Jelovnik je trenutno prazan! </h3>
+                                </div>
+                                <div class="row" v-else>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-6" v-for="product in restaurant.menu">
+                                        <a v-bind:href="product.product.logo" class="fh5co-card-item image-popup"></a>
                                             <figure>
                                                 <div class="overlay"><i class="ti-plus"></i></div>
-                                                <img src="images/testimonial-bg.jpg" alt="Image" class="img-responsive">
+                                                <img v-bind:src="product.product.logo" alt="Image" class="img-responsive">
                                             </figure>
                                             <div class="fh5co-text">
-                                                <h2>Mnogo tejsti shit</h2>
-                                                <p>Far far away, behind the word mountains, far from the countries
-                                                    Vokalia..</p>
-                                                <p><span class="price cursive-font">$19.15</span></p>
+                                                <h2>{{product.product.name}}</h2>
+                                                <p>{{product.product.description}}</p>
+                                                <p><span class="price cursive-font">{{product.product.price}}</span></p>
                                             </div>
                                         </a>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-6">
-                                        <a href="images/testimonial-bg.jpg" class="fh5co-card-item image-popup">
-                                            <figure>
-                                                <div class="overlay"><i class="ti-plus"></i></div>
-                                                <img src="images/testimonial-bg.jpg" alt="Image" class="img-responsive">
-                                            </figure>
-                                            <div class="fh5co-text">
-                                                <h2>Cheese and Garlic Toast</h2>
-                                                <p>Far far away, behind the word mountains, far from the countries
-                                                    Vokalia..</p>
-                                                <p><span class="price cursive-font">$20.99</span></p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-6">
-                                        <a href="images/testimonial-bg.jpg" class="fh5co-card-item image-popup">
-                                            <figure>
-                                                <div class="overlay"><i class="ti-plus"></i></div>
-                                                <img src="images/testimonial-bg.jpg" alt="Image" class="img-responsive">
-                                            </figure>
-                                            <div class="fh5co-text">
-                                                <h2>Grilled Chiken Salad</h2>
-                                                <p>Far far away, behind the word mountains, far from the countries
-                                                    Vokalia..</p>
-                                                <p><span class="price cursive-font">$8.99</span></p>
-
-                                            </div>
-                                        </a>
-                                    </div>
-
-
-                                    <div class="col-lg-4 col-md-4 col-sm-6">
-                                        <a href="images/testimonial-bg.jpg" class="fh5co-card-item image-popup">
-                                            <figure>
-                                                <div class="overlay"><i class="ti-plus"></i></div>
-                                                <img src="images/testimonial-bg.jpg" alt="Image" class="img-responsive">
-                                            </figure>
-                                            <div class="fh5co-text">
-                                                <h2>Organic Egg</h2>
-                                                <p>Far far away, behind the word mountains, far from the countries
-                                                    Vokalia..</p>
-                                                <p><span class="price cursive-font">$12.99</span></p>
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <div class="col-lg-4 col-md-4 col-sm-6">
-                                        <a href="images/testimonial-bg.jpg" class="fh5co-card-item image-popup">
-                                            <figure>
-                                                <div class="overlay"><i class="ti-plus"></i></div>
-                                                <img src="images/testimonial-bg.jpg" alt="Image" class="img-responsive">
-                                            </figure>
-                                            <div class="fh5co-text">
-                                                <h2>Tomato Soup with Chicken</h2>
-                                                <p>Far far away, behind the word mountains, far from the countries
-                                                    Vokalia..</p>
-                                                <p><span class="price cursive-font">$23.10</span></p>
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <div class="col-lg-4 col-md-4 col-sm-6">
-                                        <a href="images/testimonial-bg.jpg" class="fh5co-card-item image-popup">
-                                            <figure>
-                                                <div class="overlay"><i class="ti-plus"></i></div>
-                                                <img src="images/testimonial-bg.jpg" alt="Image" class="img-responsive">
-                                            </figure>
-                                            <div class="fh5co-text">
-                                                <h2>Salad with Crispy Chicken</h2>
-                                                <p>Far far away, behind the word mountains, far from the countries
-                                                    Vokalia..</p>
-                                                <p><span class="price cursive-font">$5.59</span></p>
-                                            </div>
-                                        </a>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -262,11 +194,10 @@
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/smoothscroll.js"></script>
     <script src="js/custom.js"></script>
-    <script src="app/users.js"></script>
-    <script src="rests.js"></script>
+    <script src="restaurant.js"></script>
     <script src="googleMap.js"></script>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAN9OBd2ZhIWfh489y3NRD7NMt33oXoxY0&callback=myMap"></script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPh6HCDbNWHnQaz0ah1KYa0P123mkCAEU&callback=initMap"></script>
 
 
 
