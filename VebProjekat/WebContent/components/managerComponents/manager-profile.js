@@ -1,75 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+function fixDate(user) {
 
-<head>
+	user.dateOfBirth = new Date(parseInt(user.dateOfBirth));
+	
+	return user;
+}
 
-     <title>Crust food delivery service</title>
-     <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-     <meta name="description" content="">
-     <meta name="keywords" content="">
-     <meta name="author" content="">
-     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+Vue.component("manager-profile", {
 
-     <link rel="stylesheet" href="css/bootstrap.min.css">
-     <link rel="stylesheet" href="css/font-awesome.min.css">
-     <link rel="stylesheet" href="css/animate.css">
-     <link rel="stylesheet" href="css/owl.carousel.css">
-     <link rel="stylesheet" href="css/owl.theme.default.min.css">
-     <link rel="stylesheet" href="css/magnific-popup.css">
-     <script src="js/jquery-3.3.1.min.js"></script>
-
-
-     <!-- MAIN CSS -->
-     <link rel="stylesheet" href="css/style.css">
-
-</head>
-
-<body>
-<div id="profilePage">
-     <!-- PRE LOADER -->
-     <section class="preloader">
-          <div class="spinner">
-
-               <span class="spinner-rotate"></span>
-
-          </div>
-     </section>
-
-
-     <!-- MENU -->
-     <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
-          <div class="container">
-
-               <div class="navbar-header">
-                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                         <span class="icon icon-bar"></span>
-                         <span class="icon icon-bar"></span>
-                         <span class="icon icon-bar"></span>
-                    </button>
-
-                    <!-- lOGO TEXT HERE -->
-                    <a href="index.html" class="navbar-brand" style="margin-left: auto;">c r u s t</a>
-               </div>
-          </div>
-     </section>
-
-     <!-- ------------------------ form ------------------- -->
-     <div id="idk" class="container">
-          
-          <form id="formForEdit" class="well form-horizontal">
-               <fieldset>
-
-                    <!-- Form Name -->
-                    <legend>
-                         <center>
-                              <h2><b>PREGLED PROFILA</b></h2>
-                         </center>
-                    </legend><br>
-
-                    <!-- Text input-->
-
-                    <div class="form-group">
+    data() {
+        return {
+            loggedUser: {},
+            mode : 'BROWSE',
+            message : null
+        }
+    },
+	
+	template: ` 
+<div class="container">
+<h1></h1>
+<section data-stellar-background-ratio="0.5">
+<form id="formForEdit" class="well form-horizontal">
+            <div class="form-group">
                          <label class="col-md-4 control-label">Ime</label>
                          <div class="col-md-4 inputGroupContainer">
                               <div class="input-group">
@@ -153,35 +104,56 @@
                                          class="section-btn" v-on:click="changeMode">Izmijeni</button>
                                </div>
                             </div>
-                            
-                        </div>
+                            </div>
+                            </div>
+                            </form>
+                            </section>
                     </div>
 
+                            
+    
+    
+`,
+  mounted () {
+        axios
+          .get('rest/users/getLoggedUser')
+          .then(response => (this.loggedUser = fixDate(response.data)))
+          
+    },
+    methods : {
+        changeMode: function(e) {
+                e.preventDefault()
+                this.mode='EDIT'
+        },
 
-                    <div><br><br><br><br><br><br><br><br><br><br><br><br><br></div>
+        updateUser : function(e){
+             e.preventDefault();
+            axios
+               .put("rest/users/updateUser/" + this.loggedUser.username, 
+                    {"fistName": this.loggedUser.fistName,
+                    "lastName" : this.loggedUser.lastName,
+                    "dateOfBirth" : this.loggedUser.dateOfBirth,
+                    "gender" : this.loggedUser.gender,
+                    "username": this.loggedUser.username, 
+                    "password" : this.loggedUser.password,
+                    "role" : this.loggedUser.role})
+               .then(response => {
+                    this.message = response.data;
+               })
+               .catch(err => {
+                    console.log("There has been an error! Please check this out: ");
+                    console.log(err);
+               })
+          } 
+    },
+    components: {
+      	vuejsDatepicker
+    },
+    filters: {
+    	dateFormat: function (value, format) {
+    		var parsed = moment(value);
+    		return parsed.format(format);
+    	}
+   	}
 
-               </fieldset>
-          </form>
-     </div>
-     </div><!-- /.container -->
-     
-
-     <!-- SCRIPTS -->
-     <script src="js/vue.js"></script>
-     <script src="js/axios.js"></script>
-     <script src="js/jquery.js"></script>
-     <script src="js/bootstrap.min.js"></script>
-     <script src="js/jquery.stellar.min.js"></script>
-     <script src="js/wow.min.js"></script>
-     <script src="js/moment.min.js"></script>
-     <script src="js/owl.carousel.min.js"></script>
-     <script src="js/jquery.magnific-popup.min.js"></script>
-     <script src="js/smoothscroll.js"></script>
-     <script src="js/custom.js"></script>
-     <script src="js/vuejs-datepicker.min.js"></script>
-     <script src="profile.js"></script>
-
-
-</body>
-
-</html>
+});

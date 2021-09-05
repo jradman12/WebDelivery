@@ -168,7 +168,7 @@ public static Map<String, Customer> customers = new HashMap<>();
 		return null;
 	}
 	
-	public static Boolean changeCustomer(User user) {
+	public static Boolean changeCustomer(String username,User user) {
 
 		// Find user with that name, and change his data.
 		loadCustomers("");
@@ -177,7 +177,7 @@ public static Map<String, Customer> customers = new HashMap<>();
 				c.setFistName(user.getFistName());
 				c.setLastName(user.getLastName());
 				c.setPassword(user.getPassword());
-				UserDAO.changeUser(user);
+				UserDAO.changeUser(username,user);
 				saveCustomersJSON();
 
 				return true;

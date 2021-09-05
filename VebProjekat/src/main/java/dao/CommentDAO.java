@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import beans.Product;
+import enums.StatusOfComment;
 import beans.Comment;
 
 public class CommentDAO {
@@ -35,7 +35,7 @@ public class CommentDAO {
 		loadComments(contextPath);
 	}
 		
-	public Collection<Comment> findAll() {
+	public static Collection<Comment> findAll() {
 		return comments.values();
 	}
 	
@@ -45,22 +45,24 @@ public class CommentDAO {
 				Gson gs = new Gson();
 				String commentsJson = "";
 				try {
-					commentsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json")));	
+					commentsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json")));	
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				
 				Type type = new TypeToken<Map<String, Comment>>() {}.getType();
+				
 				comments.clear();
+				
 				comments = gs.fromJson(commentsJson, type);
 			
 	}
 	
 	
 	
-	public void saveCommentsJSON() {
+	public static void saveCommentsJSON() {
 
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
 		Map<String, Comment> allComments = new HashMap<>();
 		for (Comment c : findAll()) {
 			allComments.put(c.getId(),c);
@@ -104,9 +106,9 @@ public class CommentDAO {
 	public void addNewComment(Comment comment) {
 		Comment newComment = new Comment();
 		newComment.setDeleted(false);
-		newComment.setApproved(false);
+		newComment.setStatus(StatusOfComment.WAITING);
 		newComment.setAuthor(comment.getAuthor());
-		newComment.setId(comment.getId());
+		newComment.setId(generateNextId());
 		newComment.setRating(comment.getRating());
 		newComment.setRestaurant(comment.getRestaurant());
 		newComment.setText(comment.getText());
@@ -125,6 +127,22 @@ public class CommentDAO {
 	     }
 	  }
 	
+	public static String generateNextId() {
+		return Integer.toString(comments.size() + 1);
+	}
+	
+	public static boolean changeStatus(StatusOfComment soc,String id) {
+		loadComments("");
+		for(Comment c : comments.values()) {
+			if(c.getId().equals(id)) {
+				c.setStatus(soc);
+				saveCommentsJSON();
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 
 }

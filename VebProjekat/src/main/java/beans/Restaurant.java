@@ -1,5 +1,6 @@
 package beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import enums.RestaurantStatus;
@@ -8,7 +9,7 @@ public class Restaurant {
 	private String id;
 	private String name;
 	private String typeOfRestaurant;
-	private List<CartItem> menu;
+	private List<Product> menu;
 	private RestaurantStatus status;
 	private Location location;
 	private boolean isDeleted;
@@ -21,7 +22,7 @@ public class Restaurant {
 	}
 	
 	
-	public Restaurant(String id, String name, String typeOfRestaurant, List<CartItem> menu, RestaurantStatus status,
+	public Restaurant(String id, String name, String typeOfRestaurant, List<Product> menu, RestaurantStatus status,
 			Location location, boolean isDeleted, String logo, double averageRating) {
 		super();
 		this.id = id;
@@ -51,12 +52,12 @@ public class Restaurant {
 		this.typeOfRestaurant = typeOfRestaurant;
 	}
 
-	public List<CartItem> getMenu() {
+	public List<Product> getMenu() {
 		return menu;
 	}
 
-	public void setMenu(List<CartItem> menu) {
-		this.menu = menu;
+	public void setMenu(List<Product> list) {
+		this.menu = list;
 	}
 
 	public RestaurantStatus getStatus() {

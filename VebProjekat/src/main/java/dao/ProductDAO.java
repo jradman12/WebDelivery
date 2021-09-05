@@ -19,7 +19,7 @@ import beans.Product;
 
 public class ProductDAO {
 	
-	private static Map<String, Product> products = new HashMap<>();
+	/*private static Map<String, Product> products = new HashMap<>();
 
 
 	
@@ -31,7 +31,7 @@ public class ProductDAO {
 	/***
 	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
 	 */
-	public ProductDAO(String contextPath) {
+	/*public ProductDAO(String contextPath) {
 		loadProducts(contextPath);
 	}
 		
@@ -124,7 +124,7 @@ public class ProductDAO {
 	     } catch (ParseException e) {
 	         return null;
 	     }
-	  }
+	  }*/
 	
 	
 
