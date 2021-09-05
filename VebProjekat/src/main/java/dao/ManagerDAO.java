@@ -224,7 +224,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 				newProduct.setDescription(product.getDescription());
 				newProduct.setLogo(product.getLogo());
 				newProduct.setPrice(product.getPrice());
-				newProduct.setRestaurant(m.getRestaurant());
+				newProduct.setRestaurant(m.getRestaurant().getId());
 				newProduct.setType(product.getType());
 				m.getRestaurant().getMenu().add(newProduct);
 				

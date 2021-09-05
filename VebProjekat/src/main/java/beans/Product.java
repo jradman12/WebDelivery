@@ -8,7 +8,7 @@ public class Product {
 	private String name;
 	private double price;
 	private ProductType type;
-	private Restaurant restaurant;
+	private String restaurant;
 	private int quantity; // in g or mL
 	private String description;
 	private boolean isDeleted;
@@ -18,7 +18,7 @@ public class Product {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Product( String name, double price, ProductType type, Restaurant restaurant, int quantity,
+	public Product( String name, double price, ProductType type, String restaurant, int quantity,
 			String description, boolean isDeleted, String logo) {
 		super();
 		this.name = name;
@@ -55,11 +55,11 @@ public class Product {
 		this.type = type;
 	}
 
-	public Restaurant getRestaurant() {
+	public String  getRestaurant() {
 		return restaurant;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
+	public void setRestaurant(String restaurant) {
 		this.restaurant = restaurant;
 	}
 

@@ -9,10 +9,10 @@ public class Order {
 	
 	private String id;
 	private List<CartItem> orderedItems;
-	private Restaurant restaurant;
+	private String restaurant;
 	private Date dateAndTime;
 	private double price;
-	private Customer customer;
+	private String customer;
 	private OrderStatus status;
 	private boolean isDeleted;
 	
@@ -20,8 +20,8 @@ public class Order {
 		
 	}
 
-	public Order(String id, List<CartItem> orderedItems, Restaurant restaurant, Date dateAndTime, double price,
-			Customer customer, OrderStatus status) {
+	public Order(String id, List<CartItem> orderedItems, String restaurant, Date dateAndTime, double price,
+			String customer, OrderStatus status) {
 		super();
 		this.id = id;
 		this.orderedItems = orderedItems;
@@ -48,11 +48,11 @@ public class Order {
 		this.orderedItems = orderedItems;
 	}
 
-	public Restaurant getRestaurant() {
+	public String getRestaurant() {
 		return restaurant;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
+	public void setRestaurant(String restaurant) {
 		this.restaurant = restaurant;
 	}
 
@@ -72,11 +72,11 @@ public class Order {
 		this.price = price;
 	}
 
-	public Customer getCustomer() {
+	public String getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(Customer customer) {
+	public void setCustomer(String customer) {
 		this.customer = customer;
 	}
 

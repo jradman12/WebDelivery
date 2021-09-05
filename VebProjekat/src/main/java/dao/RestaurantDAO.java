@@ -218,7 +218,7 @@ public class RestaurantDAO {
 				newProduct.setDescription(product.getDescription());
 				newProduct.setLogo(product.getLogo());
 				newProduct.setPrice(product.getPrice());
-				newProduct.setRestaurant(r);
+				newProduct.setRestaurant(r.getId());
 				newProduct.setType(product.getType());
 				r.getMenu().add(newProduct);
 	
