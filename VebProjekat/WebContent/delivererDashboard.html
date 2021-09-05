@@ -52,11 +52,9 @@
                <!-- MENU LINKS -->
                <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-nav-first">
-                         <li><a href="#home" class="smoothScroll">Početna</a></li>
-                         <li><a href="#about" class="smoothScroll">O nama</a></li>
-                         <li><a href="#team" class="smoothScroll">Restorani</a></li>
-                         <li><a href="#menu" class="smoothScroll">Menu</a></li>
-                         <li><a href="#contact" class="smoothScroll">Kontakt</a></li>
+                         <li><a href="#home" class="smoothScroll">Lista porudžbina</a></li>
+                         <li><a href="#about" class="smoothScroll">Neisporučene porudžbine</a></li>
+                         <li><a href="#team" class="smoothScroll">Moji zahtjevi</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
@@ -69,48 +67,63 @@
      </div>
 </section>
 
-     <section class ="admin-dash" data-stellar-background-ratio="0.5">
+     <section  id ="dash" class ="admin-dash" data-stellar-background-ratio="0.5">
         <div class="container" >
              <div class="row">
 
                   <div class="col-md-8 col-ms-12">
                        <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
-                            <h1>Dobrodošli dostavljač! </h1>
-                            <h5>Neki tekst.. možda prikaz slike, uz dugmić "Pogledaj profil"?</h5>
+                         <h1>Dobrodošli, {{loggedInUser.fistName }}! </h1>
+                         <h5></h5>
                        </div>
                   </div>  
              </div>
         </div>
    </section>
 
-     <section class="section" id="about">
+     <section class="section" >
         <div class="container">
             <div class="row">
-                 <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12"
-                    data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
+               <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
+               data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
                     <div class="features-item">
                         <div class="features-icon">
                             <h2>01</h2>
                             <img src="images/order.png" alt="">
                             <h4>Porudžbine</h4>
                             <p>Pregled svih porudžbina, uz mogućnosti pretraživanja,filtriranja i sortiranja.</p>
-                            <br><br><br><br><a href="#" type="button"  class="main-btn">
+                            <br><br><br><br><a href="deliOrders.html" type="button"  class="main-btn">
                               Pregled porudžbina
                             </a>
                          
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12"
-                    data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
+                <div class="features-item">
+                    <div class="features-icon">
+                        <h2>01</h2>
+                        <img src="images/order.png" alt="">
+                        <h4>Neisporučene porudžbine</h4>
+                        <p>Pregled porudžbina koje čekaju na isporuku.</p>
+                        <br><br><br><br><a href="#" type="button"  class="main-btn">
+                          Pregled neisporučenih porudžbina
+                        </a>
+                     
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
+            data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
                     <div class="features-item">
                         <div class="features-icon">
                             <h2>02</h2>
                             <img src="images/icons8-restaurant-64.png" alt="">
                             <h4>Restorani</h4>
-                            <p>Pregled restorana uz pretraživanje, filtriranje i sortiranje.</p>
-                            <br><br><br><br><br><br><a href="#" type="button"  class="main-btn">
-                              Pregled restorana
+                            <p>Pregled zahtjeva za dostavu.</p>
+                            <br><br><br><br><br><a href="#" type="button"  class="main-btn">
+                              Pregled zahtjeva
                             </a>
                         </div>
                     </div>
@@ -159,6 +172,7 @@
      <script src="js/jquery.magnific-popup.min.js"></script>
      <script src="js/smoothscroll.js"></script>
      <script src="js/custom.js"></script>
+     <script src="loggedUser.js"></script>
 
 
 	
