@@ -13,7 +13,7 @@ public class Order {
 	private Date dateAndTime;
 	private double price;
 	private Customer customer;
-	private OrderStatus status;
+	private OrderStatus status;  
 	private boolean isDeleted;
 	
 	public Order() {
