@@ -32,7 +32,7 @@ Vue.component("manager-comments", {
               <table class="r-table" cellpadding="0" cellspacing="0" border="0">
                    <tbody>
                         <tr v-for="comm in comments">
-                             <td> {{ comm.author.username }} </td>
+                             <td> {{ comm.author }} </td>
                              <td> {{ comm.text }} </td>
                              <td> {{ comm.rating }} </td>
                             <td v-if="comm.status=='WAITING'">Čeka na odobravanje</td>

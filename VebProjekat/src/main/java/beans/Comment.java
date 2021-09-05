@@ -5,8 +5,8 @@ import enums.StatusOfComment;
 public class Comment {
 
 	private String id;
-	private Customer author;
-	private Restaurant restaurant;
+	private String author;
+	private String restaurant;
 	private String text;
 	private int rating;
 	private StatusOfComment status;
@@ -16,7 +16,7 @@ public class Comment {
 	}
 	
 
-	public Comment(String id, Customer author, Restaurant restaurant, String text, int rating, StatusOfComment status,
+	public Comment(String id, String author, String restaurant, String text, int rating, StatusOfComment status,
 			boolean isDeleted) {
 		super();
 		this.id = id;
@@ -37,19 +37,19 @@ public class Comment {
 		this.status = status;
 	}
 
-	public Customer getAuthor() {
+	public String getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(Customer author) {
+	public void setAuthor(String author) {
 		this.author = author;
 	}
 
-	public Restaurant getRestaurant() {
+	public String getRestaurant() {
 		return restaurant;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
+	public void setRestaurant(String restaurant) {
 		this.restaurant = restaurant;
 	}
 

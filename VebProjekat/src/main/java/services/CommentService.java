@@ -81,12 +81,9 @@ public class CommentService {
 		//CommentDAO.saveCommentsJSON();
 		CommentDAO.loadComments("");//dobavljamo sve komentare
 		comments = CommentDAO.comments; 
-		for(Comment c : comments.values()) {
-			System.out.println(c.getRestaurant().getName());
-		}
 		Restaurant r = ManagerDAO.getRestaurantForManager(user.getUsername());
 		for(Comment c : comments.values()) {
-			if(c.getRestaurant().getId().equals(r.getId())) {
+			if(c.getRestaurant().equals(r.getId())) {
 				commentsForRestaurant.add(c);
 				
 			}
