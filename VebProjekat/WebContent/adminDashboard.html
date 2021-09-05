@@ -53,15 +53,15 @@
                <!-- MENU LINKS -->
                <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-nav-first">
-                         <li><a href="#home" class="smoothScroll">Početna</a></li>
-                         <li><a href="#about" class="smoothScroll">O nama</a></li>
-                         <li><a href="#team" class="smoothScroll">Restorani</a></li>
-                         <li><a href="#menu" class="smoothScroll">Menu</a></li>
-                         <li><a href="#contact" class="smoothScroll">Kontakt</a></li>
+                         <li><a href="users.html" class="smoothScroll">Korisnici</a></li>
+                         <li><a href="restaurants.html" class="smoothScroll">Restorani</a></li>
+                         <li><a href="comments.html" class="smoothScroll">Komentari</a></li>
+                         <li><a href="profile.html" class="smoothScroll">Profil</a></li>
+
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                         <button type="button" class="section-btn" data-toggle="modal" data-target="#loginModal">Moj profil</button>
+                         <!-- <button type="button" class="section-btn" data-toggle="modal" data-target="#loginModal">Moj profil</button> -->
                          <a type="button" href="index.html" class="section-btn" data-toggle="modal" >Odjava</a>
                     </ul>
                </div>
@@ -70,14 +70,14 @@
      </div>
 </section>
 
-     <section class ="admin-dash" data-stellar-background-ratio="0.5">
+     <section id ="dash" class ="admin-dash" data-stellar-background-ratio="0.5">
         <div class="container" >
              <div class="row">
 
                   <div class="col-md-8 col-ms-12">
                        <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
-                            <h1>Dobrodošli admin! </h1>
-                            <h5>Neki tekst.. možda prikaz slike, uz dugmić "Pogledaj profil"?</h5>
+                            <h1>Dobrodošli, {{loggedInUser.fistName }}! </h1>
+                            <h5></h5> 
                        </div>
                   </div>  
              </div>
@@ -198,6 +198,7 @@
      <script src="js/jquery.magnific-popup.min.js"></script>
      <script src="js/smoothscroll.js"></script>
      <script src="js/custom.js"></script>
+     <script src="loggedUser.js"></script>
 
 
 	
