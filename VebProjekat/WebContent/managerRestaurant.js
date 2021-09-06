@@ -4,21 +4,22 @@ let manRest = new Vue({
 
 	data : {
         restaurant : {},
-		products : []
+		message : ''
 	},
 
-    mounted(){
-        axios.all([
-            axios
-            .get("rest/managers/getRestaurantFromLoggedManager"),
+	methods :{
 
-            axios
-            .get("rest/products/getRestaurantMenu")
-        ])
-            .then(axios.spread((data1, data2) => {
-                 this.restaurant = data1;
-                 this.products = data2;
-            }))
-    }
+		setProduct(product){
+			console.log('tryna set it')
+			axios
+			.post('rest/products/setCurrentProduct', product)
+			.then(response => (this.message = (response.data), alert(message)))
+			
+		setTimeout(function(){ location.href = "updateArticle.html" }, 3000);
+	}
+
+
+	}
+
 
 });

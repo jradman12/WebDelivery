@@ -3,7 +3,7 @@ Vue.component("manager-restaurant", {
     data() {
         return {
             restaurant : {},
-            products : []
+            message : ''
         }
     },
 	
@@ -64,9 +64,9 @@ Vue.component("manager-restaurant", {
                             </div>
                             <div class="row" v-else>
 
-                                <div class="col-lg-4 col-md-4 col-sm-6" v-for="product in restaurant.menu">
-                                    <a v-bind:href="product.logo" class="fh5co-card-item image-popup">
-                                        <figure>
+                                <div  data-toggle="tooltip" data-placement="top" title="Klikni da izmijeniš..." class="col-lg-4 col-md-4 col-sm-6" v-for="product in restaurant.menu">
+                                        <a @click="setProduct(product)" class="fh5co-card-item image-popup">
+                                            <figure>
                                         <div class="overlay"><i class="ti-plus"></i></div>
                                             <img v-bind:src="product.logo" alt="Image" class="img-responsive">
                                         </figure>
@@ -98,6 +98,18 @@ Vue.component("manager-restaurant", {
         axios
         .get("rest/restaurants/getManagersRestaurant")
         .then(response => (this.restaurant = response.data))
-}
+},
+methods :{
 
+		setProduct(product){
+			 axios
+			 .post('rest/products/setCurrentProduct', {
+                 "product" : product,
+                 "restaurantID" : this.restaurant.id
+             })
+			 .then(response => (this.message = (response.data), alert(message)))
+			
+		setTimeout(function(){ location.href = "updateProduct.html" }, 1500);
+	}
+}
 });

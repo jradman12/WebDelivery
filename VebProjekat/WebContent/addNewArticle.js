@@ -34,7 +34,7 @@ let newArticle = new Vue({
                                  "type" : this.newArticle.type,
                                  "logo" : this.newArticle.logo,
                                  "description" : this.newArticle.description,
-                                 "quantity" : parseInt(this.newArticle.quantity,10)
+                                 "quantity" : parseInt(this.newArticle.quantity)
                     })
                     .then(response => {
                         this.message = response.data;

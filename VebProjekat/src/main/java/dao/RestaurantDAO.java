@@ -232,6 +232,29 @@ public class RestaurantDAO {
 		
 		
 	}
+	
+	public Product getProductByName(String restID, String productName) {
+		for(Product p : restaurants.get(restID).getMenu()) {
+			if(p.getName().equals(productName))
+				return p;
+		}
+		return null;
+	}
+	
+	public void updateProduct(String restID, Product updatedProduct) {
+		int index = 0;
+		for(Restaurant r : restaurants.values()) {
+			if(r.getId().equals(restID)) {
+				for(Product p : r.getMenu()) {
+					if(p.getName().equals(updatedProduct.getName())){
+						index = r.getMenu().indexOf(p);
+						if(updatedProduct.getLogo() == null) updatedProduct.setLogo(p.getLogo());
+					}
+				}
+				r.getMenu().set(index, updatedProduct);
+			}
+		}
+	}
 
 	
 }
