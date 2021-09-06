@@ -8,7 +8,6 @@ public class Product {
 	private String name;
 	private double price;
 	private ProductType type;
-	private String restaurantID;
 	private int quantity; // in g or mL
 	private String description;
 	private boolean isDeleted;
@@ -50,13 +49,6 @@ public class Product {
 		this.type = type;
 	}
 
-	public String getRestaurantID() {
-		return restaurantID;
-	}
-
-	public void setRestaurantID(String restaurantID) {
-		this.restaurantID = restaurantID;
-	}
 
 	public int getQuantity() {
 		return quantity;
@@ -90,26 +82,25 @@ public class Product {
 		this.logo = logo;
 	}
 
-	public Product(String id, String name, double price, ProductType type, String restaurantID, int quantity,
-			String description, boolean isDeleted, String logo) {
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", type=" + type + ", quantity=" + quantity
+				+ ", description=" + description + ", isDeleted=" + isDeleted + ", logo=" + logo + "]";
+	}
+
+	public Product(String id, String name, double price, ProductType type, int quantity, String description,
+			boolean isDeleted, String logo) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.type = type;
-		this.restaurantID = restaurantID;
 		this.quantity = quantity;
 		this.description = description;
 		this.isDeleted = isDeleted;
 		this.logo = logo;
 	}
 
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", type=" + type + ", restaurantID="
-				+ restaurantID + ", quantity=" + quantity + ", description=" + description + ", isDeleted=" + isDeleted
-				+ ", logo=" + logo + "]";
-	}
 	
 	
 }

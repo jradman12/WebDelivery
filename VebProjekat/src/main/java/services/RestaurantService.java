@@ -23,7 +23,6 @@ import beans.Product;
 import beans.Restaurant;
 import beans.User;
 import dao.ManagerDAO;
-import dao.ProductDAO;
 import dao.RestaurantDAO;
 
 @Path("/restaurants")
@@ -186,7 +185,7 @@ public class RestaurantService {
 			System.out.println("get returns: " + rDAO.restaurants.get(rest.getId()));
 		}
 		
-			rDAO.restaurants.get(r.getId()).getMenu().add(product);
+			rDAO.addNewProduct(r.getId(), product);
 			
 			rDAO.saveRestaurantsJSON();
 
