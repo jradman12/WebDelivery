@@ -1,11 +1,3 @@
-function fixData(orders) {
-	for (var o in orders) {
-		o.dateAndTime = new Date(parseInt(o.dateAndTime));
-       
-	}
-	return orders;
-}
-
 Vue.component("manager-orders", {
 
     data() {
@@ -24,9 +16,10 @@ Vue.component("manager-orders", {
 
     <div id="coms">
          <div class="tbl-header">
-              <table  class="r-table" cellpadding="0" cellspacing="0" border="0"  style="border-collapse:collapse;" data-toggle="table"  data-search="true" data-show-pagination-switch="true">
+              <table  class="r-table" cellpadding="0" cellspacing="0" border="0"   data-toggle="table"  data-search="true" data-show-pagination-switch="true">
                    <thead>
                         <tr>
+                              <th>Identifikator porudžbine</th>
                              <th>Kupac</th>
                              <th>Cijena</th>
                              <th>Status</th>
@@ -38,23 +31,24 @@ Vue.component("manager-orders", {
               </table>
          </div>
          <div class="tbl-content">
-              <table class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" data-toggle="collapse" data-target="#collapsedRow1" >
+              <table class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0"  >
                    <tbody v-for="order in orders">
                         <tr >
-                             <td> {{ order.customer }} </td>
-                             <td> {{ order.price }} </td>
-                             <td v-if="order.status=='PENDING'"> Obrada </td>
-                             <td v-else-if="order.status=='IN_PREPARATION'"> U pripremi </td>
-                             <td v-else-if="order.status=='AWAITING_DELIVERER'"> Čeka dostavljača </td>
-                             <td v-else-if="order.status=='SHIPPING'"> U transportu </td>
-                             <td v-else-if="order.status=='DELIVERED'"> Dostavljena </td>
-                             <td v-else> Otkazana </td>
-                             <td v-if="order.status=='PENDING'"><button>U pripremi</button></td>
-                             <td v-else-if="order.status=='IN_PREPARATION'"><button>Čeka dostavljača</button></td>
-                             <td v-else><span>-</span></td>
+                        <td data-toggle="collapse" data-target="#collapsedRow1"> {{ order.id }} </td>
+                             <td data-toggle="collapse" data-target="#collapsedRow1"> {{ order.customer }} </td>
+                             <td data-toggle="collapse" data-target="#collapsedRow1"> {{ order.price }} </td>
+                             <td v-if="order.status=='PENDING'" data-toggle="collapse" data-target="#collapsedRow1"> Obrada </td>
+                             <td v-else-if="order.status=='IN_PREPARATION'" data-toggle="collapse" data-target="#collapsedRow1"> U pripremi </td>
+                             <td v-else-if="order.status=='AWAITING_DELIVERER'" data-toggle="collapse" data-target="#collapsedRow1"> Čeka dostavljača </td>
+                             <td v-else-if="order.status=='SHIPPING'" data-toggle="collapse" data-target="#collapsedRow1"> U transportu </td>
+                             <td v-else-if="order.status=='DELIVERED'" data-toggle="collapse" data-target="#collapsedRow1"> Dostavljena </td>
+                             <td v-else data-toggle="collapse" data-target="#collapsedRow1"> Otkazana </td>
+                             <td v-if="order.status=='PENDING'"><button @click="changeStatusInPreparation(order)">U pripremi</button></td>
+                             <td v-else-if="order.status=='IN_PREPARATION'"><button @click="changeStatusInAwaitingDeliverer(order)">Čeka dostavljača</button></td>
+                             <td v-else data-toggle="collapse" data-target="#collapsedRow1"><span>-</span></td>
                         </tr>
 
-                        <tr>
+                         <tr>
                         <td colspan="12" class="hiddenRow">
                           <div class="accordion-body collapse container-fluid" id="collapsedRow1">
                             <table class="table table-striped table-bordered">
@@ -120,30 +114,37 @@ mounted : function() {
 },
 
 methods:{
-    /* approveComment : function(comment){
+     changeStatusInPreparation : function(order){
+
           axios
-          .put('rest/comments/approveComment/' + comment.id)
-          .then(response=>{
-               this.comments = [];
+          .put('rest/orders/updateOrderStatusIP/' + order.id)
+          .then( response => {
+               this.orders=[];
                response.data.forEach(x => {
-                   this.comments.push(x);
+                    this.orders.push(x);
+               })
+                    
                });
-               return this.comments;
-          }
-          )
-     },
-     declineComment : function(comment){
-          axios
-          .put('rest/comments/rejectComment/' + comment.id)
-          .then(response=>{
-               this.comments = [];
-               response.data.forEach(x => {
-                   this.comments.push(x);
-               });
-               return this.comments;
-          }
-          )
-     }*/
+          
+
+          },
+
+     changeStatusInAwaitingDeliverer : function(order){
+
+               axios
+               .put('rest/orders/updateOrderStatusAD/' + order.id)
+               .then( response => {
+                    this.orders=[];
+                    response.data.forEach(x => {
+                         this.orders.push(x);
+                    })
+                         
+                    });
+               
+     
+               }
+
+
 },
      filters: {
           dateFormat: function (value, format) {

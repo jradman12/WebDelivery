@@ -14,8 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import beans.Comment;
 import beans.Order;
 import enums.OrderStatus;
+import enums.StatusOfComment;
+
 import java.util.*;
 
 public class OrderDAO {
@@ -44,7 +48,7 @@ private static Map<String, Order> orders = new HashMap<>();
 		return order;
 	}
 	
-	public Collection<Order> findAll() {
+	public static Collection<Order> findAll() {
 		return orders.values();
 	}
 	
@@ -71,9 +75,9 @@ private static Map<String, Order> orders = new HashMap<>();
 	
 	
 	
-	public void saveOrdersJSON() {
+	public static void saveOrdersJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
 		Map<String, Order> allOrders = new HashMap<>();
 		for (Order o : findAll()) {
 			allOrders.put(o.getId(),o);
@@ -150,5 +154,20 @@ private static Map<String, Order> orders = new HashMap<>();
 		
 		return ordersForRestaurant;
 	}
+	
+	public static boolean changeStatus(OrderStatus status,String id) {
+		loadOrders("");
+		for(Order o : orders.values()) {
+			if(o.getId().equals(id)) {
+				o.setStatus(status);
+				System.out.println(o.getStatus());
+				saveOrdersJSON();
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 
 }

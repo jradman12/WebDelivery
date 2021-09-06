@@ -15,18 +15,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
-import java.util.ArrayList;
-import beans.Comment;
-import beans.Restaurant;
-import beans.User;
-import dao.CommentDAO;
-import dao.ManagerDAO;
-import enums.Role;
-import enums.StatusOfComment;
+import javax.ws.rs.core.Response.Status;
 
-@Path("/comments")
-public class CommentService {
+
+import beans.DeliverRequest;
+import beans.User;
+import dao.ManagerDAO;
+import dao.RequestDAO;
+import enums.Role;
+
+
+@Path("/requests")
+public class RequestService {
 	
 	@Context
 	ServletContext ctx;
@@ -35,7 +35,7 @@ public class CommentService {
 	HttpServletRequest request;
 	
 	
-	public CommentService() {
+	public RequestService() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -44,32 +44,31 @@ public class CommentService {
 	public void init() {
 		// Ovaj objekat se instancira vi�e puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("commentDAO") == null) {
+		if (ctx.getAttribute("requestDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("commentDAO", new CommentDAO(contextPath));
+			ctx.setAttribute("requestDAO", new RequestDAO(contextPath));
 		}
 	}
 	
 	@GET
-	@Path("/getAllComments")
+	@Path("/getAllRequests")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Comment> getAllComments(){
-		Map<String, Comment> comments = new HashMap<>();
+	public Collection<DeliverRequest> getAllRequests(){
+		Map<String, DeliverRequest> requests = new HashMap<>();
 		//CommentDAO.saveCommentsJSON();
-		CommentDAO.loadComments("");
-		comments = CommentDAO.comments;
-		System.out.println("get comments request returns following comments: ");
-		for(Map.Entry<String, Comment> entry : comments.entrySet()) {
+		RequestDAO.loadRequests("");
+		requests = RequestDAO.requests;
+		for(Map.Entry<String, DeliverRequest> entry : requests.entrySet()) {
 			System.out.println(entry.getValue());
 		}
 		
-		return comments.values();
+		return requests.values();
 	}
 	
 	@GET
-	@Path("/getAllCommentsForRestaurant")
+	@Path("/getAllRequestsForRestaurant")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Comment> getAllCommentsForResaturant(){
+	public Collection<DeliverRequest> getAllCommentsForResaturant(){
 		 
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
@@ -77,49 +76,53 @@ public class CommentService {
 		}
 			
 		String r = ManagerDAO.getRestaurantForManager(user.getUsername());
-		return CommentDAO.getCommentsForRestaurant(r);
+		return RequestDAO.requestsForRestaurantsOrder(r);
 	}
 	
 	@PUT
-	@Path("/approveComment/{id}")
+	@Path("/approveRequest/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response approveComment(@PathParam("id") String id,Comment comment) {
+	public Response approveRequest(@PathParam("id") String id) {
 		
-		System.out.println("izmjena");
+		
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
-			return Response.status(403).entity("Ne mo�ete pristupiti resursu").build();
+			return Response.status(403).entity("Ne mozete pristupiti resursu").build();
 		}
-		String r = ManagerDAO.getRestaurantForManager(user.getUsername());
-		boolean success=CommentDAO.changeStatus(StatusOfComment.APPROVED, id);
+		
+		boolean success = RequestDAO.approve(id,user.getUsername());
 		if(success) {
-			return Response.status(202).entity(CommentDAO.getCommentsForRestaurant(r)).build();
-		}else {
-			return Response.status(400).entity("Neuspjeh").build();
+			return Response.status(200).entity(RequestDAO.requestsForRestaurantsOrder(id)).build();
+		}
+		else {
+			return Response.status(Status.BAD_REQUEST).entity("Nije moguce odobriti zahtjev!").build();
 		}
 		
 		
 	}
 	
 	@PUT
-	@Path("/rejectComment/{id}")
+	@Path("/rejectRequest/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response rejectComment(@PathParam("id") String id,Comment comment) {
+	public Response rejectRequest(@PathParam("id") String id) {
 		
-		System.out.println("izmjena");
+		
+
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
-			return Response.status(403).entity("Ne mo�ete pristupiti resursu").build();
+			return Response.status(403).entity("Ne mozete pristupiti resursu").build();
 		}
 		
-		boolean success=CommentDAO.changeStatus(StatusOfComment.REJECTED, id);
+		boolean success = RequestDAO.decline(id);
 		if(success) {
-			return Response.status(202).entity(CommentDAO.comments.values()).build();
-		}else {
-			return Response.status(400).entity("Neuspjeh").build();
+			return Response.status(200).entity(RequestDAO.requestsForRestaurantsOrder(id)).build();
 		}
+		else {
+			return Response.status(Status.BAD_REQUEST).entity("Nije moguce odobriti zahtjev!").build();
+		}
+		
 		
 		
 	}
