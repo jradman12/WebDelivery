@@ -7,8 +7,11 @@ Vue.component("manager-restaurant", {
     },
 	
 	template: ` 
-    
+    <div>
+    <img src="images/ce3232.png" width="100%" height="90px">
+
      <div  class="container">
+
      <section data-stellar-background-ratio="0.5">
         
             <div class="recent-listing">
@@ -85,10 +88,11 @@ Vue.component("manager-restaurant", {
         
         </section>
         </div>
+        </div>
 `,
  mounted(){
         axios
-        .get("rest/manager/getRestaurantFromLoggedManager")
+        .get("rest/managers/getRestaurantFromLoggedManager")
         .then(response => (this.restaurant=response.data))
     }
 
