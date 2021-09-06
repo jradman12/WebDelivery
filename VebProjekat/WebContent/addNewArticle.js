@@ -10,20 +10,20 @@ let newArticle = new Vue({
         onChangeFileUpload ($event) {
             this.file=this.$refs.file.files[0];
             this.encodeImage(this.file)
-            console.log(this.newRestaurant.logo)
+            console.log(this.newArticle.logo)
         },
         encodeImage(input){
             if(input){
             const reader = new FileReader()
             reader.onload=(e)=>{
-                this.newRestaurant.logo = e.target.result}
+                this.newArticle.logo = e.target.result}
             reader.readAsDataURL(input)
              }
         },
 
         addArticle: function (event) {
             event.preventDefault();
-            console.log('im in addArticle yo')
+            console.log(this.newArticle.logo)
             this.errors = [];
             if (!this.errors.length) {
                 axios
