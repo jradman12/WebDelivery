@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
      <title>Crust food delivery service</title>
@@ -17,12 +18,14 @@
      <link rel="stylesheet" href="css/owl.theme.default.min.css">
      <link rel="stylesheet" href="css/magnific-popup.css">
      <script src="js/jquery-3.3.1.min.js"></script>
-	
 
+     
+     
      <!-- MAIN CSS -->
      <link rel="stylesheet" href="css/style.css">
 
 </head>
+
 <body>
 
      <!-- PRE LOADER -->
@@ -30,14 +33,14 @@
           <div class="spinner">
 
                <span class="spinner-rotate"></span>
-               
+
           </div>
      </section>
 
- <!-- MENU -->
- <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
-     <div class = "container">
-          <!-- <div class="adminDash"> -->
+     <div id="adminRouter">
+     <!-- MENU -->
+     <section   class="navbar custom-navbar navbar-fixed-top" role="navigation">
+          <div class="container">
 
                <div class="navbar-header">
                     <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -51,85 +54,102 @@
                </div>
 
                <!-- MENU LINKS -->
-               <div class="collapse navbar-collapse">
+               <div  class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-nav-first">
-                         <li><a href="users.html" class="smoothScroll">Korisnici</a></li>
-                         <li><a href="restaurants.html" class="smoothScroll">Restorani</a></li>
-                         <li><a href="comments.html" class="smoothScroll">Komentari</a></li>
-                         <li><a href="profile.html" class="smoothScroll">Profil</a></li>
-
+                         <li>
+                              <router-link to="/" exact>Početna</router-link>
+                         </li>
+                         <li>
+                              <router-link to="/users" exact>Korisnici</router-link>
+                         </li>
+                         <li>
+                              <router-link to="/adminsRestaurants" exact>Restorani</router-link>
+                         </li>
+                         <li>
+                              <router-link to="/adminsComments" exact>Komentari</router-link>
+                         </li>
+                         <li>
+                              <router-link to="/myProfile" exact>Profil</router-link>
+                         </li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                         <!-- <button type="button" class="section-btn" data-toggle="modal" data-target="#loginModal">Moj profil</button> -->
-                         <a type="button" href="index.html" class="section-btn" data-toggle="modal" >Odjava</a>
+                         <div id="logoout">
+                              <button class="section-btn"Odjava></button>
+                         </div>
                     </ul>
                </div>
 
-          <!-- </div> -->
-     </div>
-</section>
+          </div>
+     </section>
 
-     <section id ="dash" class ="admin-dash" data-stellar-background-ratio="0.5">
-        <div class="container" >
-             <div class="row">
+     <router-view></router-view>
 
-                  <div class="col-md-8 col-ms-12">
-                       <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
-                            <h1>Dobrodošli, {{loggedInUser.fistName }}! </h1>
-                            <h5></h5> 
-                       </div>
-                  </div>  
-             </div>
-        </div>
-   </section>
+</div>
 
-     <section class="section" >
-        <div class="container">
-            <div class="row">
-                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
-                    data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
-                    <div class="features-item">
-                        <div class="features-icon">
-                            <h2>01</h2>
-                            <img src="images/icons8-users-64.png" alt="">
-                            <h4>Korisnici</h4>
-                            <p>Pregled korisnika sistema, uz mogućnosti pretraživanja, filtriranja, sortiranja, kao i dodavanja i brisanja korisnika.</p>
-                            <br><a href="users.html" type="button"  class="main-btn">
-                              Pregled korisnika
-                            </a>
-                        </div>
+
+     <!-- <section id="dash" class="admin-dash" data-stellar-background-ratio="0.5">
+          <div class="container">
+               <div class="row">
+
+                    <div class="col-md-8 col-ms-12">
+                         <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
+                              <h1>Dobrodošli, {{loggedInUser.fistName }}! </h1>
+                              <h5></h5>
+                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
-                    data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
-                    <div class="features-item">
-                        <div class="features-icon">
-                            <h2>02</h2>
-                            <img src="images/icons8-restaurant-64.png" alt="">
-                            <h4>Restorani</h4>
-                            <p>Pregled restorana uz mogućnosti pretraživanja, filtriranja, sortiranja, kao i dodavanja novih i postavljanja menadžera.</p>
-                            <br><a href="restaurants.html" type="button"  class="main-btn">
-                              Pregled restorana
-                            </a>
-                        </div>
+               </div>
+          </div>
+     </section>
+
+     <section class="section">
+          <div class="container">
+               <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                         data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
+                         <div class="features-item">
+                              <div class="features-icon">
+                                   <h2>01</h2>
+                                   <img src="images/icons8-users-64.png" alt="">
+                                   <h4>Korisnici</h4>
+                                   <p>Pregled korisnika sistema, uz mogućnosti pretraživanja, filtriranja, sortiranja,
+                                        kao i dodavanja i brisanja korisnika.</p>
+                                   <br><a href="users.html" type="button" class="main-btn">
+                                        Pregled korisnika
+                                   </a>
+                              </div>
+                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
-                    data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
-                    <div class="features-item">
-                        <div class="features-icon">
-                            <h2>03</h2>
-                            <img src="images/icons8-comments-64.png" alt="">
-                            <h4>Komentari</h4>
-                            <p>Pregled svih komentara na sajtu - i prihvaćenih i odbijenih. </p><br>
-                            <br><a href="comments.html" type="button"  class="main-btn">
-                                Pregled komentara
-                            </a>
-                        </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                         data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
+                         <div class="features-item">
+                              <div class="features-icon">
+                                   <h2>02</h2>
+                                   <img src="images/icons8-restaurant-64.png" alt="">
+                                   <h4>Restorani</h4>
+                                   <p>Pregled restorana uz mogućnosti pretraživanja, filtriranja, sortiranja, kao i
+                                        dodavanja novih i postavljanja menadžera.</p>
+                                   <br><a href="restaurants.html" type="button" class="main-btn">
+                                        Pregled restorana
+                                   </a>
+                              </div>
+                         </div>
                     </div>
-                </div>
-                <!-- <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                         data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
+                         <div class="features-item">
+                              <div class="features-icon">
+                                   <h2>03</h2>
+                                   <img src="images/icons8-comments-64.png" alt="">
+                                   <h4>Komentari</h4>
+                                   <p>Pregled svih komentara na sajtu - i prihvaćenih i odbijenih. </p><br>
+                                   <br><a href="comments.html" type="button" class="main-btn">
+                                        Pregled komentara
+                                   </a>
+                              </div>
+                         </div>
+                    </div>
+                     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
                     data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
                             <h2>01</h2>
                             <h4>Korisnici</h4>
@@ -155,10 +175,10 @@
                             <a href="#" type="button"  class="section-btn">
                                 Pogledaj komentare
                             </a>
-                </div> -->
-            </div>
-        </div>
-    </section>
+                </div>
+               </div>
+          </div>
+     </section>  -->
 
 
 
@@ -176,12 +196,12 @@
                               <li><a href="#" class="fa fa-google"></a></li>
                          </ul>
 
-                         <div class="wow fadeInUp copyright-text" data-wow-delay="0.8s"> 
-                              <p><br>Copyright &copy; 2021 <br>Jela & Boba 
+                         <div class="wow fadeInUp copyright-text" data-wow-delay="0.8s">
+                              <p><br>Copyright &copy; 2021 <br>Jela & Boba
 
                          </div>
                     </div>
-                    
+
                </div>
           </div>
      </footer>
@@ -189,6 +209,9 @@
 
      <!-- SCRIPTS -->
      <script src="js/vue.js"></script>
+     <script src="js/vue-router.js"></script>
+     <script src="js/vuejs-datepicker.min.js"></script>
+     	<script src="js/moment.min.js"></script>
      <script src="js/axios.js"></script>
      <script src="js/jquery.js"></script>
      <script src="js/bootstrap.min.js"></script>
@@ -198,11 +221,29 @@
      <script src="js/jquery.magnific-popup.min.js"></script>
      <script src="js/smoothscroll.js"></script>
      <script src="js/custom.js"></script>
-     <script src="loggedUser.js"></script>
+     
+     <script src="placesMap.js"></script>
+
+     <script
+     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPh6HCDbNWHnQaz0ah1KYa0P123mkCAEU&callback=initAutocomplete&libraries=places&v=weekly"
+     async></script>
 
 
-	
-	  
+     <script src="components/adminComponents/home-admin.js"></script>
+     <script src="components/adminComponents/admin-restaurants.js"></script>
+     <script src="components/adminComponents/admin-profile.js"></script>
+     <script src="components/adminComponents/admin-comments.js"></script>
+     <script src="components/adminComponents/admin-users.js"></script>
+     <script src="components/adminRouter.js"></script>
+
+
+
+   
+
+
+
+
 
 </body>
+
 </html>

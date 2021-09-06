@@ -29,7 +29,7 @@ public class CommentDAO {
 	}
 	
 	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Može se pristupiti samo iz servleta.
+	 * @param contextPath Putanja do aplikacije u Tomcatu. Moï¿½e se pristupiti samo iz servleta.
 	 */
 	public CommentDAO(String contextPath) {
 		loadComments(contextPath);
@@ -45,7 +45,7 @@ public class CommentDAO {
 				Gson gs = new Gson();
 				String commentsJson = "";
 				try {
-					commentsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json")));	
+					commentsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json")));	
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -62,7 +62,7 @@ public class CommentDAO {
 	
 	public static void saveCommentsJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
 		Map<String, Comment> allComments = new HashMap<>();
 		for (Comment c : findAll()) {
 			allComments.put(c.getId(),c);

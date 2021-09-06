@@ -100,6 +100,7 @@ function initAutocomplete() {
         })
 
     });
+    google.maps.event.trigger(map, 'resize')
     map.fitBounds(bounds);
 
 
