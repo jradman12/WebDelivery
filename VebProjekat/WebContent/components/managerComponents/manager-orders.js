@@ -2,14 +2,14 @@ Vue.component("manager-orders", {
 
     data() {
         return {
-            comments : []
+            orders : []
         }
     },
 	
 	template: ` 
     <div id="container">
    
-    <section class="r-section" v-if="comments.length!=0">
+    <section class="r-section" v-if="orders.length!=0">
     <h1></h1>
 
     <div class="r-gap"></div>
@@ -24,6 +24,7 @@ Vue.component("manager-orders", {
                              <th>Status</th>
                              <th>Promijeni status</th>
                              <th></th>
+                             
                         </tr>
                    </thead>
               </table>
@@ -31,16 +32,18 @@ Vue.component("manager-orders", {
          <div class="tbl-content">
               <table class="r-table" cellpadding="0" cellspacing="0" border="0">
                    <tbody>
-                        <tr v-for="comm in comments">
-                             <td> {{ comm.author.username }} </td>
-                             <td> {{ comm.text }} </td>
-                             <td> {{ comm.rating }} </td>
-                            <td v-if="comm.status=='WAITING'">Čeka na odobravanje</td>
-                            <td v-else-if="comm.status=='REJECTED'">Odbijen</td>
-                            <td v-else>Odobren</td>
-                            <td><button v-if="comm.status=='WAITING'" @click="approveComment(comm)">Odobri</button>
-                            <button v-if="comm.status=='WAITING'" @click="declineComment(comm)" >Odbij</button>
-                            <span v-else>-</span></td>
+                        <tr v-for="order in orders">
+                             <td> {{ order.customer }} </td>
+                             <td> {{ order.price }} </td>
+                             <td v-if="order.status=='PENDING'"> Obrada </td>
+                             <td v-else-if="order.status=='IN_PREPARATION'"> U pripremi </td>
+                             <td v-else-if="order.status=='AWAITING_DELIVERER'"> Čeka dostavljača </td>
+                             <td v-else-if="order.status=='SHIPPING'"> U transportu </td>
+                             <td v-else-if="order.status=='DELIVERED'"> Dostavljena </td>
+                             <td v-else> Otkazana </td>
+                             <td><span>-</span></td>
+                             <td><button>Detaljnije</button></td>
+                           
                
                         </tr>
                    </tbody>
@@ -57,7 +60,7 @@ Vue.component("manager-orders", {
 <div class="gtco-container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-            <h1 class="cursive-font primary-color">Trenutno nema komentara.</h1>
+            <h1 class="cursive-font primary-color">Trenutno nema porudžbina.</h1>
             
         </div>
     </div>
@@ -70,11 +73,11 @@ Vue.component("manager-orders", {
 `,
 mounted : function() {
     axios
-   .get('rest/comments/getAllCommentsForRestaurant')
-   .then(response => (this.comments = response.data))
-},
+   .get('rest/orders/getAllOrdersForRestaurant')
+   .then(response => (this.orders = response.data))
+}
 
-methods:{
+/*methods:{
      approveComment : function(comment){
           axios
           .put('rest/comments/approveComment/' + comment.id)
@@ -101,6 +104,6 @@ methods:{
      }
 
 
-}
+}*/
 
 });

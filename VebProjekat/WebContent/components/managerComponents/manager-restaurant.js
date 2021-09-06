@@ -80,7 +80,7 @@ Vue.component("manager-restaurant", {
 
                     
 
-                </div>
+                
             </div>
         
         </section>
@@ -88,7 +88,7 @@ Vue.component("manager-restaurant", {
 `,
  mounted(){
         axios
-        .get("rest/manager/getRestaurantFromLoggedManager")
+        .get("rest/managers/getRestaurantFromLoggedManager")
         .then(response => (this.restaurant=response.data))
     }
 

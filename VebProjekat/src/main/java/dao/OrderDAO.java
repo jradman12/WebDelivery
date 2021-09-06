@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import beans.Order;
 import enums.OrderStatus;
+import java.util.*;
 
 public class OrderDAO {
 	
@@ -47,7 +48,7 @@ private static Map<String, Order> orders = new HashMap<>();
 		return orders.values();
 	}
 	
-	public void loadOrders(String contextPath) {
+	public static void loadOrders(String contextPath) {
 		
 			
 				Gson gs = new Gson();
@@ -137,6 +138,17 @@ private static Map<String, Order> orders = new HashMap<>();
 	     }
 	  }
 	
-	
+	public static Collection<Order> getOrdersForRestaurant(String idOfRestaurant) {
+		loadOrders("");
+		List<Order> ordersForRestaurant=new ArrayList<Order>();
+		for(Order o : orders.values()) {
+			if(o.getRestaurant().equals(idOfRestaurant)) {
+				ordersForRestaurant.add(o);
+			}
+			
+		}
+		
+		return ordersForRestaurant;
+	}
 
 }

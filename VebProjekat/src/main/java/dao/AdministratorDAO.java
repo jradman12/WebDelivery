@@ -93,7 +93,7 @@ public class AdministratorDAO {
 				
 				String adminsJson = "";
 				try {
-					adminsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json")));
+					adminsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -183,7 +183,7 @@ public class AdministratorDAO {
 	}
 	
 	public static void saveAdministratorsJSON() {
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
 		
 
 		Map<String, Administrator> allAdmins = new HashMap<>();
