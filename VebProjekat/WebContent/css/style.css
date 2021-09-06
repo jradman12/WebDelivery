@@ -319,7 +319,7 @@ Recent Listing
   font-size: 20px;
   font-weight: 400;
   margin: 0 0 10px 0;
-  color: #FBB448;
+  color: #ce3232;
 }
 .fh5co-card-item .fh5co-text span {
   color: #b3b3b3;
@@ -337,7 +337,7 @@ Recent Listing
   visibility: visible;
   bottom: 0;
   font-size: 30px;
-  color: #FBB448;
+  color: #ce3232;
   position: relative;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
