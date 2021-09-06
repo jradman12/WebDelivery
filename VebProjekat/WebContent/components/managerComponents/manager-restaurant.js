@@ -2,7 +2,8 @@ Vue.component("manager-restaurant", {
 
     data() {
         return {
-            restaurant: {}
+            restaurant : {},
+            products : []
         }
     },
 	
@@ -44,43 +45,46 @@ Vue.component("manager-restaurant", {
                     </div>
                     
                     <div class="listing-item">
-                        <div id="googleMap" style="width:80%;height:500px"></div>
+                    <div class="col-lg-12" id="map" style="width:78%;height:500px; border-style: inset; border-color:#ce32322d;"></div>
                     </div>
 
-                    <section>
+                    <section class="r-section">
                         <div class="gtco-section">
                             <div class="gtco-container">
                                 <div class="row">
                                     <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-                                        <h1 class="cursive-font primary-color">JELOVNIK</h1>
-                                        <p>Uživajte</p>
+                                        <h2 class="cursive-font primary-color">JELOVNIK</h2>
+                                        <br><br><br>
                                     </div>
                                 </div>
 
-                                <div class="row" v-if="restaurant.menu==null">
+                                <div class="row" v-if="restaurant.menu === null">
 
-                                    <h3>Jelovnik je trenutno prazan! </h3>
-                                </div>
-                                <div class="row" v-else>
+                                <h3>Jelovnik je trenutno prazan! </h3>
+                            </div>
+                            <div class="row" v-else>
 
-                                    <div class="col-lg-4 col-md-4 col-sm-6" v-for="article in restaurant.menu">
-                                        <a v-bind:href="article.product.logo" class="fh5co-card-item image-popup"></a>
-                                            <figure>
-                                                <div class="overlay"><i class="ti-plus"></i></div>
-                                                <img v-bind:src="article.product.logo" alt="Image" class="img-responsive">
-                                            </figure>
-                                            <div class="fh5co-text">
-                                                <h2>{{article.product.name}}</h2>
-                                                <p>{{article.product.description}}</p>
-                                                <p><span class="price cursive-font">{{article.product.price}}</span></p>
-                                            </div>
-                                        </a>
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6" v-for="product in restaurant.menu">
+                                    <a v-bind:href="product.logo" class="fh5co-card-item image-popup">
+                                        <figure>
+                                        <div class="overlay"><i class="ti-plus"></i></div>
+                                            <img v-bind:src="product.logo" alt="Image" class="img-responsive">
+                                        </figure>
+                                        <div class="fh5co-text">
+                                            <h2>{{product.name}}</h2>
+                                            <p>{{product.description}}</p>
+                                            <p><span class="price cursive-font">{{product.price + "RSD" }}</span></p>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    </section>
-
+                    </div>
+                </section>
+                
+                <div class="listing-item r-section">
+                    <a href="addNewArticle.html" class="section-btn">Dodaj novi proizvod</a>
+                    </div>
                     
 
                 
@@ -90,11 +94,10 @@ Vue.component("manager-restaurant", {
         </div>
         </div>
 `,
- mounted(){
+ created(){
         axios
-        .get("rest/managers/getRestaurantFromLoggedManager")
-        .then(response => (this.restaurant=response.data))
-    }
-
+        .get("rest/restaurants/getManagersRestaurant")
+        .then(response => (this.restaurant = response.data))
+}
 
 });

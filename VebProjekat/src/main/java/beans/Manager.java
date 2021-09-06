@@ -2,7 +2,7 @@ package beans;
 
 public class Manager extends User {
 
-	private Restaurant restaurant;
+	private String restaurantID;
 	
 	
 
@@ -12,24 +12,23 @@ public class Manager extends User {
 
 
 
-	public Manager(Restaurant restaurant) {
+	public String getRestaurantID() {
+		return restaurantID;
+	}
+
+
+
+	public void setRestaurantID(String restaurantID) {
+		this.restaurantID = restaurantID;
+	}
+
+
+
+	public Manager(String restaurantID) {
 		super();
-		this.restaurant = restaurant;
+		this.restaurantID = restaurantID;
 	}
-
-
-
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-
-
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
-	
-	
+	 
 	
 	
 }

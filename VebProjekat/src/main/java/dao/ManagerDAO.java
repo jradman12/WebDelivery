@@ -60,10 +60,11 @@ private static Map<String, Manager> managers = new HashMap<>();
 		return managers.values();
 	}
 	
+	// 9/6/21 changed
 	public void updateManagersRest(Manager managerToUpdate, Restaurant newRest) {
 		for(Manager m : managers.values()) {
 			if(m.getUsername().equals(managerToUpdate.getUsername())) {
-				m.setRestaurant(newRest);
+				m.setRestaurantID(newRest.getId());
 			}
 		}
 		saveManagersJSON();
@@ -194,55 +195,51 @@ private static Map<String, Manager> managers = new HashMap<>();
 		return false;
 	}
 	
-	public static Restaurant getRestaurantForManager(String username) {
+	public static String getRestaurantForManager(String username) {
 
 		loadManagers("");
 		for (Manager m : managers.values()) {
 			if (m.getUsername().equals(username)) {
-				System.out.println(m.getRestaurant());
-				return m.getRestaurant();
+				return m.getRestaurantID();
 			}
 		}
 		return null;
 	}
 	
 	
-	public static List<Product> getProductsForRestaurant(String username) {
-
-		Restaurant r=getRestaurantForManager(username);
-		return r.getMenu();
-		
-	}
-	
-	public static boolean addNewProductToManagersRestaurant(String username,Product product) {
-		loadManagers("");
-		for(Manager m : findAll()) {
-			if(m.getUsername().equals(username)) {
-				Product newProduct=new Product();
-				newProduct.setName(product.getName());
-				newProduct.setDeleted(false);
-				newProduct.setDescription(product.getDescription());
-				newProduct.setLogo(product.getLogo());
-				newProduct.setPrice(product.getPrice());
-				newProduct.setRestaurant(m.getRestaurant().getId());
-				newProduct.setType(product.getType());
-				m.getRestaurant().getMenu().add(newProduct);
-				
-				saveManagersJSON();
-				RestaurantDAO.addNewProduct(m.getRestaurant().getId(),product);
-				return true;
-				
-			}
-		}
-		
-		return false;
-		
-	}
+//	public static List<Product> getProductsForRestaurant(String username) {
+//
+//		String r=getRestaurantForManager(username);
+//		return r.getMenu();
+//		
+//	}
 	
 	
+//	public static boolean addNewProductToManagersRestaurant(String username,Product product) {
+//		loadManagers("");
+//		for(Manager m : findAll()) {
+//			if(m.getUsername().equals(username)) {
+//				Product newProduct=new Product();
+//				newProduct.setName(product.getName());
+//				newProduct.setDeleted(false);
+//				newProduct.setDescription(product.getDescription());
+//				newProduct.setLogo(product.getLogo());
+//				newProduct.setPrice(product.getPrice());
+//				newProduct.setRestaurantID(m.getRestaurantID());
+//				newProduct.setType(product.getType());
+//				m.getRestaurant().getMenu().add(newProduct);
+//				
+//				saveManagersJSON();
+//				RestaurantDAO.addNewProduct(m.getRestaurant().getId(),product);
+//				return true;
+//				
+//			}
+//		}
+//		
+//		return false;
+//		
+//	}
 	
 	
-	
-
 
 }

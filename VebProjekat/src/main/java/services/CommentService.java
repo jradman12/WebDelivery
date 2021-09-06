@@ -81,9 +81,9 @@ public class CommentService {
 		//CommentDAO.saveCommentsJSON();
 		CommentDAO.loadComments("");//dobavljamo sve komentare
 		comments = CommentDAO.comments; 
-		Restaurant r = ManagerDAO.getRestaurantForManager(user.getUsername());
+		String r = ManagerDAO.getRestaurantForManager(user.getUsername());
 		for(Comment c : comments.values()) {
-			if(c.getRestaurant().equals(r.getId())) {
+			if(c.getRestaurant().equals(r)) {
 				commentsForRestaurant.add(c);
 				
 			}
@@ -102,7 +102,7 @@ public class CommentService {
 		System.out.println("izmjena");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
-			return Response.status(403).entity("Ne možete pristupiti resursu").build();
+			return Response.status(403).entity("Ne moï¿½ete pristupiti resursu").build();
 		}
 		
 		boolean success=CommentDAO.changeStatus(StatusOfComment.APPROVED, id);
@@ -124,7 +124,7 @@ public class CommentService {
 		System.out.println("izmjena");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
-			return Response.status(403).entity("Ne možete pristupiti resursu").build();
+			return Response.status(403).entity("Ne moï¿½ete pristupiti resursu").build();
 		}
 		
 		boolean success=CommentDAO.changeStatus(StatusOfComment.REJECTED, id);

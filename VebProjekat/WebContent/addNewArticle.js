@@ -23,10 +23,11 @@ let newArticle = new Vue({
 
         addArticle: function (event) {
             event.preventDefault();
+            console.log('im in addArticle yo')
             this.errors = [];
             if (!this.errors.length) {
                 axios
-                    .post('rest/manager/addNewArticle', {
+                    .post('rest/restaurants/addNewProduct', {
                    
                                  "name" : this.newArticle.name,
                                  "price" : parseFloat(this.newArticle.price),
@@ -34,23 +35,25 @@ let newArticle = new Vue({
                                  "logo" : this.newArticle.logo,
                                  "description" : this.newArticle.description,
                                  "quantity" : parseInt(this.newArticle.quantity,10)
-
-                                 
-                                
                     })
                     .then(response => {
                         this.message = response.data;
-                        window.location.assign(response.data)
+						alert(this.message)
                     })
                     .catch(err => {
                         console.log("There has been an error! Please check this out: ");
                         console.log(err);
                     })
-                return true;
+
             }
             this.errors.forEach(element => {
                 console.log(element)
             });
+
+			setTimeout(function(){ location.href = "managerDashboard.html" }, 3000);
+
+		
+
         }
 
 
