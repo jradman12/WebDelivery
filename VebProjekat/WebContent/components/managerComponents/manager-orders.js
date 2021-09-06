@@ -8,7 +8,7 @@ Vue.component("manager-orders", {
 	
 	template: ` 
     <div id="container">
-   
+    <img src="images/ce3232.png" width="100%" height="90px">
     <section class="r-section" v-if="orders.length!=0">
     <h1></h1>
 
@@ -16,23 +16,23 @@ Vue.component("manager-orders", {
 
     <div id="coms">
          <div class="tbl-header">
-              <table  class="r-table" cellpadding="0" cellspacing="0" border="0">
+              <table  class="r-table" cellpadding="0" cellspacing="0" border="0"  style="border-collapse:collapse;" data-toggle="table"  data-search="true" data-show-pagination-switch="true">
                    <thead>
                         <tr>
                              <th>Kupac</th>
                              <th>Cijena</th>
                              <th>Status</th>
                              <th>Promijeni status</th>
-                             <th></th>
+                             
                              
                         </tr>
                    </thead>
               </table>
          </div>
          <div class="tbl-content">
-              <table class="r-table" cellpadding="0" cellspacing="0" border="0">
-                   <tbody>
-                        <tr v-for="order in orders">
+              <table class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" data-toggle="collapse" data-target="#collapsedRow1" >
+                   <tbody v-for="order in orders">
+                        <tr >
                              <td> {{ order.customer }} </td>
                              <td> {{ order.price }} </td>
                              <td v-if="order.status=='PENDING'"> Obrada </td>
@@ -42,10 +42,38 @@ Vue.component("manager-orders", {
                              <td v-else-if="order.status=='DELIVERED'"> Dostavljena </td>
                              <td v-else> Otkazana </td>
                              <td><span>-</span></td>
-                             <td><button>Detaljnije</button></td>
-                           
-               
                         </tr>
+
+                        <tr>
+                        <td colspan="12" class="hiddenRow">
+                          <div class="accordion-body collapse container-fluid" id="collapsedRow1">
+                            <table class="table table-striped table-bordered">
+                              <thead>
+                                <tr>
+                                   <th>Slika artikla</th>
+                                  <th>Ime artikla</th>
+                                  <th>Cijena artikla</th>
+                                  <th>Tip</th>
+                                  <th>Broj naručenih artikala</th>
+                                  <th>Količina</th>
+                                  <th>Opis</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <tr v-for="item in order.orderedItems">
+                                  <td><img v-bind:src="item.product.logo" class="rest-img"></td>
+                                  <td>{{item.product.name}}</td>
+                                  <td>{{item.product.price}}</td>
+                                  <td>{{item.product.type}}</td>
+                                  <td>{{item.amount}}</td>
+                                  <td>{{item.product.quantity}}</td>
+                                  <td>{{item.product.description}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
                    </tbody>
               </table>
          </div>
@@ -75,10 +103,10 @@ mounted : function() {
     axios
    .get('rest/orders/getAllOrdersForRestaurant')
    .then(response => (this.orders = response.data))
-}
+},
 
-/*methods:{
-     approveComment : function(comment){
+methods:{
+    /* approveComment : function(comment){
           axios
           .put('rest/comments/approveComment/' + comment.id)
           .then(response=>{
@@ -101,9 +129,24 @@ mounted : function() {
                return this.comments;
           }
           )
-     }
+     }*/
+
+     toggleDetails :function(row) {
+          if(row._showDetails){
+            this.$set(row, '_showDetails', false)
+          }else{
+            this.orders.forEach(order => {
+              this.$set(order, '_showDetails', false)
+            })
+  
+            this.$nextTick(() => {
+              this.$set(row, '_showDetails', true)
+            })
+          }
+        }
+      }
 
 
-}*/
+
 
 });
