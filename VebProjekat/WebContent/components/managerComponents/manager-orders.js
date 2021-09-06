@@ -64,9 +64,11 @@ Vue.component("manager-orders", {
                                   <td><img v-bind:src="item.product.logo" class="rest-img"></td>
                                   <td>{{item.product.name}}</td>
                                   <td>{{item.product.price}}</td>
-                                  <td>{{item.product.type}}</td>
+                                  <td v-if="item.product.type=='FOOD'">Hrana</td>
+                                  <td v-else>Piće</td>
                                   <td>{{item.amount}}</td>
-                                  <td>{{item.product.quantity}}</td>
+                                  <td v-if="item.product.type=='FOOD'">{{item.product.quantity}}g</td>
+                                  <td v-else>{{item.product.quantity}}ml</td>
                                   <td>{{item.product.description}}</td>
                                 </tr>
                               </tbody>
