@@ -4,11 +4,11 @@ import enums.ProductType;
 
 public class Product {
 
-	
+	private String id;
 	private String name;
 	private double price;
 	private ProductType type;
-	private String restaurant;
+	private String restaurantID;
 	private int quantity; // in g or mL
 	private String description;
 	private boolean isDeleted;
@@ -18,17 +18,12 @@ public class Product {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Product( String name, double price, ProductType type, String restaurant, int quantity,
-			String description, boolean isDeleted, String logo) {
-		super();
-		this.name = name;
-		this.price = price;
-		this.type = type;
-		this.restaurant = restaurant;
-		this.quantity = quantity;
-		this.description = description;
-		this.isDeleted = isDeleted;
-		this.logo = logo;
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -55,12 +50,12 @@ public class Product {
 		this.type = type;
 	}
 
-	public String  getRestaurant() {
-		return restaurant;
+	public String getRestaurantID() {
+		return restaurantID;
 	}
 
-	public void setRestaurant(String restaurant) {
-		this.restaurant = restaurant;
+	public void setRestaurantID(String restaurantID) {
+		this.restaurantID = restaurantID;
 	}
 
 	public int getQuantity() {
@@ -94,10 +89,27 @@ public class Product {
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
-	
-	
-	
-	
+
+	public Product(String id, String name, double price, ProductType type, String restaurantID, int quantity,
+			String description, boolean isDeleted, String logo) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.type = type;
+		this.restaurantID = restaurantID;
+		this.quantity = quantity;
+		this.description = description;
+		this.isDeleted = isDeleted;
+		this.logo = logo;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", type=" + type + ", restaurantID="
+				+ restaurantID + ", quantity=" + quantity + ", description=" + description + ", isDeleted=" + isDeleted
+				+ ", logo=" + logo + "]";
+	}
 	
 	
 }

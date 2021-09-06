@@ -76,7 +76,7 @@
      <!-- ------------------------ form ------------------- -->
      <div id="idk" class="container">
 
-          <form class="well form-horizontal">
+          <form id="articles" class="well form-horizontal">
                <fieldset>
 
                     <!-- Form Name -->
@@ -87,7 +87,7 @@
                     </legend><br>
 
                     <!-- Text input-->
-                <div id="articles">
+                <div >
                     <div class="form-group">
                          <label class="col-md-4 control-label">Naziv</label>
                          <div class="col-md-4 inputGroupContainer">
@@ -150,7 +150,7 @@
                     <label class="col-md-4 control-label">Količina</label>
                     <div class="col-md-4 inputGroupContainer">
                          <div class="input-group">
-                              <input placeholder="Opis artikla" v-model="newArticle.quantity" class="form-control" type="text" style="width: 300px;">
+                              <input placeholder="Količina (g/mL)" v-model="newArticle.quantity" class="form-control" type="text" style="width: 300px;">
                          </div>
                     </div>
                       </div>
@@ -171,8 +171,9 @@
                     <div class="form-group" style="align-content: center;">
                          <label class="col-md-4 control-label"></label>
                          <div class="col-md-4"><br>
-                              &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  <input style="text-align: center;" type="button" @click="addArticle"
-                                   class="section-btn">Potvrda</input>
+                              &nbsp&nbsp&nbsp  &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                              <button style="text-align: center;" type="submit" @click="addArticle"
+                                   class="section-btn">Potvrda</button>
                          </div>
                     </div>
 
@@ -221,6 +222,7 @@
      <script src="js/jquery.magnific-popup.min.js"></script>
      <script src="js/smoothscroll.js"></script>
      <script src="js/custom.js"></script>
+     <script src="addNewArticle.js"></script>
 
 
 </body>
