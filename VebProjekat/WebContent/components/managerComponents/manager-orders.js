@@ -1,3 +1,11 @@
+function fixData(orders) {
+	for (var o in orders) {
+		o.dateAndTime = new Date(parseInt(o.dateAndTime));
+       
+	}
+	return orders;
+}
+
 Vue.component("manager-orders", {
 
     data() {
@@ -41,7 +49,9 @@ Vue.component("manager-orders", {
                              <td v-else-if="order.status=='SHIPPING'"> U transportu </td>
                              <td v-else-if="order.status=='DELIVERED'"> Dostavljena </td>
                              <td v-else> Otkazana </td>
-                             <td><span>-</span></td>
+                             <td v-if="order.status=='PENDING'"><button>U pripremi</button></td>
+                             <td v-else-if="order.status=='IN_PREPARATION'"><button>Čeka dostavljača</button></td>
+                             <td v-else><span>-</span></td>
                         </tr>
 
                         <tr>
@@ -51,6 +61,7 @@ Vue.component("manager-orders", {
                               <thead>
                                 <tr>
                                    <th>Slika artikla</th>
+                                   <th>Datum i vrijeme</th>
                                   <th>Ime artikla</th>
                                   <th>Cijena artikla</th>
                                   <th>Tip</th>
@@ -62,6 +73,7 @@ Vue.component("manager-orders", {
                               <tbody>
                               <tr v-for="item in order.orderedItems">
                                   <td><img v-bind:src="item.product.logo" class="rest-img"></td>
+                                  <td>{{order.dateAndTime | dateFormat('DD.MM.YYYY. HH:mm')}}</td>
                                   <td>{{item.product.name}}</td>
                                   <td>{{item.product.price}}</td>
                                   <td v-if="item.product.type=='FOOD'">Hrana</td>
@@ -132,22 +144,15 @@ methods:{
           }
           )
      }*/
-
-     toggleDetails :function(row) {
-          if(row._showDetails){
-            this.$set(row, '_showDetails', false)
-          }else{
-            this.orders.forEach(order => {
-              this.$set(order, '_showDetails', false)
-            })
-  
-            this.$nextTick(() => {
-              this.$set(row, '_showDetails', true)
-            })
+},
+     filters: {
+          dateFormat: function (value, format) {
+              var parsed = moment(value);
+              return parsed.format(format);
           }
-        }
-      }
 
+     }
+         
 
 
 
