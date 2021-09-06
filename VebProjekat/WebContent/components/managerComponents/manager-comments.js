@@ -8,7 +8,9 @@ Vue.component("manager-comments", {
 	
 	template: ` 
     <div id="container">
-   
+    <img src="images/ce3232.png" width="100%" height="90px">
+    
+</section>
     <section class="r-section" v-if="comments.length!=0">
     <h1></h1>
 

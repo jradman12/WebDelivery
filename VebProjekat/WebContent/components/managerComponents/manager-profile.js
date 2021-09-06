@@ -16,6 +16,9 @@ Vue.component("manager-profile", {
     },
 	
 	template: ` 
+     <div>
+     <img src="images/ce3232.png" width="100%" height="90px">
+
 <div class="container">
 <h1></h1>
 <section data-stellar-background-ratio="0.5">
@@ -109,7 +112,7 @@ Vue.component("manager-profile", {
                             </form>
                             </section>
                     </div>
-
+                    </div>
                             
     
     
