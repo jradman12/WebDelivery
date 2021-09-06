@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.*;
 import beans.DeliverRequest;
 import beans.Deliverer;
+import enums.OrderStatus;
 import enums.RequestStatus;
 
 
@@ -184,8 +185,8 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 			if (d.getId().equals(requestId)) {
 				d.setStatus(RequestStatus.APPROVED);
 				d.setManagerID(managerId);
-				
 				saveRequestsJson();
+				OrderDAO.changeStatus(OrderStatus.SHIPPING, d.getOrderID());
 
 				return true;
 			}
