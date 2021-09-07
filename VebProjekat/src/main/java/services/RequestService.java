@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -21,6 +22,7 @@ import javax.ws.rs.core.Response.Status;
 import beans.DeliverRequest;
 import beans.User;
 import dao.ManagerDAO;
+import dao.OrderDAO;
 import dao.RequestDAO;
 import enums.Role;
 
@@ -125,6 +127,36 @@ public class RequestService {
 		
 		
 		
+	}
+	
+	
+	@GET
+	@Path("/getAllRequestsForDeliverer")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<DeliverRequest> getAllRequestsForDeliverer(){
+		 
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		if(user == null || !user.getRole().equals(Role.DELIVERER)) {
+			return null;
+		}
+		
+		return RequestDAO.allDeliverersRequests(user.getUsername());
+	}
+	
+	@POST
+	@Path("/sendRequest")
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response delivererAddRequest(DeliverRequest dr){
+		 
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		if(user == null || !user.getRole().equals(Role.DELIVERER)) {
+			return null;
+		}
+		
+		dr.setDelivererID(user.getUsername());
+		RequestDAO.addNewRequest(dr);
+		return Response.status(Status.ACCEPTED).entity("Zahtjev je poslat!").build();
 	}
 	
 	

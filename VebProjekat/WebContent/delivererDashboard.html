@@ -49,20 +49,23 @@
                                    <router-link to="/" exact>Početna</router-link>
                               </li>
                               <li>
-                                   <router-link to="#" exact>Porudžbine</router-link>
+                                   <router-link to="/showAllOrders" exact>Porudžbine</router-link>
                               </li>
                               <li>
-                                   <router-link to="#" exact>Moje porudžbine</router-link>
+                                   <router-link to="/deliverersOrders" exact>Moje porudžbine</router-link>
                               </li>
                               <li>
-                                   <router-link to="#" exact>Profil</router-link>
+                                   <router-link to="/deliverersRequests" exact>Moji zahtjevi</router-link>
+                              </li>
+                              <li>
+                                   <router-link to="/deliverersProfile" exact>Profil</router-link>
                               </li>
                             
                          </ul>
 
                          <ul class="nav navbar-nav navbar-right">
                               <div id="logoout">
-                                   <button  class="section-btn" @click="logout" >Odjava</button>
+                                   <button  class="section-btn"  >Odjava</button>
                               </div>
                          </ul>
                     </div>
@@ -161,6 +164,8 @@
      <script src="js/axios.js"></script>
      <script src="js/jquery.js"></script>
      <script src="js/bootstrap.min.js"></script>
+     <script src="js/vuejs-datepicker.min.js"></script>
+     <script src="js/moment.min.js"></script>
      <script src="js/jquery.stellar.min.js"></script>
      <script src="js/wow.min.js"></script>
      <script src="js/owl.carousel.min.js"></script>
@@ -168,6 +173,10 @@
      <script src="js/smoothscroll.js"></script>
      <script src="js/custom.js"></script>
      <script src="components/delivererComponents/home-deliverer.js"></script>
+     <script src="components/delivererComponents/all-orders.js"></script>
+     <script src="components/delivererComponents/deliverer-profile.js"></script>
+     <script src="components/delivererComponents/deliverer-requests.js"></script>
+     <script src="components/delivererComponents/deliverer-orders.js"></script>
      <script src="components/delivererRouter.js"></script>
      
      
