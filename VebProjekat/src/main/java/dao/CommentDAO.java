@@ -1,6 +1,7 @@
 package dao;
 
 import java.io.FileNotFoundException;
+import java.util.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -142,6 +143,21 @@ public class CommentDAO {
 		}
 		
 		return false;
+	}
+	
+	
+	public static Collection<Comment> getCommentsForRestaurant(String id){
+		List<Comment> commentsForRestaurant = new ArrayList<Comment>();
+		loadComments("");
+		for(Comment c : comments.values()) {
+			if(c.getRestaurant().equals(id)) {
+				commentsForRestaurant.add(c);
+				
+			}
+		}
+		
+		return commentsForRestaurant;
+		
 	}
 	
 

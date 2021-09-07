@@ -77,21 +77,8 @@ public class CommentService {
 			return null;
 		}
 			
-		Map<String, Comment> comments = new HashMap<>();
-		List<Comment> commentsForRestaurant = new ArrayList<Comment>();
-		//CommentDAO.saveCommentsJSON();
-		CommentDAO.loadComments("");//dobavljamo sve komentare
-		comments = CommentDAO.comments; 
 		String r = ManagerDAO.getRestaurantForManager(user.getUsername());
-		for(Comment c : comments.values()) {
-			if(c.getRestaurantID().equals(r)) {
-				commentsForRestaurant.add(c);
-				
-			}
-			
-		}
-		
-		return commentsForRestaurant;
+		return CommentDAO.getCommentsForRestaurant(r);
 	}
 	
 	@GET
@@ -129,10 +116,10 @@ public class CommentService {
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return Response.status(403).entity("Ne mo�ete pristupiti resursu").build();
 		}
-		
+		String r = ManagerDAO.getRestaurantForManager(user.getUsername());
 		boolean success=CommentDAO.changeStatus(StatusOfComment.APPROVED, id);
 		if(success) {
-			return Response.status(202).entity(CommentDAO.comments.values()).build();
+			return Response.status(202).entity(CommentDAO.getCommentsForRestaurant(r)).build();
 		}else {
 			return Response.status(400).entity("Neuspjeh").build();
 		}

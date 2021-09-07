@@ -3,6 +3,7 @@ const ManagerRestaurant = { template: '<manager-restaurant></manager-restaurant>
 const ManagersProfile = { template: '<manager-profile></manager-profile>' }
 const ManagersComments = { template: '<manager-comments></manager-comments>' }
 const ManagersOrders = { template: '<manager-orders></manager-orders>' }
+const ManagersRequests={template: '<manager-requests></manager-requests>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -11,7 +12,8 @@ const router = new VueRouter({
 	    { path: '/showManagerRestaurant', name: 'manager-restaurant', component: ManagerRestaurant },
 		 { path: '/managersProfile', name: 'manager-profile', component: ManagersProfile },
 		 { path: '/managersComments', name: 'manager-comments', component: ManagersComments },
-		 { path: '/managersOrders', name: 'manager-orders', component: ManagersOrders }
+		 { path: '/managersOrders', name: 'manager-orders', component: ManagersOrders },
+		 { path: '/managersRequests', name: 'manager-requests', component: ManagersRequests }
 	  ]
 });
 

@@ -16,9 +16,10 @@ Vue.component("manager-orders", {
 
     <div id="coms">
          <div class="tbl-header">
-              <table  class="r-table" cellpadding="0" cellspacing="0" border="0"  style="border-collapse:collapse;" data-toggle="table"  data-search="true" data-show-pagination-switch="true">
+              <table  class="r-table" cellpadding="0" cellspacing="0" border="0"   data-toggle="table"  data-search="true" data-show-pagination-switch="true">
                    <thead>
                         <tr>
+                              <th>Identifikator porudžbine</th>
                              <th>Kupac</th>
                              <th>Cijena</th>
                              <th>Status</th>
@@ -30,27 +31,31 @@ Vue.component("manager-orders", {
               </table>
          </div>
          <div class="tbl-content">
-              <table class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" data-toggle="collapse" data-target="#collapsedRow1" >
+              <table class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0"  >
                    <tbody v-for="order in orders">
                         <tr >
-                             <td> {{ order.customer }} </td>
-                             <td> {{ order.price }} </td>
-                             <td v-if="order.status=='PENDING'"> Obrada </td>
-                             <td v-else-if="order.status=='IN_PREPARATION'"> U pripremi </td>
-                             <td v-else-if="order.status=='AWAITING_DELIVERER'"> Čeka dostavljača </td>
-                             <td v-else-if="order.status=='SHIPPING'"> U transportu </td>
-                             <td v-else-if="order.status=='DELIVERED'"> Dostavljena </td>
-                             <td v-else> Otkazana </td>
-                             <td><span>-</span></td>
+                        <td data-toggle="collapse" data-target="#collapsedRow1"> {{ order.id }} </td>
+                             <td data-toggle="collapse" data-target="#collapsedRow1"> {{ order.customer }} </td>
+                             <td data-toggle="collapse" data-target="#collapsedRow1"> {{ order.price }} </td>
+                             <td v-if="order.status=='PENDING'" data-toggle="collapse" data-target="#collapsedRow1"> Obrada </td>
+                             <td v-else-if="order.status=='IN_PREPARATION'" data-toggle="collapse" data-target="#collapsedRow1"> U pripremi </td>
+                             <td v-else-if="order.status=='AWAITING_DELIVERER'" data-toggle="collapse" data-target="#collapsedRow1"> Čeka dostavljača </td>
+                             <td v-else-if="order.status=='SHIPPING'" data-toggle="collapse" data-target="#collapsedRow1"> U transportu </td>
+                             <td v-else-if="order.status=='DELIVERED'" data-toggle="collapse" data-target="#collapsedRow1"> Dostavljena </td>
+                             <td v-else data-toggle="collapse" data-target="#collapsedRow1"> Otkazana </td>
+                             <td v-if="order.status=='PENDING'"><button @click="changeStatusInPreparation(order)">U pripremi</button></td>
+                             <td v-else-if="order.status=='IN_PREPARATION'"><button @click="changeStatusInAwaitingDeliverer(order)">Čeka dostavljača</button></td>
+                             <td v-else data-toggle="collapse" data-target="#collapsedRow1"><span>-</span></td>
                         </tr>
 
-                        <tr>
+                         <tr>
                         <td colspan="12" class="hiddenRow">
                           <div class="accordion-body collapse container-fluid" id="collapsedRow1">
                             <table class="table table-striped table-bordered">
                               <thead>
                                 <tr>
                                    <th>Slika artikla</th>
+                                   <th>Datum i vrijeme</th>
                                   <th>Ime artikla</th>
                                   <th>Cijena artikla</th>
                                   <th>Tip</th>
@@ -62,6 +67,7 @@ Vue.component("manager-orders", {
                               <tbody>
                               <tr v-for="item in order.orderedItems">
                                   <td><img v-bind:src="item.product.logo" class="rest-img"></td>
+                                  <td>{{order.dateAndTime | dateFormat('DD.MM.YYYY. HH:mm')}}</td>
                                   <td>{{item.product.name}}</td>
                                   <td>{{item.product.price}}</td>
                                   <td v-if="item.product.type=='FOOD'">Hrana</td>
@@ -108,46 +114,46 @@ mounted : function() {
 },
 
 methods:{
-    /* approveComment : function(comment){
-          axios
-          .put('rest/comments/approveComment/' + comment.id)
-          .then(response=>{
-               this.comments = [];
-               response.data.forEach(x => {
-                   this.comments.push(x);
-               });
-               return this.comments;
-          }
-          )
-     },
-     declineComment : function(comment){
-          axios
-          .put('rest/comments/rejectComment/' + comment.id)
-          .then(response=>{
-               this.comments = [];
-               response.data.forEach(x => {
-                   this.comments.push(x);
-               });
-               return this.comments;
-          }
-          )
-     }*/
+     changeStatusInPreparation : function(order){
 
-     toggleDetails :function(row) {
-          if(row._showDetails){
-            this.$set(row, '_showDetails', false)
-          }else{
-            this.orders.forEach(order => {
-              this.$set(order, '_showDetails', false)
-            })
-  
-            this.$nextTick(() => {
-              this.$set(row, '_showDetails', true)
-            })
-          }
-        }
-      }
+          axios
+          .put('rest/orders/updateOrderStatusIP/' + order.id)
+          .then( response => {
+               this.orders=[];
+               response.data.forEach(x => {
+                    this.orders.push(x);
+               })
+                    
+               });
+          
 
+          },
+
+     changeStatusInAwaitingDeliverer : function(order){
+
+               axios
+               .put('rest/orders/updateOrderStatusAD/' + order.id)
+               .then( response => {
+                    this.orders=[];
+                    response.data.forEach(x => {
+                         this.orders.push(x);
+                    })
+                         
+                    });
+               
+     
+               }
+
+
+},
+     filters: {
+          dateFormat: function (value, format) {
+              var parsed = moment(value);
+              return parsed.format(format);
+          }
+
+     }
+         
 
 
 
