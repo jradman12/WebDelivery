@@ -150,7 +150,7 @@ public class CommentDAO {
 		List<Comment> commentsForRestaurant = new ArrayList<Comment>();
 		loadComments("");
 		for(Comment c : comments.values()) {
-			if(c.getRestaurant().equals(id)) {
+			if(c.getRestaurantID().equals(id)) {
 				commentsForRestaurant.add(c);
 				
 			}
