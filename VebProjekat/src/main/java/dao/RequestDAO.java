@@ -74,7 +74,7 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 				Gson gs = new Gson();
 				String requestsJson = "";
 				try {
-					requestsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json")));
+					requestsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json")));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -94,7 +94,7 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 	
 	public static void saveRequestsJson() {
 		
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json";
 		Map<String, DeliverRequest> allRequests = new HashMap<>();
 		for (DeliverRequest dr : findAll()) {
 			allRequests.put(dr.getId(),dr);

@@ -30,14 +30,14 @@ public class AdministratorDAO {
 	}
 	
 	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Može se pristupiti samo iz servleta.
+	 * @param contextPath Putanja do aplikacije u Tomcatu. Moï¿½e se pristupiti samo iz servleta.
 	 */
 	public AdministratorDAO(String contextPath) {
 		loadAdmins(contextPath);
 	}
 	
 	/**
-	 * Vraæa korisnika za prosleðeno korisnièko ime i šifru. Vraæa null ako korisnik ne postoji
+	 * Vraï¿½a korisnika za prosleï¿½eno korisniï¿½ko ime i ï¿½ifru. Vraï¿½a null ako korisnik ne postoji
 	 * @param username
 	 * @param password
 	 * @return
@@ -58,8 +58,8 @@ public class AdministratorDAO {
 	}
 	
 	/**
-	 * Uèitava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Kljuè je korisnièko ime korisnika.
+	 * Uï¿½itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
+	 * Kljuï¿½ je korisniï¿½ko ime korisnika.
 	 * @param contextPath Putanja do aplikacije u Tomcatu
 	 */
 	private static void loadAdmins(String contextPath) {
@@ -93,7 +93,7 @@ public class AdministratorDAO {
 				
 				String adminsJson = "";
 				try {
-					adminsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json")));
+					adminsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -183,7 +183,7 @@ public class AdministratorDAO {
 	}
 	
 	public static void saveAdministratorsJSON() {
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
 		
 
 		Map<String, Administrator> allAdmins = new HashMap<>();
