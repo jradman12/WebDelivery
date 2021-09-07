@@ -6,7 +6,7 @@ public class Comment {
 
 	private String id;
 	private String author;
-	private String restaurant;
+	private String restaurantID;
 	private String text;
 	private int rating;
 	private StatusOfComment status;
@@ -16,12 +16,12 @@ public class Comment {
 	}
 	
 
-	public Comment(String id, String author, String restaurant, String text, int rating, StatusOfComment status,
+	public Comment(String id, String author, String restaurantID, String text, int rating, StatusOfComment status,
 			boolean isDeleted) {
 		super();
 		this.id = id;
 		this.author = author;
-		this.restaurant = restaurant;
+		this.restaurantID = restaurantID;
 		this.text = text;
 		this.rating = rating;
 		this.status = status;
@@ -45,12 +45,12 @@ public class Comment {
 		this.author = author;
 	}
 
-	public String getRestaurant() {
-		return restaurant;
+	public String getRestaurantID() {
+		return restaurantID;
 	}
 
-	public void setRestaurant(String restaurant) {
-		this.restaurant = restaurant;
+	public void setRestaurantID(String restaurantID) {
+		this.restaurantID = restaurantID;
 	}
 
 	public String getText() {
@@ -87,6 +87,13 @@ public class Comment {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Comment [id=" + id + ", author=" + author + ", restaurantID=" + restaurantID + ", text=" + text
+				+ ", rating=" + rating + ", status=" + status + ", isDeleted=" + isDeleted + "]";
 	}
 	
 	

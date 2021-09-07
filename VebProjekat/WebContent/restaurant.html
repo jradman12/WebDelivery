@@ -74,51 +74,52 @@
 
         <img src="images/ce3232.png" width="100%" height="90px">
 
-
-        <section class="r-section">
-            <div id = "xxx" class="recent-listing">
-                <div  class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="item">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="listing-item">
-                                            <div class="left-image">
-                                                <a href="restaurant.html"><img v-bind:src="restaurant.logo" class="rest-img" alt=""></a>
-                                            </div>
-                                            <div  class="right-content align-self-center">
-                                                <a href="restaurant.html">
-                                                    <h4>{{restaurant.name}}</h4>
-                                                </a>
-                                                <h6>{{restaurant.status == 'OPEN' ? 'Otvoren' : 'Zatvoren'}}</h6>
-                                                <p>{{restaurant.averageRating}}</p>
-                                                <span>{{ (restaurant.location).address.addressName  }}</span>
-                                                <span>, </span>
-                                                <span>{{ (restaurant.location).address.city }}</span>
-                                                <span>, </span>
-                                                <span>{{ (restaurant.location).address.postalCode  }}</span>
+        <div id="dying">
+            <section class="r-section">
+                <div class="recent-listing">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="item">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="listing-item">
+                                                <div class="left-image">
+                                                    <a><img v-bind:src="restaurant.logo" class="rest-img" alt=""></a>
+                                                </div>
+                                                <div class="right-content align-self-center">
+                                                    <a>
+                                                        <h4>{{restaurant.name}}</h4>
+                                                    </a>
+                                                    <h6>{{restaurant.status == 'OPEN' ? 'Otvoren' : 'Zatvoren'}}</h6>
+                                                    <p>{{restaurant.averageRating}}</p>
+                                                    <span>{{ (restaurant.location).address.addressName }}</span>
+                                                    <span>, </span>
+                                                    <span>{{ (restaurant.location).address.city }}</span>
+                                                    <span>, </span>
+                                                    <span>{{ (restaurant.location).address.postalCode }}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <row></row>
-                    </div>
-                    <div class="listing-item">
-                        <div id="googleMap" style="width:80%;height:500px; border-style: inset; border-color:#ce32322d;"></div>
-                    </div>
+                        <div>
+                            <row></row>
+                        </div>
+                        <div class="listing-item">
+                            <div id="map" style="width:80%;height:500px; border-style: inset; border-color:#ce32322d;">
+                            </div>
+                        </div>
 
-                    <section>
+                        <section>
                         <div class="gtco-section">
                             <div class="gtco-container">
                                 <div class="row">
                                     <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
                                         <h1 class="cursive-font primary-color">JELOVNIK</h1>
-                                        <p>Uživajte</p>
+                                        <p>Uživajte!</p>
                                     </div>
                                 </div>
 
@@ -129,34 +130,61 @@
                                 <div class="row" v-else>
 
                                     <div class="col-lg-4 col-md-4 col-sm-6" v-for="product in restaurant.menu">
-                                        <a v-bind:href="product.product.logo" class="fh5co-card-item image-popup"></a>
-                                            <figure>
-                                                <div class="overlay"><i class="ti-plus"></i></div>
-                                                <img v-bind:src="product.product.logo" alt="Image" class="img-responsive">
-                                            </figure>
-                                            <div class="fh5co-text">
-                                                <h2>{{product.product.name}}</h2>
-                                                <p>{{product.product.description}}</p>
-                                                <p><span class="price cursive-font">{{product.product.price}}</span></p>
-                                            </div>
+                                        <a v-bind:href="product.logo" class="fh5co-card-item image-popup">
+                                        <figure>
+                                            <div class="overlay"><i class="ti-plus"></i></div>
+                                            <img v-bind:src="product.logo" alt="Image" class="img-responsive">
+                                        </figure>
+                                        <div class="fh5co-text">
+                                            <h2>{{product.name}}</h2>
+                                            <p>{{product.description}}</p>
+                                            <p><span class="price cursive-font">{{product.price}}</span></p>
+                                        </div>
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> 
 
-                    <section style="width: 80%; text-align: center;">
-                        <div>
-                            <h1>I tu još neki pregled ocjena, kad se naspavam</h1>
-                        </div>
-                    </section>
+                        <section style="width: 80%; text-align: center;">
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+                                    <h1 class="cursive-font primary-color">Recenzije restorana</h1>
+                                    <br>
+                                    <p>Pogledajte šta su drugi kupci rekli o uslugama ovog restorana.</p>
+                                </div>
+                            </div>
+                            <div class="tbl-header">
+                                <table class="r-table" cellpadding="0" cellspacing="0" border="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Ocjena</th>
+                                            <th>Komentar</th>
+                                            <th>Autor</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
 
+                            <div class="tbl-content">
+                                <table class="r-table" cellpadding="0" cellspacing="0" border="0">
+                                    <tbody>
+                                        <tr v-for="comment in comments2">
+                                            <td>{{ comment.rating }}</td>
+                                            <td>{{ comment.text }}</td>
+                                            <td>{{ comment.author }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                    </div>
                 </div>
-            </div>
 
-        </section>
-
+            </section>
+        </div>
         <!-- FOOTER -->
         <footer id="footer" data-stellar-background-ratio="0.5">
             <div class="container">
@@ -195,12 +223,13 @@
     <script src="js/smoothscroll.js"></script>
     <script src="js/custom.js"></script>
     <script src="restaurant.js"></script>
-    <script src="placesMap.js"></script>
+
+    <script src="googleMap.js"></script>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPh6HCDbNWHnQaz0ah1KYa0P123mkCAEU&callback=initAutocomplete&libraries=places&v=weekly"
-        async></script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPh6HCDbNWHnQaz0ah1KYa0P123mkCAEU&callback=initMap"></script>
 
 
+    
 </body>
 
 </html>
