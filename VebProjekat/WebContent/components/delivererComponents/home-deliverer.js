@@ -1,10 +1,11 @@
-Vue.component("home-manager", {
+Vue.component("home-deliverer", {
 
-     data() {
-          return {
-              loggedInUser : {}
-          }
-      },
+    data() {
+        return {
+            loggedInUser : {}
+        }
+    },
+
 	
 	template: ` 
     	<div>
@@ -24,9 +25,10 @@ Vue.component("home-manager", {
      </section>    
      </div>
 `,
+
 mounted : function() {
-     axios
-    .get('rest/users/getLoggedUser')
-    .then(response => (this.loggedInUser = response.data))
- }
+    axios
+   .get('rest/users/getLoggedUser')
+   .then(response => (this.loggedInUser = response.data))
+}
 });

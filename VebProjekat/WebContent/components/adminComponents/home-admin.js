@@ -1,5 +1,11 @@
 Vue.component("home-admin", {
 
+     data() {
+          return {
+              loggedInUser : {}
+          }
+      },
+
      template: ` 
     <div id="dash">
     <section  class="admin-dash" data-stellar-background-ratio="0.5">
@@ -8,7 +14,7 @@ Vue.component("home-admin", {
 
                     <div class="col-md-8 col-ms-12">
                          <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
-                              <h1>Dobrodošli! </h1>
+                              <h1>Dobrodošli {{loggedInUser.fistName}}! </h1>
                               <h5></h5>
                          </div>
                     </div>
@@ -67,5 +73,11 @@ Vue.component("home-admin", {
           </div>
      </section>
      </div>
-`
+`,
+
+mounted : function() {
+     axios
+    .get('rest/users/getLoggedUser')
+    .then(response => (this.loggedInUser = response.data))
+ }
 });

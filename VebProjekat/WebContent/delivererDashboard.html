@@ -24,64 +24,58 @@
 </head>
 <body>
 
-     <!-- PRE LOADER -->
-     <section class="preloader">
-          <div class="spinner">
+     <div id="ruterDostavljac">
 
-               <span class="spinner-rotate"></span>
-               
-          </div>
-     </section>
+          <!-- MENU -->
+          <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+               <div class="container">
+                    <!-- <div class="adminDash"> -->
 
- <!-- MENU -->
- <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
-     <div class = "container">
-          <!-- <div class="adminDash"> -->
+                    <div class="navbar-header">
+                         <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                              <span class="icon icon-bar"></span>
+                              <span class="icon icon-bar"></span>
+                              <span class="icon icon-bar"></span>
+                         </button>
 
-               <div class="navbar-header">
-                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                         <span class="icon icon-bar"></span>
-                         <span class="icon icon-bar"></span>
-                         <span class="icon icon-bar"></span>
-                    </button>
+                         <!-- lOGO TEXT HERE -->
+                         <a href="#" class="navbar-brand">c r u s t</a>
+                    </div>
 
-                    <!-- lOGO TEXT HERE -->
-                    <a href="index.html" class="navbar-brand">c r u s t</a>
+                    <!-- MENU LINKS -->
+                    <div class="collapse navbar-collapse">
+                         <ul class="nav navbar-nav navbar-nav-first">
+                              <li>
+                                   <router-link to="/" exact>Početna</router-link>
+                              </li>
+                              <li>
+                                   <router-link to="#" exact>Porudžbine</router-link>
+                              </li>
+                              <li>
+                                   <router-link to="#" exact>Moje porudžbine</router-link>
+                              </li>
+                              <li>
+                                   <router-link to="#" exact>Profil</router-link>
+                              </li>
+                            
+                         </ul>
+
+                         <ul class="nav navbar-nav navbar-right">
+                              <div id="logoout">
+                                   <button  class="section-btn" @click="logout" >Odjava</button>
+                              </div>
+                         </ul>
+                    </div>
+
+
                </div>
+          </section>
 
-               <!-- MENU LINKS -->
-               <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-nav-first">
-                         <li><a href="#home" class="smoothScroll">Lista porudžbina</a></li>
-                         <li><a href="#about" class="smoothScroll">Neisporučene porudžbine</a></li>
-                         <li><a href="#team" class="smoothScroll">Moji zahtjevi</a></li>
-                    </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                         <button type="button" class="section-btn" data-toggle="modal" data-target="#loginModal">Moj profil</button>
-                         <a type="button" href="index.html" class="section-btn" data-toggle="modal" >Odjava</a>
-                    </ul>
-               </div>
-
-          <!-- </div> -->
+          <router-view></router-view>
      </div>
-</section>
 
-     <section  id ="dash" class ="admin-dash" data-stellar-background-ratio="0.5">
-        <div class="container" >
-             <div class="row">
-
-                  <div class="col-md-8 col-ms-12">
-                       <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
-                         <h1>Dobrodošli, {{loggedInUser.fistName }}! </h1>
-                         <h5></h5>
-                       </div>
-                  </div>  
-             </div>
-        </div>
-   </section>
-
-     <section class="section" >
+    <!-- <section class="section" >
         <div class="container">
             <div class="row">
                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"
@@ -132,7 +126,7 @@
                
             </div>
         </div>
-    </section>
+    </section>-->
 
 
 
@@ -163,6 +157,7 @@
 
      <!-- SCRIPTS -->
      <script src="js/vue.js"></script>
+     <script src="js/vue-router.js"> </script>
      <script src="js/axios.js"></script>
      <script src="js/jquery.js"></script>
      <script src="js/bootstrap.min.js"></script>
@@ -172,7 +167,10 @@
      <script src="js/jquery.magnific-popup.min.js"></script>
      <script src="js/smoothscroll.js"></script>
      <script src="js/custom.js"></script>
-     <script src="loggedUser.js"></script>
+     <script src="components/delivererComponents/home-deliverer.js"></script>
+     <script src="components/delivererRouter.js"></script>
+     
+     
 
 
 	
