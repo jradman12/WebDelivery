@@ -37,7 +37,7 @@ let restss = new Vue({
             axios
             .post('rest/restaurants/setCurrentRestaurant', rest)
             
-            location.href = "restaurant.html";
+            setTimeout(function(){ location.href = "restaurant.html"}, 2000);
         },
         sort: function () {
             console.log(this.sortFilter);

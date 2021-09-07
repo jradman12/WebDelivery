@@ -22,6 +22,7 @@ import beans.Restaurant;
 import beans.User;
 import dao.CommentDAO;
 import dao.ManagerDAO;
+import dao.RestaurantDAO;
 import enums.Role;
 import enums.StatusOfComment;
 
@@ -78,6 +79,30 @@ public class CommentService {
 			
 		String r = ManagerDAO.getRestaurantForManager(user.getUsername());
 		return CommentDAO.getCommentsForRestaurant(r);
+	}
+	
+	@GET
+	@Path("/getCommentsForRestaurant")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Comment> getCommentsForRestaurant(){
+			
+		Map<String, Comment> comments = new HashMap<>();
+		List<Comment> commentsForRestaurant = new ArrayList<Comment>();
+		CommentDAO.loadComments("");//dobavljamo sve komentare
+		comments = CommentDAO.comments; 
+		///
+		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
+		String currentRestID = (String) ctx.getAttribute("currentRestID");
+		///
+		for(Comment c : comments.values()) {
+			System.out.println(c);
+			System.out.println("current rest id " + currentRestID);
+			if(c.getRestaurantID().equals(currentRestID)) {
+				
+				commentsForRestaurant.add(c);
+			}
+		}
+		return commentsForRestaurant;
 	}
 	
 	@PUT

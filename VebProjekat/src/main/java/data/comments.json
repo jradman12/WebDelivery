@@ -2,7 +2,7 @@
 	"1": {
 		"id": "1",
 		"author": "mini",
-		"restaurant": "1",
+		"restaurantID": "1",
 		"text": "Veoma brza i vrhunska dostava.Hrana je preukusna.",
 		"rating": 5,
 		"status": "APPROVED",

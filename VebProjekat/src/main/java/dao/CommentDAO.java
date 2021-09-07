@@ -46,7 +46,7 @@ public class CommentDAO {
 				Gson gs = new Gson();
 				String commentsJson = "";
 				try {
-					commentsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json")));	
+					commentsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json")));	
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -63,7 +63,7 @@ public class CommentDAO {
 	
 	public static void saveCommentsJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
 		Map<String, Comment> allComments = new HashMap<>();
 		for (Comment c : findAll()) {
 			allComments.put(c.getId(),c);
@@ -111,7 +111,7 @@ public class CommentDAO {
 		newComment.setAuthor(comment.getAuthor());
 		newComment.setId(generateNextId());
 		newComment.setRating(comment.getRating());
-		newComment.setRestaurant(comment.getRestaurant());
+		newComment.setRestaurantID(comment.getRestaurantID());
 		newComment.setText(comment.getText());
 		addComment(newComment);
 		saveCommentsJSON();
@@ -150,7 +150,7 @@ public class CommentDAO {
 		List<Comment> commentsForRestaurant = new ArrayList<Comment>();
 		loadComments("");
 		for(Comment c : comments.values()) {
-			if(c.getRestaurant().equals(id)) {
+			if(c.getRestaurantID().equals(id)) {
 				commentsForRestaurant.add(c);
 				
 			}

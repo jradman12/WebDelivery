@@ -1,16 +1,13 @@
 function initMap() {
 
-	// $.get({
-	// 	url: 'rest/restaurants/getCurrentRestaurant',
-	// 	contentType: 'application/json',
-	// 	success: function (rest) {
-	// 		var location = rest.location.address.addressName + rest.location.address.city + rest.location.address.postalCode;
-	// 		geocode(location);
-	// 	}
-	// });
-
-	geocode("Jevrejska 2, Novi Sad, 21000");
-
+	$.get({
+		url: 'rest/restaurants/getCurrentRestaurant',
+		contentType: 'application/json',
+		success: function (rest) {
+			var loco = rest.location.address.addressName + rest.location.address.city + rest.location.address.postalCode;
+			geocode(loco);
+		}
+	});	
 }
 
 function geocode(location) {
@@ -35,7 +32,7 @@ function geocode(location) {
 function marker(lat, lng) {
 
 	//initialize map
-	var map = new google.maps.Map(document.getElementById("googleMap"), {
+	var map = new google.maps.Map(document.getElementById("map"), {
 		center: new google.maps.LatLng(lat, lng),
 		zoom: 15,
 		maxZoom: 20,
