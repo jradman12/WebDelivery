@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Crust food delivery service</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+
+
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <div id="app">
+        <!-- PRE LOADER -->
+        <section class="preloader">
+            <div class="spinner">
+
+                <span class="spinner-rotate"></span>
+
+            </div>
+        </section>
+
+        <!-- MENU -->
+        <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <div class="navbar-header">
+                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                    </button>
+
+                    <!-- lOGO TEXT HERE -->
+                    <a href="index.html" class="navbar-brand">c r u s t</a>
+                </div>
+
+                <!-- MENU LINKS -->
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-nav-first">
+                        <li><a href="#home" class="smoothScroll">Početna</a></li>
+                        <li><a href="#about" class="smoothScroll">O nama</a></li>
+                        <li><a href="#team" class="smoothScroll">Restorani</a></li>
+                        <li><a href="#menu" class="smoothScroll">Menu</a></li>
+                        <li><a href="#contact" class="smoothScroll">Kontakt</a></li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <button type="button" class="section-btn" data-toggle="modal" data-target="#loginModal">Moj
+                            profil</button>
+                        <a type="button" href="index.html" class="section-btn" data-toggle="modal">Odjava</a>
+                    </ul>
+                </div>
+
+                <!-- </div> -->
+            </div>
+        </section>
+
+        <img src="images/ce3232.png" width="100%" height="90px">
+
+
+        <section class="r-section">
+            <div id="xxxx" class="xxxx">
+
+                <!-- Header -->
+                <header class="container">
+                    <h1>Shopping Cart</h1>
+                    <ul class="breadcrumb">
+                        <li>Home</li>
+                        <li>Shopping Cart</li>
+                    </ul>
+                    <span class="count">{{ itemCount }} items in the bag</span>
+                </header>
+                <!-- End Header -->
+    
+                <!-- Product List -->
+                <section class="container">
+                    <div v-if="products.length > 0">
+                        <ul class="products">
+                            <li class="row" v-for="(product, index) in products">
+                                <div class="col left">
+                                    <div class="thumbnail">
+                                        <a href="#">
+                                            <img :src="product.image" :alt="product.name" />
+                                        </a>
+                                    </div>
+                                    <div class="detail">
+                                        <div class="name"><a href="#">{{ product.name }}</a></div>
+                                        <div class="description">{{ product.description }}</div>
+                                        <div class="price">{{ product.price | currencyFormatted }}</div>
+                                    </div>
+                                </div>
+    
+                                <div class="col right">
+                                    <div class="quantity">
+                                        <input type="number" class="quantity" step="1" :value="product.quantity"
+                                            @input="updateQuantity(index, $event)" @blur="checkQuantity(index, $event)" />
+                                    </div>
+    
+                                    <div class="remove">
+                                        <svg @click="removeItem(index)" version="1.1" class="close"
+                                            xmlns="//www.w3.org/2000/svg" xmlns:xlink="//www.w3.org/1999/xlink" x="0px"
+                                            y="0px" viewBox="0 0 60 60" enable-background="new 0 0 60 60"
+                                            xml:space="preserve">
+                                            <polygon
+                                                points="38.936,23.561 36.814,21.439 30.562,27.691 24.311,21.439 22.189,23.561 28.441,29.812 22.189,36.064 24.311,38.186 30.562,31.934 36.814,38.186 38.936,36.064 32.684,29.812">
+                                            </polygon>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div v-else class="empty-product">
+                        <h3>There are no products in your cart.</h3>
+                        <button>Shopping now</button>
+                    </div>
+                </section>
+                <!-- End Product List -->
+    
+                <!-- Summary -->
+                <section class="container" v-if="products.length > 0">
+                    <div class="promotion">
+                        <label for="promo-code">Have A Promo Code?</label>
+                        <input type="text" id="promo-code" v-model="promoCode" /> <button type="button"
+                            @click="checkPromoCode"></button>
+                    </div>
+    
+                    <div class="summary">
+                        <ul>
+                            <li>Subtotal <span>{{ subTotal | currencyFormatted }}</span></li>
+                            <li v-if="discount > 0">Discount <span>{{ discountPrice | currencyFormatted }}</span></li>
+                            <li>Tax <span>{{ tax | currencyFormatted }}</span></li>
+                            <li class="total">Total <span>{{ totalPrice | currencyFormatted }}</span></li>
+                        </ul>
+                    </div>
+    
+                    <div class="checkout">
+                        <button type="button">Check Out</button>
+                    </div>
+                </section>
+                <!-- End Summary -->
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer id="footer" data-stellar-background-ratio="0.5">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-2 col-sm-4">
+                        <ul class="wow fadeInUp social-icon" data-wow-delay="0.4s">
+                            <li><a href="#" class="fa fa-facebook-square" attr="facebook icon"></a></li>
+                            <li><a href="#" class="fa fa-twitter"></a></li>
+                            <li><a href="#" class="fa fa-instagram"></a></li>
+                            <li><a href="#" class="fa fa-google"></a></li>
+                        </ul>
+
+                        <div class="wow fadeInUp copyright-text" data-wow-delay="0.8s">
+                            <p><br>Copyright &copy; 2021 <br>Jela & Boba
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+
+    <!-- SCRIPTS -->
+    <script src="js/vue.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/axios.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="xxxx.js"></script>
+
+</body>
+
+</html>
