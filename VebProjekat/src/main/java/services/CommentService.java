@@ -97,7 +97,7 @@ public class CommentService {
 		for(Comment c : comments.values()) {
 			System.out.println(c);
 			System.out.println("current rest id " + currentRestID);
-			if(c.getRestaurantID().equals(currentRestID)) {
+			if(c.getRestaurantID().equals(currentRestID) && c.getStatus().equals(StatusOfComment.APPROVED)) {
 				
 				commentsForRestaurant.add(c);
 			}
