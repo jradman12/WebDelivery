@@ -5,7 +5,7 @@ Vue.component("customer-cart", {
       cartItems: [],
       price : 0, 
       customerID : '',
-      tax: 5,
+      customerType : {},
       promotions: [
         {
           code: "GOLD",
@@ -20,8 +20,7 @@ Vue.component("customer-cart", {
           discount: "2%"
         }
       ],
-      promoCode: "",
-      discount: 0
+      promoCode: ""
     }
   },
   template: ` 
@@ -110,19 +109,14 @@ Vue.component("customer-cart", {
         <div class="col-lg-12">
 
             <div class="listing-item">
-                <section class="xxxx" v-if="cartItems.length > 0">
-                    <div class="promotion">
-                        <label for="promo-code">Koji ste tip korisnika?</label>
-                        <input type="text" id="promo-code" v-model="promoCode" /> <button type="button"
-                            @click="checkPromoCode"></button>
+               
                     </div>
 
 
                     <div class="summary">
                         <ul>
                             <li>Cijena <span>{{ subTotal  }}</span></li>
-                            <li v-if="discount > 0">Popust <span>{{ discountPrice  }}</span></li>
-                            <li>Dostava <span>{{ tax }}</span></li>
+                            <li v-if="customerType.discount > 0">Popust <span>{{ discountPrice  }}</span></li>
                             <li class="total">Ukupno <span>{{ totalPrice}}</span></li>
                         </ul>
                         <div class="checkout">
@@ -139,13 +133,21 @@ Vue.component("customer-cart", {
 </div>
 `,
 
-  mounted() {
+  created() {
     axios
     .get("rest/cart/getCart")
     .then(response => (this.cartItems = response.data.items,
                        this.price = response.data.price,
                        this.customerID = response.data.customerID ))
-  },
+    },
+
+    mounted(){
+
+      axios 
+       .get("rest/customers/getCustomerType")
+       .then(response => (this.customerType = response.data))
+
+    },
 
   computed: {
     itemCount: function () {
@@ -167,10 +169,10 @@ Vue.component("customer-cart", {
       return subTotal;
     },
     discountPrice: function () {
-      return this.subTotal * this.discount / 100;
+      return this.subTotal * this.customerType.discount / 100;
     },
     totalPrice: function () {
-      return this.subTotal - this.discountPrice + this.tax;
+      return this.subTotal - this.discountPrice;
     }
   },
 
@@ -209,18 +211,7 @@ Vue.component("customer-cart", {
        .then( this.cartItems.splice(index, 1))       
        
 
-    },
-    checkPromoCode: function () {
-      for (var i = 0; i < this.promotions.length; i++) {
-        if (this.promoCode === this.promotions[i].code) {
-          this.discount = parseFloat(
-            this.promotions[i].discount.replace("%", "")
-          );
-          return;
-        }
-      }
-
-      alert("Nevalidan tip korisnika!");
     }
+   
   }
 });

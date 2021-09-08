@@ -4,17 +4,17 @@ public class CustomerType {
 
 	private String typeName;
 	private int discount;
-	private int points;
+	private int minPoints;
 	
 	public CustomerType() {
 		
 	}
 
-	public CustomerType(String typeName, int discount, int points) {
+	public CustomerType(String typeName, int discount, int minPoints) {
 		super();
 		this.typeName = typeName;
 		this.discount = discount;
-		this.points = points;
+		this.minPoints = minPoints;
 	}
 
 	public String getTypeName() {
@@ -33,12 +33,12 @@ public class CustomerType {
 		this.discount = discount;
 	}
 
-	public int getPoints() {
-		return points;
+	public int getMinPoints() {
+		return minPoints;
 	}
 
-	public void setPoints(int points) {
-		this.points = points;
+	public void setMinPoints(int points) {
+		this.minPoints = points;
 	}
 	
 	

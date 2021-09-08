@@ -8,7 +8,13 @@
 		"dateOfBirth": "Nov 24, 1996, 1:00:00 AM",
 		"role": "CUSTOMER",
 		"isDeleted": false,
-		"isBlocked": false
+		"isBlocked": false,
+		"type" : {
+			"typeName" : "PLATINUM",
+			"discount" : 0,
+			"minPoints" : 0
+		},
+		"points" : 2212
 	},
 	"mini": {
 		"username": "mini",
@@ -19,7 +25,14 @@
 		"dateOfBirth": "Dec 12, 1999, 1:00:00 AM",
 		"role": "CUSTOMER",
 		"isDeleted": false,
-		"isBlocked": false
+		"isBlocked": false,
+		"type" : {
+			"typeName" : "SILVER",
+			"discount" : 5,
+			"minPoints" : 3000
+		},
+		"points" : 3600
+		
 	}
 	
 	
