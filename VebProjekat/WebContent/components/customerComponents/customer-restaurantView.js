@@ -2,8 +2,9 @@ Vue.component("customer-restaurantView", {
 
     data() {
         return {
-            rests: [],
-            comments: []
+            restaurant: [],
+            comments: [],
+            productsDTO : []
         }
     },
 
@@ -61,23 +62,29 @@ Vue.component("customer-restaurantView", {
                                     </div>
                                 </div>
 
-                                <div class="row" v-if="restaurant.menu==null">
+                                <div class="row" v-if="productsDTO==null">
 
                                     <h3>Jelovnik je trenutno prazan! </h3>
                                 </div>
                                 <div class="row" v-else>
 
-                                    <div class="col-lg-4 col-md-4 col-sm-6" v-for="product in restaurant.menu">
-                                        <a v-bind:href="product.logo" class="fh5co-card-item image-popup">
+                                    <div class="col-lg-4 col-md-4 col-sm-6" v-for="(productDTO,index) in productsDTO">
+                                        <a v-bind:href="productDTO.product.logo" class="fh5co-card-item image-popup">
                                         <figure>
                                             <div class="overlay"><i class="ti-plus"></i></div>
-                                            <img v-bind:src="product.logo" alt="Image" class="img-responsive">
+                                            <img v-bind:src="productDTO.product.logo" alt="Image" class="img-responsive">
                                         </figure>
                                         <div class="fh5co-text">
-                                            <h2>{{product.name}}</h2>
-                                            <p>{{product.description}}</p>
-                                            <p><span class="price cursive-font">{{product.price}} RSD</span></p>
-                                            <p><button style="margin-top:7px; color: #7a1a1a;" @click="addToCart(product)">Dodaj u korpu</button></p>
+                                            <h2>{{productDTO.product.name}}</h2>
+                                            <p>{{productDTO.product.description}}</p>
+                                            <p><span class="price cursive-font">{{productDTO.product.price}} RSD</span></p>
+                                            <p>
+                                                <input type="number" style="height: 30px; width: 20%; text-align: center;" step="1" :value="productDTO.amount"
+                                                       
+                                                @input="updateQuantity(index, $event)"
+                                                        @blur="checkQuantity(index, $event)" />
+                                                <button style="margin-top:7px; color: #7a1a1a;" @click="addToCart(index)">Dodaj u korpu</button>
+                                            </p>
                                         </div>
                                         </a>
                                     </div>
@@ -109,11 +116,11 @@ Vue.component("customer-restaurantView", {
                             <div class="tbl-content">
                                 <table class="r-table" cellpadding="0" cellspacing="0" border="0">
                                     <tbody>
-                                        <tr v-for="comment in comments2">
-                                            <td>{{ comment.rating }}</td>
-                                            <td>{{ comment.text }}</td>
-                                            <td>{{ comment.author }}</td>
-                                        </tr>
+                                        // <tr v-for="comment in comments">
+                                        //     <td>{{ comment.rating }}</td>
+                                        //     <td>{{ comment.text }}</td>
+                                        //     <td>{{ comment.author }}</td>
+                                        // </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -125,14 +132,50 @@ Vue.component("customer-restaurantView", {
             </section>
         </div>
 `,
-    mounted() {
+    created() {
+        axios
+        .get("rest/restaurants/getCurrentRestaurant")
+        .then(response => (this.restaurant = response.data), 
+			axios
+        .get("rest/restaurants/getProductsOfCurrentRestaurant")
+        .then(response => (this.productsDTO = response.data))
+	)
 
-        initAutocomplete();
+       
     },
 
     methods: {
-        addToCart(){
-            alert('go fuck yourself hun');
+        updateQuantity: function(index, event) {
+            
+          //var product = this.productsDTO[index].product;
+          var value = event.target.value;
+          var valueInt = parseInt(value);
+    
+         // Minimum quantity is 1, maximum quantity is 100, can left blank to input easily
+         if (value === "") {
+           this.productsDTO[index].amount = value;
+        } else if (valueInt > 0 && valueInt < 100) {
+           this.productsDTO[index].amount = valueInt;
+        }
+          
+    	//this.products[index].product = product;
+          //this.$set(this.products, index, product);
+        },
+        checkQuantity: function(index, event) {
+          // Update amount to 1 if it is empty
+          if (event.target.value === "") {
+            //var product = this.restaurant.menu[index];
+             this.productsDTO[index].amount = 1;
+           // this.$set(this.products, index, product);
+          }
+        },
+        addToCart(index){
+            axios
+            .post('rest/cart/addCartItem', {
+                "product" : this.productsDTO[index].product,
+                "amount" : this.productsDTO[index].amount
+            })
+            .then(response => (alert(response.data)))
         }
     }
 

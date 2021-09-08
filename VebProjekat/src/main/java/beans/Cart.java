@@ -5,19 +5,33 @@ import java.util.List;
 public class Cart {
 
 	private List<CartItem> items;
-	private Customer customer;
+	private String customerID;
 	private double price;
 	
 	public Cart() {
 		
 	}
-
-	public Cart(List<CartItem> items, Customer customer, double price) {
+	
+	public Cart(List<CartItem> items, String customerID, double price) {
 		super();
 		this.items = items;
-		this.customer = customer;
+		this.customerID = customerID;
 		this.price = price;
 	}
+
+
+
+	public String getCustomerID() {
+		return customerID;
+	}
+
+
+
+	public void setCustomerID(String customerID) {
+		this.customerID = customerID;
+	}
+
+
 
 	public List<CartItem> getItems() {
 		return items;
@@ -27,13 +41,6 @@ public class Cart {
 		this.items = items;
 	}
 
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
 
 	public double getPrice() {
 		return price;

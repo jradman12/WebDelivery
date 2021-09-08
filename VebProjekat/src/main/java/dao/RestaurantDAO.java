@@ -78,9 +78,9 @@ public class RestaurantDAO {
 				restaurants = gs.fromJson(restaurantsJson, type);
 				
 				//just to check it out 
-				for(Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
-					System.out.println(entry.getValue().getName());
-				}
+				//for(Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+					//System.out.println(entry.getValue().getName());
+			//	}
 				
 				//dodajParRestorana();
 	}
