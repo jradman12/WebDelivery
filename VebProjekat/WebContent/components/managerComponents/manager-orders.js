@@ -2,7 +2,8 @@ Vue.component("manager-orders", {
 
     data() {
         return {
-            orders : []
+            orders : [],
+            selectedOrder : {}
         }
     },
 	
@@ -24,6 +25,7 @@ Vue.component("manager-orders", {
                              <th>Cijena</th>
                              <th>Status</th>
                              <th>Promijeni status</th>
+                             <th></th>
                              
                              
                         </tr>
@@ -31,60 +33,74 @@ Vue.component("manager-orders", {
               </table>
          </div>
          <div class="tbl-content">
-              <table class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0"  >
+              <table class="r-table" cellpadding="0" cellspacing="0" border="0"  >
                    <tbody v-for="order in orders">
                         <tr >
-                        <td data-toggle="collapse" data-target="#collapsedRow1"> {{ order.id }} </td>
-                             <td data-toggle="collapse" data-target="#collapsedRow1"> {{ order.customer }} </td>
-                             <td data-toggle="collapse" data-target="#collapsedRow1"> {{ order.price }} </td>
-                             <td v-if="order.status=='PENDING'" data-toggle="collapse" data-target="#collapsedRow1"> Obrada </td>
-                             <td v-else-if="order.status=='IN_PREPARATION'" data-toggle="collapse" data-target="#collapsedRow1"> U pripremi </td>
-                             <td v-else-if="order.status=='AWAITING_DELIVERER'" data-toggle="collapse" data-target="#collapsedRow1"> Čeka dostavljača </td>
-                             <td v-else-if="order.status=='SHIPPING'" data-toggle="collapse" data-target="#collapsedRow1"> U transportu </td>
-                             <td v-else-if="order.status=='DELIVERED'" data-toggle="collapse" data-target="#collapsedRow1"> Dostavljena </td>
-                             <td v-else data-toggle="collapse" data-target="#collapsedRow1"> Otkazana </td>
+                        <td > {{ order.id }} </td>
+                             <td > {{ order.customer }} </td>
+                             <td > {{ order.price }} </td>
+                             <td v-if="order.status=='PENDING'" > Obrada </td>
+                             <td v-else-if="order.status=='IN_PREPARATION'" > U pripremi </td>
+                             <td v-else-if="order.status=='AWAITING_DELIVERER'" > Čeka dostavljača </td>
+                             <td v-else-if="order.status=='SHIPPING'" > U transportu </td>
+                             <td v-else-if="order.status=='DELIVERED'" > Dostavljena </td>
+                             <td v-else > Otkazana </td>
                              <td v-if="order.status=='PENDING'"><button @click="changeStatusInPreparation(order)">U pripremi</button></td>
                              <td v-else-if="order.status=='IN_PREPARATION'"><button @click="changeStatusInAwaitingDeliverer(order)">Čeka dostavljača</button></td>
-                             <td v-else data-toggle="collapse" data-target="#collapsedRow1"><span>-</span></td>
+                             <td v-else ><span>-</span></td>
+                             <td><button  data-toggle="modal"
+                             data-target="#detailsModal" @click="selectOrder(order)">Detaljnije</button></td>
                         </tr>
 
-                         <tr>
-                        <td colspan="12" class="hiddenRow">
-                          <div class="accordion-body collapse container-fluid" id="collapsedRow1">
-                            <table class="table table-striped table-bordered">
-                              <thead>
-                                <tr>
-                                   <th>Slika artikla</th>
-                                   <th>Datum i vrijeme</th>
-                                  <th>Ime artikla</th>
-                                  <th>Cijena artikla</th>
-                                  <th>Tip</th>
-                                  <th>Broj naručenih artikala</th>
-                                  <th>Količina</th>
-                                  <th>Opis</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              <tr v-for="item in order.orderedItems">
-                                  <td><img v-bind:src="item.product.logo" class="rest-img"></td>
-                                  <td>{{order.dateAndTime | dateFormat('DD.MM.YYYY. HH:mm')}}</td>
-                                  <td>{{item.product.name}}</td>
-                                  <td>{{item.product.price}}</td>
-                                  <td v-if="item.product.type=='FOOD'">Hrana</td>
-                                  <td v-else>Piće</td>
-                                  <td>{{item.amount}}</td>
-                                  <td v-if="item.product.type=='FOOD'">{{item.product.quantity}}g</td>
-                                  <td v-else>{{item.product.quantity}}ml</td>
-                                  <td>{{item.product.description}}</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </td>
-                      </tr>
+                        
                    </tbody>
               </table>
          </div>
+
+         <div class="modal fade"  id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered" role="document"  style="width:800px;">
+              <div class="modal-content">
+                   <div class="modal-header border-bottom-0">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                        </button>
+                   </div>
+                   <div class="modal-body">
+                   <table class="r-table">
+                   <thead>
+                     <tr>
+                        <th>Slika artikla</th>
+                        <th>Datum i vrijeme</th>
+                       <th>Ime artikla</th>
+                       <th>Cijena artikla</th>
+                       <th>Tip</th>
+                       <th>Broj naručenih artikala</th>
+                       <th>Količina</th>
+                       <th>Opis</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                   <tr v-for="item in selectedOrder.orderedItems">
+                       <td><img v-bind:src="item.product.logo" ></td>
+                       <td>{{selectedOrder.dateAndTime | dateFormat('DD.MM.YYYY. HH:mm')}}</td>
+                       <td>{{item.product.name}}</td>
+                       <td>{{item.product.price}}</td>
+                       <td v-if="item.product.type=='FOOD'">Hrana</td>
+                       <td v-else>Piće</td>
+                       <td>{{item.amount}}</td>
+                       <td v-if="item.product.type=='FOOD'">{{item.product.quantity}}g</td>
+                       <td v-else>{{item.product.quantity}}ml</td>
+                       <td>{{item.product.description}}</td>
+                     </tr>
+                   </tbody>
+                 </table>
+                   </div>
+              </div>
+         </div>
+    </div>
+    
+
     </div>
 
 
@@ -142,7 +158,12 @@ methods:{
                     });
                
      
-               }
+               },
+
+     selectOrder : function(order){
+          this.selectedOrder=order;
+
+     }
 
 
 },
