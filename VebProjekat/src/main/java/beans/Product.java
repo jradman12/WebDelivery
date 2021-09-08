@@ -4,7 +4,6 @@ import enums.ProductType;
 
 public class Product {
 
-	private String id;
 	private String name;
 	private double price;
 	private ProductType type;
@@ -17,13 +16,6 @@ public class Product {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -82,16 +74,10 @@ public class Product {
 		this.logo = logo;
 	}
 
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", type=" + type + ", quantity=" + quantity
-				+ ", description=" + description + ", isDeleted=" + isDeleted + ", logo=" + logo + "]";
-	}
 
-	public Product(String id, String name, double price, ProductType type, int quantity, String description,
+	public Product( String name, double price, ProductType type, int quantity, String description,
 			boolean isDeleted, String logo) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.type = type;

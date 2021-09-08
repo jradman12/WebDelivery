@@ -3,7 +3,6 @@ Vue.component("customer-restaurants", {
     data() {
         return {
             rests: [],
-            availableManagers: [],
             newRestaurant: {},
             file: {},
             errors: [],
@@ -65,11 +64,6 @@ Vue.component("customer-restaurants", {
                                 <option value="avgRate, desc">Prosječna ocjena, desc</option>
                             </select>
                     </div>
-
-                    <div class="col-lg-12" id="map" style="width:78%;height:500px; border-style: inset; border-color:#ce32322d;"></div>
-
-
-
                     <div v-for="rest in sortedRests">
                         <div class="col-lg-12">
                             <div class="item">
@@ -124,15 +118,10 @@ Vue.component("customer-restaurants", {
 `,
     mounted() {
 
-        initAutocomplete();
-
+        
         axios
             .get('rest/restaurants/getAllRestaurants')
-            .then(response => (this.rests = response.data)),
-
-            axios
-                .get('rest/managers/getAllAvailableManagers')
-                .then(response => (this.availableManagers = response.data))
+            .then(response => (this.rests = response.data))
     },
 
     methods: {
@@ -141,8 +130,9 @@ Vue.component("customer-restaurants", {
             axios
                 .post('rest/restaurants/setCurrentRestaurant', rest)
 
-                // set timeout
-            location.href = "customerDashboard.html#/restaurantView";
+                // set timeout done
+                setTimeout(function(){ location.href = "customerDashboard.html#/restaurantView"}, 2000);
+
         },
         sort: function () {
             console.log(this.sortFilter);
