@@ -248,5 +248,15 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 		return ordersId;
 	}
 	
+	public static boolean existsRequest(String oId,String username) {
+		loadRequests("");
+		for(DeliverRequest dr : requests.values()) {
+			if(dr.getOrderID().equals(oId) && dr.getDelivererID().equals(username)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
 

@@ -15,10 +15,9 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import beans.Comment;
 import beans.Order;
 import enums.OrderStatus;
-import enums.StatusOfComment;
+
 
 import java.util.*;
 

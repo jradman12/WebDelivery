@@ -22,7 +22,6 @@ import javax.ws.rs.core.Response.Status;
 import beans.DeliverRequest;
 import beans.User;
 import dao.ManagerDAO;
-import dao.OrderDAO;
 import dao.RequestDAO;
 import enums.Role;
 
@@ -154,11 +153,29 @@ public class RequestService {
 			return null;
 		}
 		
+		
 		dr.setDelivererID(user.getUsername());
 		RequestDAO.addNewRequest(dr);
 		return Response.status(Status.ACCEPTED).entity("Zahtjev je poslat!").build();
 	}
 	
+	
+	@GET
+	@Path("/existsRequest/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response exists(@PathParam("id") String id){
+		 
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		if(user == null || !user.getRole().equals(Role.DELIVERER)) {
+			return null;
+		}
+		
+		if(RequestDAO.existsRequest(id, user.getUsername())) {
+			return Response.status(200).entity(true).build();
+		}else {
+			return Response.status(403).entity(false).build();
+		}
+	}
 	
 	
 	

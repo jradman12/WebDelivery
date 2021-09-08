@@ -4,7 +4,8 @@ Vue.component("all-orders", {
         return {
             orders : [],
             message: null,
-            selectedOrder : {}
+            selectedOrder : {},
+            show : true
         }
     },
 	
@@ -46,7 +47,8 @@ Vue.component("all-orders", {
                               <td v-else-if="order.status=='SHIPPING'" > Nedostavljena </td>
                               <td v-else-if="order.status=='DELIVERED'" > Dostavljena </td>
                               <td v-else> Otkazana </td>
-                              <td><button  @click = "sendRequest(order)">Pošalji zahtjev</button></td>
+                              <td ><button  @click = "sendRequest(order)">Pošalji zahtjev</button></td>
+                             <!-- <td v-else><span>-</span></td>-->
                               <td><button  data-toggle="modal"
                               data-target="#detailsModal" @click="selectOrder(order)">Detaljnije</button></td>
  
@@ -124,6 +126,8 @@ mounted : function() {
     axios
    .get('rest/orders/getAllOrdersWithStatusAD')
    .then(response => (this.orders = response.data))
+
+ 
 },
 
 methods:{
@@ -135,22 +139,29 @@ methods:{
                "restaurantID" : order.restaurant
 
           } )
-          .then( response => (
+          .then( response => {
                this.message = response.data
+               this.show=false;
+              
+               
+
+          }
                     
-          ));
+);
           
 
           },
 
           selectOrder : function(order) {
                this.selectedOrder = order;
-               console.log("Tu smo " + order.id);
-            
+               
      }
 
 
+     
 },
+
+
      filters: {
           dateFormat: function (value, format) {
               var parsed = moment(value);
