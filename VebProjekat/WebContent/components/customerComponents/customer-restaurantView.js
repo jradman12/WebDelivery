@@ -80,7 +80,6 @@ Vue.component("customer-restaurantView", {
                                             <p><span class="price cursive-font">{{productDTO.product.price}} RSD</span></p>
                                             <p>
                                                 <input type="number" style="height: 30px; width: 20%; text-align: center;" step="1" :value="productDTO.amount"
-                                                       
                                                 @input="updateQuantity(index, $event)"
                                                         @blur="checkQuantity(index, $event)" />
                                                 <button style="margin-top:7px; color: #7a1a1a;" @click="addToCart(index)">Dodaj u korpu</button>
@@ -146,16 +145,18 @@ Vue.component("customer-restaurantView", {
 
     methods: {
         updateQuantity: function(index, event) {
-            
           //var product = this.productsDTO[index].product;
           var value = event.target.value;
           var valueInt = parseInt(value);
-    
+    	console.log('im in updateQ')
          // Minimum quantity is 1, maximum quantity is 100, can left blank to input easily
          if (value === "") {
            this.productsDTO[index].amount = value;
+           console.log('value empty, i set amount to ' + value + ", so its " + this.productsDTO[index].amount)
         } else if (valueInt > 0 && valueInt < 100) {
            this.productsDTO[index].amount = valueInt;
+           console.log('value int, i set amount to ' + valueInt + ", so its " + this.productsDTO[index].amount)
+
         }
           
     	//this.products[index].product = product;
@@ -163,9 +164,11 @@ Vue.component("customer-restaurantView", {
         },
         checkQuantity: function(index, event) {
           // Update amount to 1 if it is empty
-          if (event.target.value === "") {
+          console.log('in checkQ')
+          if (event.target.value === "" || event.target.value === 0) {
             //var product = this.restaurant.menu[index];
              this.productsDTO[index].amount = 1;
+             console.log(' i set it to ' + this.productsDTO[index].amount + '(should be 1)')
            // this.$set(this.products, index, product);
           }
         },
