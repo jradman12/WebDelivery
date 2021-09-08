@@ -200,8 +200,11 @@ Vue.component("customer-cart", {
       }
     },
     removeItem: function (index) {
-      this.cartItems.splice(index, 1);
-       /// AXIOS DELETE ITEM
+       axios
+       .delete("rest/cart/removeCartItem/" + this.cartItems[index].product.name)
+       .then( this.cartItems.splice(index, 1))       
+       
+
     },
     checkPromoCode: function () {
       for (var i = 0; i < this.promotions.length; i++) {

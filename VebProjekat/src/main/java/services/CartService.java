@@ -4,9 +4,11 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -90,6 +92,26 @@ public class CartService {
 		}
 		
 		return Response.status(Response.Status.NOT_FOUND).entity("We are sorry, but this action cant be done!").build();
+	}
+	
+	@DELETE
+	@Path("/removeCartItem/{productName}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void deleteProduct(@PathParam("productName") String productName) {
+		System.out.println("in removeCart, here product name we got is " + productName);
+		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		for(Cart cart : cartDAO.carts.values()) {
+			if(cart.getCustomerID().equals(user.getUsername())) {
+				CartItem ciToRemove = null;
+				for(CartItem ci : cart.getItems()) {
+					if(ci.getProduct().getName().equals(productName)) {
+						ciToRemove = ci;
+					}
+				}
+				if(ciToRemove != null) cart.getItems().remove(ciToRemove);
+			}
+		}
 	}
 	
 	
