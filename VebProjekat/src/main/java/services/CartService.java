@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -97,7 +98,7 @@ public class CartService {
 	@DELETE
 	@Path("/removeCartItem/{productName}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void deleteProduct(@PathParam("productName") String productName) {
+	public void removeCartItem(@PathParam("productName") String productName) {
 		System.out.println("in removeCart, here product name we got is " + productName);
 		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
@@ -109,9 +110,45 @@ public class CartService {
 						ciToRemove = ci;
 					}
 				}
-				if(ciToRemove != null) cart.getItems().remove(ciToRemove);
+				if(ciToRemove != null) {
+					cart.setPrice(cart.getPrice() - ciToRemove.getProduct().getPrice() * ciToRemove.getAmount());
+					cart.getItems().remove(ciToRemove);
+					cartDAO.saveCartsJSON();
+				}
 			}
 		}
+	}
+	
+	@PUT
+	@Path("/updateCartItem/{productName}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateCartItem(CartItem passedCartItem, @PathParam("productName") String productName) {
+		System.out.println("in updateCartItem, here product name we got is " + productName);
+		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		for(Cart cart : cartDAO.carts.values()) {
+			if(cart.getCustomerID().equals(user.getUsername())) {
+				CartItem ciToUpdate = null;
+				for(CartItem ci : cart.getItems()) {
+					if(ci.getProduct().getName().equals(productName)) {
+						ciToUpdate = ci;
+					}
+				}
+				if(ciToUpdate != null) {
+					cart.setPrice(cart.getPrice() - ciToUpdate.getProduct().getPrice() * ciToUpdate.getAmount());
+					cart.getItems().get(cart.getItems().indexOf(ciToUpdate)).setAmount(passedCartItem.getAmount());
+					cart.setPrice(cart.getPrice() + ciToUpdate.getProduct().getPrice() * ciToUpdate.getAmount());
+
+					cartDAO.saveCartsJSON();
+					//cart.getItempassedCartItem.getAmount()s().set(cart.getItems().indexOf(ciToUpdate), passedCartItem);
+					return Response.status(Response.Status.ACCEPTED).entity(passedCartItem).build();
+				}
+				return Response.status(Response.Status.BAD_REQUEST).entity("this cart item doesnt seem to exist here..").build();
+			}
+		}
+		return Response.status(Response.Status.BAD_REQUEST).entity("couldnt do the update...").build();
+
 	}
 	
 	

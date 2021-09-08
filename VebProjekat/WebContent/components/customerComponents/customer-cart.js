@@ -187,9 +187,10 @@ Vue.component("customer-cart", {
       } else if (valueInt > 0 && valueInt < 100) {
         cartItem.amount = valueInt;
       }
-
-
       this.$set(this.cartItems, index, cartItem);
+		axios
+		.put("rest/cart/updateCartItem/" + this.cartItems[index].product.name, this.cartItems[index])
+		.then(response => alert('successfully updated ' + response.data.product.name))
     },
     checkQuantity: function (index, event) {
       // Update quantity to 1 if it is empty
@@ -199,6 +200,9 @@ Vue.component("customer-cart", {
         this.$set(this.cartItems, index, cartItem);
       }
     },
+
+    
+
     removeItem: function (index) {
        axios
        .delete("rest/cart/removeCartItem/" + this.cartItems[index].product.name)
