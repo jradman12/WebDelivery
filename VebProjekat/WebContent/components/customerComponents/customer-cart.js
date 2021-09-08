@@ -2,22 +2,9 @@ Vue.component("customer-cart", {
 
   data() {
     return {
-      products: [
-        {
-          image: "https://via.placeholder.com/200x150",
-          name: "Najlepše želje s keksom",
-          description: "Jede mi se mnogo, pa eto",
-          price: 120,
-          quantity: 2
-        },
-        {
-          image: "https://via.placeholder.com/200x150",
-          name: "Stark smoki",
-          description: "Čekam ponoć da se pozdravimo!",
-          price: 153,
-          quantity: 1
-        }
-      ],
+      cartItems: [],
+      price : 0, 
+      customerID : '',
       tax: 5,
       promotions: [
         {
@@ -38,10 +25,10 @@ Vue.component("customer-cart", {
     }
   },
   template: ` 
-    <div id="cart">
+    <div>
     <img src="images/ce3232.png" width="100%" height="90px">
     <section class="r-section">
-        <div id="usersiii" class="recent-listing">
+        <div class="recent-listing">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -59,30 +46,30 @@ Vue.component("customer-cart", {
 
                     <div class="r-gap"></div>
 
-                    <div v-if="products.length > 0">
-                        <div v-for="(product,index) in products">
+                    <div v-if="cartItems.length > 0">
+                        <div v-for="(cartItem,index) in cartItems">
                             <div class="col-lg-12">
                                 <div class="item">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="listing-item">
                                                 <div class="left-image">
-                                                    <a href="#"><img class="rest-img" :src="product.image"
-                                                            :alt="product.name"></a>
+                                                    <a href="#"><img class="rest-img" :src="cartItem.product.logo"
+                                                            :alt="cartItem.product.name"></a>
                                                 </div>
                                                 <div class="right-content align-self-center">
 
                                                     <a href="#" style="margin-top:12px;">
-                                                        <h4>{{product.name}}</h4>
+                                                        <h4>{{cartItem.product.name}}</h4>
                                                     </a>
                                                     <div>
                                                         <span>
-                                                            <h6>{{product.description}}</h6>
+                                                            <h6>{{cartItem.product.description}}</h6>
                                                         </span>
                                                     </div>
                                                     <div>
                                                         <span>
-                                                            <h3>{{product.price  }}</h3>
+                                                            <h3>{{ cartItem.product.price  }}</h3>
                                                         </span>
                                                     </div>
 
@@ -92,7 +79,7 @@ Vue.component("customer-cart", {
                                                     <div>
                                                         <input type="number" style="height: 40px; width: 30%; position: absolute;text-align: center;
                                                     left: 60px;
-                                                    top: 80px; " step="1" :value="product.quantity"
+                                                    top: 80px; " step="1" :value="cartItem.amount"
                                                             @input="updateQuantity(index, $event)"
                                                             @blur="checkQuantity(index, $event)" />
                                                     </div>
@@ -123,7 +110,7 @@ Vue.component("customer-cart", {
         <div class="col-lg-12">
 
             <div class="listing-item">
-                <section class="xxxx" v-if="products.length > 0">
+                <section class="xxxx" v-if="cartItems.length > 0">
                     <div class="promotion">
                         <label for="promo-code">Koji ste tip korisnika?</label>
                         <input type="text" id="promo-code" v-model="promoCode" /> <button type="button"
@@ -151,75 +138,82 @@ Vue.component("customer-cart", {
 
 </div>
 `,
-computed: {
-  itemCount: function() {
-    var count = 0;
 
-    for (var i = 0; i < this.products.length; i++) {
-      count += parseInt(this.products[i].quantity) || 0;
-    }
-
-    return count;
+  mounted() {
+    axios
+    .get("rest/cart/getCart")
+    .then(response => (this.cartItems = response.data.items,
+                       this.price = response.data.price,
+                       this.customerID = response.data.customerID ))
   },
-  subTotal: function() {
-    var subTotal = 0;
 
-    for (var i = 0; i < this.products.length; i++) {
-      subTotal += this.products[i].quantity * this.products[i].price;
-    }
+  computed: {
+    itemCount: function () {
+      var count = 0;
 
-    return subTotal;
-  },
-  discountPrice: function() {
-    return this.subTotal * this.discount / 100;
-  },
-  totalPrice: function() {
-    return this.subTotal - this.discountPrice + this.tax;
-  }
-},
-
-methods: {
-  updateQuantity: function(index, event) {
-      console.log(this.products[index])
-      console.log(event.target.value)
-      console.log(parseInt(event.target.value))
-      
-    var product = this.products[index];
-    var value = event.target.value;
-    var valueInt = parseInt(value);
-
-   // Minimum quantity is 1, maximum quantity is 100, can left blank to input easily
-   if (value === "") {
-    product.quantity = value;
-  } else if (valueInt > 0 && valueInt < 100) {
-    product.quantity = valueInt;
-  }
-    
-
-    this.$set(this.products, index, product);
-  },
-  checkQuantity: function(index, event) {
-    // Update quantity to 1 if it is empty
-    if (event.target.value === "") {
-      var product = this.products[index];
-      product.quantity = 1;
-      this.$set(this.products, index, product);
-    }
-  },
-  removeItem: function(index) {
-    this.products.splice(index, 1);
-  },
-  checkPromoCode: function() {
-    for (var i = 0; i < this.promotions.length; i++) {
-      if (this.promoCode === this.promotions[i].code) {
-        this.discount = parseFloat(
-          this.promotions[i].discount.replace("%", "")
-        );
-        return;
+      for (var i = 0; i < this.cartItems.length; i++) {
+        count += parseInt(this.cartItems[i].amount) || 0;
       }
-    }
 
-    alert("Nevalidan tip korisnika!");
+      return count;
+    },
+    subTotal: function () {
+      var subTotal = 0;
+
+      for (var i = 0; i < this.cartItems.length; i++) {
+        subTotal += this.cartItems[i].amount * this.cartItems[i].product.price;
+      }
+
+      return subTotal;
+    },
+    discountPrice: function () {
+      return this.subTotal * this.discount / 100;
+    },
+    totalPrice: function () {
+      return this.subTotal - this.discountPrice + this.tax;
+    }
+  },
+
+  methods: {
+    updateQuantity: function (index, event) {
+     
+      var cartItem = this.cartItems[index];
+      var value = event.target.value;
+      var valueInt = parseInt(value);
+
+      // Minimum quantity is 1, maximum quantity is 100, can left blank to input easily
+      if (value === "") {
+        cartItem.amount = value;
+      } else if (valueInt > 0 && valueInt < 100) {
+        cartItem.amount = valueInt;
+      }
+
+
+      this.$set(this.cartItems, index, cartItem);
+    },
+    checkQuantity: function (index, event) {
+      // Update quantity to 1 if it is empty
+      if (event.target.value === "") {
+        var cartItem = this.cartItems[index];
+        cartItem.amount = 1;
+        this.$set(this.cartItems, index, cartItem);
+      }
+    },
+    removeItem: function (index) {
+      this.cartItems.splice(index, 1);
+       /// AXIOS DELETE ITEM
+    },
+    checkPromoCode: function () {
+      for (var i = 0; i < this.promotions.length; i++) {
+        if (this.promoCode === this.promotions[i].code) {
+          this.discount = parseFloat(
+            this.promotions[i].discount.replace("%", "")
+          );
+          return;
+        }
+      }
+
+      alert("Nevalidan tip korisnika!");
+    }
   }
-}
 });

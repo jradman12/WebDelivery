@@ -1,11 +1,10 @@
 package services;
 
-import java.io.File;
-
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -33,14 +32,29 @@ public class CartService {
 	
 	@PostConstruct
 	public void init() {
-    	System.out.println("in cartService init, real path is " + ctx.getRealPath(""));
-
 		if (ctx.getAttribute("cartDAO") == null) {
-	    	String contextPath = ctx.getRealPath("") + "WEB-INF" + File.separator + "classes" + File.separator + "data"
-					+ File.separator + "carts.json";
+	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("cartDAO", new CartDAO(contextPath));
 		}
 	}
+	
+	@GET
+	@Path("/getCart")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getCart() {
+		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		for(Cart cart : cartDAO.carts.values()) {
+			if(cart.getCustomerID().equals(user.getUsername())) {
+				return Response.status(Response.Status.ACCEPTED).entity(cart).build();
+			}
+		}
+		return Response.status(Response.Status.BAD_REQUEST).entity("Either cart doesnt exist, or u arent logged in.").build();
+	}
+	
+	// update item amount 
+	
+	// remove from cart
 	
 	@POST
 	@Path("/addCartItem")
@@ -48,16 +62,27 @@ public class CartService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addCartItem(CartItem newItem) {
 		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
-    	System.out.println("in addCartItem, here attribute cartDAO is null? " + (ctx.getAttribute("cartDAO") == null));
+    	//System.out.println("in addCartItem, here attribute cartDAO is null? " + (ctx.getAttribute("cartDAO") == null));
 
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		
-    	System.out.println("in addCartItem, user thats logged in is " + user.getFistName());
+    	//System.out.println("in addCartItem, user thats logged in is " + user.getFistName());
 
 		for(Cart cart : cartDAO.carts.values()) {
-			System.out.println("in for, cart>> customerID is " + cart.getCustomerID() );
-			if(cart.getCustomerID().equals(user.getUsername())) {
-				cart.getItems().add(newItem);
+			//System.out.println("in for, cart>> customerID is " + cart.getCustomerID() );
+			if(cart.getCustomerID().equals(user.getUsername())) { 
+				
+				//when we find the cart, we gotta check if this product is already there
+				if(!cart.ciAlreadyExists(newItem.getProduct().getName())){
+					cart.getItems().add(newItem);  // NOT: just add the new one
+				}else {
+					for(CartItem ci : cart.getItems()) { // IS THERE: find it and change only its amount
+						if(ci.getProduct().getName().equals(newItem.getProduct().getName())) {
+							ci.setAmount(ci.getAmount() + newItem.getAmount()); 
+						}
+					}
+				}
+				cart.setPrice(cart.getPrice() + newItem.getProduct().getPrice()); // TODO: check if this works 
 				cartDAO.saveCartsJSON();
 				return Response.status(Response.Status.ACCEPTED).entity(newItem).build();
 

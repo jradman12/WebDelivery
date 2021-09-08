@@ -20,6 +20,13 @@ public class Cart {
 	}
 
 
+	public boolean  ciAlreadyExists(String productName) {
+		for(CartItem ci : items) {
+			if(ci.getProduct().getName().equals(productName))
+				return true;
+		}
+		return false;
+	}
 
 	public String getCustomerID() {
 		return customerID;

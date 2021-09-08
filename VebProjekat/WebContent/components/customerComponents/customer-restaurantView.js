@@ -178,7 +178,7 @@ Vue.component("customer-restaurantView", {
                 "product" : this.productsDTO[index].product,
                 "amount" : this.productsDTO[index].amount
             })
-            .then(response => (alert(response.data)))
+            .then(response => (alert(response.data.product.name + ' successfully added to cart!')))
         }
     }
 
