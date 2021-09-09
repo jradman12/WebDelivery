@@ -68,7 +68,7 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 				Gson gs = new Gson();
 				String deliverersJson = "";
 				try {
-					deliverersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json")));
+					deliverersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json")));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -88,7 +88,7 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 	
 	public static void saveDeliverersJSON() {
 		
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json";
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json";
 		Map<String, Deliverer> allDeliverers = new HashMap<>();
 		for (Deliverer d : findAll()) {
 			allDeliverers.put(d.getUsername(),d);

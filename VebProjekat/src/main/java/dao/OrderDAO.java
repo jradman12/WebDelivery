@@ -58,7 +58,7 @@ private static Map<String, Order> orders = new HashMap<>();
 				Gson gs = new Gson();
 				String ordersJson = "";
 				try {
-					ordersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json")));
+					ordersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -77,7 +77,7 @@ private static Map<String, Order> orders = new HashMap<>();
 	
 	public static void saveOrdersJSON() {
 
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
 		Map<String, Order> allOrders = new HashMap<>();
 		for (Order o : findAll()) {
 			allOrders.put(o.getId(),o);

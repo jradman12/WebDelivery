@@ -183,7 +183,7 @@ public class AdministratorDAO {
 	}
 	
 	public static void saveAdministratorsJSON() {
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
+		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
 		
 
 		Map<String, Administrator> allAdmins = new HashMap<>();
