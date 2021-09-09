@@ -33,7 +33,7 @@
 		"restaurant": "1",
 		"dateAndTime": "Sep 5, 2021, 9:00:00 PM",
 		"price": 600.0,
-		"customer": "mini",
+		"customerID": "mini",
 		"status": "DELIVERED",
 		"isDeleted": false
 	},
@@ -70,7 +70,7 @@
 		"restaurant": "1",
 		"dateAndTime": "Sep 5, 2021, 9:00:00 PM",
 		"price": 600.0,
-		"customer": "mara",
+		"customerID": "mara",
 		"status": "SHIPPING",
 		"isDeleted": false
 	}
