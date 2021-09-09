@@ -36,7 +36,7 @@ public class CartDAO {
 		String cartsJson = "";
 		
 		try {
-			cartsJson = new String(Files.readAllBytes(Paths.get(path)));
+			cartsJson = new String(Files.readAllBytes(Paths.get(this.path)));
 			
 		} catch (IOException e) {
 			e.printStackTrace();

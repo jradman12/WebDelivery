@@ -220,7 +220,11 @@ Vue.component("customer-cart", {
               }
            }
            })
-          .then(response => (alert(response.data)))
+          .then(response => (
+            this.cartItems.splice(0, this.cartItems.length),
+            this.price = 0,
+            alert(response.data)
+          ))
 
           ))
   }

@@ -63,8 +63,7 @@ public class Customer extends User {
 	}
 	
 	public void addPoints(int pointsToAdd) {
-		this.points += pointsToAdd;
-		
+		this.points += pointsToAdd;		
 		setType();	
 	}
 	

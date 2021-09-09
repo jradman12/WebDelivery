@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -16,9 +17,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import beans.Cart;
+import beans.CartItem;
 import beans.Customer;
 import beans.Order;
 import beans.User;
+import dao.CartDAO;
 import dao.CustomerDAO;
 import dao.ManagerDAO;
 import dao.OrderDAO;
@@ -127,13 +131,29 @@ public class OrderService {
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");	
 		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
 		Customer customer = customerDAO.getCustomerByUsername(newOrder.getCustomerID());
+		
+		double orderPrice = 0;
+		for(CartItem ci : newOrder.getOrderedItems())
+			orderPrice += ci.getProduct().getPrice() * ci.getAmount();
+		newOrder.setPrice(orderPrice);
+		newOrder.setDateAndTime(new Date());
+		orderDAO.addNewOrder(newOrder);		
+		
 		int gainedPoints = (int) (newOrder.getPrice() / 1000 * 133);
+		// update customer's points
 		customer.addPoints(gainedPoints);
 		customerDAO.customers.remove(customer.getUsername());
 		customerDAO.customers.put(customer.getUsername(), customer);
 		customerDAO.saveCustomersJSON();
 		
-		orderDAO.addNewOrder(newOrder);		
+		// gotta empty the cart
+		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
+		for(Cart cart : cartDAO.carts.values()) {
+			if(cart.getCustomerID().equals(newOrder.getCustomerID())) {
+				cartDAO.carts.remove(cart);
+			}
+		}
+		cartDAO.saveCartsJSON();
 		return Response.status(Response.Status.ACCEPTED).entity("Uspjesno kreirana porudzbina!").build();
 
 	}
