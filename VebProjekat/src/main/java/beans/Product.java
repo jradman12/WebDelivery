@@ -9,6 +9,7 @@ public class Product {
 	private ProductType type;
 	private int quantity; // in g or mL
 	private String description;
+	private String restaurantID;
 	private boolean isDeleted;
 	private String logo;
 	
@@ -75,7 +76,17 @@ public class Product {
 	}
 
 
-	public Product( String name, double price, ProductType type, int quantity, String description,
+	public String getRestaurantID() {
+		return restaurantID;
+	}
+
+
+	public void setRestaurantID(String restaurantID) {
+		this.restaurantID = restaurantID;
+	}
+
+
+	public Product(String name, double price, ProductType type, int quantity, String description, String restaurantID,
 			boolean isDeleted, String logo) {
 		super();
 		this.name = name;
@@ -83,9 +94,11 @@ public class Product {
 		this.type = type;
 		this.quantity = quantity;
 		this.description = description;
+		this.restaurantID = restaurantID;
 		this.isDeleted = isDeleted;
 		this.logo = logo;
 	}
+
 
 	
 	

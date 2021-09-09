@@ -120,14 +120,14 @@ private static Map<String, Order> orders = new HashMap<>();
 	
 	public void addNewOrder(Order order) {
 		Order newOrder = new Order();
-		newOrder.setId(order.getId());
+		newOrder.setId(Integer.toString(orders.size() + 1));
 		newOrder.setRestaurant(order.getRestaurant());
 		newOrder.setDateAndTime(order.getDateAndTime());
-		newOrder.setCustomer(order.getCustomer());
+		newOrder.setCustomerID(order.getCustomerID());
 		newOrder.setOrderedItems(order.getOrderedItems());
 		newOrder.setPrice(order.getPrice());
 		newOrder.setStatus(OrderStatus.PENDING);
-		addNewOrder(newOrder);
+		addOrder(newOrder);
 		saveOrdersJSON();
 	}
 	
