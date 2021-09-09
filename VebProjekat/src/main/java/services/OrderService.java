@@ -29,29 +29,16 @@ import beans.User;
 import dao.CommentDAO;
 import dao.ManagerDAO;
 import dao.OrderDAO;
-<<<<<<< HEAD
 import dao.RequestDAO;
-
 import java.util.*;
-=======
 import dao.RestaurantDAO;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import beans.Cart;
 import beans.CartItem;
 import beans.Customer;
 import dao.CartDAO;
 import dao.CustomerDAO;
-
-
-
-
->>>>>>> customer
-
-
 
 @Path("/orders")
 public class OrderService {
