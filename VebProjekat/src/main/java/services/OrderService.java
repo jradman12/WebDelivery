@@ -213,10 +213,11 @@ public class OrderService {
 		customerDAO.saveCustomersJSON();
 	}
 	
+	@GET
 	@Path("/orderFromRestaurantDeliveredToCustomer")
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean orderFromRestaurantDeliveredToCustomer() {
-		
+		System.out.println("ušao u orderFromRestaurantDeliveredToCustomer ");
 		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
 		String currentRestID = (String) ctx.getAttribute("currentRestID");
 		
