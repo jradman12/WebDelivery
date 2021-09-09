@@ -16,6 +16,363 @@
 
  }
 
+ 
+/* -------------- CART style ---------------- */ 
+
+
+.xxxx img {
+  max-width: 100%;
+  vertical-align: middle;
+  border-radius: 4px;
+}
+
+.xxxx a {
+  text-decoration: none;
+  color: #333333;
+}
+
+.xxxx  a:hover {
+  color: #f58551;
+}
+
+.xxxx  button {
+  background-color: #ce3232;
+  border: 2px solid #ce3232;
+  color: #ffffff;
+  transition: all 0.25s linear;
+  cursor: pointer;
+}
+
+.xxxx  button::after {
+  position: relative;
+  right: 0;
+  content: " \276f";
+  transition: all 0.15s linear;
+}
+
+.xxxx button:hover {
+  background-color: #ce3232;
+  border-color: #f58551;
+}
+
+.xxxx button:hover::after {
+  right: -5px;
+}
+
+.xxxx button:focus {
+  outline: none;
+}
+
+.xxxx  ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.xxxx  input {
+  transition: all 0.25s linear;
+}
+
+.xxxx input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.xxxx input {
+  outline: none;
+}
+
+.xxxx  .container {
+  display: inline-flex;
+  background-color: #f7f7f7;
+  width: 80%;
+  border-radius: 7px;
+  position: relative;
+  margin-bottom: 30px;
+  /* width: 70%;
+  margin: 0 auto;
+  overflow: auto; */
+}
+
+/* --- HEADER --- */
+
+
+.xxxx   .breadcrumb {
+  color: #7d7d7d;
+}
+
+.xxxx    .breadcrumb li {
+  float: left;
+  padding: 0 6px;
+  height: 20px;
+  line-height: 20px;
+}
+
+.xxxx   .breadcrumb li:first-child {
+  padding-left: 2px;
+}
+
+.xxxx   .breadcrumb li:not(:last-child)::after {
+  content: " \276f";
+  padding-left: 8px;
+}
+
+.xxxx   .count {
+  float: right;
+  color: #333333;
+  height: 20px;
+  line-height: 20px;
+}
+
+/* --- PRODUCT LIST --- */
+.xxxx   .products {
+  border-top: 1px solid #ddd;
+}
+
+.xxxx  .products > li {
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.xxxx .row {
+  position: relative;
+  overflow: auto;
+  width: 100%;
+}
+
+.xxxx  .col,
+.quantity,
+.remove {
+  float: left;
+}
+
+.xxxx   .col.left {
+  width: 70%;
+}
+
+.xxxx  .col.right {
+  width: 30%;
+  position: absolute;
+  right: 0;
+  top: calc(50% - 30px);
+}
+
+.xxxx  .detail {
+  padding: 0 0.5rem;
+  line-height: 2.2rem;
+}
+
+.xxxx .detail .name {
+  font-size: 1.2rem;
+}
+
+.xxxx  .detail .description {
+  color: #7d7d7d;
+  font-size: 1rem;
+}
+
+.xxxx  .detail .price {
+  font-size: 1.5rem;
+}
+
+.xxxx .quantity,
+.remove {
+  width: 50%;
+  text-align: center;
+}
+
+.xxxx .remove svg {
+  width: 60px;
+  height: 60px;
+}
+
+.xxxx .quantity > input {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  position: relative;
+  left: calc(50% - 30px);
+  background: #fff;
+  border: 2px solid #ddd;
+  color: #7f7f7f;
+  text-align: center;
+  font: 600 1.5rem Helvetica, Arial, sans-serif;
+}
+
+.xxxx  .quantity > input:hover,
+.quantity > input:focus {
+  border-color: #f58551;
+}
+
+.xxxx  .close {
+  fill: #7d7d7d;
+  transition: color 150ms linear, background-color 150ms linear,
+    fill 150ms linear, 150ms opacity linear;
+  cursor: pointer;
+}
+
+.xxxx   .close:hover {
+  fill: #f58551;
+}
+
+/* --- SUMMARY --- */
+
+.xxxx  .promotion,
+.summary,
+.checkout {
+  float: left;
+  width: 80%;
+  margin-right: 140px;
+  margin-left: 80px;
+}
+
+.xxxx  .promotion > label {
+  float: left;
+  width: 80%;
+  margin-bottom: 1rem;
+}
+
+.xxxx  .promotion > input {
+  float: left;
+  width: 40%;
+  font-size: 1rem;
+  padding: 0.5rem 0 0.5rem 1.8rem;
+  border: 2px solid #ce3232;
+  border-radius: 2rem 0 0 2rem;
+}
+
+.xxxx  .promotion:hover > input {
+  border-color: #f58551;
+}
+
+.xxxx .promotion > button {
+  float: left;
+  width: 20%;
+  height: 2.4rem;
+  border-radius: 0 2rem 2rem 0;
+}
+
+.xxxx  .promotion:hover > button {
+  border-color: #f58551;
+  background-color: #f58551;
+}
+
+.xxxx  .promotion > button::after {
+  content: "\276f";
+  font-size: 1rem;
+}
+
+.xxxx  .summary {
+  font-size: 1.2rem;
+  text-align: right;
+  float: right;
+}
+
+.xxxx  .summary ul li {
+  padding: 0.5rem 0;
+}
+
+.xxxx  .summary ul li span {
+  display: inline-block;
+  width: 30%;
+}
+
+.xxxx  .summary ul li.total {
+  font-weight: bold;
+}
+
+.xxxx  .checkout {
+  text-align: right;
+}
+
+.xxxx .checkout > button {
+  margin-top: 20px;
+  margin-right: auto;
+  font-size: 1.2rem;
+  padding: 0.8rem 1.9rem;
+  border-radius: 1.5rem;
+}
+
+.xxxx .empty-product {
+  text-align: center;
+}
+
+.xxxx .empty-product > button {
+  font-size: 1.3rem;
+  padding: 10px 30px;
+  border-radius: 5px;
+} 
+
+/* --- SMALL SCREEN --- */
+@media all and (max-width: 599px) {
+  .xxxx  .thumbnail img {
+    display: none;
+  }
+
+  .xxxx   .quantity > input {
+    width: 40px;
+    height: 40px;
+    left: calc(50% - 20px);
+  }
+
+  .xxxx  .remove svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* --- MEDIUM & LARGE SCREEN --- */
+@media all and (min-width: 600px) {
+  .xxxx   html {
+    font-size: 14px;
+  }
+
+  .xxxx  .container {
+    width: 70%;
+    max-width: 700px;
+    margin-right: 100px;
+
+  }
+
+  .xxxx  .thumbnail,
+  .detail {
+    float: left;
+  }
+
+  .xxxx   .thumbnail {
+    width: 35%;
+  }
+
+  .xxxx .detail {
+    width: 65%;
+  }
+
+  .xxxx   .promotion,
+  .summary {
+    width: 50%;
+  }
+
+  .xxxx  .checkout {
+    width: 80%;
+  } 
+
+  .xxxx  .checkout,
+  .summary {
+    text-align: right;
+  }
+}
+
+/* --- LARGE SCREEN --- */
+@media all and (min-width: 992px) {
+  .xxxx  html {
+    font-size: 16px;
+  }
+}
+
+
 
  /*
 ---------------------------------------------

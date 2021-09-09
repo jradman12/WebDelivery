@@ -1,4 +1,4 @@
-package beans;
+	package beans;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +12,7 @@ public class Order {
 	private String restaurant;
 	private Date dateAndTime;
 	private double price;
-	private String customer;
+	private String customerID;
 	private OrderStatus status;
 	private boolean isDeleted;
 	
@@ -28,7 +28,7 @@ public class Order {
 		this.restaurant = restaurant;
 		this.dateAndTime = dateAndTime;
 		this.price = price;
-		this.customer = customer;
+		this.customerID = customer;
 		this.status = status;
 	}
 
@@ -72,12 +72,12 @@ public class Order {
 		this.price = price;
 	}
 
-	public String getCustomer() {
-		return customer;
+	public String getCustomerID() {
+		return customerID;
 	}
 
-	public void setCustomer(String customer) {
-		this.customer = customer;
+	public void setCustomerID(String customer) {
+		this.customerID = customer;
 	}
 
 	public OrderStatus getStatus() {
@@ -96,4 +96,10 @@ public class Order {
 		this.isDeleted = isDeleted;
 	}
 
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", customerID=" + customerID + "]";
+	}
+
+	
 }

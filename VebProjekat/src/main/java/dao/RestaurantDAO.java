@@ -68,7 +68,7 @@ public class RestaurantDAO {
 				Gson gs = new Gson();
 				String restaurantsJson = "";
 				try {
-					restaurantsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json")));
+					restaurantsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -78,9 +78,9 @@ public class RestaurantDAO {
 				restaurants = gs.fromJson(restaurantsJson, type);
 				
 				//just to check it out 
-				for(Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
-					System.out.println(entry.getValue().getName());
-				}
+				//for(Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+					//System.out.println(entry.getValue().getName());
+			//	}
 				
 				//dodajParRestorana();
 	}
@@ -130,7 +130,7 @@ public class RestaurantDAO {
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json");
+			fos = new FileOutputStream("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json");
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");

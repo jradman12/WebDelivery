@@ -69,7 +69,7 @@ public static Map<String, Customer> customers = new HashMap<>();
 				Gson gs = new Gson();
 				String customersJson = "";
 				try {
-					customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
+					customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -90,7 +90,12 @@ public static Map<String, Customer> customers = new HashMap<>();
 	
 	public static void saveCustomersJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
+			System.out.println("saving customers... these:" );
+			for(Map.Entry<String, Customer> entry : customers.entrySet()) {
+				System.out.println(entry.getValue().getUsername());
+			}
+		
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
 		Map<String, Customer> allCustomers = new HashMap<>();
 		for (Customer c : findAll()) {
 			allCustomers.put(c.getUsername(),c);

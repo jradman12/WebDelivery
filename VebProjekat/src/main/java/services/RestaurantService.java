@@ -1,7 +1,9 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +26,7 @@ import beans.Restaurant;
 import beans.User;
 import dao.ManagerDAO;
 import dao.RestaurantDAO;
+import dto.ProductForCartDTO;
 
 @Path("/restaurants")
 public class RestaurantService {
@@ -202,6 +205,38 @@ public class RestaurantService {
 		RestaurantDAO rDAO = getRestaurants();
 		rDAO.updateProduct(id, updatedProduct);
 		return Response.status(Response.Status.ACCEPTED).entity("Product successfully updated.").build();
+	}
+	
+	@GET
+	@Path("/getProductsOfCurrentRestaurant")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getProductsOfCurrentRestaurant() {
+		
+		System.out.println("hit me");
+		
+		
+		RestaurantDAO restDAO = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
+		String currentRestID = (String) ctx.getAttribute("currentRestID");
+		
+		System.out.println("current rest: " + currentRestID);
+		
+		for(Restaurant r : restDAO.restaurants.values()) {
+			System.out.println("in for, rest name is " + r.getName());
+			if(r.getId().equals(currentRestID)) {
+				
+				List<ProductForCartDTO> retProducts = new ArrayList<ProductForCartDTO>();
+				System.out.println("found equal, made retprods");
+				for(Product p : r.getMenu()) {
+					retProducts.add(new ProductForCartDTO(p));
+				}
+				
+				for(ProductForCartDTO xx : retProducts)
+					System.out.println("pfc dto is " + xx);
+				
+				return Response.status(Response.Status.ACCEPTED).entity(retProducts).build();
+			}
+		}
+		return Response.status(Response.Status.BAD_REQUEST).entity("Sth aint right!").build();
 	}
 	
 }

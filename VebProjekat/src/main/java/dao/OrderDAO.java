@@ -8,10 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -51,13 +54,23 @@ public static Map<String, Order> orders = new HashMap<>();
 		return orders.values();
 	}
 	
+	public Collection<Order> getExistingOrders() {
+		 Collection<Order> os = new  ArrayList<Order>();
+		 for(Order o : orders.values()) {
+			 if(!o.isDeleted())
+				 os.add(o);
+		 }
+		 return os;
+	}
+	
+	
 	public static void loadOrders(String contextPath) {
 		
 			
 				Gson gs = new Gson();
 				String ordersJson = "";
 				try {
-					ordersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json")));
+					ordersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -76,7 +89,7 @@ public static Map<String, Order> orders = new HashMap<>();
 	
 	public static void saveOrdersJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
 		Map<String, Order> allOrders = new HashMap<>();
 		for (Order o : findAll()) {
 			allOrders.put(o.getId(),o);
@@ -119,14 +132,14 @@ public static Map<String, Order> orders = new HashMap<>();
 	
 	public void addNewOrder(Order order) {
 		Order newOrder = new Order();
-		newOrder.setId(order.getId());
+		newOrder.setId(Integer.toString(orders.size() + 1));
 		newOrder.setRestaurant(order.getRestaurant());
 		newOrder.setDateAndTime(order.getDateAndTime());
-		newOrder.setCustomer(order.getCustomer());
+		newOrder.setCustomerID(order.getCustomerID());
 		newOrder.setOrderedItems(order.getOrderedItems());
 		newOrder.setPrice(order.getPrice());
 		newOrder.setStatus(OrderStatus.PENDING);
-		addNewOrder(newOrder);
+		addOrder(newOrder);
 		saveOrdersJSON();
 	}
 	
