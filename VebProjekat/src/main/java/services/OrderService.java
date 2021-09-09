@@ -1,12 +1,15 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -158,6 +161,45 @@ public class OrderService {
 
 	}
 	
+	
+	@GET
+	@Path("/getCustomersOrders")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getCustomersOrders(){
+		List<Order> customersOrders = new ArrayList<Order>();
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");	
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		for(Order o : orderDAO.getExistingOrders()) {
+			System.out.println(o);
+			if(o.getCustomerID().equals(user.getUsername())) 
+				customersOrders.add(o);
+		}
+		if(customersOrders.size() > 0) {
+			return Response.status(Response.Status.ACCEPTED).entity(customersOrders).build();
+		}
+		return Response.status(Response.Status.BAD_REQUEST).entity("No orders available for this customer.").build();
+	}
+	
+	@DELETE
+	@Path("/cancelOrder/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void removeCartItem(@PathParam("id") String id) {
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");	
+		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+		//User user = (User) request.getSession().getAttribute("loggedInUser");
+		for(Order o : orderDAO.getExistingOrders()) {
+			if(o.getId().equals(id)) {
+				o.setDeleted(true);
+				for(Customer c : customerDAO.customers.values()) {
+					if(c.getUsername().equals(o.getCustomerID())) {
+						c.addPoints((int) (o.getPrice() / 1000 * 133 * 4) * (-1));
+					}
+				}
+			}
+		}
+		orderDAO.saveOrdersJSON();
+		customerDAO.saveCustomersJSON();
+	}
 	
 }
 

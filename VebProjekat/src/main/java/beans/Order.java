@@ -96,4 +96,10 @@ public class Order {
 		this.isDeleted = isDeleted;
 	}
 
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", customerID=" + customerID + "]";
+	}
+
+	
 }

@@ -8,23 +8,22 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import beans.Comment;
 import beans.Order;
 import enums.OrderStatus;
-import enums.StatusOfComment;
-
-import java.util.*;
 
 public class OrderDAO {
 	
-private static Map<String, Order> orders = new HashMap<>();
+	public static Map<String, Order> orders = new HashMap<>();
 
 
 	
@@ -51,6 +50,16 @@ private static Map<String, Order> orders = new HashMap<>();
 	public static Collection<Order> findAll() {
 		return orders.values();
 	}
+	
+	public Collection<Order> getExistingOrders() {
+		 Collection<Order> os = new  ArrayList<Order>();
+		 for(Order o : orders.values()) {
+			 if(!o.isDeleted())
+				 os.add(o);
+		 }
+		 return os;
+	}
+	
 	
 	public static void loadOrders(String contextPath) {
 		
