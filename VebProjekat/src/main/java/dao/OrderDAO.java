@@ -24,7 +24,7 @@ import java.util.*;
 
 public class OrderDAO {
 	
-private static Map<String, Order> orders = new HashMap<>();
+public static Map<String, Order> orders = new HashMap<>();
 
 
 	
