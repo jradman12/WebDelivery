@@ -6,6 +6,7 @@ const CustomerRestaurantView = { template: '<customer-restaurantView></customer-
 const CustomerProfile = { template: '<customer-profile></customer-profile>' }
 
 
+
 const router = new VueRouter({
 	  mode: 'hash',
 	  routes: [

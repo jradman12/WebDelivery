@@ -19,18 +19,30 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import enums.OrderStatus;
+import enums.Role;
+import enums.StatusOfComment;
+import beans.Comment;
+import beans.Order;
+import beans.User;
+import dao.CommentDAO;
+import dao.ManagerDAO;
+import dao.OrderDAO;
+import dao.RestaurantDAO;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import beans.Cart;
 import beans.CartItem;
 import beans.Customer;
-import beans.Order;
-import beans.User;
 import dao.CartDAO;
 import dao.CustomerDAO;
-import dao.ManagerDAO;
-import dao.OrderDAO;
-import enums.OrderStatus;
-import enums.Role;
+
+
+
+
 
 
 
@@ -200,6 +212,33 @@ public class OrderService {
 		orderDAO.saveOrdersJSON();
 		customerDAO.saveCustomersJSON();
 	}
+	
+	@Path("/orderFromRestaurantDeliveredToCustomer")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean orderFromRestaurantDeliveredToCustomer() {
+		
+		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
+		String currentRestID = (String) ctx.getAttribute("currentRestID");
+		
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		
+		Map<String, Order> orders = new HashMap<>();
+		OrderDAO.loadOrders("");//dobavljamo sve komentare
+		orders = OrderDAO.orders; 
+		///
+		
+		///
+		for(Order o : orders.values()) {
+			if(o.getRestaurant().equals(currentRestID) && o.getStatus().equals(OrderStatus.DELIVERED) 
+					&& o.getCustomerID().equals(user.getUsername())) {
+				
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	
 }
 

@@ -97,14 +97,14 @@ public class CommentDAO {
 	}
 	
 	
-	public void addComment(Comment comment) {
+	public static void addComment(Comment comment) {
 		if (!comments.containsValue(comment)) {
 			comments.put(comment.getId(), comment);
 		}
 		
 	}
 	
-	public void addNewComment(Comment comment) {
+	public static void addNewComment(Comment comment) {
 		Comment newComment = new Comment();
 		newComment.setDeleted(false);
 		newComment.setStatus(StatusOfComment.WAITING);

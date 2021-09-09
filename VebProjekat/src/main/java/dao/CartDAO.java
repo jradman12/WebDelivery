@@ -18,7 +18,7 @@ public class CartDAO {
 	
 	public Map<String, Cart> carts = new HashMap<>();
 	
-	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\carts.json";
+	public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\carts.json";
 	
 	public String fileName = "cart.json";
 	

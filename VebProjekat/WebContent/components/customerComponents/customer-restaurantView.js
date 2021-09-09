@@ -4,7 +4,10 @@ Vue.component("customer-restaurantView", {
         return {
             restaurant: [],
             comments: [],
-            productsDTO : []
+            productsDTO : [],
+            show : false,
+            newComment : {},
+            message : null
         }
     },
 
@@ -97,7 +100,7 @@ Vue.component("customer-restaurantView", {
                                 <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
                                     <h1 class="cursive-font primary-color">Recenzije restorana</h1>
                                     <br>
-                                    <p>Zadovoljni uslugama restorana? <a href="#">Ostavite recenziju</a> i pomozite drugima!</p>
+                                    <p v-if="show">Zadovoljni uslugama restorana?<a href="#writeCommentModal" data-toggle="modal" >Ostavite recenziju</a> i pomozite drugima!</p>
                                 </div>
                             </div>
                             <div class="tbl-header">
@@ -115,11 +118,11 @@ Vue.component("customer-restaurantView", {
                             <div class="tbl-content">
                                 <table class="r-table" cellpadding="0" cellspacing="0" border="0">
                                     <tbody>
-                                        // <tr v-for="comment in comments">
-                                        //     <td>{{ comment.rating }}</td>
-                                        //     <td>{{ comment.text }}</td>
-                                        //     <td>{{ comment.author }}</td>
-                                        // </tr>
+                                        <tr v-for="comment in comments">
+                                        <td>{{ comment.rating }}</td>
+                                        <td>{{ comment.text }}</td>
+                                        <td>{{ comment.author }}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -129,8 +132,67 @@ Vue.component("customer-restaurantView", {
                 </div>
 
             </section>
+
+
+            <div class="modal fade" id="writeCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                 <div class="modal-content">
+                      <div class="modal-header border-bottom-0">
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                           </button>
+                      </div>
+                      <div class="modal-body">
+                           <div class="form-title text-center">
+                                <h4>Ocjenjivanje usluga restorana</h4>
+                           </div>
+                           <div id='burn' class="d-flex flex-column text-center">
+                                <form>
+                                    
+                                     <div class="form-group">
+                                          <select id="selectRating" name="selectionOfGender" v-model="newComment.rating" class="form-control">
+                                               
+                                               <option value="1">1</option>
+                                               <option value="2">2</option>
+                                               <option value="3">3</option>
+                                               <option value="4">4</option>
+                                               <option value="5">5</option>
+                                          </select>
+                                     </div>
+  
+                                     <div class="form-group">
+                                          <textarea id="textOfComment" type="text" class="form-control" v-model="newComment.text"
+                                               placeholder="Komentar"></textarea>
+                                     </div>
+                                     <button type="submit" @click="addNewComment($event)"
+                                          class="btn btn-info btn-block btn-round">Potvrda</button>
+                                </form>
+  
+    
+                           </div>
+                      </div>
+                 </div>
+            </div>
+       </div>
+       
+  
         </div>
 `,
+
+
+mounted : function() {
+    axios
+   .get('rest/comments/getCommentsForRestaurant')
+   .then(response => (this.comments = response.data))
+
+   axios
+   .get('rest/orders/orderFromRestaurantDeliveredToCustomer')
+   .then(response=>(this.show=response.data))
+
+
+
+},
     created() {
         axios
         .get("rest/restaurants/getCurrentRestaurant")
@@ -179,6 +241,22 @@ Vue.component("customer-restaurantView", {
                 "amount" : this.productsDTO[index].amount
             })
             .then(response => (alert(response.data.product.name + ' successfully added to cart!')))
+        },
+
+        addNewComment : function(event){
+            event.preventDefault();
+            axios
+            .post('rest/comments/addComment',{
+                "rating" : this.newComment.rating,
+                "text" : this.newComment.text
+            })
+            .then(response =>{
+                $('#writeCommentModal').modal('hide')
+                document.getElementById('selectRating').value='';
+                document.getElementById('textOfComment').value='';
+
+            })
+            
         }
     }
 

@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -18,9 +19,11 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.ArrayList;
 import beans.Comment;
+import beans.Customer;
 import beans.Restaurant;
 import beans.User;
 import dao.CommentDAO;
+import dao.CustomerDAO;
 import dao.ManagerDAO;
 import dao.RestaurantDAO;
 import enums.Role;
@@ -148,6 +151,24 @@ public class CommentService {
 		
 		
 	}
+	
+	@POST
+	@Path("/addComment")
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addComment(Comment newComment) {
+		
+
+		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
+		String currentRestID = (String) ctx.getAttribute("currentRestID");
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		newComment.setAuthor(user.getUsername());
+		newComment.setRestaurantID(currentRestID);
+		CommentDAO.loadComments("");
+		CommentDAO.addNewComment(newComment);
+		return Response.status(200).entity("/VebProjekat/#/restaurantView").build();
+	}
+	
 	
 	
 	
