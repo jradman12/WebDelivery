@@ -81,7 +81,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 				Gson gs = new Gson();
 				String managersJson = "";
 				try {
-					managersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json")));
+					managersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json")));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -101,7 +101,7 @@ private static Map<String, Manager> managers = new HashMap<>();
 	
 	public static void saveManagersJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
+		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
 		Map<String, Manager> allManagers = new HashMap<>();
 		for (Manager m : findAll()) {
 			allManagers.put(m.getUsername(),m);
