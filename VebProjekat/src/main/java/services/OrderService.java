@@ -1,6 +1,7 @@
 package services;
 
 import javax.annotation.PostConstruct;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -19,8 +20,9 @@ import beans.Order;
 import beans.User;
 import dao.ManagerDAO;
 import dao.OrderDAO;
+import dao.RequestDAO;
 
-import java.util.Collection;
+import java.util.*;
 
 
 
@@ -69,6 +71,21 @@ public class OrderService {
 		
 	}
 	
+	@GET
+	@Path("/getAllOrdersWithStatusAD")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Order> getAllOrdersWithStatusAD(){
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		Role role = user.getRole();
+		System.out.println(user.getRole());
+		if(user == null || !role.equals(Role.DELIVERER)) {
+			return null;
+		}
+		
+		return OrderDAO.getOrdersWithStatusAD();
+		
+	}
+	
 	
 	@PUT
 	@Path("/updateOrderStatusIP/{id}")
@@ -114,6 +131,46 @@ public class OrderService {
 		}
 		
 	}
+	
+	@GET
+	@Path("/getAllApprovedOrders")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Order> getAllApprovedOrders(){
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		Role role = user.getRole();
+		System.out.println(user.getRole());
+		if(user == null || !role.equals(Role.DELIVERER)) {
+			return null;
+		}
+		
+		return OrderDAO.getApprovedOrdersForDeliver(user.getUsername());
+		
+	}
+	
+	
+	@PUT
+	@Path("/deliverOrder/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response deliverOrder(@PathParam("id") String id) {
+		
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		Role role = user.getRole();
+		System.out.println(user.getRole());
+		if(user == null || !role.equals(Role.DELIVERER)) {
+			return null;
+		}
+		
+		boolean success=OrderDAO.changeStatus(OrderStatus.DELIVERED,id);
+		if(success) {
+			return Response.status(200).entity(OrderDAO.getApprovedOrdersForDeliver(user.getUsername())).build();
+		}else {
+			return Response.status(400).entity("Izmjena nije uspjela!").build();
+		}
+		
+	}
+	
+	
 	
 	
 }

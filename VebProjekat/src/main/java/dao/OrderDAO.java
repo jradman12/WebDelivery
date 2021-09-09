@@ -15,16 +15,15 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import beans.Comment;
 import beans.Order;
 import enums.OrderStatus;
-import enums.StatusOfComment;
+
 
 import java.util.*;
 
 public class OrderDAO {
 	
-private static Map<String, Order> orders = new HashMap<>();
+public static Map<String, Order> orders = new HashMap<>();
 
 
 	
@@ -40,7 +39,7 @@ private static Map<String, Order> orders = new HashMap<>();
 		loadOrders(contextPath);
 	}
 	
-	public Order findById(String id) {
+	public static Order findById(String id) {
 		if (!orders.containsKey(id)) {
 			return null;
 		}
@@ -168,6 +167,46 @@ private static Map<String, Order> orders = new HashMap<>();
 		
 		return false;
 	}
+	
+	public static Collection<Order> getOrdersWithStatusAD() {
+		loadOrders("");
+		List<Order> ordersWithStatusAD=new ArrayList<Order>();
+		for(Order o : orders.values()) {
+			if(o.getStatus().equals(OrderStatus.AWAITING_DELIVERER)) {
+				ordersWithStatusAD.add(o);
+			}
+			
+		}
+		
+		return ordersWithStatusAD;
+	}
+	
+	public static String getRestaurantForOrder(String orderID) {
+		loadOrders("");
+		for(Order o : orders.values()) {
+			if(o.getId().equals(orderID)) {
+				return o.getRestaurant();
+			}
+		}
+		
+		return null;
+	}
+	
+	public static Collection<Order> getApprovedOrdersForDeliver(String username) {
+		loadOrders("");
+		List<Order> orderDel=new ArrayList<Order>();
+		for(String orderId : RequestDAO.getIdsFromApprovedOrders(username)) {
+			orderDel.add(findById(orderId));
+		}
+		
+		
+		return orderDel;
+	}
+	
+	
+	
+	
+	
 	
 
 }

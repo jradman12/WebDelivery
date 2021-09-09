@@ -129,14 +129,14 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 	}
 	
 	
-	public void addDeliverRequest(DeliverRequest dr) {
+	public static void addDeliverRequest(DeliverRequest dr) {
 		if (!requests.containsValue(dr)) {
 			requests.put(dr.getId(), dr);
 		}
 		
 	}
 	
-	public void addNewRequest(DeliverRequest request) {
+	public static void addNewRequest(DeliverRequest request) {
 		DeliverRequest newRequest = new DeliverRequest();
 		newRequest.setRestaurantID(request.getRestaurantID());
 		newRequest.setOrderID(request.getOrderID());
@@ -222,5 +222,41 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 		
 	}
 	
+	public static Collection<DeliverRequest> allDeliverersRequests(String id){
+		loadRequests("");
+		List<DeliverRequest> requestsD = new ArrayList<DeliverRequest>();
+		for (DeliverRequest d : requests.values()) {
+			if (d.getDelivererID().equals(id) /*&& d.getStatus().equals(RequestStatus.WAITING)*/) {
+				requestsD.add(d);
+				
+			}
+		}
+		
+		return requestsD;
+		
+	}
+	
+	public static Collection<String> getIdsFromApprovedOrders(String usernameOfDeliverer){
+		List<String> ordersId = new ArrayList<String>();
+		loadRequests("");
+		for(DeliverRequest r : requests.values()) {
+			if(r.getDelivererID().equals(usernameOfDeliverer) && r.getStatus().equals(RequestStatus.APPROVED)) {
+				ordersId.add(r.getOrderID());
+			}
+		}
+		
+		return ordersId;
+	}
+	
+	public static boolean existsRequest(String oId,String username) {
+		loadRequests("");
+		for(DeliverRequest dr : requests.values()) {
+			if(dr.getOrderID().equals(oId) && dr.getDelivererID().equals(username)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
 
