@@ -1,7 +1,9 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -23,7 +25,9 @@ import beans.Product;
 import beans.Restaurant;
 import beans.User;
 import dao.ManagerDAO;
+import dao.RequestDAO;
 import dao.RestaurantDAO;
+import dto.ProductForCartDTO;
 
 @Path("/restaurants")
 public class RestaurantService {
@@ -54,15 +58,11 @@ public class RestaurantService {
 	@Path("/getAllRestaurants")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Restaurant> getAllRestaurants() {
-		Map<String, Restaurant> restaurants = new HashMap<>();
-		RestaurantDAO.loadRestaurants("");
-		restaurants = RestaurantDAO.restaurants;
-		System.out.println("get users request returns following users: ");
-		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
-			System.out.println(entry.getValue());
-		}
+		RestaurantDAO restaurantDAO = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
 
-		return restaurants.values();
+		Map<String, Restaurant> restaurants = new HashMap<>();
+
+		return restaurantDAO.getAllAvailable();
 	}
 
 	@POST
@@ -70,7 +70,7 @@ public class RestaurantService {
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registration(Restaurant restaurant) {
-		System.out.println("Customer object Ive recieved is : " + restaurant);
+		RestaurantDAO restaurantDAO = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
 
 		/*
 		 * if (allRestaurantsDAO.getRestaurantById(restaurant.getId()) != null) { return
@@ -78,20 +78,13 @@ public class RestaurantService {
 		 * .entity("We have alredy restaurant with same id. Please try another one").
 		 * build(); }
 		 */
-		RestaurantDAO.addNewRestaurant(restaurant);
+		restaurantDAO.addNewRestaurant(restaurant);
 
 		return Response.status(Response.Status.ACCEPTED).build(); // accepted
 	}
 
 	private RestaurantDAO getRestaurants() {
 		RestaurantDAO restaurants = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
-
-		if (restaurants == null) {
-			String contextPath = ctx.getRealPath("");
-			restaurants = new RestaurantDAO(contextPath);
-			ctx.setAttribute("restaurantDAO", restaurants);
-
-		}
 
 		return restaurants;
 	}
@@ -154,10 +147,10 @@ public class RestaurantService {
 		
 		System.out.println("user that is logged in is : " + manager.getUsername());
 		
-		System.out.println("managers rest is " + ManagerDAO.getRestaurantForManager(manager.getUsername()));
+		System.out.println("managers rest is " + new ManagerDAO("").getRestaurantForManager(manager.getUsername()));
 		for (Restaurant rest : rDAO.restaurants.values()) {
 			System.out.println("in for loop");
-			if (rest.getId().equals(ManagerDAO.getRestaurantForManager(manager.getUsername()))) {
+			if (rest.getId().equals(new ManagerDAO("").getRestaurantForManager(manager.getUsername()))) {
 				System.out.println("found an equal one - " + rest.getId() + ", " + rest.getName());
 				return Response.status(Response.Status.ACCEPTED).entity(rest).build();
 			}
@@ -174,7 +167,7 @@ public class RestaurantService {
 		Restaurant r = null;
 		User manager = (User) request.getSession().getAttribute("loggedInUser");
 		for (Restaurant rest : rDAO.restaurants.values()) {
-			if (rest.getId().equals(ManagerDAO.getRestaurantForManager(manager.getUsername()))){
+			if (rest.getId().equals(new ManagerDAO("").getRestaurantForManager(manager.getUsername()))){
 					r = rest;
 					for (Product prod : rest.getMenu()) {
 						if (prod.getName().equals(product.getName()))
@@ -202,6 +195,38 @@ public class RestaurantService {
 		RestaurantDAO rDAO = getRestaurants();
 		rDAO.updateProduct(id, updatedProduct);
 		return Response.status(Response.Status.ACCEPTED).entity("Product successfully updated.").build();
+	}
+	
+	@GET
+	@Path("/getProductsOfCurrentRestaurant")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getProductsOfCurrentRestaurant() {
+		
+		System.out.println("hit me");
+		
+		
+		RestaurantDAO restDAO = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
+		String currentRestID = (String) ctx.getAttribute("currentRestID");
+		
+		System.out.println("current rest: " + currentRestID);
+		
+		for(Restaurant r : restDAO.restaurants.values()) {
+			System.out.println("in for, rest name is " + r.getName());
+			if(r.getId().equals(currentRestID)) {
+				
+				List<ProductForCartDTO> retProducts = new ArrayList<ProductForCartDTO>();
+				System.out.println("found equal, made retprods");
+				for(Product p : r.getMenu()) {
+					retProducts.add(new ProductForCartDTO(p));
+				}
+				
+				for(ProductForCartDTO xx : retProducts)
+					System.out.println("pfc dto is " + xx);
+				
+				return Response.status(Response.Status.ACCEPTED).entity(retProducts).build();
+			}
+		}
+		return Response.status(Response.Status.BAD_REQUEST).entity("Sth aint right!").build();
 	}
 	
 }

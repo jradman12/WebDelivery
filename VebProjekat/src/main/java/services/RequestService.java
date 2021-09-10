@@ -59,27 +59,22 @@ public class RequestService {
 	public Collection<DeliverRequest> getAllRequests(){
 		Map<String, DeliverRequest> requests = new HashMap<>();
 		//CommentDAO.saveCommentsJSON();
-		RequestDAO.loadRequests("");
-		requests = RequestDAO.requests;
-		for(Map.Entry<String, DeliverRequest> entry : requests.entrySet()) {
-			System.out.println(entry.getValue());
-		}
-		
-		return requests.values();
+		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
+		return requestDAO.findAll();
 	}
 	
 	@GET
 	@Path("/getAllRequestsForRestaurant")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<DeliverRequest> getAllCommentsForResaturant(){
-		 
+		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return null;
 		}
 			
-		String r = ManagerDAO.getRestaurantForManager(user.getUsername());
-		return RequestDAO.requestsForRestaurantsOrder(r);
+		String r = new ManagerDAO().getRestaurantForManager(user.getUsername());
+		return requestDAO.requestsForRestaurantsOrder(r);
 	}
 	
 	@PUT
@@ -87,16 +82,16 @@ public class RequestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response approveRequest(@PathParam("id") String id) {
-		
-		
+		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
+
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return Response.status(403).entity("Ne mozete pristupiti resursu").build();
 		}
 		
-		boolean success = RequestDAO.approve(id,user.getUsername());
+		boolean success = requestDAO.approve(id,user.getUsername());
 		if(success) {
-			return Response.status(200).entity(RequestDAO.requestsForRestaurantsOrder(id)).build();
+			return Response.status(200).entity(requestDAO.requestsForRestaurantsOrder(id)).build();
 		}
 		else {
 			return Response.status(Status.BAD_REQUEST).entity("Nije moguce odobriti zahtjev!").build();
@@ -110,17 +105,16 @@ public class RequestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response rejectRequest(@PathParam("id") String id) {
-		
-		
+		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
 
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return Response.status(403).entity("Ne mozete pristupiti resursu").build();
 		}
 		
-		boolean success = RequestDAO.decline(id);
+		boolean success = requestDAO.decline(id);
 		if(success) {
-			return Response.status(200).entity(RequestDAO.requestsForRestaurantsOrder(id)).build();
+			return Response.status(200).entity(requestDAO.requestsForRestaurantsOrder(id)).build();
 		}
 		else {
 			return Response.status(Status.BAD_REQUEST).entity("Nije moguce odobriti zahtjev!").build();
@@ -135,33 +129,38 @@ public class RequestService {
 	@Path("/getAllRequestsForDeliverer")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<DeliverRequest> getAllRequestsForDeliverer(){
-		 
+		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
+
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.DELIVERER)) {
 			return null;
 		}
 		
-		return RequestDAO.allDeliverersRequests(user.getUsername());
+		return requestDAO.allDeliverersRequests(user.getUsername());
 	}
 	
 	@POST
 	@Path("/sendRequest")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response delivererAddRequest( DeliverRequest dr){
-		 
+
+	public Response delivererAddRequest(DeliverRequest dr){
+		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
+		OrderDAO orderDAO = new OrderDAO("");
 		if(user == null || !user.getRole().equals(Role.DELIVERER)) {
 			return null;
 		}
 		
 		
 		dr.setDelivererID(user.getUsername());
+
 		String id=dr.getOrderID();
-		OrderDAO.changeStatus(OrderStatus.AWAITING_APPROVING, id);
+		orderDAO.changeStatus(OrderStatus.AWAITING_APPROVING, id);
 		
-		RequestDAO.addNewRequest(dr);
-		return Response.status(Status.ACCEPTED).entity(OrderDAO.getOrdersModifiedForDeliverer(user.getUsername())).build();
+		requestDAO.addNewRequest(dr);
+		return Response.status(Status.ACCEPTED).entity(orderDAO.getOrdersModifiedForDeliverer(user.getUsername())).build();
+
 	}
 	
 	
@@ -169,13 +168,14 @@ public class RequestService {
 	@Path("/existsRequest/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response exists(@PathParam("id") String id){
-		 
+		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
+
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.DELIVERER)) {
 			return null;
 		}
 		
-		if(RequestDAO.existsRequest(id, user.getUsername())) {
+		if(requestDAO.existsRequest(id, user.getUsername())) {
 			return Response.status(200).entity(true).build();
 		}else {
 			return Response.status(403).entity(false).build();

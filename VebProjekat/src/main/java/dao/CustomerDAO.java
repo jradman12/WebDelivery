@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,28 +23,21 @@ import enums.Role;
 
 public class CustomerDAO {
 
-public static Map<String, Customer> customers = new HashMap<>();
+public Map<String, Customer> customers = new HashMap<>();
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
+private UserDAO userDAO = new UserDAO();
 
 
-	
-	
 	public CustomerDAO() {
 		
 	}
 	
-	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
-	 */
+	
 	public CustomerDAO(String contextPath) {
 		loadCustomers(contextPath);
 	}
 	
-	/**
-	 * Vra�a korisnika za prosle�eno korisni�ko ime i �ifru. Vra�a null ako korisnik ne postoji
-	 * @param username
-	 * @param password
-	 * @return
-	 */
+	
 	public Customer find(String username, String password) {
 		if (!customers.containsKey(username)) {
 			return null;
@@ -55,21 +49,29 @@ public static Map<String, Customer> customers = new HashMap<>();
 		return customer;
 	}
 	
-	public static Collection<Customer> findAll() {
+	public Collection<Customer> findAll() {
 		return customers.values();
 	}
 	
-	/**
-	 * U�itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Klju� je korisni�ko ime korisnika.
-	 * @param contextPath Putanja do aplikacije u Tomcatu
-	 */
-	public static void loadCustomers(String contextPath) {
+	public Collection<Customer> getAllAvailable(){
+		Collection<Customer> availableCustomers = new ArrayList<Customer>();
+		for(Customer u : customers.values()) {
+			if(!u.isDeleted()) 
+				availableCustomers.add(u);
+		}
+		return availableCustomers;
+	}
+	
+	public void deleteCustomer(String userID) {
+		customers.get(userID).setDeleted(true);
+	}
+	
+	public void loadCustomers(String contextPath) {
 		
 				Gson gs = new Gson();
 				String customersJson = "";
 				try {
-					customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
+					customersJson = new String(Files.readAllBytes(Paths.get(path)));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -80,17 +82,16 @@ public static Map<String, Customer> customers = new HashMap<>();
 				customers = gs.fromJson(customersJson, type);
 				
 				//just to check it out 
-				for(Map.Entry<String, Customer> entry : customers.entrySet()) {
-					System.out.println(entry.getValue().getFistName());
-				}
+//				for(Map.Entry<String, Customer> entry : customers.entrySet()) {
+//					System.out.println(entry.getValue().getFistName());
+//				}
 
 	}
 	
 	
 	
-	public static void saveCustomersJSON() {
-
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
+	public  void saveCustomersJSON() {
+		
 		Map<String, Customer> allCustomers = new HashMap<>();
 		for (Customer c : findAll()) {
 			allCustomers.put(c.getUsername(),c);
@@ -111,13 +112,11 @@ public static Map<String, Customer> customers = new HashMap<>();
 		try {
 			fos.write(inBytes);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			fos.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -145,12 +144,10 @@ public static Map<String, Customer> customers = new HashMap<>();
 		newCustomer.setDeleted(false);
 		newCustomer.setBlocked(false);
 		addCustomer(newCustomer);
-		UserDAO.addNewUser(newUser);
+		userDAO.addNewUser(newUser);
 		saveCustomersJSON();
 	}
 	
-	
-		
 	
 	public static Date parseDate(String date) {
 	     try {
@@ -168,18 +165,15 @@ public static Map<String, Customer> customers = new HashMap<>();
 		return null;
 	}
 	
-	public static Boolean changeCustomer(String username,User user) {
+	public  boolean changeCustomer(String username,User user) {
 
-		// Find user with that name, and change his data.
-		loadCustomers("");
 		for (Customer c : customers.values()) {
 			if (c.getUsername().equals(user.getUsername())) {
 				c.setFistName(user.getFistName());
 				c.setLastName(user.getLastName());
 				c.setPassword(user.getPassword());
-				UserDAO.changeUser(username,user);
+				userDAO.changeUser(username,user);
 				saveCustomersJSON();
-
 				return true;
 			}
 		}

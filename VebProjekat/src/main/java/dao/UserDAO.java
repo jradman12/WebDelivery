@@ -8,37 +8,33 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import beans.Manager;
 import beans.User;
 import enums.Role;
 
 public class UserDAO {
  
-public static Map<String, User> users = new HashMap<>();	
+public Map<String, User> users = new HashMap<>();	
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json";
+
+
 	public UserDAO() {
 		
 	}
 	
-	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
-	 */
 	public UserDAO(String contextPath) {
 		loadUsers(contextPath);
 	}
 	
-	/**
-	 * Vra�a korisnika za prosle�eno korisni�ko ime i �ifru. Vra�a null ako korisnik ne postoji
-	 * @param username
-	 * @param password
-	 * @return
-	 */
+	
 	public User find(String username, String password) {
 		if (!users.containsKey(username)) {
 			return null;
@@ -50,25 +46,29 @@ public static Map<String, User> users = new HashMap<>();
 		return user;
 	}
 	
-	public static Collection<User> findAll() {
+	public  Collection<User> findAll() {
 		return users.values();
 	}
 	
-	/**
-	 * U�itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Klju� je korisni�ko ime korisnika.
-	 * @param contextPath Putanja do aplikacije u Tomcatu
-	 */
-	public static void loadUsers(String contextPath) {
+	public Collection<User> getAllAvailable(){
+		Collection<User> availableUsers = new ArrayList<User>();
+		for(User u : users.values()) {
+			if(!u.isDeleted()) 
+				availableUsers.add(u);
+		}
+		return availableUsers;
+	}
+	
+	public void deleteUser(String userID) {
+		users.get(userID).setDeleted(true);
+	}
+	
+	public  void loadUsers(String contextPath) {
 		
-			
 				Gson gs = new Gson();
-
-				
 				String usersJson = "";
 				try {
-					usersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json")));
-					//customersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json")));
+					usersJson = new String(Files.readAllBytes(Paths.get(path)));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -84,10 +84,7 @@ public static Map<String, User> users = new HashMap<>();
 	}
 	
 		
-		
-	public static void saveUsersJson() {
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json";
-		
+	public  void saveUsersJson() {
 
 		Map<String, User> allUsers = new HashMap<>();
 		
@@ -110,30 +107,26 @@ public static Map<String, User> users = new HashMap<>();
 		try {
 			fos.write(inBytes);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			fos.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		
 	}
 	
 	
-	public static void addUser(User user) {
-		loadUsers("");
+	public void addUser(User user) {
 		if (!users.containsValue(user)) {
 			users.put(user.getUsername(), user);
 		}
 		
 	}
 	
-	public static void addNewUser(User user) {
+	public void addNewUser(User user) {
 		User newUser = new User();
 		newUser.setFistName(user.getFistName());
 		newUser.setLastName(user.getLastName());
@@ -142,7 +135,6 @@ public static Map<String, User> users = new HashMap<>();
 		newUser.setDateOfBirth(user.getDateOfBirth());
 		newUser.setGender(user.getGender());
 		newUser.setRole(user.getRole());
-		newUser.setDeleted(user.isDeleted());
 		newUser.setBlocked(user.isBlocked());
 		addUser(newUser);
 		saveUsersJson();
@@ -176,7 +168,6 @@ public static Map<String, User> users = new HashMap<>();
 		if (users.containsKey(username)) {
 			return users.get(username);
 		}
-
 		return null;
 	}
 	
@@ -184,13 +175,10 @@ public static Map<String, User> users = new HashMap<>();
 		if (users.containsKey(username)) {
 			return users.get(username).getRole();
 		}
-
 		return null;
 	}
 
-	public static void changeUser(String username,User user) {
-		loadUsers("");
-		System.out.println("userDAO");
+	public  void changeUser(String username,User user) {
 		for (User u : users.values()) {
 			if (u.getUsername().equals(username)) {
 				u.setFistName(user.getFistName());

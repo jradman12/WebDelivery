@@ -1,24 +1,22 @@
 package services;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import beans.Customer;
 import beans.User;
 import dao.AdministratorDAO;
@@ -37,15 +35,15 @@ public class UserService {
 	private boolean success=false;;
 	@Context
 	HttpServletRequest request;
+	
+	
+	
 	public UserService() {
 		
 	}
 	
 	@PostConstruct
-	// ctx polje je null u konstruktoru, mora se pozvati nakon konstruktora (@PostConstruct anotacija)
 	public void init() {
-		// Ovaj objekat se instancira vi�e puta u toku rada aplikacije
-		// Inicijalizacija treba da se obavi samo jednom
 		if (ctx.getAttribute("usersDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("usersDAO", new UserDAO(contextPath));
@@ -73,27 +71,18 @@ public class UserService {
 	@Path("/getAllUsers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<UserDTO> getAllUsers(){
-		Map<String, User> users = new HashMap<>();
-		UserDAO.loadUsers("");
-		users = UserDAO.users;
-		Map<String, Customer> customers = new HashMap<>();
-		CustomerDAO.loadCustomers("");
-		customers = CustomerDAO.customers;
+		UserDAO userDAO = new UserDAO("");
+		
 		List<UserDTO> dto = new ArrayList<UserDTO>(); 
 		
-		for(User u : users.values()) {
+		for(User u : userDAO.getAllAvailable()) {
 			if(u.getRole() != Role.CUSTOMER) 
 				dto.add(new UserDTO(u));
 		}
-		for(Customer c : customers.values()) {
+		for(Customer c : new CustomerDAO("").getAllAvailable()) {
 			dto.add(new UserDTO(c));
 		}
 		
-		System.out.println("get usersDTO request returns following users: ");
-		for(UserDTO dTo : dto) {
-			System.out.println(dTo);
-		}
-
 		return dto;
 	}
 
@@ -102,13 +91,8 @@ public class UserService {
 	@Path("/getAllCustomers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Customer> getAllCustomers(){
-		Map<String, Customer> customers = new HashMap<>();
-		CustomerDAO.loadCustomers("");
-		customers = CustomerDAO.customers;
-		for(Map.Entry<String, Customer> entry : customers.entrySet()) {
-			System.out.println(entry.getValue());
-		}
-		return customers.values();
+		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+		return  customerDAO.getAllAvailable();
 	}
 	
 	@GET
@@ -121,7 +105,7 @@ public class UserService {
 
 			return Response
 					.status(Response.Status.ACCEPTED)
-					.entity( user)
+					.entity(user)
 					.build();
 		}
 		return Response.status(403).type("text/plain")
@@ -135,7 +119,6 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateUserInformation(@PathParam("username") String username,User user) {
 		
-		System.out.println("izmjena");
 		if(user.getRole().equals(Role.ADMINISTRATOR)) {
 			changeAdministratorInformation(username,user);
 		}
@@ -169,7 +152,7 @@ public class UserService {
 		userDAO.unblockUserById(userToUnblock.getUsername());
 		
 		return Response
-				.status(Response.Status.ACCEPTED).entity("Uspjesno deblokiran korisnik!").entity(UserDAO.users.values()).build();
+				.status(Response.Status.ACCEPTED).entity("Uspjesno deblokiran korisnik!").entity(userDAO.getAllAvailable()).build();
 	}
 	
 	@POST
@@ -182,26 +165,28 @@ public class UserService {
 		userDAO.blockUserById(userToBlock.getUsername());
 		
 		return Response
-				.status(Response.Status.ACCEPTED).entity("Uspjesno blokiran korisnik!").entity(UserDAO.users.values()).build();
+				.status(Response.Status.ACCEPTED).entity("Uspjesno blokiran korisnik!").entity(userDAO.getAllAvailable()).build();
 	}
 	
 
 	private void changeManagerInformation(String username,User user) {
-		success=ManagerDAO.changeManager(username,user);
+		ManagerDAO managerDAO = new ManagerDAO();
+		success = managerDAO.changeManager(username,user);
 	}
 
 	private void changeDelivererInformation(String username,User user) {
-		success=DelivererDAO.changeDeliverer(username,user);
+		DelivererDAO delivererDAO = new DelivererDAO();
+		success = delivererDAO.changeDeliverer(username,user);
 	}
 
 	private void changeCustomerInformation(String username,User user) {
-		success=CustomerDAO.changeCustomer(username,user);
+		CustomerDAO customerDAO = new CustomerDAO();
+		success = customerDAO.changeCustomer(username,user);
 	}
 
 	private void changeAdministratorInformation(String username,User user) {
-		
-		success=AdministratorDAO.changeAdministrator(username,user);
-		System.out.println(success);
+		AdministratorDAO administratorDAO = new AdministratorDAO();
+		success = administratorDAO.changeAdministrator(username,user);
 	}
 	
 	private boolean isUserAdmin() {

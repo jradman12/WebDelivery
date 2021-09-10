@@ -5,7 +5,7 @@ public class CartItem {
 
 	private Product product;
 	private int amount;
-	private boolean isDeleted; // delete if not needed
+	private boolean isDeleted = false; // delete if not needed
 	
 	public CartItem() {		
 	}

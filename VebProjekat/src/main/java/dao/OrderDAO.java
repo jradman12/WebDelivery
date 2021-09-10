@@ -8,6 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -20,23 +27,18 @@ import java.util.*;
 
 public class OrderDAO {
 	
-public static Map<String, Order> orders = new HashMap<>();
-
-
-	
+public  Map<String, Order> orders = new HashMap<>();
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
 	
 	public OrderDAO() {
 		
 	}
 	
-	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
-	 */
 	public OrderDAO(String contextPath) {
 		loadOrders(contextPath);
 	}
 	
-	public static Order findById(String id) {
+	public Order findById(String id) {
 		if (!orders.containsKey(id)) {
 			return null;
 		}
@@ -44,17 +46,27 @@ public static Map<String, Order> orders = new HashMap<>();
 		return order;
 	}
 	
-	public static Collection<Order> findAll() {
+	public Collection<Order> findAll() {
 		return orders.values();
 	}
 	
-	public static void loadOrders(String contextPath) {
+	public Collection<Order> getExistingOrders() {
+		 Collection<Order> os = new  ArrayList<Order>();
+		 for(Order o : orders.values()) {
+			 if(!o.isDeleted())
+				 os.add(o);
+		 }
+		 return os;
+	}
+	
+	
+	public void loadOrders(String contextPath) {
 		
 			
 				Gson gs = new Gson();
 				String ordersJson = "";
 				try {
-					ordersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json")));
+					ordersJson = new String(Files.readAllBytes(Paths.get(path)));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -64,16 +76,15 @@ public static Map<String, Order> orders = new HashMap<>();
 				orders = gs.fromJson(ordersJson, type);
 				
 				//just to check it out 
-				for(Map.Entry<String, Order> entry : orders.entrySet()) {
-					System.out.println(entry.getValue().getId());
-				}
+//				for(Map.Entry<String, Order> entry : orders.entrySet()) {
+//					System.out.println(entry.getValue().getId());
+//				}
 	}
 	
 	
 	
-	public static void saveOrdersJSON() {
+	public void saveOrdersJSON() {
 
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
 		Map<String, Order> allOrders = new HashMap<>();
 		for (Order o : findAll()) {
 			allOrders.put(o.getId(),o);
@@ -116,14 +127,14 @@ public static Map<String, Order> orders = new HashMap<>();
 	
 	public void addNewOrder(Order order) {
 		Order newOrder = new Order();
-		newOrder.setId(order.getId());
+		newOrder.setId(Integer.toString(orders.size() + 1));
 		newOrder.setRestaurant(order.getRestaurant());
 		newOrder.setDateAndTime(order.getDateAndTime());
-		newOrder.setCustomer(order.getCustomer());
+		newOrder.setCustomerID(order.getCustomerID());
 		newOrder.setOrderedItems(order.getOrderedItems());
 		newOrder.setPrice(order.getPrice());
 		newOrder.setStatus(OrderStatus.PENDING);
-		addNewOrder(newOrder);
+		addOrder(newOrder);
 		saveOrdersJSON();
 	}
 	
@@ -138,9 +149,8 @@ public static Map<String, Order> orders = new HashMap<>();
 	     }
 	  }
 	
-	public static Collection<Order> getOrdersForRestaurant(String idOfRestaurant) {
-		loadOrders("");
-		List<Order> ordersForRestaurant=new ArrayList<Order>();
+	public  Collection<Order> getOrdersForRestaurant(String idOfRestaurant) {
+		List<Order> ordersForRestaurant = new ArrayList<Order>();
 		for(Order o : orders.values()) {
 			if(o.getRestaurant().equals(idOfRestaurant)) {
 				ordersForRestaurant.add(o);
@@ -151,7 +161,7 @@ public static Map<String, Order> orders = new HashMap<>();
 		return ordersForRestaurant;
 	}
 	
-	public static boolean changeStatus(OrderStatus status,String id) {
+	public  boolean changeStatus(OrderStatus status,String id) {
 		loadOrders("");
 		for(Order o : orders.values()) {
 			if(o.getId().equals(id)) {
@@ -165,8 +175,7 @@ public static Map<String, Order> orders = new HashMap<>();
 		return false;
 	}
 	
-	public static Collection<Order> getOrdersWithStatusAD() {
-		loadOrders("");
+	public  Collection<Order> getOrdersWithStatusAD() {
 		List<Order> ordersWithStatusAD=new ArrayList<Order>();
 		for(Order o : orders.values()) {
 			if(o.getStatus().equals(OrderStatus.AWAITING_DELIVERER)) {
@@ -174,17 +183,11 @@ public static Map<String, Order> orders = new HashMap<>();
 			}
 			
 		}
-		System.out.println("Ispisujemo ordere AD");
-		for(Order o  : ordersWithStatusAD) {
-			
-			System.out.println(o.getId() + " " + o.getCustomer());
-		}
 		
 		return ordersWithStatusAD;
 	}
 	
-	public static String getRestaurantForOrder(String orderID) {
-		loadOrders("");
+	public  String getRestaurantForOrder(String orderID) {
 		for(Order o : orders.values()) {
 			if(o.getId().equals(orderID)) {
 				return o.getRestaurant();
@@ -194,10 +197,10 @@ public static Map<String, Order> orders = new HashMap<>();
 		return null;
 	}
 	
-	public static Collection<Order> getApprovedOrdersForDeliver(String username) {
-		loadOrders("");
+	public  Collection<Order> getApprovedOrdersForDeliver(String username) {
 		List<Order> orderDel=new ArrayList<Order>();
-		for(String orderId : RequestDAO.getIdsFromApprovedOrders(username)) {
+		RequestDAO requestDAO = new RequestDAO("");
+		for(String orderId : requestDAO.getIdsFromApprovedOrders(username)) {
 			orderDel.add(findById(orderId));
 		}
 		
@@ -205,31 +208,26 @@ public static Map<String, Order> orders = new HashMap<>();
 		return orderDel;
 	}
 	
+
 	
-	public static Collection<Order> delivererOrdersAA(String username){
+	public  Collection<Order> delivererOrdersAA(String username){
 		List<Order> myOrdersAA = new ArrayList<Order>();
+		RequestDAO dao=new RequestDAO("");
+		
 		loadOrders("");
 		for(Order o : orders.values()) {
-			for(String s : RequestDAO.getIdsOfOrdersForDelivererWaitingRequests(username)) {
+			for(String s : dao.getIdsOfOrdersForDelivererWaitingRequests(username)) {
 				if(o.getId().equals(s)) {
 					myOrdersAA.add(o);
 				}
 			}
 		}
 		
-		System.out.println("Ispisujemo ordere AA za deliverera");
-		for(Order o  : myOrdersAA) {
-			
-			System.out.println(o.getId() + " " + o.getCustomer());
-		}
-		
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-deliverer");
-		
 		
 		return myOrdersAA;
 	}
 	
-	public static Collection<Order> getOrdersWithStatusAA() {
+	public  Collection<Order> getOrdersWithStatusAA() {
 		loadOrders("");
 		List<Order> ordersWithStatusAA=new ArrayList<Order>();
 		for(Order o : orders.values()) {
@@ -251,7 +249,7 @@ public static Map<String, Order> orders = new HashMap<>();
 	}
 	
 	
-	public static Collection<Order> AADD(String username){
+	public  Collection<Order> AADD(String username){
 	
 		List<Order> povratnaLista = new ArrayList<Order>();
 		List<Order> promijenjenaLista = new ArrayList<Order>();
@@ -281,30 +279,23 @@ public static Map<String, Order> orders = new HashMap<>();
 			}
 		}
 			
-		System.out.println("DOAA");
+		
 		for(Order or : delivererOrdersAA(username)) {
-			System.out.println(or.toString());
+			
 			povratnaLista.add(or);
 		}
 		
 		for(Order o : razlika) {
 			povratnaLista.add(o);
 		}
-		System.out.println("DOAA - zavrsen");
 		
-		System.out.println("Ispisujemo listu sa AA->AD + AA za deliverera");
-		for(Order o  : povratnaLista) {
-			
-			System.out.println(o.getId() + " " + o.getCustomer());
-		}
-		
-		System.out.println("AD i AA za deliverera");
+	
 		return povratnaLista;
 		
 		
 	}
 	
-	public static Collection<Order> getOrdersModifiedForDeliverer(String username){
+	public  Collection<Order> getOrdersModifiedForDeliverer(String username){
 		List<Order> all = new ArrayList<Order>(); 
 		
 		for(Order o : getOrdersWithStatusAD()) {
@@ -315,13 +306,6 @@ public static Map<String, Order> orders = new HashMap<>();
 			all.add(or);
 		}
 		
-		System.out.println("Ispisujemo glavna povratna ");
-		for(Order o  : all) {
-			
-			System.out.println(o.getId() + " " + o.getCustomer());
-		}
-		
-		System.out.println("KONACNA LISTA");
 		return all;
 		
 	}
@@ -334,6 +318,6 @@ public static Map<String, Order> orders = new HashMap<>();
 	
 	
 	
-	
+
 
 }
