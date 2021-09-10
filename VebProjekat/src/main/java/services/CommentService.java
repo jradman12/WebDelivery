@@ -58,46 +58,37 @@ public class CommentService {
 	@Path("/getAllComments")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Comment> getAllComments(){
-		Map<String, Comment> comments = new HashMap<>();
-		//CommentDAO.saveCommentsJSON();
-		CommentDAO.loadComments("");
-		comments = CommentDAO.comments;
-		System.out.println("get comments request returns following comments: ");
-		for(Map.Entry<String, Comment> entry : comments.entrySet()) {
-			System.out.println(entry.getValue());
-		}
-		
-		return comments.values();
+		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
+		return commentDAO.getAllAvailable();
 	}
 	
 	@GET
 	@Path("/getAllCommentsForRestaurant")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Comment> getAllCommentsForResaturant(){
-		 
+		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
+		ManagerDAO managerDAO = new ManagerDAO("");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return null;
 		}
 			
-		String r = ManagerDAO.getRestaurantForManager(user.getUsername());
-		return CommentDAO.getCommentsForRestaurant(r);
+		String r = managerDAO.getRestaurantForManager(user.getUsername());
+		return commentDAO.getCommentsForRestaurant(r);
 	}
 	
 	@GET
 	@Path("/getCommentsForRestaurant")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Comment> getCommentsForRestaurant(){
-			
-		Map<String, Comment> comments = new HashMap<>();
-		List<Comment> commentsForRestaurant = new ArrayList<Comment>();
-		CommentDAO.loadComments("");//dobavljamo sve komentare
-		comments = CommentDAO.comments; 
+		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
 		///
+		List<Comment> commentsForRestaurant = new ArrayList<Comment>();
+
 		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
 		String currentRestID = (String) ctx.getAttribute("currentRestID");
 		///
-		for(Comment c : comments.values()) {
+		for(Comment c : commentDAO.getAllAvailable()) {
 			System.out.println(c);
 			System.out.println("current rest id " + currentRestID);
 			if(c.getRestaurantID().equals(currentRestID) && c.getStatus().equals(StatusOfComment.APPROVED)) {
@@ -113,16 +104,17 @@ public class CommentService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response approveComment(@PathParam("id") String id,Comment comment) {
-		
-		System.out.println("izmjena");
-		User user = (User) request.getSession().getAttribute("loggedInUser");
+		ManagerDAO managerDAO = new ManagerDAO("");
+		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
+
+				User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
-			return Response.status(403).entity("Ne mo�ete pristupiti resursu").build();
+			return Response.status(403).entity("Ne mozete pristupiti resursu").build();
 		}
-		String r = ManagerDAO.getRestaurantForManager(user.getUsername());
-		boolean success=CommentDAO.changeStatus(StatusOfComment.APPROVED, id);
+		String r = managerDAO.getRestaurantForManager(user.getUsername());
+		boolean success=commentDAO.changeStatus(StatusOfComment.APPROVED, id);
 		if(success) {
-			return Response.status(202).entity(CommentDAO.getCommentsForRestaurant(r)).build();
+			return Response.status(202).entity(commentDAO.getCommentsForRestaurant(r)).build();
 		}else {
 			return Response.status(400).entity("Neuspjeh").build();
 		}
@@ -135,16 +127,16 @@ public class CommentService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response rejectComment(@PathParam("id") String id,Comment comment) {
-		
-		System.out.println("izmjena");
+		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
+
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return Response.status(403).entity("Ne mo�ete pristupiti resursu").build();
 		}
 		
-		boolean success=CommentDAO.changeStatus(StatusOfComment.REJECTED, id);
+		boolean success=commentDAO.changeStatus(StatusOfComment.REJECTED, id);
 		if(success) {
-			return Response.status(202).entity(CommentDAO.comments.values()).build();
+			return Response.status(202).entity(commentDAO.getAllAvailable()).build();
 		}else {
 			return Response.status(400).entity("Neuspjeh").build();
 		}
@@ -158,14 +150,14 @@ public class CommentService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addComment(Comment newComment) {
 		
+		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
 
 		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
 		String currentRestID = (String) ctx.getAttribute("currentRestID");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		newComment.setAuthor(user.getUsername());
 		newComment.setRestaurantID(currentRestID);
-		CommentDAO.loadComments("");
-		CommentDAO.addNewComment(newComment);
+		commentDAO.addNewComment(newComment);
 		return Response.status(200).entity("/VebProjekat/#/restaurantView").build();
 	}
 	

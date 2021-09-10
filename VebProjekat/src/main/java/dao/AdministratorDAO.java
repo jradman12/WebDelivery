@@ -22,26 +22,19 @@ import beans.User;
 
 public class AdministratorDAO {
 
-	private static Map<String, Administrator> admins = new HashMap<>();
-	
+	private  Map<String, Administrator> admins = new HashMap<>();
+	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
+	private UserDAO userDAO = new UserDAO();
+
 	
 	public AdministratorDAO() {
-		
 	}
 	
-	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
-	 */
+	
 	public AdministratorDAO(String contextPath) {
 		loadAdmins(contextPath);
 	}
 	
-	/**
-	 * Vra�a korisnika za prosle�eno korisni�ko ime i �ifru. Vra�a null ako korisnik ne postoji
-	 * @param username
-	 * @param password
-	 * @return
-	 */
 	public Administrator find(String username, String password) {
 		if (!admins.containsKey(username)) {
 			return null;
@@ -53,47 +46,17 @@ public class AdministratorDAO {
 		return admin;
 	}
 	
-	public static Collection<Administrator> findAll() {
+	public Collection<Administrator> findAll() {
 		return admins.values();
 	}
 	
-	/**
-	 * U�itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Klju� je korisni�ko ime korisnika.
-	 * @param contextPath Putanja do aplikacije u Tomcatu
-	 */
-	private static void loadAdmins(String contextPath) {
+	
+	private void loadAdmins(String contextPath) {
 		
 		Gson gs = new Gson();
-		// maybe we should add predefined values for boolean attributes, so we don't do this in constructors :(
-//				admins.put("adam", new Administrator("adam", "admin", "Adam", "Martinez", Gender.MALE, parseDate("24.09.1992."), Role.ADMINISTRATOR, false, false));
-//				admins.put("ella", new Administrator("ella", "admin", "Ella", "Williams", Gender.FEMALE, parseDate("02.03.1989."), Role.ADMINISTRATOR, false, false));
-//				System.out.println("henlo");
-//				String json = gs.toJson(admins);
-//				byte[] strInBytes = json.getBytes();
-//
-//				// writing in file for the first time; should be removed after the file is created
-//				FileOutputStream fos = null;
-//				try {
-//					fos = new FileOutputStream("C:\\Users\\hp\\Desktop\\web-proj\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json");
-//				} catch (FileNotFoundException e) {
-//					e.printStackTrace();
-//				}
-//				try {
-//					fos.write(strInBytes);
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//				try {
-//					fos.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-				//----------------------------------------
-				
 				String adminsJson = "";
 				try {
-					adminsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json")));
+					adminsJson = new String(Files.readAllBytes(Paths.get(path)));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -103,88 +66,12 @@ public class AdministratorDAO {
 				admins = gs.fromJson(adminsJson, type);
 				
 				//just to check it out 
-				for(Map.Entry<String, Administrator> entry : admins.entrySet()) {
-					System.out.println(entry.getValue().getFistName());
-				}
-		
-		
-		
-		
-//		BufferedReader in = null;
-//		try {
-//			File file = new File(contextPath + "/data/users.txt");
-//			in = new BufferedReader(new FileReader(file));
-//			String line;
-//			StringTokenizer st;
-//			while ((line = in.readLine()) != null) {
-//				line = line.trim();
-//				if (line.equals("") || line.indexOf('#') == 0)
-//					continue;
-//				st = new StringTokenizer(line, ";");
-//				while (st.hasMoreTokens()) {
-//					String username = st.nextToken().trim();
-//					String password = st.nextToken().trim();
-//					String firstName = st.nextToken().trim();
-//					String lastName = st.nextToken().trim();
-//					String genderStr = st.nextToken().trim();
-//					String dateStr = st.nextToken().trim();
-//					String roleStr = st.nextToken().trim();
-//					String isDeletedStr = st.nextToken().trim();
-//					String isBlockedStr = st.nextToken().trim();
-//					Gender gender;
-//					if(genderStr.equals("MALE")) {
-//						gender=Gender.MALE;
-//					}else if(genderStr.equals("FEMALE")) {
-//						gender=Gender.FEMALE;
-//					}else {
-//						gender=Gender.OTHER;
-//					}
-//					Role role;
-//					if(roleStr.equals("ADMINISTRATOR")) {
-//						role=Role.ADMINISTRATOR;
-//					}else if(roleStr.equals("CUSTOMER")) {
-//						role=Role.CUSTOMER;
-//					}else if(roleStr.equals("DELIVERER")) {
-//						role=Role.DELIVERER;
-//					}else {
-//						role = Role.MANAGER;
-//					}
-//					
-//					Boolean isDeleted;
-//					if(isDeletedStr.equals("false")) {
-//						isDeleted=false;
-//					}else {
-//						isDeleted=true;
-//					}
-//					
-//					Boolean isBlocked;
-//					if(isBlockedStr.equals("false")) {
-//						isBlocked=false;
-//					}else {
-//						isBlocked=true;
-//					}
-//					 
-//				    Date dateOfBirth=new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);  
-//					admins.put(username, new Administrator(username, password, firstName, lastName,gender, dateOfBirth,role,isDeleted,isBlocked));
-//					
+//				for(Map.Entry<String, Administrator> entry : admins.entrySet()) {
+//					System.out.println(entry.getValue().getFistName());
 //				}
-//				
-//			}
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-//		} finally {
-//			if (in != null) {
-//				try {
-//					in.close();
-//				}
-//				catch (Exception e) { }
-//			}
-//		}
 	}
 	
-	public static void saveAdministratorsJSON() {
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
-		
+	public void saveAdministratorsJSON() {		
 
 		Map<String, Administrator> allAdmins = new HashMap<>();
 		
@@ -207,13 +94,11 @@ public class AdministratorDAO {
 		try {
 			fos.write(inBytes);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			fos.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -228,7 +113,7 @@ public class AdministratorDAO {
 	     }
 	  }
 	
-	public static boolean changeAdministrator(String username,User user) {
+	public boolean changeAdministrator(String username,User user) {
 		loadAdmins("");
 		System.out.println(user.getLastName());
 		for (Administrator a : admins.values()) {
@@ -236,7 +121,7 @@ public class AdministratorDAO {
 				a.setFistName(user.getFistName());
 				a.setLastName(user.getLastName());
 				a.setPassword(user.getPassword());
-				UserDAO.changeUser(username,user);
+				userDAO.changeUser(username,user);
 				saveAdministratorsJSON();
 				return true;
 				

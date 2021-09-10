@@ -24,28 +24,20 @@ import enums.RequestStatus;
 public class RequestDAO {
 
 	
-public static Map<String,DeliverRequest> requests = new HashMap<>();
+public  Map<String,DeliverRequest> requests = new HashMap<>();
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json";
 
-
-	
 	
 	public RequestDAO() {
 		
 	}
 	
-	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
-	 */
+	
 	public RequestDAO(String contextPath) {
 		loadRequests(contextPath);
 	}
 	
-	/**
-	 * Vra�a korisnika za prosle�eno korisni�ko ime i �ifru. Vra�a null ako korisnik ne postoji
-	 * @param username
-	 * @param password
-	 * @return
-	 */
+	
 	public Collection<DeliverRequest> findByRestaurant(String id) {
 		List<DeliverRequest> requestsForRestaurant = new ArrayList<DeliverRequest>();
 		loadRequests("");
@@ -60,21 +52,17 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 		
 	}
 	
-	public static Collection<DeliverRequest> findAll() {
+	public Collection<DeliverRequest> findAll() {
 		return requests.values();
 	}
 	
-	/**
-	 * U�itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Klju� je korisni�ko ime korisnika.
-	 * @param contextPath Putanja do aplikacije u Tomcatu
-	 */
-	public static void loadRequests(String contextPath) {
+
+	public void loadRequests(String contextPath) {
 		
 				Gson gs = new Gson();
 				String requestsJson = "";
 				try {
-					requestsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json")));
+					requestsJson = new String(Files.readAllBytes(Paths.get(path)));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -85,16 +73,15 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 				requests = gs.fromJson(requestsJson, type);
 				
 				//just to check it out 
-				for(Map.Entry<String, DeliverRequest> entry : requests.entrySet()) {
-					System.out.println(entry.getValue().getOrderID());
-				}
+//				for(Map.Entry<String, DeliverRequest> entry : requests.entrySet()) {
+//					System.out.println(entry.getValue().getOrderID());
+//				}
 	}
 	
 	
 	
-	public static void saveRequestsJson() {
+	public  void saveRequestsJson() {
 		
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json";
 		Map<String, DeliverRequest> allRequests = new HashMap<>();
 		for (DeliverRequest dr : findAll()) {
 			allRequests.put(dr.getId(),dr);
@@ -129,14 +116,14 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 	}
 	
 	
-	public static void addDeliverRequest(DeliverRequest dr) {
+	public  void addDeliverRequest(DeliverRequest dr) {
 		if (!requests.containsValue(dr)) {
 			requests.put(dr.getId(), dr);
 		}
 		
 	}
 	
-	public static void addNewRequest(DeliverRequest request) {
+	public  void addNewRequest(DeliverRequest request) {
 		DeliverRequest newRequest = new DeliverRequest();
 		newRequest.setRestaurantID(request.getRestaurantID());
 		newRequest.setOrderID(request.getOrderID());
@@ -150,7 +137,7 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 	
 		
 	
-	public static String generateNextId() {
+	public  String generateNextId() {
 		return Integer.toString(requests.size() + 1);
 	}
 
@@ -164,9 +151,8 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 	
 
 	
-	public static Boolean setManager(String requestId,String manager) {
+	public  Boolean setManager(String requestId,String manager) {
 
-		loadRequests("");
 		for (DeliverRequest d : requests.values()) {
 			if (d.getId().equals(requestId)) {
 				d.setManagerID(manager);
@@ -179,14 +165,14 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 		return false;
 	}
 	
-	public static Boolean approve(String requestId,String managerId) {
-		loadRequests("");
+	public  Boolean approve(String requestId,String managerId) {
+		OrderDAO orderDAO = new OrderDAO();
 		for (DeliverRequest d : requests.values()) {
 			if (d.getId().equals(requestId)) {
 				d.setStatus(RequestStatus.APPROVED);
 				d.setManagerID(managerId);
 				saveRequestsJson();
-				OrderDAO.changeStatus(OrderStatus.SHIPPING, d.getOrderID());
+				orderDAO.changeStatus(OrderStatus.SHIPPING, d.getOrderID());
 
 				return true;
 			}
@@ -194,8 +180,7 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 		return false;
 	}
 	
-	public static Boolean decline(String requestId) {
-		loadRequests("");
+	public  Boolean decline(String requestId) {
 		for (DeliverRequest d : requests.values()) {
 			if (d.getId().equals(requestId)) {
 				d.setStatus(RequestStatus.REJECTED);
@@ -208,8 +193,7 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 		return false;
 	}
 	
-	public static Collection<DeliverRequest> requestsForRestaurantsOrder(String id){
-		loadRequests("");
+	public  Collection<DeliverRequest> requestsForRestaurantsOrder(String id){
 		List<DeliverRequest> requestsD = new ArrayList<DeliverRequest>();
 		for (DeliverRequest d : requests.values()) {
 			if (d.getRestaurantID().equals(id) /*&& d.getStatus().equals(RequestStatus.WAITING)*/) {
@@ -222,8 +206,7 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 		
 	}
 	
-	public static Collection<DeliverRequest> allDeliverersRequests(String id){
-		loadRequests("");
+	public  Collection<DeliverRequest> allDeliverersRequests(String id){
 		List<DeliverRequest> requestsD = new ArrayList<DeliverRequest>();
 		for (DeliverRequest d : requests.values()) {
 			if (d.getDelivererID().equals(id) /*&& d.getStatus().equals(RequestStatus.WAITING)*/) {
@@ -236,9 +219,8 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 		
 	}
 	
-	public static Collection<String> getIdsFromApprovedOrders(String usernameOfDeliverer){
+	public  Collection<String> getIdsFromApprovedOrders(String usernameOfDeliverer){
 		List<String> ordersId = new ArrayList<String>();
-		loadRequests("");
 		for(DeliverRequest r : requests.values()) {
 			if(r.getDelivererID().equals(usernameOfDeliverer) && r.getStatus().equals(RequestStatus.APPROVED)) {
 				ordersId.add(r.getOrderID());
@@ -248,8 +230,7 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 		return ordersId;
 	}
 	
-	public static boolean existsRequest(String oId,String username) {
-		loadRequests("");
+	public  boolean existsRequest(String oId,String username) {
 		for(DeliverRequest dr : requests.values()) {
 			if(dr.getOrderID().equals(oId) && dr.getDelivererID().equals(username)) {
 				return true;

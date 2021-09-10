@@ -3,10 +3,11 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -20,25 +21,19 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import enums.OrderStatus;
-import enums.Role;
-import enums.StatusOfComment;
-import beans.Comment;
-import beans.Order;
-import beans.User;
-import dao.CommentDAO;
-import dao.ManagerDAO;
-import dao.OrderDAO;
-import dao.RequestDAO;
-import java.util.*;
-import dao.RestaurantDAO;
-import java.util.HashMap;
-import java.util.Map;
+
 import beans.Cart;
 import beans.CartItem;
 import beans.Customer;
+import beans.Order;
+import beans.User;
 import dao.CartDAO;
 import dao.CustomerDAO;
+import dao.ManagerDAO;
+import dao.OrderDAO;
+import dao.RestaurantDAO;
+import enums.OrderStatus;
+import enums.Role;
 
 @Path("/orders")
 public class OrderService {
@@ -72,6 +67,7 @@ public class OrderService {
 	@Path("/getAllOrdersForRestaurant")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Order> getOrdersForRestaurant(){
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		Role role = user.getRole();
 		System.out.println(user.getRole());
@@ -80,8 +76,8 @@ public class OrderService {
 		}
 		
 		String username = user.getUsername();	
-		String idOfRestaurant = ManagerDAO.getRestaurantForManager(username);
-		return OrderDAO.getOrdersForRestaurant(idOfRestaurant);
+		String idOfRestaurant = new ManagerDAO("").getRestaurantForManager(username);
+		return orderDAO.getOrdersForRestaurant(idOfRestaurant);
 		
 	}
 	
@@ -89,6 +85,8 @@ public class OrderService {
 	@Path("/getAllOrdersWithStatusAD")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Order> getAllOrdersWithStatusAD(){
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
+
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		Role role = user.getRole();
 		System.out.println(user.getRole());
@@ -96,7 +94,7 @@ public class OrderService {
 			return null;
 		}
 		
-		return OrderDAO.getOrdersWithStatusAD();
+		return orderDAO.getOrdersWithStatusAD();
 		
 	}
 	
@@ -106,7 +104,8 @@ public class OrderService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateOrderStatusIP(@PathParam("id") String id) {
-		
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
+
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		Role role = user.getRole();
 		System.out.println(user.getRole());
@@ -114,10 +113,10 @@ public class OrderService {
 			return null;
 		}
 		
-		String restaurantId = ManagerDAO.getRestaurantForManager(user.getUsername());
-		boolean success=OrderDAO.changeStatus(OrderStatus.IN_PREPARATION,id);
+		String restaurantId = new ManagerDAO("").getRestaurantForManager(user.getUsername());
+		boolean success=orderDAO.changeStatus(OrderStatus.IN_PREPARATION,id);
 		if(success) {
-			return Response.status(200).entity(OrderDAO.getOrdersForRestaurant(restaurantId)).build();
+			return Response.status(200).entity(orderDAO.getOrdersForRestaurant(restaurantId)).build();
 		}else {
 			return Response.status(400).entity("Izmjena nije uspjela!").build();
 		}
@@ -129,17 +128,18 @@ public class OrderService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateOrderStatusWD(@PathParam("id") String id) {
-		
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
+
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		Role role = user.getRole();
 		System.out.println(user.getRole());
 		if(user == null || !role.equals(Role.MANAGER)) {
 			return null;
 		}
-		String restaurantId = ManagerDAO.getRestaurantForManager(user.getUsername());
-		boolean success=OrderDAO.changeStatus(OrderStatus.AWAITING_DELIVERER,id);
+		String restaurantId = new ManagerDAO("").getRestaurantForManager(user.getUsername());
+		boolean success=orderDAO.changeStatus(OrderStatus.AWAITING_DELIVERER,id);
 		if(success) {
-			return Response.status(200).entity(OrderDAO.getOrdersForRestaurant(restaurantId)).build();
+			return Response.status(200).entity(orderDAO.getOrdersForRestaurant(restaurantId)).build();
 		}else {
 			return Response.status(400).entity("Izmjena nije uspjela!").build();
 		}
@@ -150,6 +150,8 @@ public class OrderService {
 	@Path("/getAllApprovedOrders")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Order> getAllApprovedOrders(){
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
+
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		Role role = user.getRole();
 		System.out.println(user.getRole());
@@ -157,7 +159,7 @@ public class OrderService {
 			return null;
 		}
 		
-		return OrderDAO.getApprovedOrdersForDeliver(user.getUsername());
+		return orderDAO.getApprovedOrdersForDeliver(user.getUsername());
 		
 	}
 	
@@ -167,7 +169,8 @@ public class OrderService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deliverOrder(@PathParam("id") String id) {
-		
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
+
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		Role role = user.getRole();
 		System.out.println(user.getRole());
@@ -175,9 +178,9 @@ public class OrderService {
 			return null;
 		}
 		
-		boolean success=OrderDAO.changeStatus(OrderStatus.DELIVERED,id);
+		boolean success=orderDAO.changeStatus(OrderStatus.DELIVERED,id);
 		if(success) {
-			return Response.status(200).entity(OrderDAO.getApprovedOrdersForDeliver(user.getUsername())).build();
+			return Response.status(200).entity(orderDAO.getApprovedOrdersForDeliver(user.getUsername())).build();
 		}else {
 			return Response.status(400).entity("Izmjena nije uspjela!").build();
 		}
@@ -266,6 +269,8 @@ public class OrderService {
 	@Path("/orderFromRestaurantDeliveredToCustomer")
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean orderFromRestaurantDeliveredToCustomer() {
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
+
 		System.out.println("ušao u orderFromRestaurantDeliveredToCustomer ");
 		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
 		String currentRestID = (String) ctx.getAttribute("currentRestID");
@@ -273,8 +278,8 @@ public class OrderService {
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		
 		Map<String, Order> orders = new HashMap<>();
-		OrderDAO.loadOrders("");//dobavljamo sve komentare
-		orders = OrderDAO.orders; 
+		orderDAO.loadOrders("");//dobavljamo sve komentare
+		orders = orderDAO.orders; 
 		///
 		
 		///

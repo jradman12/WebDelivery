@@ -53,7 +53,7 @@ public class ProductService {
 		User manager = (User) request.getSession().getAttribute("loggedInUser");
 		Restaurant r = null;
 		for (Restaurant rest : rDAO.restaurants.values()) {
-			if (rest.getId().equals(ManagerDAO.getRestaurantForManager(manager.getUsername()))) {
+			if (rest.getId().equals(mDAO.getRestaurantForManager(manager.getUsername()))) {
 				r = rest;
 			}
 		}

@@ -26,23 +26,18 @@ import java.util.*;
 
 public class OrderDAO {
 	
-public static Map<String, Order> orders = new HashMap<>();
-
-
-	
+public  Map<String, Order> orders = new HashMap<>();
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
 	
 	public OrderDAO() {
 		
 	}
 	
-	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
-	 */
 	public OrderDAO(String contextPath) {
 		loadOrders(contextPath);
 	}
 	
-	public static Order findById(String id) {
+	public Order findById(String id) {
 		if (!orders.containsKey(id)) {
 			return null;
 		}
@@ -50,7 +45,7 @@ public static Map<String, Order> orders = new HashMap<>();
 		return order;
 	}
 	
-	public static Collection<Order> findAll() {
+	public Collection<Order> findAll() {
 		return orders.values();
 	}
 	
@@ -64,13 +59,13 @@ public static Map<String, Order> orders = new HashMap<>();
 	}
 	
 	
-	public static void loadOrders(String contextPath) {
+	public void loadOrders(String contextPath) {
 		
 			
 				Gson gs = new Gson();
 				String ordersJson = "";
 				try {
-					ordersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json")));
+					ordersJson = new String(Files.readAllBytes(Paths.get(path)));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -80,16 +75,15 @@ public static Map<String, Order> orders = new HashMap<>();
 				orders = gs.fromJson(ordersJson, type);
 				
 				//just to check it out 
-				for(Map.Entry<String, Order> entry : orders.entrySet()) {
-					System.out.println(entry.getValue().getId());
-				}
+//				for(Map.Entry<String, Order> entry : orders.entrySet()) {
+//					System.out.println(entry.getValue().getId());
+//				}
 	}
 	
 	
 	
-	public static void saveOrdersJSON() {
+	public void saveOrdersJSON() {
 
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
 		Map<String, Order> allOrders = new HashMap<>();
 		for (Order o : findAll()) {
 			allOrders.put(o.getId(),o);
@@ -154,9 +148,8 @@ public static Map<String, Order> orders = new HashMap<>();
 	     }
 	  }
 	
-	public static Collection<Order> getOrdersForRestaurant(String idOfRestaurant) {
-		loadOrders("");
-		List<Order> ordersForRestaurant=new ArrayList<Order>();
+	public  Collection<Order> getOrdersForRestaurant(String idOfRestaurant) {
+		List<Order> ordersForRestaurant = new ArrayList<Order>();
 		for(Order o : orders.values()) {
 			if(o.getRestaurant().equals(idOfRestaurant)) {
 				ordersForRestaurant.add(o);
@@ -167,7 +160,7 @@ public static Map<String, Order> orders = new HashMap<>();
 		return ordersForRestaurant;
 	}
 	
-	public static boolean changeStatus(OrderStatus status,String id) {
+	public  boolean changeStatus(OrderStatus status,String id) {
 		loadOrders("");
 		for(Order o : orders.values()) {
 			if(o.getId().equals(id)) {
@@ -181,8 +174,7 @@ public static Map<String, Order> orders = new HashMap<>();
 		return false;
 	}
 	
-	public static Collection<Order> getOrdersWithStatusAD() {
-		loadOrders("");
+	public  Collection<Order> getOrdersWithStatusAD() {
 		List<Order> ordersWithStatusAD=new ArrayList<Order>();
 		for(Order o : orders.values()) {
 			if(o.getStatus().equals(OrderStatus.AWAITING_DELIVERER)) {
@@ -194,8 +186,7 @@ public static Map<String, Order> orders = new HashMap<>();
 		return ordersWithStatusAD;
 	}
 	
-	public static String getRestaurantForOrder(String orderID) {
-		loadOrders("");
+	public  String getRestaurantForOrder(String orderID) {
 		for(Order o : orders.values()) {
 			if(o.getId().equals(orderID)) {
 				return o.getRestaurant();
@@ -205,21 +196,16 @@ public static Map<String, Order> orders = new HashMap<>();
 		return null;
 	}
 	
-	public static Collection<Order> getApprovedOrdersForDeliver(String username) {
-		loadOrders("");
+	public  Collection<Order> getApprovedOrdersForDeliver(String username) {
 		List<Order> orderDel=new ArrayList<Order>();
-		for(String orderId : RequestDAO.getIdsFromApprovedOrders(username)) {
+		RequestDAO requestDAO = new RequestDAO("");
+		for(String orderId : requestDAO.getIdsFromApprovedOrders(username)) {
 			orderDel.add(findById(orderId));
 		}
 		
 		
 		return orderDel;
 	}
-	
-	
-	
-	
-	
 	
 
 }

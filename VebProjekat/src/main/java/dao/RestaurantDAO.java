@@ -23,52 +23,52 @@ import beans.Location;
 import beans.Manager;
 import beans.Product;
 import beans.Restaurant;
+import beans.User;
 import enums.RestaurantStatus;
 
 public class RestaurantDAO {
 	
-	public static Map<String, Restaurant> restaurants = new HashMap<>();
+	public  Map<String, Restaurant> restaurants = new HashMap<>();
+	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json";
 
-
-	
-	
 	public RestaurantDAO() {
 		
 	}
 	
-	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
-	 */
 	public RestaurantDAO(String contextPath) {
 		loadRestaurants(contextPath);
 	}
 	
 	public Restaurant findByName(String name) {
-		for(Restaurant r : restaurants.values()) {
+		for(Restaurant r : getAllAvailable()) {
 			if(r.getName().equals(name)) {
 				return r;
 			}
 		}
 		
-		
 		return null;
 	}
 	
-	public static Collection<Restaurant> findAll() {
+	public Collection<Restaurant> getAllAvailable(){
+		Collection<Restaurant> availableUsers = new ArrayList<Restaurant>();
+		for(Restaurant u : restaurants.values()) {
+			if(!u.isDeleted()) 
+				availableUsers.add(u);
+		}
+		return availableUsers;
+	}
+	
+	
+	public  Collection<Restaurant> findAll() {
 		return restaurants.values();
 	}
 	
-	/**
-	 * U�itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Klju� je korisni�ko ime korisnika.
-	 * @param contextPath Putanja do aplikacije u Tomcatu
-	 */
-	public static void loadRestaurants(String contextPath) {
+	public void loadRestaurants(String contextPath) {
 		
 				Gson gs = new Gson();
 				String restaurantsJson = "";
 				try {
-					restaurantsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json")));
+					restaurantsJson = new String(Files.readAllBytes(Paths.get(path)));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -86,38 +86,34 @@ public class RestaurantDAO {
 	}
 		
 		
-	private static void dodajParRestorana() {
-		Restaurant r1 = new Restaurant();
-		r1.setName("Ciao pizzeria");
-		r1.setLocation(new Location(0.0,0.0,new Address("Nikole Tesle6/22","Janja","76316")));
-		r1.setLogo("images/kfc2.jpg");
-		r1.setMenu(new ArrayList<Product>());
-		r1.setStatus(RestaurantStatus.OPEN);
-		r1.setTypeOfRestaurant("domaci");
-		r1.setId(generateNextId());
-		r1.setStatus(RestaurantStatus.OPEN);	
-		Restaurant r2 = new Restaurant();
-		r2.setName("Ciao pizzeria");
-		r2.setLocation(new Location(0.0,0.0,new Address("Nikole Tesle6/22","Janja","76316")));
-		r2.setLogo("images/kfc2.jpg");
-		r2.setMenu(new ArrayList<Product>());
-		r2.setStatus(RestaurantStatus.OPEN);
-		r2.setTypeOfRestaurant("domaci");
-		r2.setId(generateNextId());
-		r2.setStatus(RestaurantStatus.OPEN);
-		addNewRestaurant(r1);
-		addNewRestaurant(r2);
-
-		
-		
-		
-	}
+//	private static void dodajParRestorana() {
+//		Restaurant r1 = new Restaurant();
+//		r1.setName("Ciao pizzeria");
+//		r1.setLocation(new Location(0.0,0.0,new Address("Nikole Tesle6/22","Janja","76316")));
+//		r1.setLogo("images/kfc2.jpg");
+//		r1.setMenu(new ArrayList<Product>());
+//		r1.setStatus(RestaurantStatus.OPEN);
+//		r1.setTypeOfRestaurant("domaci");
+//		r1.setId(generateNextId());
+//		r1.setStatus(RestaurantStatus.OPEN);	
+//		Restaurant r2 = new Restaurant();
+//		r2.setName("Ciao pizzeria");
+//		r2.setLocation(new Location(0.0,0.0,new Address("Nikole Tesle6/22","Janja","76316")));
+//		r2.setLogo("images/kfc2.jpg");
+//		r2.setMenu(new ArrayList<Product>());
+//		r2.setStatus(RestaurantStatus.OPEN);
+//		r2.setTypeOfRestaurant("domaci");
+//		r2.setId(generateNextId());
+//		r2.setStatus(RestaurantStatus.OPEN);
+//		addNewRestaurant(r1);
+//		addNewRestaurant(r2);
+//	}
 	
-	public static String generateNextId() {
+	public String generateNextId() {
 		return Integer.toString(restaurants.size() + 1);
 	}
 
-	public static void saveRestaurantsJSON() {
+	public  void saveRestaurantsJSON() {
 
 		Map<String, Restaurant> allRestaurants = new HashMap<>();
 		for (Restaurant r : findAll()) {
@@ -130,7 +126,7 @@ public class RestaurantDAO {
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json");
+			fos = new FileOutputStream(path);
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");
@@ -152,14 +148,14 @@ public class RestaurantDAO {
 	}
 	
 	
-	public static void addRestaurant(Restaurant restaurant) {
+	public void addRestaurant(Restaurant restaurant) {
 		if (!restaurants.containsValue(restaurant)) {
 			restaurants.put(restaurant.getId(), restaurant);
 		}
 		
 	}
 	
-	public static void addNewRestaurant(Restaurant restaurant) {
+	public void addNewRestaurant(Restaurant restaurant) {
 		Restaurant newRestaurant = new Restaurant();
 		newRestaurant.setName(restaurant.getName());
 		newRestaurant.setId(generateNextId());
@@ -175,8 +171,6 @@ public class RestaurantDAO {
 		saveRestaurantsJSON();
 	}
 	
-	
-		
 	
 	public static Date parseDate(String date) {
 	     try {
@@ -207,10 +201,10 @@ public class RestaurantDAO {
 		
 	}
 
-	public static void addNewProduct(String id, Product product) {
+	public  void addNewProduct(String id, Product product) {
 		// TODO Auto-generated method stub
 		loadRestaurants("");
-		for(Restaurant r : findAll()) {
+		for(Restaurant r : getAllAvailable()) {
 			if(r.getId().equals(id)) {
 				Product newProduct=new Product();
 				newProduct.setName(product.getName());
@@ -220,17 +214,11 @@ public class RestaurantDAO {
 				newProduct.setPrice(product.getPrice());
 				newProduct.setType(product.getType());
 				r.getMenu().add(newProduct);
-	
 				saveRestaurantsJSON();
-				
 				return;
 				
 			}
 		}
-		
-		
-		
-		
 	}
 	
 	public Product getProductByName(String restID, String productName) {

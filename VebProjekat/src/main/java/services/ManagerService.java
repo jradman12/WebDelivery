@@ -40,10 +40,7 @@ public class ManagerService {
 	}
 	
 	@PostConstruct
-	// ctx polje je null u konstruktoru, mora se pozvati nakon konstruktora (@PostConstruct anotacija)
 	public void init() {
-		// Ovaj objekat se instancira vi�e puta u toku rada aplikacije
-		// Inicijalizacija treba da se obavi samo jednom
 		if (ctx.getAttribute("managerDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("managerDAO", new ManagerDAO(contextPath));
@@ -55,19 +52,12 @@ public class ManagerService {
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registration(Manager newManager) {
-		System.out.println("Manager object Ive recieved is : " + newManager);
-		ManagerDAO.loadManagers("");
-		ManagerDAO managers = (ManagerDAO) ctx.getAttribute("managerDAO");
-		if(managers == null) {
-			String contextPath = ctx.getRealPath("");
-			managers = new ManagerDAO(contextPath);
-			ctx.setAttribute("managerDAO", managers);
-		}
-		if (managers.getManagerByUsername(newManager.getUsername()) != null) {
+		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
+		if (managerDAO.getManagerByUsername(newManager.getUsername()) != null) {
 			return Response.status(Response.Status.BAD_REQUEST)
 					.entity("We already have manager with the same username. Please try another one").build();
 		}
-		managers.addNewManager(newManager);
+		managerDAO.addNewManager(newManager);
 		
 		//since I havent found a better solution for my not updating list of available managers, I do redirecting like this
 		//but this means it redirects logged in admin to this form even after 'basic' user adding
@@ -93,6 +83,7 @@ public class ManagerService {
 	@Path("/getRestaurantFromLoggedManager")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Restaurant getRestaurant(@Context HttpServletRequest request){
+		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		Role role = user.getRole();
 		System.out.println(user.getRole());
@@ -101,8 +92,8 @@ public class ManagerService {
 		}
 		
 		String username = user.getUsername();	
-		String restID =  ManagerDAO.getRestaurantForManager(username);
-		RestaurantDAO rDAO = new RestaurantDAO("");
+		String restID =  managerDAO.getRestaurantForManager(username);
+		RestaurantDAO rDAO = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
 		return rDAO.getRestaurantById(restID);
 		
 	}
@@ -136,9 +127,9 @@ public class ManagerService {
 	@Path("/getAllAvailableManagers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Manager> getAllAvailableManagers(@Context HttpServletRequest request){
-		ManagerDAO.loadManagers("");
+		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
 		List<Manager> availableManager = new ArrayList<Manager>();
-		for(Manager m : ManagerDAO.findAll()) {
+		for(Manager m : managerDAO.getAllAvailable()) {
 			if(m.getRestaurantID() == null) {
 				availableManager.add(m);
 			}

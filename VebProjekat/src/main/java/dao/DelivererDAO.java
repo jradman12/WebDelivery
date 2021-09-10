@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,28 +22,19 @@ import enums.Role;
 public class DelivererDAO {
 
 	
-private static Map<String,Deliverer> deliverers = new HashMap<>();
+private  Map<String,Deliverer> deliverers = new HashMap<>();
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json";
+private UserDAO userDAO = new UserDAO();
 
-
-	
-	
-	public DelivererDAO() {
+	public DelivererDAO() { 
 		
 	}
 	
-	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
-	 */
 	public DelivererDAO(String contextPath) {
 		loadDeliverers(contextPath);
 	}
 	
-	/**
-	 * Vra�a korisnika za prosle�eno korisni�ko ime i �ifru. Vra�a null ako korisnik ne postoji
-	 * @param username
-	 * @param password
-	 * @return
-	 */
+	
 	public Deliverer find(String username, String password) {
 		if (!deliverers.containsKey(username)) {
 			return null;
@@ -54,21 +46,30 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 		return deliverer;
 	}
 	
-	public static Collection<Deliverer> findAll() {
+	public Collection<Deliverer> getAllAvailable(){
+		Collection<Deliverer> availableUsers = new ArrayList<Deliverer>();
+		for(Deliverer u : deliverers.values()) {
+			if(!u.isDeleted()) 
+				availableUsers.add(u);
+		}
+		return availableUsers;
+	}
+	
+	public void deleteDeliverer(String userID) {
+		deliverers.get(userID).setDeleted(true);
+	}
+	
+	public Collection<Deliverer> findAll() {
 		return deliverers.values();
 	}
 	
-	/**
-	 * U�itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #users}.
-	 * Klju� je korisni�ko ime korisnika.
-	 * @param contextPath Putanja do aplikacije u Tomcatu
-	 */
-	public static void loadDeliverers(String contextPath) {
+	
+	public void loadDeliverers(String contextPath) {
 		
 				Gson gs = new Gson();
 				String deliverersJson = "";
 				try {
-					deliverersJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json")));
+					deliverersJson = new String(Files.readAllBytes(Paths.get(path)));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -79,17 +80,17 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 				deliverers = gs.fromJson(deliverersJson, type);
 				
 				//just to check it out 
-				for(Map.Entry<String, Deliverer> entry : deliverers.entrySet()) {
-					System.out.println(entry.getValue().getFistName());
-				}
+//				for(Map.Entry<String, Deliverer> entry : deliverers.entrySet()) {
+//					System.out.println(entry.getValue().getFistName());
+//				}
 	}
 	
 	
 	
-	public static void saveDeliverersJSON() {
+	public void saveDeliverersJSON() {
 		
-		String path="C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json";
 		Map<String, Deliverer> allDeliverers = new HashMap<>();
+		
 		for (Deliverer d : findAll()) {
 			allDeliverers.put(d.getUsername(),d);
 		}
@@ -143,7 +144,7 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 		newDeliverer.setDeleted(false);
 		newDeliverer.setBlocked(false);
 		addDeliverer(newDeliverer);
-		UserDAO.addNewUser(newUser);
+		userDAO.addNewUser(newUser);
 		saveDeliverersJSON();
 	}
 	
@@ -166,15 +167,14 @@ private static Map<String,Deliverer> deliverers = new HashMap<>();
 		return null;
 	}
 	
-	public static Boolean changeDeliverer(String username,User user) {
+	public  Boolean changeDeliverer(String username,User user) {
 
-		loadDeliverers("");
 		for (Deliverer d : deliverers.values()) {
 			if (d.getUsername().equals(username)) {
 				d.setFistName(user.getFistName());
 				d.setLastName(user.getLastName());
 				d.setPassword(user.getPassword());
-				UserDAO.changeUser(username,user);
+				userDAO.changeUser(username,user);
 				saveDeliverersJSON();
 
 				return true;

@@ -1,7 +1,6 @@
 package dao;
 
 import java.io.FileNotFoundException;
-import java.util.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -9,44 +8,56 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import enums.StatusOfComment;
+
 import beans.Comment;
+import enums.StatusOfComment;
 
 public class CommentDAO {
 	
-	public static Map<String, Comment> comments = new HashMap<>();
+	public  Map<String, Comment> comments = new HashMap<>();
+	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
 
 
-	
-	
 	public CommentDAO() {
-		
 	}
 	
-	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
-	 */
 	public CommentDAO(String contextPath) {
 		loadComments(contextPath);
 	}
 		
-	public static Collection<Comment> findAll() {
+	public Collection<Comment> findAll() {
 		return comments.values();
 	}
 	
-	public static void loadComments(String contextPath) {
+	public Collection<Comment> getAllAvailable(){
+		Collection<Comment> availableUsers = new ArrayList<Comment>();
+		for(Comment u : comments.values()) {
+			if(!u.isDeleted()) 
+				availableUsers.add(u);
+		}
+		return availableUsers;
+	}
+	
+	public void deleteUser(String userID) {
+		comments.get(userID).setDeleted(true);
+	}
+	
+	public  void loadComments(String contextPath) {
 		
 			
 				Gson gs = new Gson();
 				String commentsJson = "";
 				try {
-					commentsJson = new String(Files.readAllBytes(Paths.get("C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json")));	
+					commentsJson = new String(Files.readAllBytes(Paths.get(path)));	
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -61,9 +72,8 @@ public class CommentDAO {
 	
 	
 	
-	public static void saveCommentsJSON() {
+	public  void saveCommentsJSON() {
 
-		String path="C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
 		Map<String, Comment> allComments = new HashMap<>();
 		for (Comment c : findAll()) {
 			allComments.put(c.getId(),c);
@@ -97,14 +107,14 @@ public class CommentDAO {
 	}
 	
 	
-	public static void addComment(Comment comment) {
+	public void addComment(Comment comment) {
 		if (!comments.containsValue(comment)) {
 			comments.put(comment.getId(), comment);
 		}
 		
 	}
 	
-	public static void addNewComment(Comment comment) {
+	public void addNewComment(Comment comment) {
 		Comment newComment = new Comment();
 		newComment.setDeleted(false);
 		newComment.setStatus(StatusOfComment.WAITING);
@@ -118,9 +128,7 @@ public class CommentDAO {
 	}
 	
 	
-		
-	
-	public static Date parseDate(String date) {
+	public  Date parseDate(String date) {
 	     try {
 	         return new SimpleDateFormat("dd.MM.yyyy.").parse(date);
 	     } catch (ParseException e) {
@@ -128,12 +136,11 @@ public class CommentDAO {
 	     }
 	  }
 	
-	public static String generateNextId() {
+	public String generateNextId() {
 		return Integer.toString(comments.size() + 1);
 	}
 	
-	public static boolean changeStatus(StatusOfComment soc,String id) {
-		loadComments("");
+	public  boolean changeStatus(StatusOfComment soc,String id) {
 		for(Comment c : comments.values()) {
 			if(c.getId().equals(id)) {
 				c.setStatus(soc);
@@ -146,10 +153,9 @@ public class CommentDAO {
 	}
 	
 	
-	public static Collection<Comment> getCommentsForRestaurant(String id){
+	public  Collection<Comment> getCommentsForRestaurant(String id){
 		List<Comment> commentsForRestaurant = new ArrayList<Comment>();
-		loadComments("");
-		for(Comment c : comments.values()) {
+		for(Comment c : getAllAvailable()) {
 			if(c.getRestaurantID().equals(id)) {
 				commentsForRestaurant.add(c);
 				
