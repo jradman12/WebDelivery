@@ -130,7 +130,7 @@ Vue.component("admin-users", {
     methods: {
         block: function (userToBlock) {
             axios
-                .post('rest/users/blockUser', userToBlock)
+                .put('rest/users/blockUser/' + userToBlock.username)
                 .then(response => {
                     this.users = [];
                     response.data.forEach(x => {
@@ -141,7 +141,7 @@ Vue.component("admin-users", {
         },
         unblock: function (userToUnblock) {
             axios
-                .post('rest/users/unblockUser', userToUnblock)
+                .put('rest/users/unblockUser/'+ userToUnblock.username)
                 .then(response => {
                     this.users = [];
                     response.data.forEach(x => {
