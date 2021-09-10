@@ -72,8 +72,9 @@ public class RequestService {
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return null;
 		}
-			
-		String r = new ManagerDAO().getRestaurantForManager(user.getUsername());
+		ManagerDAO mDao = new ManagerDAO("");
+		String r = mDao.getRestaurantForManager(user.getUsername());
+		System.out.println("Id menadzerovog restorana je " + r);
 		return requestDAO.requestsForRestaurantsOrder(r);
 	}
 	

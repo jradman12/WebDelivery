@@ -29,7 +29,7 @@ import enums.RestaurantStatus;
 public class RestaurantDAO {
 	
 	public  Map<String, Restaurant> restaurants = new HashMap<>();
-	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json";
+	public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json";
 
 	public RestaurantDAO() {
 		
@@ -243,6 +243,26 @@ public class RestaurantDAO {
 			}
 		}
 	}
+	
+	
+	public void updateRating(String id) {
+		CommentDAO commentDAO = new CommentDAO("");
+		for(Restaurant r : restaurants.values()) {
+			if(r.getId().equals(id)) {
+				System.out.println("PRVA");
+				r.setAverageRating(commentDAO.averageRatingForRestaurant(id));
+				System.out.println("Srednja ocjena restorana je " + r.getAverageRating());
+				saveRestaurantsJSON();
+				return;
+				
+			}
+		}
+		
+	}
+	
+	
+	
+	
 
 	
 }

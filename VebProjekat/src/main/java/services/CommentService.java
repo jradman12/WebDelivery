@@ -111,9 +111,13 @@ public class CommentService {
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return Response.status(403).entity("Ne mozete pristupiti resursu").build();
 		}
+		Comment com = commentDAO.findOne(id);
 		String r = managerDAO.getRestaurantForManager(user.getUsername());
 		boolean success=commentDAO.changeStatus(StatusOfComment.APPROVED, id);
 		if(success) {
+			System.out.println("ODOBRENO");
+			RestaurantDAO rDAO = new RestaurantDAO(""); 
+			rDAO.updateRating(com.getRestaurantID());
 			return Response.status(202).entity(commentDAO.getCommentsForRestaurant(r)).build();
 		}else {
 			return Response.status(400).entity("Neuspjeh").build();

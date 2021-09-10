@@ -16,8 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.util.*;
 import beans.DeliverRequest;
-import beans.Deliverer;
-import beans.Order;
+
 import enums.OrderStatus;
 import enums.RequestStatus;
 
@@ -26,7 +25,7 @@ public class RequestDAO {
 
 	
 public  Map<String,DeliverRequest> requests = new HashMap<>();
-public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json";
+public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json";
 
 	
 	public RequestDAO() {

@@ -24,7 +24,7 @@ import enums.StatusOfComment;
 public class CommentDAO {
 	
 	public  Map<String, Comment> comments = new HashMap<>();
-	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
+	public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
 
 
 	public CommentDAO() {
@@ -164,6 +164,47 @@ public class CommentDAO {
 		
 		return commentsForRestaurant;
 		
+	}
+	
+	private int numberOfCommentsForRestaurant(String id) {
+		int counter=0;
+		for(Comment c : comments.values()) {
+			if(c.getRestaurantID().equals(id) && c.getStatus().equals(StatusOfComment.APPROVED)) {
+				counter+=1;
+			}
+			
+		}
+		
+		System.out.println(" Cetvrta - Sum je " + counter);
+		return counter;
+	}
+	
+	private int sumOfRatingsForRestaurant(String id) {
+		
+		int sum=0;
+		for(Comment c : comments.values()) {
+			if(c.getRestaurantID().equals(id) && c.getStatus().equals(StatusOfComment.APPROVED)) {
+				sum+=c.getRating();
+			}
+		}
+		
+		System.out.println(" TRECA - Sum je " + sum);
+		return sum;
+	}
+	
+	public double averageRatingForRestaurant(String id) {
+		System.out.println("DRUGA");
+		return roundAvoid(((double)sumOfRatingsForRestaurant(id))/numberOfCommentsForRestaurant(id),2);
+	}
+	
+	
+	public Comment findOne(String id) {
+		return comments.get(id);
+	}
+	
+	public  double roundAvoid(double value, int places) {
+	    double scale = Math.pow(10, places);
+	    return Math.round(value * scale) / scale;
 	}
 	
 

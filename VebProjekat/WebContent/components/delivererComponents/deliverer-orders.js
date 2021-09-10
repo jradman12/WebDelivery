@@ -38,7 +38,7 @@ Vue.component("deliverer-orders", {
                    <tbody>
                         <tr v-for="order in orders"  >
                         <td > {{ order.id }} </td>
-                             <td > {{ order.customer }} </td>
+                             <td > {{ order.customerID }} </td>
                              <td > {{ order.price }} </td>
                              <td v-if="order.status=='PENDING'" > Obrada </td>
                              <td v-else-if="order.status=='IN_PREPARATION'" > U pripremi </td>
