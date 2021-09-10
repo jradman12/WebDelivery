@@ -1,6 +1,6 @@
 let logouttt = new Vue({
 
-	el : "#logoout",
+	el : "#logout",
 
 	data : {
 		errors : [],
@@ -8,8 +8,10 @@ let logouttt = new Vue({
 	},
 
 	methods: {
-		logout : function(){
-
+		logOut : function(event){
+				event.preventDefault();
+				console.log('in logout')
+				
 			axios
 				.get('rest/ls/logout')
 				.then(response => {
