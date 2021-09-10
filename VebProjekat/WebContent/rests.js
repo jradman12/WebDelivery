@@ -158,6 +158,31 @@ let restss = new Vue({
                 if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
                 return 0;
             });
+        },
+
+        sortedRestsOpen: function() {
+            var retVal = [];
+            for(var i = 0 ; i < this.sortedRests.length; i++) {
+                if(this.sortedRests[i].status === "OPEN"){
+                    console.log('evo ga jedan open' + this.sortedRests[i].name + this.sortedRests[i].status)
+                    retVal.push(this.sortedRests[i])
+                }
+            }
+           if(retVal != undefined) retVal.forEach(x => { console.log(x)})
+           // return this.sortedRests.filter(rest => { rest.status === "OPEN"})
+           return retVal;
+        },
+
+        sortedRestsClosed: function() {
+            var returnVal = [];
+            for(var i = 0 ; i < this.sortedRests.length; i++) {
+                if(this.sortedRests[i].status != "OPEN"){
+                    console.log('evo ga jedan closed' + this.sortedRests[i].name + this.sortedRests[i].status)
+                    returnVal.push(this.sortedRests[i])
+                }
+            }
+           // return this.sortedRests.filter(rest => { rest.status === "CLOSED"}) ne radi???
+           return returnVal;
         }
     }
 

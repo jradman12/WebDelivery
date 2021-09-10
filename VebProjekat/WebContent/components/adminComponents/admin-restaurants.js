@@ -65,10 +65,6 @@ Vue.component("admin-restaurants", {
                             </select>
                     </div>
 
-                    <div class="col-lg-12" id="map" style="width:78%;height:500px; border-style: inset; border-color:#ce32322d;"></div>
-
-
-
                     <div v-for="rest in sortedRests">
                         <div class="col-lg-12">
                             <div class="item">
@@ -76,11 +72,11 @@ Vue.component("admin-restaurants", {
                                     <div class="col-lg-12">
                                         <div class="listing-item">
                                             <div class="left-image">
-                                                <a href="restaurant.html"><img class="rest-img"
+                                                <a href="#"><img class="rest-img"
                                                         v-bind:src="rest.logo" alt=""></a>
                                             </div>
                                             <div class="right-content align-self-center">
-                                                <a href="restaurant.html">
+                                                <a href="#">
                                                     <h4>{{rest.name}}</h4>
                                                 </a>
                                                 <h6>{{rest.status == "OPEN" ? 'Otvoren' : 'Zatvoren'}}</h6>
@@ -122,9 +118,6 @@ Vue.component("admin-restaurants", {
 	</div>
 `,
     mounted() {
-
-        initAutocomplete();
-
         axios
             .get('rest/restaurants/getAllRestaurants')
             .then(response => (this.rests = response.data)),
@@ -142,7 +135,7 @@ Vue.component("admin-restaurants", {
             axios
                 .post('rest/restaurants/setCurrentRestaurant', rest)
 
-            location.href = "restaurant.html";
+            location.href = "adminDashboard.html#/adminsRestaurantView";
         },
         sort: function () {
             console.log(this.sortFilter);

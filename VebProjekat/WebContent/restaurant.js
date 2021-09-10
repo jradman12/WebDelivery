@@ -83,15 +83,15 @@ let dying = new Vue({
         addToCart(){
             alert('go fuck yourself hun');
         }
+    },
+
+    created() {
+        // axios
+        // .get("rest/restaurants/getCurrentRestaurant")
+        // .then(response => (this.restaurant=response.data)),
+
+		// axios
+        //   .get('rest/comments/getCommentsForRestaurant')
+        //   .then(response => (this.comments2=response.data))     
     }
-
-    // created() {
-    //     axios
-    //     .get("rest/restaurants/getCurrentRestaurant")
-    //     .then(response => (this.restaurant=response.data)),
-
-	// 	axios
-    //       .get('rest/comments/getCommentsForRestaurant')
-    //       .then(response => (this.comments2=response.data))     
-    // }
 });
