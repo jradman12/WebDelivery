@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.*;
 import beans.DeliverRequest;
 import beans.Deliverer;
+import beans.Order;
 import enums.OrderStatus;
 import enums.RequestStatus;
 
@@ -129,14 +130,25 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 	}
 	
 	
-	public static void addDeliverRequest(DeliverRequest dr) {
-		if (!requests.containsValue(dr)) {
-			requests.put(dr.getId(), dr);
-		}
+	public static void addDeliverRequest(DeliverRequest request) {
 		
+//		for(DeliverRequest d : requests.values()) {
+//			if(!(d.getOrderID().equals(request.getOrderID()) && d.getDelivererID().equals(request.getDelivererID()))){
+//				System.out.println("DODAJE SEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+//				requests.put(request.getId(), request);
+//			}
+//		}
+//		
+		
+		if(!requests.containsValue(request)) {
+			requests.put(request.getId(), request);
+			
+		}
+	
 	}
 	
 	public static void addNewRequest(DeliverRequest request) {
+		System.out.println("DODAJEMOOOOOO");
 		DeliverRequest newRequest = new DeliverRequest();
 		newRequest.setRestaurantID(request.getRestaurantID());
 		newRequest.setOrderID(request.getOrderID());
@@ -257,6 +269,20 @@ public static Map<String,DeliverRequest> requests = new HashMap<>();
 		}
 		
 		return false;
+	}
+	
+	public static Collection<String> getIdsOfOrdersForDelivererWaitingRequests(String username){
+		loadRequests("");
+		List<String> myAAIds = new ArrayList<String>();
+		for(DeliverRequest dr : requests.values())
+		{
+			if(dr.getDelivererID().equals(username) && dr.getStatus().equals(RequestStatus.WAITING)) {
+				myAAIds.add(dr.getOrderID());
+			}
+		}
+		
+		return myAAIds;
+		
 	}
 }
 

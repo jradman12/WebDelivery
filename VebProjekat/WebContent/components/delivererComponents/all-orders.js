@@ -5,7 +5,8 @@ Vue.component("all-orders", {
             orders : [],
             message: null,
             selectedOrder : {},
-            show : true
+            show : true,
+            requests: []
         }
     },
 	
@@ -46,9 +47,10 @@ Vue.component("all-orders", {
                               <td v-else-if="order.status=='AWAITING_DELIVERER'" > Čeka dostavljača </td>
                               <td v-else-if="order.status=='SHIPPING'" > Nedostavljena </td>
                               <td v-else-if="order.status=='DELIVERED'" > Dostavljena </td>
+                              <td v-else-if="order.status=='AWAITING_APPROVING'" > Čeka se odobravanje zahtjeva </td>
                               <td v-else> Otkazana </td>
-                              <td ><button  @click = "sendRequest(order)">Pošalji zahtjev</button></td>
-                             <!-- <td v-else><span>-</span></td>-->
+                              <td v-if="order.status=='AWAITING_DELIVERER'"><button  @click = "sendRequest(order)">Pošalji zahtjev</button></td>
+                              <td v-else><span>-</span></td>
                               <td><button  data-toggle="modal"
                               data-target="#detailsModal" @click="selectOrder(order)">Detaljnije</button></td>
  
@@ -124,7 +126,7 @@ Vue.component("all-orders", {
 `,
 mounted : function() {
     axios
-   .get('rest/orders/getAllOrdersWithStatusAD')
+   .get('rest/orders/getAllOrdersWithStatusADAA')
    .then(response => (this.orders = response.data))
 
  
@@ -140,8 +142,11 @@ methods:{
 
           } )
           .then( response => {
-               this.message = response.data
-               this.show=false;
+               this.orders=[];
+               response.data.forEach(x => {
+                    this.orders.push(x);
+                    console.log(x)
+               })
               
                
 
@@ -160,6 +165,8 @@ methods:{
 
      
 },
+
+
 
 
      filters: {

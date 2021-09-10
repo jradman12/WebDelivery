@@ -8,10 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -177,6 +174,11 @@ public static Map<String, Order> orders = new HashMap<>();
 			}
 			
 		}
+		System.out.println("Ispisujemo ordere AD");
+		for(Order o  : ordersWithStatusAD) {
+			
+			System.out.println(o.getId() + " " + o.getCustomer());
+		}
 		
 		return ordersWithStatusAD;
 	}
@@ -202,6 +204,131 @@ public static Map<String, Order> orders = new HashMap<>();
 		
 		return orderDel;
 	}
+	
+	
+	public static Collection<Order> delivererOrdersAA(String username){
+		List<Order> myOrdersAA = new ArrayList<Order>();
+		loadOrders("");
+		for(Order o : orders.values()) {
+			for(String s : RequestDAO.getIdsOfOrdersForDelivererWaitingRequests(username)) {
+				if(o.getId().equals(s)) {
+					myOrdersAA.add(o);
+				}
+			}
+		}
+		
+		System.out.println("Ispisujemo ordere AA za deliverera");
+		for(Order o  : myOrdersAA) {
+			
+			System.out.println(o.getId() + " " + o.getCustomer());
+		}
+		
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-deliverer");
+		
+		
+		return myOrdersAA;
+	}
+	
+	public static Collection<Order> getOrdersWithStatusAA() {
+		loadOrders("");
+		List<Order> ordersWithStatusAA=new ArrayList<Order>();
+		for(Order o : orders.values()) {
+			if(o.getStatus().equals(OrderStatus.AWAITING_APPROVING)) {
+				ordersWithStatusAA.add(o);
+			}
+			
+		}
+		
+		System.out.println("Ispisujemo sve ordere sa  AA");
+		for(Order o  : ordersWithStatusAA) {
+			
+			System.out.println(o.toString());
+		}
+		
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-----sve");
+		
+		return ordersWithStatusAA;
+	}
+	
+	
+	public static Collection<Order> AADD(String username){
+	
+		List<Order> povratnaLista = new ArrayList<Order>();
+		List<Order> promijenjenaLista = new ArrayList<Order>();
+		List<Order> razlika = new ArrayList<Order>();
+		
+		
+		List<String> idSvihAA = new ArrayList<String>();
+		List<String> idPorudzbinaZaKojeJeDostavljacPoslaoZahtjev = new ArrayList<String>(); 
+		for(Order o :getOrdersWithStatusAA()) {
+			idSvihAA.add(o.getId());
+		}
+		
+		for(Order o : delivererOrdersAA(username)) {
+			idPorudzbinaZaKojeJeDostavljacPoslaoZahtjev.add(o.getId());
+		}
+		
+		Collections.sort(idSvihAA);
+		Collections.sort(idPorudzbinaZaKojeJeDostavljacPoslaoZahtjev);
+		idSvihAA.removeAll(idPorudzbinaZaKojeJeDostavljacPoslaoZahtjev);
+		
+		for(Order o : getOrdersWithStatusAA()) {
+			for(String s : idSvihAA) {
+			if(o.getId().equals(s)) {
+				o.setStatus(OrderStatus.AWAITING_DELIVERER);
+				razlika.add(o);
+				}
+			}
+		}
+			
+		System.out.println("DOAA");
+		for(Order or : delivererOrdersAA(username)) {
+			System.out.println(or.toString());
+			povratnaLista.add(or);
+		}
+		
+		for(Order o : razlika) {
+			povratnaLista.add(o);
+		}
+		System.out.println("DOAA - zavrsen");
+		
+		System.out.println("Ispisujemo listu sa AA->AD + AA za deliverera");
+		for(Order o  : povratnaLista) {
+			
+			System.out.println(o.getId() + " " + o.getCustomer());
+		}
+		
+		System.out.println("AD i AA za deliverera");
+		return povratnaLista;
+		
+		
+	}
+	
+	public static Collection<Order> getOrdersModifiedForDeliverer(String username){
+		List<Order> all = new ArrayList<Order>(); 
+		
+		for(Order o : getOrdersWithStatusAD()) {
+			all.add(o);
+		}
+		
+		for(Order or : AADD(username)) {
+			all.add(or);
+		}
+		
+		System.out.println("Ispisujemo glavna povratna ");
+		for(Order o  : all) {
+			
+			System.out.println(o.getId() + " " + o.getCustomer());
+		}
+		
+		System.out.println("KONACNA LISTA");
+		return all;
+		
+	}
+	
+	
+	
+	
 	
 	
 	
