@@ -137,6 +137,9 @@
                                     <th>Identifikator porudžbine</th>
                                     <th>Naziv restorana</th>
                                     <th>Tip restorana</th>
+
+                                    <th>Datum</th>
+
                                     <th>Kupac</th>
                                     <th>Cijena</th>
                                     <th>Status</th>
@@ -155,6 +158,8 @@
                                     <td> {{ dto.order.id }} </td>
                                     <td> {{ dto.restName }} </td>
                                     <td> {{ dto.restType }} </td>
+                                    <td> {{ dto.order.dateAndTime | dateFormat('DD.MM.YYYY. HH:mm') }} </td>
+
                                     <td> {{ dto.order.customerID }} </td>
                                     <td> {{ dto.order.price }} </td>
                                     <td v-if="dto.order.status=='PENDING'"> Obrada </td>

@@ -86,6 +86,7 @@ Vue.component("all-orders", {
                                     <th>Naziv restorana</th>
                                     <th>Tip restorana</th>
                                     <th>Kupac</th>
+                                    <th>Datum</th>
                                     <th>Cijena</th>
                                     <th>Status</th>
                                     <th></th>
@@ -104,6 +105,7 @@ Vue.component("all-orders", {
                                     <td> {{ dto.restName }} </td>
                                     <td> {{ dto.restType }} </td>
                                     <td> {{ dto.order.customerID }} </td>
+                                    <td> {{ dto.order.dateAndTime | dateFormat('DD.MM.YYYY. HH:mm')}}</td>
                                     <td> {{ dto.order.price }} </td>
                                     <td v-if="dto.order.status=='PENDING'"> Obrada </td>
                                     <td v-else-if="dto.order.status=='IN_PREPARATION'"> U pripremi </td>
@@ -200,7 +202,7 @@ mounted() {
           } else if (this.sortFilter.includes("price")) {
               this.currentSort = 'order.price';
           } else {
-              this.currentSort = 'order.date';
+              this.currentSort = 'order.dateAndTime';
           }
           this.currentSortDir = this.sortFilter.includes("desc") ? 'desc' : 'asc';
           console.log(this.currentSortDir);
@@ -237,14 +239,15 @@ mounted() {
           filteredOrders() {
                if (this.priceFrom != '' || this.priceTo != '') return this.priceFiltered;
                else if (this.filter != '') return this.nameFilteredOrders;
+               else if(this.dateFrom != '' && this.dateTo != '') return this.dateFiltered; 
                else return this.dtos;
           },
 
-          nameFilteredOrders: function () {
-               return this.dtos.filter(c => {
-                    if (this.filter == '') return true;
-                    return (c.restName.toLowerCase().indexOf(this.filter.toLowerCase() >= 0));
-               })
+          nameFilteredOrders () {
+            return this.dtos.filter(c => {
+                if (this.filter == '') return true;
+                return ((c.restName.toLowerCase()).includes(this.filter.toLowerCase()));
+            })
           },
           priceFiltered() {
                var from = []
@@ -286,8 +289,10 @@ mounted() {
           },
 
           dateFiltered() {
-               return ''
-          },
+            return this.dtos.filter(dto => {
+                return moment(new Date(dto.order.dateAndTime)).isBetween(new Date(this.dateFrom), new Date(this.dateTo))
+            });
+        },
 
           filterType() {
                     return this.filteredOrders.filter(x => {
@@ -304,26 +309,37 @@ mounted() {
 
           },
           sortedOrders: function () {
-               var takeUs = [];
-               if (this.typeFilter != '') takeUs = this.filterType;
-               else if (this.statusFilter != '') takeUs = this.filterStatus;
-               else takeUs = this.filteredOrders;
-               return takeUs.sort((a, b) => {
+            var takeUs = [];
+            if (this.typeFilter != '') takeUs = this.filterType;
+            else if (this.statusFilter != '') takeUs = this.filterStatus;
+            else takeUs = this.filteredOrders;
+            var ret =[];
+            if(this.currentSort != 'order.dateAndTime'){
+                 ret = takeUs.sort((a, b) => {
                     let modifier = 1;
                     if (this.currentSortDir === 'desc') modifier = -1;
-
-                    if (this.currentSort === 'order.price') {
-                         if (a.order.price < b.order.price) return -1 * modifier;
-                         if (a.order.price > b.order.price) return 1 * modifier;
-                    } else if (this.currentSort === 'order.date') {
-                         if (a.order.date < b.order.date) return -1 * modifier;
-                         if (a.order.date > b.order.date) return 1 * modifier;
-                    } else {
-                         if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-                         if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+    
+                    if(this.currentSort === 'order.price'){
+                        if(a.order.price < b.order.price) return -1 * modifier;
+                        if(a.order.price > b.order.price) return 1 * modifier;
+                    }else {
+                        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
                     } return 0;
-               });
-          }
+                }
+            )} else {
+                if (this.currentSortDir === 'asc'){
+                    ret = takeUs.sort((a,b) => {
+                        return new Date(a.order.dateAndTime).getTime() - new Date(b.order.dateAndTime).getTime();
+                    })
+                }else {
+                    ret = takeUs.sort((a,b) => {
+                        return (new Date(a.order.dateAndTime).getTime() - new Date(b.order.dateAndTime).getTime()) * (-1);
+                    })
+                }
+
+            } return ret;
+        }
      },
 
 

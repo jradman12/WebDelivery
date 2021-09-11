@@ -209,13 +209,7 @@ Vue.component("admin-restaurants", {
         filteredRests: function () {
             return this.rests.filter(c => {
                 if (this.filter == '') return true;
-                let location = parts;
-                console.log(location);
-                let split = location.split(',');
-                let addrName = split[0];
-                let city = split[1];
-                let postal = split[2];
-                return (c.location.address.addressName.includes(addrName) || c.location.address.city.includes(city) || c.location.address.postalCode.includes(postal) || c.name.toLowerCase().indexOf(this.filter.toLowerCase()) >= 0 || c.averageRating === parseFloat(this.filter));
+                return ((c.location.address.city.toLowerCase()).includes(this.filter.toLowerCase()) || (c.name.toLowerCase()).includes(this.filter.toLowerCase()) || c.averageRating === parseFloat(this.filter));
             })
         },
         filterType() {
