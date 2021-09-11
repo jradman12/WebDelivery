@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.Manager;
-import beans.Product;
 import beans.Restaurant;
 import beans.User;
 import dao.ManagerDAO;

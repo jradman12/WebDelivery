@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Crust food delivery service</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+
+
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <div id="app">
+        <!-- PRE LOADER -->
+        <section class="preloader">
+            <div class="spinner">
+
+                <span class="spinner-rotate"></span>
+
+            </div>
+        </section>
+
+        <!-- MENU -->
+        <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <div class="navbar-header">
+                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                    </button>
+
+                    <!-- lOGO TEXT HERE -->
+                    <a href="index.html" class="navbar-brand">c r u s t</a>
+                </div>
+
+                <!-- MENU LINKS -->
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-nav-first">
+                        <li><a href="#home" class="smoothScroll">Početna</a></li>
+                        <li><a href="#about" class="smoothScroll">O nama</a></li>
+                        <li><a href="#team" class="smoothScroll">Restorani</a></li>
+                        <li><a href="#menu" class="smoothScroll">Menu</a></li>
+                        <li><a href="#contact" class="smoothScroll">Kontakt</a></li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <button type="button" class="section-btn" data-toggle="modal" data-target="#loginModal">Moj
+                            profil</button>
+                        <a type="button" href="index.html" class="section-btn" data-toggle="modal">Odjava</a>
+                    </ul>
+                </div>
+
+                <!-- </div> -->
+            </div>
+        </section>
+
+        <img src="images/ce3232.png" width="100%" height="90px">
+
+        <div id="ssfDeli">
+            <img src="images/ce3232.png" width="100%" height="90px">
+            <section class="r-section" v-if="dtos.length!=0">
+                <h1>Pregled porudžbina</h1>
+                <div class="col-lg-12" style="margin-top: 50px;">
+                    <!-- ----- pretraga ----- -->
+                    <input type="search" v-model="filter" id="pac-input" placeholder="Naziv porudžbine"
+                        style="width: 300px; margin-bottom: 10px;"> <span class="r-span2"></span>
+                    <span>Cijena: <input type="number" v-model="priceFrom" placeholder="od"
+                            style="width: 70px; margin-bottom: 10px;"> <input type="number" v-model="priceTo"
+                            placeholder="do" style="width: 70px; margin-bottom: 10px;"></span>
+                    <span class="r-span2"></span>
+                    <span>Datum: <input type="date" v-model="dateFrom" placeholder="od"
+                            style="width: 143px; margin-bottom: 10px;"> <input type="date" v-model="dateTo"
+                            placeholder="do" style="width: 143px; margin-bottom: 10px;"></span>
+                    <!-- ----- filteri ----- -->
+                    <select v-model="typeFilter" style="width: 160px;">
+                        <option value="">Tip restorana</option>
+                        <option value="Kineski">Kineski</option>
+                        <option value="Fast food">Fast food</option>
+                        <option value="Indijski">Indijski</option>
+                        <option value="Italijanski">Italijanski</option>
+                        <option value="Roštilj">Roštilj</option>
+                        <option value="Picerija">Picerija</option>
+                    </select>
+                    <span class="r-span"></span>
+                    <select v-model="statusFilter" style="width: 160px;">
+                        <option value="">Status</option>
+                        <option value="PENDING">Obrada</option>
+                        <option value="OPEN">Samo otvoreni</option>
+                        <option value="IN_PREPARATION">U pripremi</option>
+                        <option value="AWAITING_DELIVERER">Čeka dostavljača </option>
+                        <option value="AWAITING_APPROVING">Čeka odobrenje </option>
+                        <option value="SHIPPING">U transportu </option>
+                        <option value="DELIVERED">Dostavljena </option>
+                        <option value="CANCELED">Otkazana </option>
+                    </select>
+                    <span class="r-span2"></span><span class="r-span2"></span><span class="r-span2"></span><span class="r-span2"></span>
+                    <span class="r-span2"></span><span class="r-span2"></span><span class="r-span2"></span><span class="r-span" style="margin-right: 30px;"></span>
+
+                    <!-- ----- sort ----- -->
+                    <select v-model="sortFilter" @change="sort()" style="width: 160px; ">
+                        <option value="">Sortiraj</option>
+                        <option value="name, asc">Naziv restorana, asc</option>
+                        <option value="name, desc">Naziv restorana, desc</option>
+                        <option value="price, asc">Cijena, asc</option>
+                        <option value="price, desc">Cijena, desc</option>
+                        <option value="date, asc">Datum, asc</option>
+                        <option value="date, desc">Datum, desc</option>
+                    </select>
+                    <div class="r-gap"></div>
+                </div>
+                <div class="r-gap"></div>
+
+                <div id="coms">
+                    <div class="tbl-header" style="margin-top: 130px;">
+                        <table class="r-table" cellpadding="0" cellspacing="0" border="0">
+                            <thead>
+                                <tr>
+                                    <th>Identifikator porudžbine</th>
+                                    <th>Naziv restorana</th>
+                                    <th>Tip restorana</th>
+
+                                    <th>Datum</th>
+
+                                    <th>Kupac</th>
+                                    <th>Cijena</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                    <th></th>
+
+
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="tbl-content">
+                        <table class="r-table" cellpadding="0" cellspacing="0" border="0">
+                            <tbody>
+                                <tr v-for="dto in sortedOrders">
+                                    <td> {{ dto.order.id }} </td>
+                                    <td> {{ dto.restName }} </td>
+                                    <td> {{ dto.restType }} </td>
+                                    <td> {{ dto.order.dateAndTime | dateFormat('DD.MM.YYYY. HH:mm') }} </td>
+
+                                    <td> {{ dto.order.customerID }} </td>
+                                    <td> {{ dto.order.price }} </td>
+                                    <td v-if="dto.order.status=='PENDING'"> Obrada </td>
+                                    <td v-else-if="dto.order.status=='IN_PREPARATION'"> U pripremi </td>
+                                    <td v-else-if="dto.order.status=='AWAITING_DELIVERER'"> Čeka dostavljača </td>
+                                    <td v-else-if="dto.order.status=='SHIPPING'"> Nedostavljena </td>
+                                    <td v-else-if="dto.order.status=='DELIVERED'"> Dostavljena </td>
+                                    <td v-else> Otkazana </td>
+                                    <td><button @click="sendRequest(dto.order)">Pošalji zahtjev</button></td>
+                                    <!-- <td v-else><span>-</span></td>-->
+                                    <td><button data-toggle="modal" data-target="#detailsModal"
+                                            @click="selectOrder(dto.order)">Detaljnije</button></td>
+
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document" style="width:800px;">
+                            <div class="modal-content">
+                                <div class="modal-header border-bottom-0">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="r-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Slika artikla</th>
+                                                <th>Datum i vrijeme</th>
+                                                <th>Ime artikla</th>
+                                                <th>Cijena artikla</th>
+                                                <th>Tip</th>
+                                                <th>Broj naručenih artikala</th>
+                                                <th>Količina</th>
+                                                <th>Opis</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="item in selectedOrder.orderedItems">
+                                                <td><img v-bind:src="item.product.logo"></td>
+                                                <td>{{selectedOrder.dateAndTime | dateFormat('DD.MM.YYYY. HH:mm')}}</td>
+                                                <td>{{item.product.name}}</td>
+                                                <td>{{item.product.price}}</td>
+                                                <td v-if="item.product.type=='FOOD'">Hrana</td>
+                                                <td v-else>Piće</td>
+                                                <td>{{item.amount}}</td>
+                                                <td v-if="item.product.type=='FOOD'">{{item.product.quantity}}g</td>
+                                                <td v-else>{{item.product.quantity}}ml</td>
+                                                <td>{{item.product.description}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="r-gap"></div>
+
+            </section>
+            <section class="r-section" v-else>
+                <div class="gtco-section">
+                    <div class="gtco-container">
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+                                <h1 class="cursive-font primary-color">Trenutno nema porudžbina.</h1>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <!-- FOOTER -->
+        <footer id="footer" data-stellar-background-ratio="0.5">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-2 col-sm-4">
+                        <ul class="wow fadeInUp social-icon" data-wow-delay="0.4s">
+                            <li><a href="#" class="fa fa-facebook-square" attr="facebook icon"></a></li>
+                            <li><a href="#" class="fa fa-twitter"></a></li>
+                            <li><a href="#" class="fa fa-instagram"></a></li>
+                            <li><a href="#" class="fa fa-google"></a></li>
+                        </ul>
+
+                        <div class="wow fadeInUp copyright-text" data-wow-delay="0.8s">
+                            <p><br>Copyright &copy; 2021 <br>Jela & Boba
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+
+    <!-- SCRIPTS -->
+    <script src="js/vue.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/axios.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/custom.js"></script>
+    <!-- <script src="ssf-rest.js"></script> -->
+    <script src="deli.js"></script>
+    <script src="placesMap.js"></script>
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPh6HCDbNWHnQaz0ah1KYa0P123mkCAEU&callback=initAutocomplete&libraries=places&v=weekly"
+        async></script>
+
+
+
+
+
+
+</body>
+
+</html>

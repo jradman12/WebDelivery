@@ -2,7 +2,7 @@ Vue.component("admin-comments", {
 
     data() {
         return {
-            comments  : []
+            dtos  : []
         }
     },
 
@@ -33,12 +33,12 @@ Vue.component("admin-comments", {
               <div class="tbl-content">
                    <table class="r-table" cellpadding="0" cellspacing="0" border="0">
                         <tbody>
-                             <tr v-for="comm in comments">
-                                  <td> {{ comm.author.username }} </td>
-                                  <td> {{ comm.restaurant.name }} </td>
-                                  <td> {{ comm.text }} </td>
-                                  <td> {{ comm.rating }} </td>
-                                  <td> {{ comm.approved ? "Odobren" : "Odbijen" }} </td>
+                             <tr v-for="dto in dtos">
+                                  <td> {{ dto.comment.author }} </td>
+                                  <td> {{ dto.restName }} </td>
+                                  <td> {{ dto.comment.text }} </td>
+                                  <td> {{ dto.comment.rating }} </td>
+                                  <td> {{ dto.comment.approved ? "Odobren" : "Odbijen" }} </td>
                     
                              </tr>
                         </tbody>
@@ -55,7 +55,7 @@ Vue.component("admin-comments", {
 
 mounted : function() {
     axios
-   .get('rest/comments/getAllComments')
-   .then(response => (this.comments = response.data))
+   .get('rest/comments/getCommentsWithRestNames')
+   .then(response => (this.dtos = response.data))
 }
 });

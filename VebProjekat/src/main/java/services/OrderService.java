@@ -32,6 +32,7 @@ import dao.CustomerDAO;
 import dao.ManagerDAO;
 import dao.OrderDAO;
 import dao.RestaurantDAO;
+import dto.OrderDTO;
 import enums.OrderStatus;
 import enums.Role;
 
@@ -98,6 +99,16 @@ public class OrderService {
 		
 		return orderDAO.getOrdersModifiedForDeliverer(user.getUsername());
 
+		
+	}
+	
+	@GET
+	@Path("/getAllOrderDTOs")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<OrderDTO> getAllOrderDTOs(){
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
+		
+		return orderDAO.getOrdersWithRestDetails();
 		
 	}
 	

@@ -24,7 +24,7 @@ public class AdministratorDAO {
 
 	private  Map<String, Administrator> admins = new HashMap<>();
 	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
-	private UserDAO userDAO = new UserDAO();
+	private UserDAO userDAO = new UserDAO("");
 
 	
 	public AdministratorDAO() {

@@ -133,7 +133,52 @@
 
                         <div class="r-gap"></div>
 
-                        <div v-for="rest in sortedRests">
+                        <div v-for="rest in sortedRestsOpen">
+                            <div class="col-lg-12">
+                                <div class="item">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="listing-item">
+                                                <div class="left-image">
+                                                    <a href="restaurant.html"><img class="rest-img"
+                                                            v-bind:src="rest.logo" alt=""></a>
+                                                </div>
+                                                <div class="right-content align-self-center">
+                                                    <a href="restaurant.html">
+                                                        <h4>{{rest.name}}</h4>
+                                                    </a>
+                                                    <h6>{{rest.status == "OPEN" ? 'Otvoren' : 'Zatvoren'}}</h6>
+                                                    <ul class="rate">
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                        <li>{{rest.averageRating}}</li>
+                                                    </ul>
+                                                    <span>{{ (rest.location).address.addressName  }}</span>
+                                                    <span>, </span>
+                                                    <span>{{ (rest.location).address.city }}</span>
+                                                    <span>, </span>
+                                                    <span>{{ (rest.location).address.postalCode  }}</span>
+                                                
+                                                    <div v-bind="typeFilter">
+                                                        <span>
+                                                            <h6>{{rest.typeOfRestaurant}}</h6>
+                                                        </span>
+
+                                                    </div>
+                                                    <div class="main-white-button">
+                                                        <button type="submit" @click="setRest(rest, $event)"><i class="fa fa-eye"></i>Pogledaj restoran</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-for="rest in sortedRestsClosed">
                             <div class="col-lg-12">
                                 <div class="item">
                                     <div class="row">
