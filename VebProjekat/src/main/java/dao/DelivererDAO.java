@@ -24,7 +24,7 @@ public class DelivererDAO {
 	
 private  Map<String,Deliverer> deliverers = new HashMap<>();
 public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json";
-private UserDAO userDAO = new UserDAO();
+private UserDAO userDAO = new UserDAO("");
 
 	public DelivererDAO() { 
 		

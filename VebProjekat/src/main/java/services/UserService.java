@@ -8,7 +8,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -142,27 +141,27 @@ public class UserService {
 	}
 	
 	// blocking and unblocking user
-	@POST
-	@Path("/unblockUser")
+	@PUT
+	@Path("/unblockUser/{username}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response unblockUser(User userToUnblock){
+	public Response unblockUser(@PathParam("username") String username) {
 		
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
-		userDAO.unblockUserById(userToUnblock.getUsername());
+		userDAO.unblockUserById(username);
 		
 		return Response
 				.status(Response.Status.ACCEPTED).entity("Uspjesno deblokiran korisnik!").entity(userDAO.getAllAvailable()).build();
 	}
 	
-	@POST
-	@Path("/blockUser")
+
+	@PUT
+	@Path("/blockUser/{username}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response blockUser(User userToBlock){
-		
+	public Response blockUser(@PathParam("username") String username) {
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
-		userDAO.blockUserById(userToBlock.getUsername());
+		userDAO.blockUserById(username);
 		
 		return Response
 				.status(Response.Status.ACCEPTED).entity("Uspjesno blokiran korisnik!").entity(userDAO.getAllAvailable()).build();
@@ -170,22 +169,22 @@ public class UserService {
 	
 
 	private void changeManagerInformation(String username,User user) {
-		ManagerDAO managerDAO = new ManagerDAO();
+		ManagerDAO managerDAO = new ManagerDAO("");
 		success = managerDAO.changeManager(username,user);
 	}
 
 	private void changeDelivererInformation(String username,User user) {
-		DelivererDAO delivererDAO = new DelivererDAO();
+		DelivererDAO delivererDAO = new DelivererDAO("");
 		success = delivererDAO.changeDeliverer(username,user);
 	}
 
 	private void changeCustomerInformation(String username,User user) {
-		CustomerDAO customerDAO = new CustomerDAO();
+		CustomerDAO customerDAO = new CustomerDAO("");
 		success = customerDAO.changeCustomer(username,user);
 	}
 
 	private void changeAdministratorInformation(String username,User user) {
-		AdministratorDAO administratorDAO = new AdministratorDAO();
+		AdministratorDAO administratorDAO = new AdministratorDAO("");
 		success = administratorDAO.changeAdministrator(username,user);
 	}
 	

@@ -50,6 +50,7 @@ public class LogoutService {
 			HttpSession session = request.getSession();
 			if(session != null && session.getAttribute("loggedInUser") != null) {
 				session.invalidate();
+				System.out.println("user logged out!");
 			}
 			return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/index.html").build();
 					

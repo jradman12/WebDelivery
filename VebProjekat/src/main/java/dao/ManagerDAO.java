@@ -17,7 +17,6 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import beans.Customer;
 import beans.Manager;
 import beans.Restaurant;
 import beans.User;
@@ -27,7 +26,7 @@ public class ManagerDAO {
 	
 private  Map<String, Manager> managers = new HashMap<>();
 public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
-private UserDAO userDAO = new UserDAO();
+private UserDAO userDAO = new UserDAO("");
 
 	public ManagerDAO() {
 		

@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Order;
+import beans.Restaurant;
+import dto.OrderDTO;
 import enums.OrderStatus;
 
 
@@ -205,6 +207,20 @@ public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 		
 		
 		return orderDel;
+	}
+
+	public Collection<OrderDTO> getOrdersWithRestDetails() {
+		RestaurantDAO rDAO = new RestaurantDAO("");
+		Collection<OrderDTO> ret = new ArrayList<OrderDTO>();
+		for(Order o : orders.values()) {
+			for(Restaurant r : rDAO.getAllAvailable()) {
+				if(r.getId().equals(o.getRestaurant())) {
+					ret.add(new OrderDTO(o, r.getName(), r.getTypeOfRestaurant()));
+				}
+			}
+		}
+		
+		return ret;
 	}
 	
 

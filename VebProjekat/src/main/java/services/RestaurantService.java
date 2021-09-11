@@ -25,7 +25,6 @@ import beans.Product;
 import beans.Restaurant;
 import beans.User;
 import dao.ManagerDAO;
-import dao.RequestDAO;
 import dao.RestaurantDAO;
 import dto.ProductForCartDTO;
 
@@ -90,7 +89,7 @@ public class RestaurantService {
 	}
 
 	@DELETE
-	@Path("/{id}")
+	@Path("delete/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteRestaurant(@PathParam("id") String id) {

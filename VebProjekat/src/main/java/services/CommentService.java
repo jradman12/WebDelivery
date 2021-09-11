@@ -1,8 +1,9 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -16,16 +17,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
-import java.util.ArrayList;
+
 import beans.Comment;
-import beans.Customer;
-import beans.Restaurant;
 import beans.User;
 import dao.CommentDAO;
-import dao.CustomerDAO;
 import dao.ManagerDAO;
 import dao.RestaurantDAO;
+import dto.CommentDTO;
 import enums.Role;
 import enums.StatusOfComment;
 
@@ -60,6 +58,18 @@ public class CommentService {
 	public Collection<Comment> getAllComments(){
 		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
 		return commentDAO.getAllAvailable();
+	}
+
+	@GET
+	@Path("/getCommentsWithRestNames")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<CommentDTO> getAllCommentDTOs(){
+		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
+		List<CommentDTO> retComments = new ArrayList<CommentDTO>();
+		for(Comment c : commentDAO.getAllAvailable()) {
+			retComments.add(new CommentDTO(c, new RestaurantDAO("").getRestaurantById(c.getRestaurantID()).getName()));
+		}
+		return retComments;
 	}
 	
 	@GET

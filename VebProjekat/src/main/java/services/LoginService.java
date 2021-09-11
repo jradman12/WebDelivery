@@ -45,7 +45,7 @@ public class LoginService {
 		User loggedUser = userDAO.find(user.getUsername(), user.getPassword());
 		if (loggedUser == null) {
 			return Response.status(400).entity("Invalid username and/or password").build();
-		}
+		}else if(loggedUser.isBlocked()) return Response.status(403).entity("Prijava na sistem nije moguća jer je vaš nalog blokiran.").build();
 		request.getSession().setAttribute("loggedInUser", loggedUser);
 		System.out.println(loggedUser.getFistName() + " is currently logged in.");
 		

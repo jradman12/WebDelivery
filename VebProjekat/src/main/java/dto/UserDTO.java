@@ -20,6 +20,7 @@ public class UserDTO {
 	private boolean isDeleted;
 	private boolean isBlocked;
 	private CustomerType type;
+	private int points;
 	
 	public UserDTO() {
 		// TODO Auto-generated constructor stub
@@ -49,6 +50,7 @@ public class UserDTO {
 		this.isDeleted = user.isDeleted();
 		this.isBlocked = user.isBlocked();
 		this.type = user.getType();
+		this.points = user.getPoints();
 	}
 
 	public String getUsername() {
@@ -129,6 +131,16 @@ public class UserDTO {
 
 	public void setType(CustomerType type) {
 		this.type = type;
+	}
+	
+	
+	
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
 	}
 
 	@Override
