@@ -1,5 +1,6 @@
 package services;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,9 +49,14 @@ public class RequestService {
 		// Ovaj objekat se instancira vi�e puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
 		if (ctx.getAttribute("requestDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("requestDAO", new RequestDAO(contextPath));
+			RequestDAO  requestDAO = new RequestDAO();
+			requestDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("requestDAO", requestDAO);
 		}
+	}
+	
+	public String getDataDirPath() {
+		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
 	}
 	
 	@GET
@@ -72,7 +78,8 @@ public class RequestService {
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return null;
 		}
-		ManagerDAO mDao = new ManagerDAO("");
+		ManagerDAO mDao = new ManagerDAO();
+		mDao.setBasePath(getDataDirPath());
 		String r = mDao.getRestaurantForManager(user.getUsername());
 		System.out.println("Id menadzerovog restorana je " + r);
 		return requestDAO.requestsForRestaurantsOrder(r);
@@ -148,7 +155,8 @@ public class RequestService {
 	public Response delivererAddRequest(DeliverRequest dr){
 		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
-		OrderDAO orderDAO = new OrderDAO("");
+		OrderDAO orderDAO = new OrderDAO();
+		orderDAO.setBasePath(getDataDirPath());
 		if(user == null || !user.getRole().equals(Role.DELIVERER)) {
 			return null;
 		}

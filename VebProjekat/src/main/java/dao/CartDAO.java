@@ -19,7 +19,8 @@ public class CartDAO {
 	public Map<String, Cart> carts = new HashMap<>();
 	
 	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\carts.json";
-	
+	public String basePath;
+
 	public String fileName = "cart.json";
 	
 	public CartDAO() {
@@ -30,13 +31,22 @@ public class CartDAO {
 		loadCarts(contextPath);
 	}
 	
+	public void setBasePath(String path) {
+		this.basePath = path;
+		loadCarts("");
+	}
+	
+	public String getPath() {
+		return (this.basePath + "carts.json");
+	}
+	
 	public void loadCarts(String contextPath) {
 		
 		Gson gs = new Gson();
 		String cartsJson = "";
 		
 		try {
-			cartsJson = new String(Files.readAllBytes(Paths.get(this.path)));
+			cartsJson = new String(Files.readAllBytes(Paths.get(getPath())));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -61,7 +71,7 @@ public class CartDAO {
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream(this.path);
+			fos = new FileOutputStream(getPath());
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");

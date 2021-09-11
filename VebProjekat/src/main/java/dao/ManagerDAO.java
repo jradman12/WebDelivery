@@ -26,8 +26,8 @@ public class ManagerDAO {
 	
 private  Map<String, Manager> managers = new HashMap<>();
 
-public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
-private UserDAO userDAO = new UserDAO("");
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
+public String basePath;
 
 
 	public ManagerDAO() {
@@ -37,6 +37,15 @@ private UserDAO userDAO = new UserDAO("");
 	
 	public ManagerDAO(String contextPath) {
 		loadManagers(contextPath);
+	}
+	
+	public void setBasePath(String path) {
+		this.basePath = path;
+		loadManagers("");
+	}
+	
+	public String getPath() {
+		return (this.basePath + "managers.json");
 	}
 	
 	
@@ -82,7 +91,7 @@ private UserDAO userDAO = new UserDAO("");
 				Gson gs = new Gson();
 				String managersJson = "";
 				try {
-					managersJson = new String(Files.readAllBytes(Paths.get(path)));
+					managersJson = new String(Files.readAllBytes(Paths.get(getPath())));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -111,7 +120,7 @@ private UserDAO userDAO = new UserDAO("");
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream(path);
+			fos = new FileOutputStream(getPath());
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");
@@ -153,6 +162,8 @@ private UserDAO userDAO = new UserDAO("");
 		newManager.setDeleted(false);
 		newManager.setBlocked(false);
 		addManager(newManager);
+		UserDAO userDAO = new UserDAO();
+		userDAO.setBasePath(basePath);
 		userDAO.addNewUser(newUser);
 		saveManagersJSON();
 	}
@@ -183,6 +194,8 @@ private UserDAO userDAO = new UserDAO("");
 				m.setFistName(user.getFistName());
 				m.setLastName(user.getLastName());
 				m.setPassword(user.getPassword());
+				UserDAO userDAO = new UserDAO();
+				userDAO.setBasePath(basePath);
 				userDAO.changeUser(username,user);
 				saveManagersJSON();
 

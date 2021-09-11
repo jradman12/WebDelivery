@@ -8,28 +8,24 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import beans.Address;
-import beans.CartItem;
-import beans.Location;
-import beans.Manager;
 import beans.Product;
 import beans.Restaurant;
-import beans.User;
 import enums.RestaurantStatus;
 
 public class RestaurantDAO {
 	
 	public  Map<String, Restaurant> restaurants = new HashMap<>();
-	public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json";
+	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json";
+	public String basePath;
 
 	public RestaurantDAO() {
 		
@@ -38,6 +34,17 @@ public class RestaurantDAO {
 	public RestaurantDAO(String contextPath) {
 		loadRestaurants(contextPath);
 	}
+	
+	
+	public void setBasePath(String path) {
+		this.basePath = path;
+		loadRestaurants("");
+	}
+	
+	public String getPath() {
+		return (this.basePath + "restaurants.json");
+	}
+	
 	
 	public Restaurant findByName(String name) {
 		for(Restaurant r : getAllAvailable()) {
@@ -68,7 +75,7 @@ public class RestaurantDAO {
 				Gson gs = new Gson();
 				String restaurantsJson = "";
 				try {
-					restaurantsJson = new String(Files.readAllBytes(Paths.get(path)));
+					restaurantsJson = new String(Files.readAllBytes(Paths.get(getPath())));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -126,7 +133,7 @@ public class RestaurantDAO {
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream(path);
+			fos = new FileOutputStream(getPath());
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");
@@ -246,7 +253,8 @@ public class RestaurantDAO {
 	
 	
 	public void updateRating(String id) {
-		CommentDAO commentDAO = new CommentDAO("");
+		CommentDAO commentDAO = new CommentDAO();
+		commentDAO.setBasePath(basePath);
 		for(Restaurant r : restaurants.values()) {
 			if(r.getId().equals(id)) {
 				System.out.println("PRVA");

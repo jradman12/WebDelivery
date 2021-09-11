@@ -1,5 +1,6 @@
 package services;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -57,12 +58,15 @@ public class OrderService {
 		// Ovaj objekat se instancira vi�e puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
 		if (ctx.getAttribute("orderDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("orderDAO", new OrderDAO(contextPath));
+			OrderDAO orderDAO = new OrderDAO();
+			orderDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("orderDAO", orderDAO);
 		}
 	}
 	
-	
+	public String getDataDirPath() {
+		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
+	}
 	
 	@GET
 	@Path("/getAllOrdersForRestaurant")
@@ -70,6 +74,8 @@ public class OrderService {
 	public Collection<Order> getOrdersForRestaurant(){
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
+		ManagerDAO mdao = new ManagerDAO();
+		mdao.setBasePath(getDataDirPath());
 		Role role = user.getRole();
 		System.out.println(user.getRole());
 		if(user == null || !role.equals(Role.MANAGER)) {
@@ -77,7 +83,7 @@ public class OrderService {
 		}
 		
 		String username = user.getUsername();	
-		String idOfRestaurant = new ManagerDAO("").getRestaurantForManager(username);
+		String idOfRestaurant = mdao.getRestaurantForManager(username);
 		return orderDAO.getOrdersForRestaurant(idOfRestaurant);
 		
 	}
@@ -126,8 +132,9 @@ public class OrderService {
 		if(user == null || !role.equals(Role.MANAGER)) {
 			return null;
 		}
-		
-		String restaurantId = new ManagerDAO("").getRestaurantForManager(user.getUsername());
+		ManagerDAO mdao = new ManagerDAO();
+		mdao.setBasePath(getDataDirPath());
+		String restaurantId = mdao.getRestaurantForManager(user.getUsername());
 		boolean success=orderDAO.changeStatus(OrderStatus.IN_PREPARATION,id);
 		if(success) {
 			return Response.status(200).entity(orderDAO.getOrdersForRestaurant(restaurantId)).build();
@@ -150,7 +157,9 @@ public class OrderService {
 		if(user == null || !role.equals(Role.MANAGER)) {
 			return null;
 		}
-		String restaurantId = new ManagerDAO("").getRestaurantForManager(user.getUsername());
+		ManagerDAO mdao = new ManagerDAO();
+		mdao.setBasePath(getDataDirPath());
+		String restaurantId = mdao.getRestaurantForManager(user.getUsername());
 		boolean success=orderDAO.changeStatus(OrderStatus.AWAITING_DELIVERER,id);
 		if(success) {
 			return Response.status(200).entity(orderDAO.getOrdersForRestaurant(restaurantId)).build();
@@ -210,7 +219,8 @@ public class OrderService {
 	public Response createNewOrder(Order newOrder) {
 		
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");	
-		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+		CustomerDAO customerDAO = new CustomerDAO();
+		customerDAO.setBasePath(getDataDirPath());
 		Customer customer = customerDAO.getCustomerByUsername(newOrder.getCustomerID());
 		
 		double orderPrice = 0;
@@ -228,7 +238,8 @@ public class OrderService {
 		customerDAO.saveCustomersJSON();
 		
 		// gotta empty the cart
-		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
+		CartDAO cartDAO = new CartDAO();
+		cartDAO.setBasePath(getDataDirPath());
 		for(Cart cart : cartDAO.carts.values()) {
 			if(cart.getCustomerID().equals(newOrder.getCustomerID())) {
 				cartDAO.carts.remove(cart);
@@ -263,8 +274,8 @@ public class OrderService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void removeCartItem(@PathParam("id") String id) {
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");	
-		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
-		//User user = (User) request.getSession().getAttribute("loggedInUser");
+		CustomerDAO customerDAO = new CustomerDAO();
+		customerDAO.setBasePath(getDataDirPath());		//User user = (User) request.getSession().getAttribute("loggedInUser");
 		for(Order o : orderDAO.getExistingOrders()) {
 			if(o.getId().equals(id)) {
 				o.setDeleted(true);
@@ -286,13 +297,14 @@ public class OrderService {
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
 
 		System.out.println("ušao u orderFromRestaurantDeliveredToCustomer ");
-		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
+		RestaurantDAO rDAO = new RestaurantDAO();
+		rDAO.setBasePath(getDataDirPath()); 
+		
 		String currentRestID = (String) ctx.getAttribute("currentRestID");
 		
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		
 		Map<String, Order> orders = new HashMap<>();
-		orderDAO.loadOrders("");//dobavljamo sve komentare
 		orders = orderDAO.orders; 
 		///
 		

@@ -24,8 +24,8 @@ public class DelivererDAO {
 	
 private  Map<String,Deliverer> deliverers = new HashMap<>();
 
-public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json";
-private UserDAO userDAO = new UserDAO("");
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json";
+public String basePath;
 
 
 	public DelivererDAO() { 
@@ -34,6 +34,15 @@ private UserDAO userDAO = new UserDAO("");
 	
 	public DelivererDAO(String contextPath) {
 		loadDeliverers(contextPath);
+	}
+	
+	public void setBasePath(String path) {
+		this.basePath = path;
+		loadDeliverers("");
+	}
+	
+	public String getPath() {
+		return (this.basePath + "deliverers.json");
 	}
 	
 	
@@ -71,7 +80,7 @@ private UserDAO userDAO = new UserDAO("");
 				Gson gs = new Gson();
 				String deliverersJson = "";
 				try {
-					deliverersJson = new String(Files.readAllBytes(Paths.get(path)));
+					deliverersJson = new String(Files.readAllBytes(Paths.get(getPath())));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -104,7 +113,7 @@ private UserDAO userDAO = new UserDAO("");
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream(path);
+			fos = new FileOutputStream(getPath());
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");
@@ -146,6 +155,8 @@ private UserDAO userDAO = new UserDAO("");
 		newDeliverer.setDeleted(false);
 		newDeliverer.setBlocked(false);
 		addDeliverer(newDeliverer);
+		UserDAO userDAO = new UserDAO();
+		userDAO.setBasePath(basePath);
 		userDAO.addNewUser(newUser);
 		saveDeliverersJSON();
 	}
@@ -176,6 +187,8 @@ private UserDAO userDAO = new UserDAO("");
 				d.setFistName(user.getFistName());
 				d.setLastName(user.getLastName());
 				d.setPassword(user.getPassword());
+				UserDAO userDAO = new UserDAO();
+				userDAO.setBasePath(basePath);
 				userDAO.changeUser(username,user);
 				saveDeliverersJSON();
 

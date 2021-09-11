@@ -1,5 +1,6 @@
 package services;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,9 +42,14 @@ public class ManagerService {
 	@PostConstruct
 	public void init() {
 		if (ctx.getAttribute("managerDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("managerDAO", new ManagerDAO(contextPath));
+			ManagerDAO managerDAO = new ManagerDAO();
+			managerDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("managerDAO", managerDAO);
 		}
+	}
+	
+	public String getDataDirPath() {
+		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
 	}
 	
 	@POST
@@ -92,7 +98,8 @@ public class ManagerService {
 		
 		String username = user.getUsername();	
 		String restID =  managerDAO.getRestaurantForManager(username);
-		RestaurantDAO rDAO = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
+		RestaurantDAO rDAO = new RestaurantDAO();
+		rDAO.setBasePath(getDataDirPath());
 		return rDAO.getRestaurantById(restID);
 		
 	}

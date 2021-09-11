@@ -25,7 +25,8 @@ public class RequestDAO {
 
 	
 public  Map<String,DeliverRequest> requests = new HashMap<>();
-public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json";
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json";
+public String basePath;
 
 	
 	public RequestDAO() {
@@ -37,6 +38,15 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 		loadRequests(contextPath);
 	}
 	
+	
+	public void setBasePath(String path) {
+		this.basePath = path;
+		loadRequests("");
+	}
+	
+	public String getPath() {
+		return (this.basePath + "requests.json");
+	}
 	
 	public Collection<DeliverRequest> findByRestaurant(String id) {
 		List<DeliverRequest> requestsForRestaurant = new ArrayList<DeliverRequest>();
@@ -62,7 +72,7 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 				Gson gs = new Gson();
 				String requestsJson = "";
 				try {
-					requestsJson = new String(Files.readAllBytes(Paths.get(path)));
+					requestsJson = new String(Files.readAllBytes(Paths.get(getPath())));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -94,7 +104,7 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream(path);
+			fos = new FileOutputStream(getPath());
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");

@@ -1,5 +1,7 @@
 package services;
 
+import java.io.File;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -36,9 +38,14 @@ public class CartService {
 	@PostConstruct
 	public void init() {
 		if (ctx.getAttribute("cartDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("cartDAO", new CartDAO(contextPath));
+	    	CartDAO cartDAO = new CartDAO();
+	    	cartDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("cartDAO", cartDAO);
 		}
+	}
+	
+	public String getDataDirPath() {
+		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
 	}
 	
 	@GET

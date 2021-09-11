@@ -24,7 +24,8 @@ import enums.StatusOfComment;
 public class CommentDAO {
 	
 	public  Map<String, Comment> comments = new HashMap<>();
-	public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
+	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
+	public String basePath;
 
 
 	public CommentDAO() {
@@ -32,6 +33,15 @@ public class CommentDAO {
 	
 	public CommentDAO(String contextPath) {
 		loadComments(contextPath);
+	}
+	
+	public void setBasePath(String path) {
+		this.basePath = path;
+		loadComments("");
+	}
+	
+	public String getPath() {
+		return (this.basePath + "comments.json");
 	}
 		
 	public Collection<Comment> findAll() {
@@ -57,7 +67,7 @@ public class CommentDAO {
 				Gson gs = new Gson();
 				String commentsJson = "";
 				try {
-					commentsJson = new String(Files.readAllBytes(Paths.get(path)));	
+					commentsJson = new String(Files.readAllBytes(Paths.get(getPath())));	
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -85,7 +95,7 @@ public class CommentDAO {
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream(path);
+			fos = new FileOutputStream(getPath());
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");

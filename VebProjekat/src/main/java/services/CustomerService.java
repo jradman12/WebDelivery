@@ -1,9 +1,10 @@
 package services;
 
+import java.io.File;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -31,9 +32,14 @@ public class CustomerService {
 	@PostConstruct
 	public void init() {
 		if (ctx.getAttribute("customerDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("customerDAO", new CustomerDAO(contextPath));
+			CustomerDAO customerDAO = new CustomerDAO();
+			customerDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("customerDAO", customerDAO);
 		}
+	}
+	
+	public String getDataDirPath() {
+		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
 	}
 	
 	@GET

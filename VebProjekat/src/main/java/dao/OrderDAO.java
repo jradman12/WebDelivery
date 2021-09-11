@@ -10,11 +10,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,20 +24,27 @@ import beans.Restaurant;
 import dto.OrderDTO;
 import enums.OrderStatus;
 
-
-import java.util.*;
-
 public class OrderDAO {
 	
 public  Map<String, Order> orders = new HashMap<>();
-public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
-	
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
+public String basePath;
+
 	public OrderDAO() {
 		
 	}
 	
 	public OrderDAO(String contextPath) {
 		loadOrders(contextPath);
+	}
+	
+	public void setBasePath(String path) {
+		this.basePath = path;
+		loadOrders("");
+	}
+	
+	public String getPath() {
+		return (this.basePath + "orders.json");
 	}
 	
 	public Order findById(String id) {
@@ -68,7 +75,7 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 				Gson gs = new Gson();
 				String ordersJson = "";
 				try {
-					ordersJson = new String(Files.readAllBytes(Paths.get(path)));
+					ordersJson = new String(Files.readAllBytes(Paths.get(getPath())));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -98,7 +105,7 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream(path);
+			fos = new FileOutputStream(getPath());
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");
@@ -201,7 +208,8 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 	
 	public  Collection<Order> getApprovedOrdersForDeliver(String username) {
 		List<Order> orderDel=new ArrayList<Order>();
-		RequestDAO requestDAO = new RequestDAO("");
+		RequestDAO requestDAO = new RequestDAO();
+		requestDAO.setBasePath(basePath);
 		for(String orderId : requestDAO.getIdsFromApprovedOrders(username)) {
 			orderDel.add(findById(orderId));
 		}
@@ -211,7 +219,8 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 	}
 
 	public Collection<OrderDTO> getOrdersWithRestDetails() {
-		RestaurantDAO rDAO = new RestaurantDAO("");
+		RestaurantDAO rDAO = new RestaurantDAO();
+		rDAO.setBasePath(basePath);
 		Collection<OrderDTO> ret = new ArrayList<OrderDTO>();
 		for(Order o : orders.values()) {
 			for(Restaurant r : rDAO.getAllAvailable()) {
@@ -228,7 +237,8 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 	
 	public  Collection<Order> delivererOrdersAA(String username){
 		List<Order> myOrdersAA = new ArrayList<Order>();
-		RequestDAO dao=new RequestDAO("");
+		RequestDAO dao=new RequestDAO();
+		dao.setBasePath(basePath);
 		
 		loadOrders("");
 		for(Order o : orders.values()) {
@@ -268,6 +278,7 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 	public  Collection<Order> AADD(String username){
 	
 		List<Order> povratnaLista = new ArrayList<Order>();
+		@SuppressWarnings("unused")
 		List<Order> promijenjenaLista = new ArrayList<Order>();
 		List<Order> razlika = new ArrayList<Order>();
 		

@@ -1,5 +1,7 @@
 package services;
 
+import java.io.File;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -35,9 +37,14 @@ public class LogoutService {
 		// Ovaj objekat se instancira vi�e puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
 		if (ctx.getAttribute("usersDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("usersDAO", new UserDAO(contextPath));
+			UserDAO usersDAO = new UserDAO();
+			usersDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("usersDAO", usersDAO);
 		}
+	}
+	
+	public String getDataDirPath() {
+		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
 	}
 	
 	@GET

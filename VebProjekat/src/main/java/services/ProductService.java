@@ -1,5 +1,7 @@
 package services;
 
+import java.io.File;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import beans.Product;
 import beans.Restaurant;
 import beans.User;
 import dao.ManagerDAO;
@@ -39,13 +40,19 @@ public class ProductService {
 //			ctx.setAttribute("restaurantDAO", new RestaurantDAO(contextPath));
 //		}
 	}
+	
+	public String getDataDirPath() {
+		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
+	}
 
 	@GET
 	@Path("getCurrentProduct")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProductDTO getCurrentProduct() {
-		RestaurantDAO rDAO = new RestaurantDAO(""); 
-		ManagerDAO mDAO = new ManagerDAO("");
+		RestaurantDAO rDAO = new RestaurantDAO(); 
+		rDAO.setBasePath(getDataDirPath());
+		ManagerDAO mDAO = new ManagerDAO();
+		mDAO.setBasePath(getDataDirPath());
 		
 		String currentProduct = (String) ctx.getAttribute("currentProduct");
 		System.out.println("tryna get the currentProduct attribute, rn it is " + currentProduct);

@@ -1,5 +1,6 @@
 package services;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,9 +49,13 @@ public class RestaurantService {
 		// Ovaj objekat se instancira vi�e puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
 		if (ctx.getAttribute("restaurantDAO") == null) {
-			String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("restaurantDAO", new RestaurantDAO(contextPath));
+			RestaurantDAO restaurantDAO = new RestaurantDAO();
+			restaurantDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("restaurantDAO", restaurantDAO);
 		}
+	}
+	public String getDataDirPath() {
+		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
 	}
 
 	@GET
@@ -108,7 +113,7 @@ public class RestaurantService {
 	@Path("getCurrentRestaurant")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Restaurant getCurrentRestaurant() {
-		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
+		RestaurantDAO rDAO = getRestaurants(); // this will set em
 		String currentRestID = (String) ctx.getAttribute("currentRestID");
 		System.out.println("tryna get the currentRestID attribute, rn it is " + currentRestID);
 		return rDAO.getRestaurantById(currentRestID);
@@ -133,7 +138,8 @@ public class RestaurantService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getManagersRestaurant(String username) {
 		RestaurantDAO rDAO = getRestaurants();
-		ManagerDAO mDAO = new ManagerDAO("");
+		ManagerDAO mDAO = new ManagerDAO();
+		mDAO.setBasePath(getDataDirPath());
 		////////////
 		
 		System.out.println("Restorani: ");
@@ -144,12 +150,12 @@ public class RestaurantService {
 		//////////
 		User manager = (User) request.getSession().getAttribute("loggedInUser");
 		
-		System.out.println("user that is logged in is : " + manager.getUsername());
 		
-		System.out.println("managers rest is " + new ManagerDAO("").getRestaurantForManager(manager.getUsername()));
 		for (Restaurant rest : rDAO.restaurants.values()) {
 			System.out.println("in for loop");
-			if (rest.getId().equals(new ManagerDAO("").getRestaurantForManager(manager.getUsername()))) {
+			
+			mDAO.setBasePath(getDataDirPath());
+			if (rest.getId().equals(mDAO.getRestaurantForManager(manager.getUsername()))) {
 				System.out.println("found an equal one - " + rest.getId() + ", " + rest.getName());
 				return Response.status(Response.Status.ACCEPTED).entity(rest).build();
 			}
@@ -163,10 +169,12 @@ public class RestaurantService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addNewProduct(Product product) {
 		RestaurantDAO rDAO = getRestaurants();
+		ManagerDAO mDAO = new ManagerDAO();
+		mDAO.setBasePath(getDataDirPath());
 		Restaurant r = null;
 		User manager = (User) request.getSession().getAttribute("loggedInUser");
 		for (Restaurant rest : rDAO.restaurants.values()) {
-			if (rest.getId().equals(new ManagerDAO("").getRestaurantForManager(manager.getUsername()))){
+			if (rest.getId().equals(mDAO.getRestaurantForManager(manager.getUsername()))){
 					r = rest;
 					for (Product prod : rest.getMenu()) {
 						if (prod.getName().equals(product.getName()))

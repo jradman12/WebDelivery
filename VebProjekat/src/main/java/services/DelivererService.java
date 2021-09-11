@@ -1,5 +1,7 @@
 package services;
 
+import java.io.File;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -25,9 +27,14 @@ public class DelivererService {
 	@PostConstruct
 	public void init() {
 		if (ctx.getAttribute("delivererDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("delivererDAO", new DelivererDAO(contextPath));
+			DelivererDAO delivererDAO = new DelivererDAO();
+			delivererDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("delivererDAO",delivererDAO);
 		}
+	}
+	
+	public String getDataDirPath() {
+		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
 	}
 	
 	@POST

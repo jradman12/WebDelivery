@@ -25,8 +25,8 @@ public class CustomerDAO {
 
 public Map<String, Customer> customers = new HashMap<>();
 
-public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
-private UserDAO userDAO = new UserDAO("");
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
+public String basePath;
 
 
 
@@ -39,6 +39,15 @@ private UserDAO userDAO = new UserDAO("");
 		loadCustomers(contextPath);
 	}
 	
+	
+	public void setBasePath(String path) {
+		this.basePath = path;
+		loadCustomers("");
+	}
+	
+	public String getPath() {
+		return (this.basePath + "customers.json");
+	}
 	
 	public Customer find(String username, String password) {
 		if (!customers.containsKey(username)) {
@@ -73,7 +82,7 @@ private UserDAO userDAO = new UserDAO("");
 				Gson gs = new Gson();
 				String customersJson = "";
 				try {
-					customersJson = new String(Files.readAllBytes(Paths.get(path)));
+					customersJson = new String(Files.readAllBytes(Paths.get(getPath())));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -106,7 +115,7 @@ private UserDAO userDAO = new UserDAO("");
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream(path);
+			fos = new FileOutputStream(getPath());
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");
@@ -146,6 +155,8 @@ private UserDAO userDAO = new UserDAO("");
 		newCustomer.setDeleted(false);
 		newCustomer.setBlocked(false);
 		addCustomer(newCustomer);
+		UserDAO userDAO = new UserDAO();
+		userDAO.setBasePath(basePath);
 		userDAO.addNewUser(newUser);
 		saveCustomersJSON();
 	}
@@ -174,6 +185,8 @@ private UserDAO userDAO = new UserDAO("");
 				c.setFistName(user.getFistName());
 				c.setLastName(user.getLastName());
 				c.setPassword(user.getPassword());
+				UserDAO userDAO = new UserDAO();
+				userDAO.setBasePath(basePath);
 				userDAO.changeUser(username,user);
 				saveCustomersJSON();
 				return true;

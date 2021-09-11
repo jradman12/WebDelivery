@@ -23,8 +23,8 @@ import enums.Role;
 public class UserDAO {
  
 public Map<String, User> users = new HashMap<>();	
-public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json";
-
+public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json";
+public String basePath;
 
 	public UserDAO() {
 		
@@ -34,6 +34,14 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 		loadUsers(contextPath);
 	}
 	
+	public void setBasePath(String path) {
+		this.basePath = path;
+		loadUsers("");
+	}
+	
+	public String getPath() {
+		return (this.basePath + "users.json");
+	}
 	
 	public User find(String username, String password) {
 		if (!users.containsKey(username)) {
@@ -68,7 +76,7 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 				Gson gs = new Gson();
 				String usersJson = "";
 				try {
-					usersJson = new String(Files.readAllBytes(Paths.get(path)));
+					usersJson = new String(Files.readAllBytes(Paths.get(getPath())));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -99,7 +107,7 @@ public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream(path);
+			fos = new FileOutputStream(getPath());
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");

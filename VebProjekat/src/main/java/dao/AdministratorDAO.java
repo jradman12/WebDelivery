@@ -23,8 +23,8 @@ import beans.User;
 public class AdministratorDAO {
 
 	private  Map<String, Administrator> admins = new HashMap<>();
-	public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
-	private UserDAO userDAO = new UserDAO("");
+	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
+	public String basePath;
 
 	
 	public AdministratorDAO() {
@@ -33,6 +33,15 @@ public class AdministratorDAO {
 	
 	public AdministratorDAO(String contextPath) {
 		loadAdmins(contextPath);
+	}
+	
+	public void setBasePath(String path) {
+		this.basePath = path;
+		loadAdmins("");
+	}
+	
+	public String getPath() {
+		return (this.basePath + "admins.json");
 	}
 	
 	public Administrator find(String username, String password) {
@@ -56,7 +65,7 @@ public class AdministratorDAO {
 		Gson gs = new Gson();
 				String adminsJson = "";
 				try {
-					adminsJson = new String(Files.readAllBytes(Paths.get(path)));
+					adminsJson = new String(Files.readAllBytes(Paths.get(getPath())));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -86,7 +95,7 @@ public class AdministratorDAO {
 		FileOutputStream fos = null;
 		
 		try {
-			fos = new FileOutputStream(path);
+			fos = new FileOutputStream(getPath());
 		}catch (FileNotFoundException e) {
 			// TODO: handle exception
 			System.out.println("Check the path u gave me!!");
@@ -121,6 +130,8 @@ public class AdministratorDAO {
 				a.setFistName(user.getFistName());
 				a.setLastName(user.getLastName());
 				a.setPassword(user.getPassword());
+				UserDAO userDAO = new UserDAO();
+				userDAO.setBasePath(basePath);
 				userDAO.changeUser(username,user);
 				saveAdministratorsJSON();
 				return true;

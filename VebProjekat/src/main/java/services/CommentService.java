@@ -1,5 +1,6 @@
 package services;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -47,9 +48,14 @@ public class CommentService {
 		// Ovaj objekat se instancira vi�e puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
 		if (ctx.getAttribute("commentDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("commentDAO", new CommentDAO(contextPath));
+			CommentDAO commentDAO = new CommentDAO();
+			commentDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("commentDAO", commentDAO);
 		}
+	}
+	
+	public String getDataDirPath() {
+		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
 	}
 	
 	@GET
@@ -65,9 +71,11 @@ public class CommentService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<CommentDTO> getAllCommentDTOs(){
 		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
+		RestaurantDAO rDAO = new RestaurantDAO();
+		rDAO.setBasePath(getDataDirPath());
 		List<CommentDTO> retComments = new ArrayList<CommentDTO>();
 		for(Comment c : commentDAO.getAllAvailable()) {
-			retComments.add(new CommentDTO(c, new RestaurantDAO("").getRestaurantById(c.getRestaurantID()).getName()));
+			retComments.add(new CommentDTO(c, rDAO.getRestaurantById(c.getRestaurantID()).getName()));
 		}
 		return retComments;
 	}
@@ -77,7 +85,8 @@ public class CommentService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Comment> getAllCommentsForResaturant(){
 		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
-		ManagerDAO managerDAO = new ManagerDAO("");
+		ManagerDAO managerDAO = new ManagerDAO();
+		managerDAO.setBasePath(getDataDirPath());
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return null;
@@ -95,7 +104,9 @@ public class CommentService {
 		///
 		List<Comment> commentsForRestaurant = new ArrayList<Comment>();
 
-		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
+		@SuppressWarnings("unused")
+		RestaurantDAO rDAO = new RestaurantDAO(); 
+		rDAO.setBasePath(getDataDirPath());
 		String currentRestID = (String) ctx.getAttribute("currentRestID");
 		///
 		for(Comment c : commentDAO.getAllAvailable()) {
@@ -114,10 +125,11 @@ public class CommentService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response approveComment(@PathParam("id") String id,Comment comment) {
-		ManagerDAO managerDAO = new ManagerDAO("");
+		ManagerDAO managerDAO = new ManagerDAO();
+		managerDAO.setBasePath(getDataDirPath());
 		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
 
-				User user = (User) request.getSession().getAttribute("loggedInUser");
+		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return Response.status(403).entity("Ne mozete pristupiti resursu").build();
 		}
@@ -126,7 +138,8 @@ public class CommentService {
 		boolean success=commentDAO.changeStatus(StatusOfComment.APPROVED, id);
 		if(success) {
 			System.out.println("ODOBRENO");
-			RestaurantDAO rDAO = new RestaurantDAO(""); 
+			RestaurantDAO rDAO = new RestaurantDAO(); 
+			rDAO.setBasePath(getDataDirPath());
 			rDAO.updateRating(com.getRestaurantID());
 			return Response.status(202).entity(commentDAO.getCommentsForRestaurant(r)).build();
 		}else {
@@ -166,7 +179,9 @@ public class CommentService {
 		
 		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
 
-		RestaurantDAO rDAO = new RestaurantDAO(""); // this will set em
+		@SuppressWarnings("unused")
+		RestaurantDAO rDAO = new RestaurantDAO(); // this will set em
+		rDAO.setBasePath(getDataDirPath());
 		String currentRestID = (String) ctx.getAttribute("currentRestID");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		newComment.setAuthor(user.getUsername());

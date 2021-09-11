@@ -1,4 +1,5 @@
 package services;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -44,9 +45,15 @@ public class UserService {
 	@PostConstruct
 	public void init() {
 		if (ctx.getAttribute("usersDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("usersDAO", new UserDAO(contextPath));
+	    	UserDAO userDAO = new UserDAO();
+			userDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("usersDAO", userDAO);
+			
 		}
+	}
+	
+	public String getDataDirPath() {
+		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
 	}
 	
 //	@GET
@@ -70,7 +77,7 @@ public class UserService {
 	@Path("/getAllUsers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<UserDTO> getAllUsers(){
-		UserDAO userDAO = new UserDAO("");
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
 		
 		List<UserDTO> dto = new ArrayList<UserDTO>(); 
 		
@@ -78,7 +85,10 @@ public class UserService {
 			if(u.getRole() != Role.CUSTOMER) 
 				dto.add(new UserDTO(u));
 		}
-		for(Customer c : new CustomerDAO("").getAllAvailable()) {
+		CustomerDAO customerDAO = new CustomerDAO();
+		customerDAO.setBasePath(getDataDirPath());
+		
+		for(Customer c : customerDAO.getAllAvailable()) {
 			dto.add(new UserDTO(c));
 		}
 		
@@ -90,7 +100,8 @@ public class UserService {
 	@Path("/getAllCustomers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Customer> getAllCustomers(){
-		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+		CustomerDAO customerDAO = new CustomerDAO();
+		customerDAO.setBasePath(getDataDirPath());
 		return  customerDAO.getAllAvailable();
 	}
 	
@@ -169,22 +180,26 @@ public class UserService {
 	
 
 	private void changeManagerInformation(String username,User user) {
-		ManagerDAO managerDAO = new ManagerDAO("");
+		ManagerDAO managerDAO = new ManagerDAO();
+		managerDAO.setBasePath(getDataDirPath());
 		success = managerDAO.changeManager(username,user);
 	}
 
 	private void changeDelivererInformation(String username,User user) {
-		DelivererDAO delivererDAO = new DelivererDAO("");
+		DelivererDAO delivererDAO = new DelivererDAO();
+		delivererDAO.setBasePath(getDataDirPath());
 		success = delivererDAO.changeDeliverer(username,user);
 	}
 
 	private void changeCustomerInformation(String username,User user) {
-		CustomerDAO customerDAO = new CustomerDAO("");
+		CustomerDAO customerDAO = new CustomerDAO();
+		customerDAO.setBasePath(getDataDirPath());
 		success = customerDAO.changeCustomer(username,user);
 	}
 
 	private void changeAdministratorInformation(String username,User user) {
-		AdministratorDAO administratorDAO = new AdministratorDAO("");
+		AdministratorDAO administratorDAO = new AdministratorDAO();
+		administratorDAO.setBasePath(getDataDirPath());
 		success = administratorDAO.changeAdministrator(username,user);
 	}
 	

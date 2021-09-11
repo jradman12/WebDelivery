@@ -1,1 +1,1 @@
-{"hfghg":{"username":"hfghg","role":"MANAGER","isDeleted":false,"isBlocked":false},"sanja":{"restaurantID":"1","username":"sanja","password":"sanja123","fistName":"Sanja","lastName":"Suvira","gender":"FEMALE","dateOfBirth":"Sep 16, 1992, 12:00:00 AM","role":"MANAGER","isDeleted":false,"isBlocked":false}}
+{"sanja":{"restaurantID":"1","username":"sanja","password":"sanja123","fistName":"Sanja","lastName":"Suvira","gender":"FEMALE","dateOfBirth":"Sep 16, 1992, 12:00:00 AM","role":"MANAGER","isDeleted":false,"isBlocked":false}}
