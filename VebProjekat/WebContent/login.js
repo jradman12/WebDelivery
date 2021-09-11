@@ -10,7 +10,6 @@ let login = new Vue({
 
 	methods: {
 		checkLogin : function(event){
-			console.log("Tryna login, bitch");
 			event.preventDefault();
 
 			axios
@@ -20,9 +19,14 @@ let login = new Vue({
 				})
 				.then(response => {
 					this.message = response.data;
-					window.location.assign(response.data)
+				
+						window.location.assign(response.data);
+
+						
 				})
 				.catch(err => {
+					if(err.toString() === "Error: Request failed with status code 403") alert("Nije moguće pristupiti nalogu jer je blokiran.");
+					else if(err.toString() === "Error: Request failed with status code 400") alert("Neispravno uneseno korisničko ime/lozinka!");
 					console.log("There has been an error! Please check this out: ");
 					console.log(err);
 				})

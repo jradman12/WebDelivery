@@ -5,15 +5,24 @@ Vue.component("customer-orders", {
                orders: [],
                message: null,
                selectedOrder: {},
-               show: true
-          }
+               show: true,
+               statusFilter : ''
+         }
      },
 
      template: ` 
      <div id="container">
     <img src="images/ce3232.png" width="100%" height="90px">
     <section class="r-section" v-if="orders.length!=0">
-        <h1></h1>
+        <h1>Pregled porudžbina</h1>
+
+        <div class="col-lg-12" style="margin-top: 50px;">
+                   
+                    <select v-model="statusFilter" style="width: 160px;float:right">
+                        <option value="">Sve porudžbine</option>
+                        <option value="SHIPPING">Nedostavljene</option>
+                    </select>
+                </div>
 
         <div class="r-gap"></div>
 
@@ -35,7 +44,7 @@ Vue.component("customer-orders", {
             <div class="tbl-content">
                 <table class="r-table" cellpadding="0" cellspacing="0" border="0">
                     <tbody>
-                        <tr v-for="(order, index) in orders">
+                        <tr v-for="(order, index) in filteredOrders">
                             <td> {{ order.id }} </td>
                             <td> {{ order.customerID }} </td>
                             <td> {{ order.price }} </td>
@@ -121,14 +130,14 @@ Vue.component("customer-orders", {
      mounted: function () {
           axios
                .get('rest/orders/getCustomersOrders')
-               .then(response => (this.orders = response.data))
+               .then(response => (this.orders = response.data, this.filteredOrders = response.data))
      },
 
      methods: {
           cancelOrder: function (index) {
             axios
             .delete('rest/orders/cancelOrder/'+this.orders[index].id)
-            .then(response => alert('uspjesno otkazana porudzbina'),
+            .then(response => alert('Uspješno otkazana porudžbina!'),
             this.orders.splice(index, 1)
             )
           },
@@ -138,6 +147,14 @@ Vue.component("customer-orders", {
           }
      },
 
+     computed : {
+
+            filteredOrders() {
+                return this.orders.filter( order => {
+                    if(this.statusFilter === '') return true;
+                    return order.status === "SHIPPING"});
+            }
+     },
 
      filters: {
           dateFormat: function (value, format) {

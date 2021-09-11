@@ -22,11 +22,12 @@ let newUser = new Vue({
                              "gender" : this.newUser.gender,
                              "username": this.newUser.username, 
                              "password" : this.newUser.password,
-                             "restaurant" : null,
+                             "restaurantID" : null,
                              "role" : "MANAGER"
                 })
                 .then(response => {
                     this.message = response.data;
+                    alert("Uspješno registrovan novi menadžer!");
                     window.location.assign(response.data)
                 })
                 .catch(err => {
@@ -47,6 +48,7 @@ let newUser = new Vue({
                 })
                 .then(response => {
                     this.message = response.data;
+                    alert("Uspješno registrovan novi dostavljač!");
                     window.location.assign(response.data)
                 })
                 .catch(err => {

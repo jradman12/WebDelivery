@@ -42,6 +42,7 @@ Vue.component("admin-users", {
                                         <th>Status</th>
                                         <th>Tip</th>
                                         <!-- <th>Tip kupca</th> -->
+                                        <th>Broj poena</th>
                                         <th>Obriši korisnika</th>
                                    </tr>
                               </thead>
@@ -65,6 +66,7 @@ Vue.component("admin-users", {
                                         </td>
 
                                         <td>{{roleFilter==='CUSTOMER' ? user.type.typeName : user.role}}</td>
+                                        <td>{{user.role ==='CUSTOMER' ? user.points : '-'}}</td>
                                         <td> <button>Obriši</button></td>
                                    </tr>
                               </tbody>
