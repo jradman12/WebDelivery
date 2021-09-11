@@ -343,6 +343,8 @@ mounted() {
      },
 
 
+
+
      filters: {
           dateFormat: function (value, format) {
                var parsed = moment(value);

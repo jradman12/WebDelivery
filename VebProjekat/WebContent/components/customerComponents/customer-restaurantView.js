@@ -151,7 +151,9 @@ Vue.component("customer-restaurantView", {
                                 <form>
                                     
                                      <div class="form-group">
+
                                           <select id="selectRating" name="selectionOfGender" v-model="newComment.rating" class="form-control">
+
                                                
                                                <option value="1">1</option>
                                                <option value="2">2</option>
@@ -162,7 +164,9 @@ Vue.component("customer-restaurantView", {
                                      </div>
   
                                      <div class="form-group">
+
                                           <textarea id="textOfComment" type="text" class="form-control" v-model="newComment.text"
+
                                                placeholder="Komentar"></textarea>
                                      </div>
                                      <button type="submit" @click="addNewComment($event)"
@@ -251,9 +255,11 @@ mounted : function() {
                 "text" : this.newComment.text
             })
             .then(response =>{
+
                 $('#writeCommentModal').modal('hide')
                 document.getElementById('selectRating').value='';
                 document.getElementById('textOfComment').value='';
+
 
             })
             

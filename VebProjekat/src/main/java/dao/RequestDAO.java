@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.*;
 import beans.DeliverRequest;
 import beans.Deliverer;
+import beans.Order;
 import enums.OrderStatus;
 import enums.RequestStatus;
 
@@ -116,14 +117,28 @@ public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 	}
 	
 	
-	public  void addDeliverRequest(DeliverRequest dr) {
-		if (!requests.containsValue(dr)) {
-			requests.put(dr.getId(), dr);
-		}
+
+	public  void addDeliverRequest(DeliverRequest request) {
 		
+//		for(DeliverRequest d : requests.values()) {
+//			if(!(d.getOrderID().equals(request.getOrderID()) && d.getDelivererID().equals(request.getDelivererID()))){
+//				System.out.println("DODAJE SEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+//				requests.put(request.getId(), request);
+//			}
+//		}
+//		
+
+		
+		if(!requests.containsValue(request)) {
+			requests.put(request.getId(), request);
+			
+		}
+	
 	}
 	
+
 	public  void addNewRequest(DeliverRequest request) {
+
 		DeliverRequest newRequest = new DeliverRequest();
 		newRequest.setRestaurantID(request.getRestaurantID());
 		newRequest.setOrderID(request.getOrderID());
@@ -238,6 +253,20 @@ public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 		}
 		
 		return false;
+	}
+	
+	public  Collection<String> getIdsOfOrdersForDelivererWaitingRequests(String username){
+		loadRequests("");
+		List<String> myAAIds = new ArrayList<String>();
+		for(DeliverRequest dr : requests.values())
+		{
+			if(dr.getDelivererID().equals(username) && dr.getStatus().equals(RequestStatus.WAITING)) {
+				myAAIds.add(dr.getOrderID());
+			}
+		}
+		
+		return myAAIds;
+		
 	}
 }
 

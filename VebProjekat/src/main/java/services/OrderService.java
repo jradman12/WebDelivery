@@ -83,7 +83,7 @@ public class OrderService {
 	}
 	
 	@GET
-	@Path("/getAllOrdersWithStatusAD")
+	@Path("/getAllOrdersWithStatusADAA")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Order> getAllOrdersWithStatusAD(){
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
@@ -95,7 +95,10 @@ public class OrderService {
 			return null;
 		}
 		
-		return orderDAO.getOrdersWithStatusAD();
+
+		
+		return orderDAO.getOrdersModifiedForDeliverer(user.getUsername());
+
 		
 	}
 	

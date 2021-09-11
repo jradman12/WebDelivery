@@ -22,7 +22,9 @@ import javax.ws.rs.core.Response.Status;
 import beans.DeliverRequest;
 import beans.User;
 import dao.ManagerDAO;
+import dao.OrderDAO;
 import dao.RequestDAO;
+import enums.OrderStatus;
 import enums.Role;
 
 
@@ -139,20 +141,26 @@ public class RequestService {
 	
 	@POST
 	@Path("/sendRequest")
-	@Produces(MediaType.TEXT_HTML)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+
 	public Response delivererAddRequest(DeliverRequest dr){
 		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
-
 		User user = (User) request.getSession().getAttribute("loggedInUser");
+		OrderDAO orderDAO = new OrderDAO("");
 		if(user == null || !user.getRole().equals(Role.DELIVERER)) {
 			return null;
 		}
 		
 		
 		dr.setDelivererID(user.getUsername());
+
+		String id=dr.getOrderID();
+		orderDAO.changeStatus(OrderStatus.AWAITING_APPROVING, id);
+		
 		requestDAO.addNewRequest(dr);
-		return Response.status(Status.ACCEPTED).entity("Zahtjev je poslat!").build();
+		return Response.status(Status.ACCEPTED).entity(orderDAO.getOrdersModifiedForDeliverer(user.getUsername())).build();
+
 	}
 	
 	

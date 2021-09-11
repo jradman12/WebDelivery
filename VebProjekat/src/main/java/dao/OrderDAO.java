@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -223,5 +224,116 @@ public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\mai
 		return ret;
 	}
 	
+
+	
+	public  Collection<Order> delivererOrdersAA(String username){
+		List<Order> myOrdersAA = new ArrayList<Order>();
+		RequestDAO dao=new RequestDAO("");
+		
+		loadOrders("");
+		for(Order o : orders.values()) {
+			for(String s : dao.getIdsOfOrdersForDelivererWaitingRequests(username)) {
+				if(o.getId().equals(s)) {
+					myOrdersAA.add(o);
+				}
+			}
+		}
+		
+		
+		return myOrdersAA;
+	}
+	
+	public  Collection<Order> getOrdersWithStatusAA() {
+		loadOrders("");
+		List<Order> ordersWithStatusAA=new ArrayList<Order>();
+		for(Order o : orders.values()) {
+			if(o.getStatus().equals(OrderStatus.AWAITING_APPROVING)) {
+				ordersWithStatusAA.add(o);
+			}
+			
+		}
+		
+		System.out.println("Ispisujemo sve ordere sa  AA");
+		for(Order o  : ordersWithStatusAA) {
+			
+			System.out.println(o.toString());
+		}
+		
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-----sve");
+		
+		return ordersWithStatusAA;
+	}
+	
+	
+	public  Collection<Order> AADD(String username){
+	
+		List<Order> povratnaLista = new ArrayList<Order>();
+		List<Order> promijenjenaLista = new ArrayList<Order>();
+		List<Order> razlika = new ArrayList<Order>();
+		
+		
+		List<String> idSvihAA = new ArrayList<String>();
+		List<String> idPorudzbinaZaKojeJeDostavljacPoslaoZahtjev = new ArrayList<String>(); 
+		for(Order o :getOrdersWithStatusAA()) {
+			idSvihAA.add(o.getId());
+		}
+		
+		for(Order o : delivererOrdersAA(username)) {
+			idPorudzbinaZaKojeJeDostavljacPoslaoZahtjev.add(o.getId());
+		}
+		
+		Collections.sort(idSvihAA);
+		Collections.sort(idPorudzbinaZaKojeJeDostavljacPoslaoZahtjev);
+		idSvihAA.removeAll(idPorudzbinaZaKojeJeDostavljacPoslaoZahtjev);
+		
+		for(Order o : getOrdersWithStatusAA()) {
+			for(String s : idSvihAA) {
+			if(o.getId().equals(s)) {
+				o.setStatus(OrderStatus.AWAITING_DELIVERER);
+				razlika.add(o);
+				}
+			}
+		}
+			
+		
+		for(Order or : delivererOrdersAA(username)) {
+			
+			povratnaLista.add(or);
+		}
+		
+		for(Order o : razlika) {
+			povratnaLista.add(o);
+		}
+		
+	
+		return povratnaLista;
+		
+		
+	}
+	
+	public  Collection<Order> getOrdersModifiedForDeliverer(String username){
+		List<Order> all = new ArrayList<Order>(); 
+		
+		for(Order o : getOrdersWithStatusAD()) {
+			all.add(o);
+		}
+		
+		for(Order or : AADD(username)) {
+			all.add(or);
+		}
+		
+		return all;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 
 }
