@@ -154,6 +154,20 @@ public class UserService {
 				.status(Response.Status.ACCEPTED).entity("Uspjesno deblokiran korisnik!").entity(userDAO.getAllAvailable()).build();
 	}
 	
+	
+	@PUT
+	@Path("/deleteUser/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response deleteUser(@PathParam("username") String username) {
+		
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+		userDAO.deleteUser(username);
+		
+		return Response
+				.status(Response.Status.ACCEPTED).entity("Uspjesno deblokiran korisnik!").entity(userDAO.getAllAvailable()).build();
+	}
+	
 
 	@PUT
 	@Path("/blockUser/{username}")

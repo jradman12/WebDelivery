@@ -67,7 +67,7 @@ Vue.component("admin-users", {
 
                                         <td>{{roleFilter==='CUSTOMER' ? user.type.typeName : user.role}}</td>
                                         <td>{{user.role ==='CUSTOMER' ? user.points : '-'}}</td>
-                                        <td> <button>Obriši</button></td>
+                                        <td> <button @click="deleteUser(user)">Obriši</button></td>
                                    </tr>
                               </tbody>
                          </table>
@@ -159,7 +159,24 @@ Vue.component("admin-users", {
                 this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
             }
             this.currentSort = s;
+        },
+
+        deleteUser : function(user){
+
+            axios
+          .put('rest/users/deleteUser/' + user.username)
+          .then(response=>{
+               this.users = [];
+               response.data.forEach(x => {
+                   this.users.push(x);
+               })
+            });
         }
+              
+
+
+
+        
     },
     computed: {
         filteredUsers: function () {
