@@ -112,9 +112,10 @@ Vue.component("all-orders", {
                                     <td v-else-if="dto.order.status=='AWAITING_DELIVERER'"> Čeka dostavljača </td>
                                     <td v-else-if="dto.order.status=='SHIPPING'"> Nedostavljena </td>
                                     <td v-else-if="dto.order.status=='DELIVERED'"> Dostavljena </td>
+                                    <td v-else-if="dto.order.status=='AWAITING_APPROVING'"> Čeka na odobravanje </td>
                                     <td v-else> Otkazana </td>
-                                    <td><button @click="sendRequest(dto.order)">Pošalji zahtjev</button></td>
-                                    <!-- <td v-else><span>-</span></td>-->
+                                    <td v-if="dto.order.status=='AWAITING_DELIVERER'"><button @click="sendRequest(dto.order)">Pošalji zahtjev</button></td>
+                                    <td v-else><span>-</span></td>
                                     <td><button data-toggle="modal" data-target="#detailsModal"
                                             @click="selectOrder(dto.order)">Detaljnije</button></td>
 
@@ -190,7 +191,7 @@ Vue.component("all-orders", {
 `,
 mounted() {
      axios
-         .get('rest/orders/getAllOrderDTOs')
+         .get('rest/orders/getAllOrdersWithStatusADAA')
          .then(response => (this.dtos = response.data))
  },
 
@@ -216,12 +217,12 @@ mounted() {
 
                     })
                     .then(response => {
-                         this.message = response.data
-                         this.show = false;
-                    
-                    }
+                        this.dtos=[];
+                        response.data.forEach(x => {
+                             this.dtos.push(x);
+                        })
 
-                    );
+                    });
 
 
           },
