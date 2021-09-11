@@ -25,7 +25,7 @@ public class CustomerDAO {
 
 public Map<String, Customer> customers = new HashMap<>();
 
-public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
+public String path = "C:\\Users\\mx\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
 private UserDAO userDAO = new UserDAO("");
 
 

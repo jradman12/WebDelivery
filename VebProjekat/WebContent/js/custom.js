@@ -100,7 +100,7 @@
 
 
     // SMOOTHSCROLL
-    $(function() {
+   /*$(function() {
       $('.custom-navbar a, #home a').on('click', function(event) {
         var $anchor = $(this);
           $('html, body').stop().animate({
@@ -108,7 +108,7 @@
           }, 1000);
             event.preventDefault();
       });
-    });  
+    });  */
 
 
     // WOW ANIMATION

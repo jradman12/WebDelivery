@@ -42,7 +42,7 @@ Vue.component("manager-orders", {
                         <option value="DELIVERED">Dostavljena </option>
                         <option value="CANCELED">Otkazana </option>
                     </select>
-                    <span class="r-span">
+                    <span class="r-span"></span>
 
                     <!-- ----- sort ----- -->
                     <select v-model="sortFilter" @change="sort()" style="width: 160px; ">

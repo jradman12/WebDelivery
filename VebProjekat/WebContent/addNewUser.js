@@ -49,6 +49,13 @@ let newUser = new Vue({
                 .then(response => {
                     this.message = response.data;
                     alert("Uspješno registrovan novi dostavljač!");
+                    document.getElementById('ime').value='';
+                    document.getElementById('prezime').value='';
+                    document.getElementById('datum').value='';
+                    document.getElementById('pol').value='';
+                    document.getElementById('tipUsera').value='';
+                    document.getElementById('korisnickoIme').value='';
+                    document.getElementById('lozinka').value='';
                     window.location.assign(response.data)
                 })
                 .catch(err => {

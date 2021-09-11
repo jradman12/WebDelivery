@@ -16,6 +16,9 @@ Vue.component("home-admin", {
                          <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
                               <h1>Dobrodošli {{loggedInUser.fistName}}! </h1>
                               <h5></h5>
+                             
+                             
+                    
                          </div>
                     </div>
                </div>

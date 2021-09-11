@@ -38,6 +38,11 @@ let newArticle = new Vue({
                     })
                     .then(response => {
                         this.message = response.data;
+                        document.getElementById('ime').value='';
+                        document.getElementById('cijena').value='';
+                        document.getElementById('tip').value='';
+                        document.getElementById('file').value='';
+                        
 						alert(this.message)
                     })
                     .catch(err => {

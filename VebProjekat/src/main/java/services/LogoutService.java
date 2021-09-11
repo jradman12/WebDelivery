@@ -56,7 +56,7 @@ public class LogoutService {
 					
 		}
 		return Response.status(403).type("text/plain")
-				.entity("Ne možete pristupiti ovoj funkcionalnosti!").build();
+				.entity("Ne mozete pristupiti ovoj funkcionalnosti!").build();
 	}
 	
 	

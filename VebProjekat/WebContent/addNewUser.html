@@ -87,7 +87,7 @@
                     <label class="col-md-4 control-label">Tip</label>
                     <div class="col-md-4 selectContainer">
                         <div class="input-group">
-                            <select v-model="newUser.type" style="width: 300px;" class="form-control selectpicker">
+                            <select v-model="newUser.type" style="width: 300px;" id="tipUsera" class="form-control selectpicker" required>
                                 <option value="">Tip korisnika</option>
                                 <option value="MANAGER">Menadžer</option>
                                 <option value="DELIVERER">Dostavljač</option>
@@ -100,8 +100,8 @@
                     <label class="col-md-4 control-label">Korisničko ime</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input v-model="newUser.username" placeholder="Korisničko ime..." class="form-control"
-                                style="width: 300px;" type="text">
+                            <input v-model="newUser.username" id="korisnickoIme" placeholder="Korisničko ime..." class="form-control"
+                                style="width: 300px;" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -110,8 +110,8 @@
                     <label class="col-md-4 control-label">Lozinka</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input v-model="newUser.password" placeholder="Lozinka..." class="form-control"
-                                style="width: 300px;" type="text">
+                            <input v-model="newUser.password" placeholder="Lozinka..." id="lozinka" class="form-control"
+                                style="width: 300px;" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -120,8 +120,8 @@
                     <label class="col-md-4 control-label">Ime</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input v-model="newUser.fistName" placeholder="Ime..." class="form-control"
-                                style="width: 300px;" type="text">
+                            <input v-model="newUser.fistName" id="ime" placeholder="Ime..." class="form-control"
+                                style="width: 300px;" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -130,8 +130,8 @@
                     <label class="col-md-4 control-label">Prezime</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input v-model="newUser.lastName" placeholder="Prezime..." class="form-control"
-                                style="width: 300px;" type="text">
+                            <input v-model="newUser.lastName" id="prezime" placeholder="Prezime..." class="form-control"
+                                style="width: 300px;" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
                     <label class="col-md-4 control-label">Datum rođenja</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input v-model="newUser.dateOfBirth" type="date" class="form-control" style="width: 300px;">
+                            <input v-model="newUser.dateOfBirth" type="date" id="datum" class="form-control" style="width: 300px;" required>
                         </div>
                     </div>
                 </div>
@@ -149,7 +149,7 @@
                     <label class="col-md-4 control-label">Pol</label>
                     <div class="col-md-4 selectContainer">
                         <div class="input-group">
-                            <select v-model="newUser.gender" style="width: 300px;" class="form-control selectpicker">
+                            <select v-model="newUser.gender" style="width: 300px;" id="pol" class="form-control selectpicker" required>
                                 <option value="">Pol</option>
                                 <option value="MALE">Muško</option>
                                 <option value="FEMALE">Žensko</option>

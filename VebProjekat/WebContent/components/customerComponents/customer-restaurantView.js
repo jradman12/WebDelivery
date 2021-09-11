@@ -152,7 +152,7 @@ Vue.component("customer-restaurantView", {
                                     
                                      <div class="form-group">
 
-                                          <select id="selectRating" name="selectionOfGender" v-model="newComment.rating" class="form-control">
+                                          <select id="selectRating" required name="selectionOfGender" v-model="newComment.rating" class="form-control">
 
                                                
                                                <option value="1">1</option>
@@ -165,7 +165,7 @@ Vue.component("customer-restaurantView", {
   
                                      <div class="form-group">
 
-                                          <textarea id="textOfComment" type="text" class="form-control" v-model="newComment.text"
+                                          <textarea id="textOfComment" required type="text" class="form-control" v-model="newComment.text"
 
                                                placeholder="Komentar"></textarea>
                                      </div>

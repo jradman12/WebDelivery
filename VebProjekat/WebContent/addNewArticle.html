@@ -92,7 +92,7 @@
                          <label class="col-md-4 control-label">Naziv</label>
                          <div class="col-md-4 inputGroupContainer">
                               <div class="input-group">
-                                   <input placeholder="Naziv artikla" class="form-control" v-model="newArticle.name" style="width: 300px;"
+                                   <input placeholder="Naziv artikla" id="naziv" class="form-control" v-model="newArticle.name" style="width: 300px;"
                                         type="text" v-model="newRestaurant.name">
                               </div>
                          </div>
@@ -101,18 +101,18 @@
                         <label class="col-md-4 control-label">Cijena</label>
                         <div class="col-md-4 inputGroupContainer">
                              <div class="input-group">
-                                  <input placeholder="Cijena artikla" v-model="newArticle.price" class="form-control" style="width: 300px;"
+                                  <input placeholder="Cijena artikla" id="cijena" v-model="newArticle.price" class="form-control" style="width: 300px;"
                                        type="text" >
                              </div>
                         </div>
                    </div>
 
                     <div class="form-group">
-                         <label class="col-md-4 control-label">Tip</label>
+                         <label class="col-md-4 control-label" >Tip</label>
                          <div class="col-md-4 selectContainer">
                               <div class="input-group">
-                                   <select  name="department"
-                                        style="width: 300px;" class="form-control selectpicker" v-model="newArticle.type">
+                                   <select  name="department" required
+                                        style="width: 300px;" class="form-control selectpicker" id="tip" v-model="newArticle.type">
                                         <option value="">Tip artikla</option>
                                         <option value="FOOD">Hrana</option>
                                         <option value="DRINK">Piće</option>
@@ -128,7 +128,7 @@
                          <div class="col-md-4 inputGroupContainer">
                               <div class="custom-file">
                                    <input type="file" type="file" id="file" ref="file"
-                                        v-on:change="onChangeFileUpload()"  class="custom-file-input"
+                                        v-on:change="onChangeFileUpload()"  required class="custom-file-input"
                                         style="width: 300px;">
                                    
                               </div>
@@ -141,7 +141,7 @@
                         <label class="col-md-4 control-label">Opis artikla</label>
                         <div class="col-md-4 inputGroupContainer">
                              <div class="input-group">
-                                  <input placeholder="Opis artikla" v-model="newArticle.description" class="form-control" type="text" style="width: 300px;">
+                                  <input placeholder="Opis artikla" id="opis"  v-model="newArticle.description" class="form-control" type="text" style="width: 300px;">
                              </div>
                         </div>
                    </div>
@@ -150,7 +150,7 @@
                     <label class="col-md-4 control-label">Količina</label>
                     <div class="col-md-4 inputGroupContainer">
                          <div class="input-group">
-                              <input placeholder="Količina (g/mL)" v-model="newArticle.quantity" class="form-control" type="text" style="width: 300px;">
+                              <input placeholder="Količina (g/mL)" id="kolicina" v-model="newArticle.quantity" class="form-control" type="text" style="width: 300px;">
                          </div>
                     </div>
                       </div>

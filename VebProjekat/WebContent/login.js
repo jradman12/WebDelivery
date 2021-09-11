@@ -19,6 +19,8 @@ let login = new Vue({
 				})
 				.then(response => {
 					this.message = response.data;
+					document.getElementById('pass').value='';
+					document.getElementById('usernamee').value='';
 				
 						window.location.assign(response.data);
 

@@ -28,8 +28,21 @@ let reg = new Vue({
                     })
                     .then(response => {
                         this.message = response.data;
+                        document.getElementById('imeKupca').value='';
+                        document.getElementById('prezimeKupca').value='';
+                        document.getElementById('datumRodjenjaKupca').value='';
+                        document.getElementById('polKupca').value='';
+                        document.getElementById('korisnickoImeKupca').value='';
+                        document.getElementById('lozinkaKupca').value='';
                     })
                     .catch(err => {
+                        this.message = response.data;
+                        document.getElementById('imeKupca').value='';
+                        document.getElementById('prezimeKupca').value='';
+                        document.getElementById('datumRodjenjaKupca').value='';
+                        document.getElementById('polKupca').value='';
+                        document.getElementById('korisnickoImeKupca').value='';
+                        document.getElementById('lozinkaKupca').value='';
                         console.log("There has been an error! Please check this out: ");
                         console.log(err);
                     })
