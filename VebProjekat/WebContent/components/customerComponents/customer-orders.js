@@ -53,6 +53,7 @@ Vue.component("customer-orders", {
                             <td v-else-if="order.status=='AWAITING_DELIVERER'"> Čeka dostavljača </td>
                             <td v-else-if="order.status=='SHIPPING'"> Nedostavljena </td>
                             <td v-else-if="order.status=='DELIVERED'"> Dostavljena </td>
+                            <td v-else-if="order.status=='AWAITING_APPROVING'"> Čeka odobravanje </td>
                             <td v-else> Otkazana </td>
                             <td v-if="order.status=='PENDING'"><button @click="cancelOrder(index)">Otkaži porudžbinu</button></td>
                             <!-- <td v-else><span>-</span></td>-->

@@ -1,2 +1,0 @@
-jelrad;jelrad;Jelena;Radman;FEMALE;12/5/1999;ADMINISTRATOR;false;false
-marija;marki;Marija;Markovic;FEMALE;12/7/1999;CUSTOMER;false;false
