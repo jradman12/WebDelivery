@@ -91,7 +91,7 @@ public class OrderService {
 	@GET
 	@Path("/getAllOrdersWithStatusADAA")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Order> getAllOrdersWithStatusAD(){
+	public Collection<OrderDTO> getAllOrdersWithStatusAD(){
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
 
 		User user = (User) request.getSession().getAttribute("loggedInUser");
@@ -103,7 +103,7 @@ public class OrderService {
 		
 
 		
-		return orderDAO.getOrdersModifiedForDeliverer(user.getUsername());
+		return orderDAO.getOrdersWithRestDetailsDeliverer(user.getUsername());
 
 		
 	}

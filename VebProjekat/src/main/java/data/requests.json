@@ -1,1 +1,1 @@
-{"1":{"id":"1","managerID":"sanja","delivererID":"xoforlife","orderID":"1","restaurantID":"1","status":"APPROVED"},"2":{"id":"2","delivererID":"xoforlife","orderID":"1","restaurantID":"1","status":"WAITING"},"3":{"id":"3","delivererID":"xoforlife","orderID":"3","restaurantID":"1","status":"WAITING"}}
+{"1":{"id":"1","delivererID":"xoforlife","orderID":"1","restaurantID":"1","status":"WAITING"}}

@@ -168,7 +168,7 @@ public class RequestService {
 		orderDAO.changeStatus(OrderStatus.AWAITING_APPROVING, id);
 		
 		requestDAO.addNewRequest(dr);
-		return Response.status(Status.ACCEPTED).entity(orderDAO.getOrdersModifiedForDeliverer(user.getUsername())).build();
+		return Response.status(Status.ACCEPTED).entity(orderDAO.getOrdersWithRestDetailsDeliverer(user.getUsername())).build();
 
 	}
 	

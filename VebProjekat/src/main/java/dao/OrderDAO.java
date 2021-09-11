@@ -233,6 +233,24 @@ public String basePath;
 		return ret;
 	}
 	
+	
+	public Collection<OrderDTO> getOrdersWithRestDetailsDeliverer(String username) {
+		RestaurantDAO rDAO = new RestaurantDAO("");
+		Collection<OrderDTO> ret = new ArrayList<OrderDTO>();
+		for(Order o : getOrdersModifiedForDeliverer(username)) {
+			for(Restaurant r : rDAO.getAllAvailable()) {
+				if(r.getId().equals(o.getRestaurant())) {
+					ret.add(new OrderDTO(o, r.getName(), r.getTypeOfRestaurant()));
+				}
+			}
+		}
+		
+		return ret;
+	}
+	
+	
+	
+	
 
 	
 	public  Collection<Order> delivererOrdersAA(String username){
