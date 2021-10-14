@@ -65,11 +65,8 @@ Vue.component("customer-restaurantView", {
                                     </div>
                                 </div>
 
-                                <div class="row" v-if="productsDTO==null">
-
-                                    <h3>Jelovnik je trenutno prazan! </h3>
-                                </div>
-                                <div class="row" v-else>
+                                
+                                <div class="row" v-if="productsDTO.length!=0">
 
                                     <div class="col-lg-4 col-md-4 col-sm-6" v-for="(productDTO,index) in productsDTO">
                                         <a v-bind:href="productDTO.product.logo" class="fh5co-card-item image-popup">
@@ -90,6 +87,11 @@ Vue.component("customer-restaurantView", {
                                         </div>
                                         </a>
                                     </div>
+                                </div>
+
+                                <div class="row" v-else>
+
+                                    <h3>Jelovnik je trenutno prazan! </h3>
                                 </div>
                             </div>
                         </div>

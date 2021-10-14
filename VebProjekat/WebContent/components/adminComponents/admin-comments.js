@@ -38,7 +38,9 @@ Vue.component("admin-comments", {
                                   <td> {{ dto.restName }} </td>
                                   <td> {{ dto.comment.text }} </td>
                                   <td> {{ dto.comment.rating }} </td>
-                                  <td> {{ dto.comment.approved ? "Odobren" : "Odbijen" }} </td>
+                                  <td v-if="dto.comment.status == 'APPROVED'">Odobren </td>
+                                  <td v-else-if="dto.comment.status == 'REJECTED'">Odobren </td>
+                                  <td v-else>Čeka na odobravanje</td>
                     
                              </tr>
                         </tbody>
