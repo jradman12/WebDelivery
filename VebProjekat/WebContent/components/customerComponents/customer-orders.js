@@ -35,7 +35,6 @@ Vue.component("customer-orders", {
                             <th>Kupac</th>
                             <th>Cijena</th>
                             <th>Status</th>
-                            <th>Opcije</th>
                             <th>O porudžbini</th>
                         </tr>
                     </thead>

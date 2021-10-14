@@ -58,6 +58,7 @@ public class RestaurantDAO {
 	
 	public Collection<Restaurant> getAllAvailable(){
 		Collection<Restaurant> availableUsers = new ArrayList<Restaurant>();
+		loadRestaurants("");
 		for(Restaurant u : restaurants.values()) {
 			if(!u.isDeleted()) 
 				availableUsers.add(u);

@@ -87,6 +87,7 @@ Vue.component("manager-orders", {
                              <td v-else-if="order.status=='AWAITING_DELIVERER'" > Čeka dostavljača </td>
                              <td v-else-if="order.status=='SHIPPING'" > U transportu </td>
                              <td v-else-if="order.status=='DELIVERED'" > Dostavljena </td>
+                             <td v-else-if="order.status=='AWAITING_APPROVING'" > Čeka na odobravanje </td>
                              <td v-else > Otkazana </td>
                              <td v-if="order.status=='PENDING'"><button @click="changeStatusInPreparation(order)">U pripremi</button></td>
                              <td v-else-if="order.status=='IN_PREPARATION'"><button @click="changeStatusInAwaitingDeliverer(order)">Čeka dostavljača</button></td>

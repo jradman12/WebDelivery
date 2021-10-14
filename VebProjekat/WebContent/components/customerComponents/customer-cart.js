@@ -83,7 +83,7 @@ Vue.component("customer-cart", {
                     </div>
                     <div v-else style="text-align: center;">
                         <h3>Vaša korpa je prazna.</h3>
-                        <button>Potražite proizvode</button>
+                        <button><a href="customerDashboard.html#/restaurants">Potražite proizvode</a></button>
                     </div>
                 </div>
             </div>
