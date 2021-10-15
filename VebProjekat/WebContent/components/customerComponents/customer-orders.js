@@ -16,6 +16,12 @@ Vue.component("customer-orders", {
     <section class="r-section" v-if="orders.length!=0">
         <h1>Pregled porudžbina</h1>
 
+
+        
+
+
+
+
         <div class="col-lg-12" style="margin-top: 50px;">
                    
                     <select v-model="statusFilter" style="width: 160px;float:right">
@@ -35,6 +41,7 @@ Vue.component("customer-orders", {
                             <th>Kupac</th>
                             <th>Cijena</th>
                             <th>Status</th>
+                            <th>Mijenjanje statusa</th>
                             <th>O porudžbini</th>
                         </tr>
                     </thead>
@@ -55,7 +62,7 @@ Vue.component("customer-orders", {
                             <td v-else-if="order.status=='AWAITING_APPROVING'"> Čeka odobravanje </td>
                             <td v-else> Otkazana </td>
                             <td v-if="order.status=='PENDING'"><button @click="cancelOrder(index)">Otkaži porudžbinu</button></td>
-                            <!-- <td v-else><span>-</span></td>-->
+                            <td v-else><span>-</span></td>
                             <td><button data-toggle="modal" data-target="#detailsModal"
                                     @click="selectOrder(order)">Detaljnije</button></td>
 

@@ -104,9 +104,9 @@ Vue.component("admin-restaurantView", {
                         <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
                             <h1 class="cursive-font primary-color">Recenzije restorana</h1>
                             <br>
-                            <p>Pogledajte šta su drugi kupci rekli o uslugama ovog restorana.</p>
                         </div>
                     </div>
+                    <div v-if="comments.length!=0">
                     <div class="tbl-header">
                         <table class="r-table" cellpadding="0" cellspacing="0" border="0">
                             <thead>
@@ -129,6 +129,10 @@ Vue.component("admin-restaurantView", {
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    </div>
+                    <div v-else>
+                        <h3>Trenutno nema komentara. </h3>
                     </div>
                 </section>
 

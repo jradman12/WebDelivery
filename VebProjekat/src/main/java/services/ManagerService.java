@@ -18,11 +18,15 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import beans.Customer;
 import beans.Manager;
 import beans.Restaurant;
 import beans.User;
+import dao.CustomerDAO;
 import dao.ManagerDAO;
 import dao.RestaurantDAO;
+import dao.UserDAO;
+import dto.UserDTO;
 import enums.Role;
 
 
@@ -34,6 +38,8 @@ public class ManagerService {
 	@Context
 	ServletContext ctx;
 	
+	@Context
+	HttpServletRequest request;
 	
 	public ManagerService() {
 		
@@ -64,10 +70,34 @@ public class ManagerService {
 		}
 		managerDAO.addNewManager(newManager);
 		
+		UserDAO userDAO = new UserDAO(); //odavdje
+		User user = (User) request.getSession().getAttribute("loggedInUser");
+		userDAO.setBasePath(getDataDirPath());
+		System.out.println("ne znam zasto ne radi");
+		List<UserDTO> dto = new ArrayList<UserDTO>(); 
+		
+		for(User u : userDAO.getAllAvailable()) {
+			if(u.getRole() != Role.CUSTOMER && !(u.getUsername().equals(user.getUsername()))) 
+				dto.add(new UserDTO(u));
+			
+		}
+		CustomerDAO customerDAO = new CustomerDAO();
+		customerDAO.setBasePath(getDataDirPath());
+		
+		for(Customer c : customerDAO.getAllAvailable()) {
+			dto.add(new UserDTO(c));
+		}
+		
+		for(UserDTO ud : dto) {
+			System.out.println(ud.getUsername());
+		}
+		request.getSession().setAttribute("usersDAO",dto); //zakljucno sa ovom linijom je dodato
+		return Response.status(Response.Status.ACCEPTED).entity("adminDashboard.html#/users").build(); 		
+		
 		//since I havent found a better solution for my not updating list of available managers, I do redirecting like this
 		//but this means it redirects logged in admin to this form even after 'basic' user adding
 		//so here we should leave 'adminDashboard.html' redirect but let it happen after I find a way to deal with it on the frontend
-		return Response.status(Response.Status.ACCEPTED).entity("http://localhost:8080/VebProjekat/addNewRest.html").build(); 																						// accepted
+																							// accepted
 	}
 	
 	

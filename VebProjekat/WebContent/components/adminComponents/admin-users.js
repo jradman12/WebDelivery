@@ -115,7 +115,7 @@ Vue.component("admin-users", {
                               </div>
           
                               <div class="r-gap"></div>
-                              <a href="addNewUser.html" class="section-btn">Dodaj novog korisnika</a>
+                              <a href="adminDashboard.html#/adminAddsUser" class="section-btn">Dodaj novog korisnika</a>
           
                          </div>
 

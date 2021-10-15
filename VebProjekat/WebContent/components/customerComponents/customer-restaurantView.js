@@ -91,7 +91,7 @@ Vue.component("customer-restaurantView", {
 
                                 <div class="row" v-else>
 
-                                    <h3>Jelovnik je trenutno prazan! </h3>
+                                    <h3>Jelovnik je trenutno prazan. </h3>
                                 </div>
                             </div>
                         </div>
@@ -105,6 +105,7 @@ Vue.component("customer-restaurantView", {
                                     <p v-if="show">Zadovoljni uslugama restorana?<a href="#writeCommentModal" data-toggle="modal" >Ostavite recenziju</a> i pomozite drugima!</p>
                                 </div>
                             </div>
+                            <div v-if="comments.length!=0">
                             <div class="tbl-header">
                                 <table class="r-table" cellpadding="0" cellspacing="0" border="0">
                                     <thead>
@@ -127,6 +128,10 @@ Vue.component("customer-restaurantView", {
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                            </div>
+                            <div v-else>
+                                <h3>Trenutno nema komentara. </h3>
                             </div>
                         </section>
 

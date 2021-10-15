@@ -223,6 +223,8 @@ public class RestaurantService {
 				
 				List<ProductForCartDTO> retProducts = new ArrayList<ProductForCartDTO>();
 				System.out.println("found equal, made retprods");
+					
+				
 				for(Product p : r.getMenu()) {
 					retProducts.add(new ProductForCartDTO(p));
 				}

@@ -78,11 +78,11 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<UserDTO> getAllUsers(){
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
-		
+		User user = (User) request.getSession().getAttribute("loggedInUser");
 		List<UserDTO> dto = new ArrayList<UserDTO>(); 
 		
 		for(User u : userDAO.getAllAvailable()) {
-			if(u.getRole() != Role.CUSTOMER) 
+			if(u.getRole() != Role.CUSTOMER && !(u.getUsername().equals(user.getUsername()))) 
 				dto.add(new UserDTO(u));
 		}
 		CustomerDAO customerDAO = new CustomerDAO();

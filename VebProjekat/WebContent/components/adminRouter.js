@@ -4,6 +4,7 @@ const AdminsRestaurantView = { template: '<admin-restaurantView></admin-restaura
 const AdminUsers = { template: '<admin-users></admin-users>'}
 const AdminsComments = { template: '<admin-comments></admin-comments>' }
 const AdminsProfile = { template: '<admin-profile></admin-profile>' }
+const AdminAddsNewUser = { template: '<admin-addNewUser></admin-addNewUser>' }
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -13,7 +14,8 @@ const router = new VueRouter({
 		{ path: '/adminsRestaurantView', name: 'admin-restaurantView', component: AdminsRestaurantView },
 		 { path: '/users', name: 'admin-users', component: AdminUsers },
 		 { path: '/adminsComments', name: 'admin-comments', component: AdminsComments },
-         { path: '/myProfile', name: 'admin-profile', component: AdminsProfile }
+         { path: '/myProfile', name: 'admin-profile', component: AdminsProfile },
+         { path: '/adminAddsUser', name: 'admin-profile', component: AdminAddsNewUser }
 	  ]
 });
 
