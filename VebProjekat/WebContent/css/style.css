@@ -951,7 +951,7 @@ Recent Listing
   }
 
   .custom-navbar .navbar-nav.navbar-right li a {
-    padding-right: 12px;
+    padding-right: 5px;
     padding-left: 12px;
   }
 
@@ -981,7 +981,7 @@ Recent Listing
     font-size: 12px;
     font-weight: bold;
     color: black;
-    padding-right: 22px;
+    padding-right: 10px;
     padding-left: 22px;
     text-transform: uppercase;
   }
