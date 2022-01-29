@@ -7,6 +7,7 @@ public class Cart {
 	private List<CartItem> items;
 	private String customerID;
 	private double price;
+	private boolean isDeleted;
 	
 	public Cart() {
 		
@@ -17,6 +18,7 @@ public class Cart {
 		this.items = items;
 		this.customerID = customerID;
 		this.price = price;
+		this.isDeleted = false;
 	}
 
 
@@ -56,7 +58,14 @@ public class Cart {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	
+	public boolean isDeleted() {
+		return this.isDeleted;
+	}
 
+	public void delete() {
+		this.isDeleted = true;
+	}
 	
 	
 	@Override

@@ -59,10 +59,6 @@ public class CartService {
 		return Response.status(Response.Status.BAD_REQUEST).entity("Either cart doesnt exist, or u arent logged in.").build();
 	}
 	
-	// update item amount 
-	
-	// remove from cart
-	
 	@POST
 	@Path("/addCartItem")
 	@Produces(MediaType.APPLICATION_JSON)

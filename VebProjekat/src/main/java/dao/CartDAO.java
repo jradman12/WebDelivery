@@ -49,6 +49,11 @@ public class CartDAO {
 		saveCartsJSON();
 	}
 	
+	public void deleteCart(String username) {
+		if(carts.containsKey(username)) 
+			carts.remove(username);
+	}
+	
 	public void loadCarts(String contextPath) {
 		
 		Gson gs = new Gson();

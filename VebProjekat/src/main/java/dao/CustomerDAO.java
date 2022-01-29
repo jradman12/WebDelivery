@@ -76,6 +76,7 @@ public String basePath;
 	
 	public void deleteCustomer(String userID) {
 		customers.get(userID).setDeleted(true);
+		saveCustomersJSON();
 	}
 	
 	public void loadCustomers(String contextPath) {
@@ -155,7 +156,7 @@ public String basePath;
 		newCustomer.setRole(Role.CUSTOMER);
 		newCustomer.setDeleted(false);
 		newCustomer.setBlocked(false);
-		newCustomer.setType(new CustomerType("Default", 0, 0));
+		newCustomer.setType(new CustomerType("PLATINUM", 0, 0));
 		addCustomer(newCustomer);
 		UserDAO userDAO = new UserDAO();
 		userDAO.setBasePath(basePath);

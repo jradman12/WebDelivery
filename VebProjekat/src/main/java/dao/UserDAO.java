@@ -69,6 +69,7 @@ public String basePath;
 	
 	public void deleteUser(String userID) {
 		users.get(userID).setDeleted(true);
+		saveUsersJson();
 	}
 	
 	public  void loadUsers(String contextPath) {
