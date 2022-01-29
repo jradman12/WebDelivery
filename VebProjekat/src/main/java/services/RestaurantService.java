@@ -177,7 +177,7 @@ public class RestaurantService {
 			if (rest.getId().equals(mDAO.getRestaurantForManager(manager.getUsername()))){
 					r = rest;
 					for (Product prod : rest.getMenu()) {
-						if (prod.getName().equals(product.getName()))
+						if (prod.getName().toUpperCase().equals(product.getName().toUpperCase()))
 							return Response.status(Response.Status.BAD_REQUEST)
 									.entity("There already is a product with that name. Please, try another one.").build();
 					}

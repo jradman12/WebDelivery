@@ -91,7 +91,7 @@ public class RequestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response approveRequest(@PathParam("id") String id) {
 		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
-
+		System.out.println("odobravanje");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
 			return Response.status(403).entity("Ne mozete pristupiti resursu").build();
