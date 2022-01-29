@@ -221,6 +221,12 @@ public class RestaurantDAO {
 				newProduct.setLogo(product.getLogo());
 				newProduct.setPrice(product.getPrice());
 				newProduct.setType(product.getType());
+				if(product.getQuantity() != 0) {
+					
+					newProduct.setQuantity(product.getQuantity());
+				}else {
+					newProduct.setQuantity(0);
+				}
 				r.getMenu().add(newProduct);
 				saveRestaurantsJSON();
 				return;
@@ -244,10 +250,13 @@ public class RestaurantDAO {
 				for(Product p : r.getMenu()) {
 					if(p.getName().equals(updatedProduct.getName())){
 						index = r.getMenu().indexOf(p);
+						System.out.println("Indeks proizvoda je: " + index);
 						if(updatedProduct.getLogo() == null) updatedProduct.setLogo(p.getLogo());
 					}
 				}
 				r.getMenu().set(index, updatedProduct);
+				saveRestaurantsJSON();
+				return;
 			}
 		}
 	}

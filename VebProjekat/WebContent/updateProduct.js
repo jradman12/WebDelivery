@@ -19,10 +19,12 @@ var updateArticle = new Vue({
             console.log('here i am, praying')
             axios
             .put('rest/restaurants/updateProduct/' + this.restID, this.product)
-            .then(response => this.message = response.data)
-            alert(message)
+            .then(response => {this.message = response.data; 
+                                alert(this.message);
+                                setTimeout(function(){ location.href = "managerDashboard.html" }, 1500); }            )
+            
 
-            setTimeout(function(){ location.href = "managerDashboard.html" }, 1500);
+            
 
         }
     }

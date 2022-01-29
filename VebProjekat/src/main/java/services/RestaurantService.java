@@ -184,7 +184,7 @@ public class RestaurantService {
 				}
 			System.out.println("get returns: " + rDAO.restaurants.get(rest.getId()));
 		}
-		
+			System.out.println("Kolicina proizvoda " + product.getQuantity());
 			rDAO.addNewProduct(r.getId(), product);
 			
 			rDAO.saveRestaurantsJSON();
