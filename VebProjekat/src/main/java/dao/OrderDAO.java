@@ -68,6 +68,20 @@ public String basePath;
 		 return os;
 	}
 	
+	public void deleteOrdersForUser(String username) {
+		for(Order o : findAll()) {
+			if (o.getCustomerID().equals(username)) 
+				o.setDeleted(true);
+		}
+		saveOrdersJSON();
+	}
+	
+	public void changeDeliverersOrderStatus(String orderId) {
+		if (orders.containsKey(orderId)) {
+			orders.get(orderId).setStatus(OrderStatus.AWAITING_DELIVERER);
+			saveOrdersJSON();
+		}
+	}
 	
 	public void loadOrders(String contextPath) {
 		
@@ -128,7 +142,11 @@ public String basePath;
 	
 	
 	public void addOrder(Order order) {
-		if (!orders.containsValue(order)) {
+		if ( orders == null) {
+			orders = new HashMap<>();
+			orders.put(order.getId(), order);
+		}
+		else if (!orders.containsValue(order)) {
 			orders.put(order.getId(), order);
 		}
 		
@@ -136,7 +154,10 @@ public String basePath;
 	
 	public void addNewOrder(Order order) {
 		Order newOrder = new Order();
-		newOrder.setId(Integer.toString(orders.size() + 1));
+		if (orders == null )
+			newOrder.setId(Integer.toString(1));
+		else
+			newOrder.setId(Integer.toString(orders.size() + 1));
 		newOrder.setRestaurant(order.getRestaurant());
 		newOrder.setDateAndTime(order.getDateAndTime());
 		newOrder.setCustomerID(order.getCustomerID());

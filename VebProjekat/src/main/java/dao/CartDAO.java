@@ -6,13 +6,16 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Cart;
+import beans.CartItem;
 
 public class CartDAO {
 	
@@ -24,7 +27,6 @@ public class CartDAO {
 	public String fileName = "cart.json";
 	
 	public CartDAO() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public CartDAO(String contextPath) {
@@ -38,6 +40,18 @@ public class CartDAO {
 	
 	public String getPath() {
 		return (this.basePath + "carts.json");
+	}
+	
+	public void addCartForNewUser(String customerUsername) {
+		Cart newCart = new Cart(new ArrayList<CartItem>(), customerUsername, 0.0);
+		carts.put(customerUsername, newCart);
+		
+		saveCartsJSON();
+	}
+	
+	public void deleteCart(String username) {
+		if(carts.containsKey(username)) 
+			carts.remove(username);
 	}
 	
 	public void loadCarts(String contextPath) {

@@ -18,11 +18,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.Customer;
+import beans.Order;
 import beans.User;
 import dao.AdministratorDAO;
+import dao.CartDAO;
 import dao.CustomerDAO;
 import dao.DelivererDAO;
 import dao.ManagerDAO;
+import dao.OrderDAO;
 import dao.UserDAO;
 import dto.UserDTO;
 import enums.Role;
@@ -49,6 +52,26 @@ public class UserService {
 			userDAO.setBasePath(getDataDirPath());
 			ctx.setAttribute("usersDAO", userDAO);
 			
+		}
+		if(ctx.getAttribute("customerDAO") == null) {
+			CustomerDAO customerDAO = new CustomerDAO();
+			customerDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("customerDAO", customerDAO);
+		}
+		if (ctx.getAttribute("cаrtDAO") == null) {
+			CartDAO cаrtDAO = new CartDAO();
+			cаrtDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("cаrtDAO", cаrtDAO);	
+		}
+		if(ctx.getAttribute("orderDAO") == null) {
+			OrderDAO orderDAO = new OrderDAO();
+			orderDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("orderDAO", orderDAO);
+		}
+		if(ctx.getAttribute("delivererDAO") == null) {
+			DelivererDAO delivererDAO = new DelivererDAO();
+			delivererDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("delivererDAO", delivererDAO);
 		}
 	}
 	
@@ -85,9 +108,8 @@ public class UserService {
 			if(u.getRole() != Role.CUSTOMER && !(u.getUsername().equals(user.getUsername()))) 
 				dto.add(new UserDTO(u));
 		}
-		CustomerDAO customerDAO = new CustomerDAO();
-		customerDAO.setBasePath(getDataDirPath());
 		
+		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
 		for(Customer c : customerDAO.getAllAvailable()) {
 			dto.add(new UserDTO(c));
 		}
@@ -173,10 +195,26 @@ public class UserService {
 	public Response deleteUser(@PathParam("username") String username) {
 		
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+		CartDAO cаrtDAO = (CartDAO) ctx.getAttribute("cаrtDAO");
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
+		DelivererDAO delivererDAO = (DelivererDAO) ctx.getAttribute("delivererDAO");
+
 		userDAO.deleteUser(username);
 		
+		User userToDelete = userDAO.users.get(username);
+		if (userToDelete.getRole().equals(Role.CUSTOMER)) {
+			customerDAO.deleteCustomer(username);
+			cаrtDAO.deleteCart(username);
+			orderDAO.deleteOrdersForUser(username);
+		}
+		else if (userToDelete.getRole().equals(Role.DELIVERER))
+			for (Order or : delivererDAO.getDeliverersOrders(username)) {
+				orderDAO.changeDeliverersOrderStatus(or.getId());
+			}
+			//delivererDAO.deleteDeliverer(username);
 		return Response
-				.status(Response.Status.ACCEPTED).entity("Uspjesno deblokiran korisnik!").entity(userDAO.getAllAvailable()).build();
+				.status(Response.Status.ACCEPTED).entity("Uspjesno obrisan korisnik!").entity(userDAO.getAllAvailable()).build();
 	}
 	
 
