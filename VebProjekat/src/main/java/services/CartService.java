@@ -54,11 +54,8 @@ public class CartService {
 	public Response getCart() {
 		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
-		for(Cart cart : cartDAO.carts.values()) {
-			if(cart.getCustomerID().equals(user.getUsername())) {
-				return Response.status(Response.Status.ACCEPTED).entity(cart).build();
-			}
-		}
+		Cart cart = cartDAO.carts.get(user.getUsername());
+		if (cart != null)  return Response.status(Response.Status.ACCEPTED).entity(cart).build();
 		return Response.status(Response.Status.BAD_REQUEST).entity("Either cart doesnt exist, or u arent logged in.").build();
 	}
 	

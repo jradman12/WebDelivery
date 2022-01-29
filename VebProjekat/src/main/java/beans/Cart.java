@@ -59,7 +59,11 @@ public class Cart {
 
 	
 	
-	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "cart's customerID - " + this.customerID;
+	}
 	
 	
 	

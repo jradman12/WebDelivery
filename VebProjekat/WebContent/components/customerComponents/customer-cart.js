@@ -1,12 +1,11 @@
 Vue.component("customer-cart", {
-
   data() {
     return {
       cartItems: [],
       price: 0,
-      customerID: '',
-      customerType: {}
-    }
+      customerID: "",
+      customerType: {},
+    };
   },
   template: ` 
     <div>
@@ -121,17 +120,19 @@ Vue.component("customer-cart", {
   created() {
     axios
       .get("rest/cart/getCart")
-      .then(response => (this.cartItems = response.data.items,
-        this.price = response.data.price,
-        this.customerID = response.data.customerID))
+      .then(
+        (response) => (
+          (this.cartItems = response.data.items),
+          (this.price = response.data.price),
+          (this.customerID = response.data.customerID)
+        )
+      );
   },
 
   mounted() {
-
     axios
       .get("rest/customers/getCustomerType")
-      .then(response => (this.customerType = response.data))
-
+      .then((response) => (this.customerType = response.data));
   },
 
   computed: {
@@ -154,16 +155,15 @@ Vue.component("customer-cart", {
       return subTotal;
     },
     discountPrice: function () {
-      return this.subTotal * this.customerType.discount / 100;
+      return (this.subTotal * this.customerType.discount) / 100;
     },
     totalPrice: function () {
       return this.subTotal - this.discountPrice;
-    }
+    },
   },
 
   methods: {
     updateQuantity: function (index, event) {
-
       var cartItem = this.cartItems[index];
       var value = event.target.value;
       var valueInt = parseInt(value);
@@ -175,8 +175,13 @@ Vue.component("customer-cart", {
       }
       this.$set(this.cartItems, index, cartItem);
       axios
-        .put("rest/cart/updateCartItem/" + this.cartItems[index].product.name, this.cartItems[index])
-        .then(response => alert('successfully updated ' + response.data.product.name))
+        .put(
+          "rest/cart/updateCartItem/" + this.cartItems[index].product.name,
+          this.cartItems[index]
+        )
+        .then((response) =>
+          alert("successfully updated " + response.data.product.name)
+        );
     },
 
     checkQuantity: function (index, event) {
@@ -190,43 +195,54 @@ Vue.component("customer-cart", {
 
     removeItem: function (index) {
       axios
-        .delete("rest/cart/removeCartItem/" + this.cartItems[index].product.name)
-        .then(this.cartItems.splice(index, 1))
+        .delete(
+          "rest/cart/removeCartItem/" + this.cartItems[index].product.name
+        )
+        .then(this.cartItems.splice(index, 1));
     },
 
     checkout: function () {
       // create new order
-
       var i;
-      var restIDs = [ this.cartItems[0].product.restaurantID];
+      var restIDs = [this.cartItems[0].product.restaurantID];
       for (i = 1; i < this.cartItems.length; i++) {
         if (!restIDs.includes(this.cartItems[i].product.restaurantID))
-          restIDs.push(this.cartItems[i].product.restaurantID)
+          restIDs.push(this.cartItems[i].product.restaurantID);
       }
 
-      restIDs.forEach(id => (
+      restIDs.forEach((id) =>
         axios
           .post("rest/orders/createNewOrder", {
-            "customerID": this.customerID,
-            "restaurant": id,
-            "orderedItems": this.cartItems.filter(cartItem => cartItem.product.restaurantID === id),
-            "price": thisPrice => function() {
-              for (var k = 0; k < restIDs.length; k++) {
-                var filteredCI = this.cartItems.filter(cartItem => cartItem.product.restaurantID === id);
-                thisPrice = 0;
-                thisPrice += filteredCI[k].product.price;
-                console.log('this price is ' + thisPrice)
-                return thisPrice;
-              }
-           }
-           })
-          .then(response => (
-            this.cartItems.splice(0, this.cartItems.length),
-            this.price = 0,
-            alert(response.data)
-          ))
-
-          ))
-  }
-  }
+            customerID: this.customerID,
+            restaurant: id,
+            orderedItems: this.cartItems.filter(
+              (cartItem) => cartItem.product.restaurantID === id
+            ),
+            price: (thisPrice) =>
+              function () {
+                for (var k = 0; k < restIDs.length; k++) {
+                  var filteredCI = this.cartItems.filter(
+                    (cartItem) => cartItem.product.restaurantID === id
+                  );
+                  thisPrice = 0;
+                  thisPrice += filteredCI[k].product.price;
+                  console.log("this price is " + thisPrice);
+                  return thisPrice;
+                }
+              },
+          })
+          .then(
+            (response) => (
+              // then remove these items from cart
+              this.cartItems.forEach((ci) =>
+                axios.delete("rest/cart/removeCartItem/" + ci.product.name)
+              ),
+              this.cartItems.splice(0, this.cartItems.length),
+              (this.price = 0),
+              alert(response.data)
+            )
+          )
+      );
+    },
+  },
 });
