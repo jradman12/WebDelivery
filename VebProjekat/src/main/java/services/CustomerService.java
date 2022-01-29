@@ -55,9 +55,8 @@ public class CustomerService {
 			System.out.println(" c is not null goddamit");
 			System.out.println(" c type " + c.getType().getTypeName());
 			return Response.status(Response.Status.ACCEPTED).entity(c.getType()).build();
-		} else {
-			return Response.status(Response.Status.BAD_REQUEST).entity("Either cart doesnt exist, or u arent logged in.").build();
-		}
+		} 
+	return Response.status(Response.Status.BAD_REQUEST).entity("Either cart doesnt exist, or u arent logged in.").build();
 
 		/*for(Customer c : customerDAO.customers.values()) {
 			if(c.getUsername().equals(user.getUsername())) {
