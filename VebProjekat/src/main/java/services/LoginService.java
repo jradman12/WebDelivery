@@ -49,10 +49,18 @@ public class LoginService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response login(User user, @Context HttpServletRequest request) {
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+		
+		if (!userDAO.users.containsKey(user.getUsername())) 
+			return Response.status(400).entity("Korisnik sa ovim korisničkim imenom ne postoji.").build(); 
+		
 		User loggedUser = userDAO.find(user.getUsername(), user.getPassword());
-		if (loggedUser == null) {
-			return Response.status(400).entity("Invalid username and/or password").build();
-		}else if(loggedUser.isBlocked()) return Response.status(403).entity("Prijava na sistem nije moguća jer je vaš nalog blokiran.").build();
+		if (loggedUser == null)
+			return Response.status(400).entity("Neispravna lozinka. Molimo pokušajte ponovo.").build();
+		else if(loggedUser.isBlocked()) 
+			return Response.status(403).entity("Prijava na sistem nije moguća jer je vaš nalog blokiran.").build();
+		else if(loggedUser.isDeleted())
+			return Response.status(403).entity("Vaš nalog je uklonjen. Molimo kontaktirajte administratora za više informacija.").build();
+		
 		request.getSession().setAttribute("loggedInUser", loggedUser);
 		System.out.println(loggedUser.getFistName() + " is currently logged in.");
 		

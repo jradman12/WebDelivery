@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Customer;
+import beans.CustomerType;
 import beans.User;
 import enums.Role;
 
@@ -75,6 +76,7 @@ public String basePath;
 	
 	public void deleteCustomer(String userID) {
 		customers.get(userID).setDeleted(true);
+		saveCustomersJSON();
 	}
 	
 	public void loadCustomers(String contextPath) {
@@ -154,10 +156,14 @@ public String basePath;
 		newCustomer.setRole(Role.CUSTOMER);
 		newCustomer.setDeleted(false);
 		newCustomer.setBlocked(false);
+		newCustomer.setType(new CustomerType("PLATINUM", 0, 0));
 		addCustomer(newCustomer);
 		UserDAO userDAO = new UserDAO();
 		userDAO.setBasePath(basePath);
 		userDAO.addNewUser(newUser);
+		CartDAO cartDAO = new CartDAO();
+		cartDAO.setBasePath(basePath);
+		cartDAO.addCartForNewUser(newCustomer.getUsername());
 		saveCustomersJSON();
 	}
 	

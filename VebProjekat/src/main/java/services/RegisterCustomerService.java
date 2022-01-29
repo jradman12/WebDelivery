@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.Customer;
+import dao.CartDAO;
 import dao.CustomerDAO;
 
 
@@ -34,7 +35,12 @@ public class RegisterCustomerService {
 		if (ctx.getAttribute("customerDAO") == null) {
 			CustomerDAO customerDAO = new CustomerDAO();
 			customerDAO.setBasePath(getDataDirPath());
-			ctx.setAttribute("customerDAO", customerDAO);
+			ctx.setAttribute("customerDAO", customerDAO);	
+		}
+		if (ctx.getAttribute("cаrtDAO") == null) {
+			CartDAO cаrtDAO = new CartDAO();
+			cаrtDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("cаrtDAO", cаrtDAO);	
 		}
 	}
 	

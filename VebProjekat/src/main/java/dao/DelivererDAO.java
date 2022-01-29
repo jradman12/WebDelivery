@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import beans.Deliverer;
+import beans.Order;
 import beans.User;
 import enums.Role;
 
@@ -45,6 +47,11 @@ public String basePath;
 		return (this.basePath + "deliverers.json");
 	}
 	
+	public List<Order> getDeliverersOrders(String username) {
+		if(deliverers.containsKey(username))
+			return deliverers.get(username).getOrders();
+		return null;
+	}
 	
 	public Deliverer find(String username, String password) {
 		if (!deliverers.containsKey(username)) {
@@ -68,6 +75,7 @@ public String basePath;
 	
 	public void deleteDeliverer(String userID) {
 		deliverers.get(userID).setDeleted(true);
+		saveDeliverersJSON();
 	}
 	
 	public Collection<Deliverer> findAll() {
