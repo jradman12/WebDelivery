@@ -21,6 +21,7 @@ import beans.Cart;
 import beans.CartItem;
 import beans.User;
 import dao.CartDAO;
+import jdk.internal.misc.FileSystemOption;
 
 @Path("/cart")
 public class CartService {
@@ -69,34 +70,25 @@ public class CartService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addCartItem(CartItem newItem) {
 		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
-    	//System.out.println("in addCartItem, here attribute cartDAO is null? " + (ctx.getAttribute("cartDAO") == null));
-
 		User user = (User) request.getSession().getAttribute("loggedInUser");
+		Cart cart = cartDAO.carts.get(user.getUsername());
 		
-    	//System.out.println("in addCartItem, user thats logged in is " + user.getFistName());
-
-		for(Cart cart : cartDAO.carts.values()) {
-			//System.out.println("in for, cart>> customerID is " + cart.getCustomerID() );
-			if(cart.getCustomerID().equals(user.getUsername())) { 
-				
-				//when we find the cart, we gotta check if this product is already there
-				if(!cart.ciAlreadyExists(newItem.getProduct().getName())){
-					cart.getItems().add(newItem);  // NOT: just add the new one
-				}else {
-					for(CartItem ci : cart.getItems()) { // IS THERE: find it and change only its amount
-						if(ci.getProduct().getName().equals(newItem.getProduct().getName())) {
-							ci.setAmount(ci.getAmount() + newItem.getAmount()); 
-						}
+		if (cart != null) {
+			if(!cart.ciAlreadyExists(newItem.getProduct().getName())){
+				cart.getItems().add(newItem);  // NOT: just add the new one
+			}else {
+				for(CartItem ci : cart.getItems()) { // IS THERE: find it and change only its amount
+					if(ci.getProduct().getName().equals(newItem.getProduct().getName())) {
+						ci.setAmount(ci.getAmount() + newItem.getAmount()); 
 					}
 				}
-				cart.setPrice(cart.getPrice() + newItem.getProduct().getPrice()); // TODO: check if this works 
-				cartDAO.saveCartsJSON();
-				return Response.status(Response.Status.ACCEPTED).entity(newItem).build();
-
 			}
+			cart.setPrice(cart.getPrice() + newItem.getProduct().getPrice() * newItem.getAmount()); // TODO: check if this works 
+			cartDAO.saveCartsJSON();
+			return Response.status(Response.Status.ACCEPTED).entity(newItem).build();
 		}
 		
-		return Response.status(Response.Status.NOT_FOUND).entity("We are sorry, but this action cant be done!").build();
+		return Response.status(Response.Status.NOT_FOUND).entity("We are sorry, but this action cant be done! Your cart is nowhere to be found!!!").build();
 	}
 	
 	@DELETE
@@ -106,19 +98,18 @@ public class CartService {
 		System.out.println("in removeCart, here product name we got is " + productName);
 		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
-		for(Cart cart : cartDAO.carts.values()) {
-			if(cart.getCustomerID().equals(user.getUsername())) {
-				CartItem ciToRemove = null;
-				for(CartItem ci : cart.getItems()) {
-					if(ci.getProduct().getName().equals(productName)) {
-						ciToRemove = ci;
-					}
+		Cart cart = cartDAO.carts.get(user.getUsername());
+		if (cart != null) {
+			CartItem ciToRemove = null;
+			for(CartItem ci : cart.getItems()) {
+				if(ci.getProduct().getName().equals(productName)) {
+					ciToRemove = ci;
 				}
-				if(ciToRemove != null) {
-					cart.setPrice(cart.getPrice() - ciToRemove.getProduct().getPrice() * ciToRemove.getAmount());
-					cart.getItems().remove(ciToRemove);
-					cartDAO.saveCartsJSON();
-				}
+			}
+			if(ciToRemove != null) {
+				cart.setPrice(cart.getPrice() - ciToRemove.getProduct().getPrice() * ciToRemove.getAmount());
+				cart.getItems().remove(ciToRemove);
+				cartDAO.saveCartsJSON();
 			}
 		}
 	}
@@ -131,25 +122,24 @@ public class CartService {
 		System.out.println("in updateCartItem, here product name we got is " + productName);
 		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
-		for(Cart cart : cartDAO.carts.values()) {
-			if(cart.getCustomerID().equals(user.getUsername())) {
-				CartItem ciToUpdate = null;
-				for(CartItem ci : cart.getItems()) {
-					if(ci.getProduct().getName().equals(productName)) {
-						ciToUpdate = ci;
-					}
+		Cart cart = cartDAO.carts.get(user.getUsername());
+		if (cart != null) {
+			CartItem ciToUpdate = null;
+			for(CartItem ci : cart.getItems()) {
+				if(ci.getProduct().getName().equals(productName)) {
+					ciToUpdate = ci;
 				}
-				if(ciToUpdate != null) {
-					cart.setPrice(cart.getPrice() - ciToUpdate.getProduct().getPrice() * ciToUpdate.getAmount());
-					cart.getItems().get(cart.getItems().indexOf(ciToUpdate)).setAmount(passedCartItem.getAmount());
-					cart.setPrice(cart.getPrice() + ciToUpdate.getProduct().getPrice() * ciToUpdate.getAmount());
-
-					cartDAO.saveCartsJSON();
-					//cart.getItempassedCartItem.getAmount()s().set(cart.getItems().indexOf(ciToUpdate), passedCartItem);
-					return Response.status(Response.Status.ACCEPTED).entity(passedCartItem).build();
-				}
-				return Response.status(Response.Status.BAD_REQUEST).entity("this cart item doesnt seem to exist here..").build();
 			}
+			if(ciToUpdate != null) {
+				cart.setPrice(cart.getPrice() - ciToUpdate.getProduct().getPrice() * ciToUpdate.getAmount());
+				cart.getItems().get(cart.getItems().indexOf(ciToUpdate)).setAmount(passedCartItem.getAmount());
+				cart.setPrice(cart.getPrice() + ciToUpdate.getProduct().getPrice() * ciToUpdate.getAmount());
+
+				cartDAO.saveCartsJSON();
+				//cart.getItempassedCartItem.getAmount()s().set(cart.getItems().indexOf(ciToUpdate), passedCartItem);
+				return Response.status(Response.Status.ACCEPTED).entity(passedCartItem).build();
+			}
+			return Response.status(Response.Status.BAD_REQUEST).entity("this cart item doesnt seem to exist here..").build();
 		}
 		return Response.status(Response.Status.BAD_REQUEST).entity("couldnt do the update...").build();
 

@@ -22,7 +22,7 @@ public class Cart {
 
 	public boolean  ciAlreadyExists(String productName) {
 		for(CartItem ci : items) {
-			if(ci.getProduct().getName().equals(productName))
+			if(ci != null && ci.getProduct().getName().equals(productName))
 				return true;
 		}
 		return false;
