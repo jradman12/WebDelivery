@@ -191,6 +191,7 @@ public String basePath;
 	
 	public  Boolean approve(String requestId,String managerId) {
 		OrderDAO orderDAO = new OrderDAO();
+		orderDAO.setBasePath(basePath);
 		for (DeliverRequest d : requests.values()) {
 			if (d.getId().equals(requestId)) {
 				d.setStatus(RequestStatus.APPROVED);

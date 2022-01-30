@@ -192,7 +192,6 @@ public String basePath;
 	}
 	
 	public  boolean changeStatus(OrderStatus status,String id) {
-		loadOrders("");
 		System.out.println("mijenjanje statusa porudzbine");
 		for(Order o : orders.values()) {
 			if(o.getId().equals(id)) {

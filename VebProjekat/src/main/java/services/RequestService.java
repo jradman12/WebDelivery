@@ -53,6 +53,12 @@ public class RequestService {
 			requestDAO.setBasePath(getDataDirPath());
 			ctx.setAttribute("requestDAO", requestDAO);
 		}
+		
+		if (ctx.getAttribute("orderDAO") == null) {
+			OrderDAO orderDAO = new OrderDAO();
+			orderDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("orderDAO", orderDAO);
+		}
 	}
 	
 	public String getDataDirPath() {
@@ -91,6 +97,7 @@ public class RequestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response approveRequest(@PathParam("id") String id) {
 		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
 		System.out.println("odobravanje");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
