@@ -164,7 +164,7 @@ public String basePath;
 		addManager(newManager);
 		UserDAO userDAO = new UserDAO();
 		userDAO.setBasePath(basePath);
-		userDAO.addNewUser(newUser);
+		userDAO.addUser(newUser);
 		saveManagersJSON();
 	}
 	

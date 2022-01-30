@@ -165,7 +165,7 @@ public String basePath;
 		addDeliverer(newDeliverer);
 		UserDAO userDAO = new UserDAO();
 		userDAO.setBasePath(basePath);
-		userDAO.addNewUser(newUser);
+		userDAO.addUser(newUser);
 		saveDeliverersJSON();
 	}
 	

@@ -132,20 +132,6 @@ public String basePath;
 		if (!users.containsValue(user)) {
 			users.put(user.getUsername(), user);
 		}
-		
-	}
-	
-	public void addNewUser(User user) {
-		User newUser = new User();
-		newUser.setFistName(user.getFistName());
-		newUser.setLastName(user.getLastName());
-		newUser.setUsername(user.getUsername());
-		newUser.setPassword(user.getPassword());
-		newUser.setDateOfBirth(user.getDateOfBirth());
-		newUser.setGender(user.getGender());
-		newUser.setRole(user.getRole());
-		newUser.setBlocked(user.isBlocked());
-		addUser(newUser);
 		saveUsersJson();
 	}
 	

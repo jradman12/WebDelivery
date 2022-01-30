@@ -16,8 +16,8 @@ public class User {
 	private Gender gender;
 	private Date dateOfBirth;
 	private Role role;
-	private boolean isDeleted;
-	private boolean isBlocked;
+	private boolean isDeleted = false;
+	private boolean isBlocked = false;
 	
 	
 	public User() {

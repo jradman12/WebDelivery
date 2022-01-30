@@ -141,32 +141,8 @@ public String basePath;
 		if (!customers.containsValue(customer)) {
 			customers.put(customer.getUsername(), customer);
 		}
-		
-	}
-	
-	public void addNewCustomer(Customer customer) {
-		Customer newCustomer = new Customer();
-		User newUser = new User(customer.getUsername(),customer.getPassword(),customer.getFistName(),customer.getLastName(),customer.getGender(),customer.getDateOfBirth(),Role.CUSTOMER,false,false);
-		newCustomer.setFistName(customer.getFistName());
-		newCustomer.setLastName(customer.getLastName());
-		newCustomer.setUsername(customer.getUsername());
-		newCustomer.setPassword(customer.getPassword());
-		newCustomer.setDateOfBirth(customer.getDateOfBirth());
-		newCustomer.setGender(customer.getGender());
-		newCustomer.setRole(Role.CUSTOMER);
-		newCustomer.setDeleted(false);
-		newCustomer.setBlocked(false);
-		newCustomer.setType(new CustomerType("PLATINUM", 0, 0));
-		addCustomer(newCustomer);
-		UserDAO userDAO = new UserDAO();
-		userDAO.setBasePath(basePath);
-		userDAO.addNewUser(newUser);
-		CartDAO cartDAO = new CartDAO();
-		cartDAO.setBasePath(basePath);
-		cartDAO.addCartForNewUser(newCustomer.getUsername());
 		saveCustomersJSON();
 	}
-	
 	
 	public static Date parseDate(String date) {
 	     try {

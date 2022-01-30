@@ -15,6 +15,8 @@ import javax.ws.rs.core.Response;
 import beans.Customer;
 import dao.CartDAO;
 import dao.CustomerDAO;
+import dao.UserDAO;
+import enums.Role;
 
 
 @Path("/registerService")
@@ -32,16 +34,22 @@ public class RegisterCustomerService {
 	public void init() {
 		// Ovaj objekat se instancira vi�e puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
+		if (ctx.getAttribute("usersDAO") == null) {
+			UserDAO usersDAO = new UserDAO();
+			usersDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("usersDAO", usersDAO);	
+		}
 		if (ctx.getAttribute("customerDAO") == null) {
 			CustomerDAO customerDAO = new CustomerDAO();
 			customerDAO.setBasePath(getDataDirPath());
 			ctx.setAttribute("customerDAO", customerDAO);	
 		}
-		if (ctx.getAttribute("cаrtDAO") == null) {
-			CartDAO cаrtDAO = new CartDAO();
-			cаrtDAO.setBasePath(getDataDirPath());
-			ctx.setAttribute("cаrtDAO", cаrtDAO);	
+		if (ctx.getAttribute("cartDAO") == null) {
+			CartDAO cartDAO = new CartDAO();
+	    	cartDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("cartDAO", cartDAO);	
 		}
+		
 	}
 	
 	public String getDataDirPath() {
@@ -54,14 +62,19 @@ public class RegisterCustomerService {
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registration(Customer customer) {
-		System.out.println("Customer object Ive recieved is : " + customer);
 		CustomerDAO customers = (CustomerDAO) ctx.getAttribute("customerDAO");
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
 
 		if (customers.getCustomerByUsername(customer.getUsername()) != null) {
 			return Response.status(Response.Status.BAD_REQUEST)
 					.entity("We have alredy user with same username. Please try another one").build();
 		}
-		customers.addNewCustomer(customer);
+		customer.setRole(Role.CUSTOMER);
+		
+		userDAO.addUser(customer);
+		customers.addCustomer(customer);
+		cartDAO.addCartForNewUser(customer.getUsername());
 
 		return Response.status(Response.Status.ACCEPTED).build(); 																						// accepted
 	}
