@@ -68,7 +68,7 @@ public class RegisterCustomerService {
 
 		if (customerDAO.getCustomerByUsername(customer.getUsername()) != null) {
 			return Response.status(Response.Status.BAD_REQUEST)
-					.entity("We have alredy user with same username. Please try another one").build();
+					.entity("We have alredy user with same username. Please try another one!").build();
 		}
 		customer.setRole(Role.CUSTOMER);
 		

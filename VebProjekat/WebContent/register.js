@@ -1,61 +1,58 @@
+toastr.options = {
+  closeButton: false,
+  debug: false,
+  newestOnTop: false,
+  progressBar: false,
+  positionClass: "toast-top-right",
+  preventDuplicates: true,
+  onclick: null,
+  showDuration: "300",
+  hideDuration: "1000",
+  timeOut: "3000",
+  extendedTimeOut: "1000",
+  showEasing: "linear",
+  hideEasing: "linear",
+  showMethod: "fadeIn",
+  hideMethod: "fadeOut",
+};
 let reg = new Vue({
-	
-	el: "#burn",
-	data: {
-		 newUser: {},
-         errors: [],
-         message: null,
-         rePassword: ''
-	},
-	methods: {
-		checkRegistration: function (event) {
-            event.preventDefault();
-			
-			console.log(this.newUser.fistName)
-			
-            this.errors = [];
-            
-            if (!this.errors.length) {
-                axios
-                    .post('rest/registration', {
-                   
-                                 "fistName": this.newUser.fistName,
-                                 "lastName" : this.newUser.lastName,
-                                 "dateOfBirth" : this.newUser.dateOfBirth,
-								 "gender" : this.newUser.gender,
-								 "username": this.newUser.username, 
-                                 "password" : this.newUser.password
-                    })
-                    .then(response => {
-                        this.message = response.data;
-                        document.getElementById('imeKupca').value='';
-                        document.getElementById('prezimeKupca').value='';
-                        document.getElementById('datumRodjenjaKupca').value='';
-                        document.getElementById('polKupca').value='';
-                        document.getElementById('korisnickoImeKupca').value='';
-                        document.getElementById('lozinkaKupca').value='';
-                    })
-                    .catch(err => {
-                        
-                        document.getElementById('imeKupca').value='';
-                        document.getElementById('prezimeKupca').value='';
-                        document.getElementById('datumRodjenjaKupca').value='';
-                        document.getElementById('polKupca').value='';
-                        document.getElementById('korisnickoImeKupca').value='';
-                        document.getElementById('lozinkaKupca').value='';
-                        this.message = response.data;
-                        console.log("There has been an error! Please check this out: ");
-                        console.log(err);
-                    })
-                return true;
-            }
-			this.errors.forEach(element => {
-                console.log(element)
-            });
-        }
+  el: "#burn",
+  data: {
+    newUser: {},
+    errors: [],
+    message: null,
+    rePassword: "",
+  },
+  methods: {
+    checkRegistration: function (event) {
+      event.preventDefault();
 
+      console.log(this.newUser.fistName);
+
+      axios
+        .post("rest/registration", {
+          fistName: this.newUser.fistName,
+          lastName: this.newUser.lastName,
+          dateOfBirth: this.newUser.dateOfBirth,
+          gender: this.newUser.gender,
+          username: this.newUser.username,
+          password: this.newUser.password,
+        })
+        .then((response) => {
+          document.getElementById("imeKupca").value = "";
+          document.getElementById("prezimeKupca").value = "";
+          document.getElementById("datumRodjenjaKupca").value = "";
+          document.getElementById("polKupca").value = "";
+          document.getElementById("korisnickoImeKupca").value = "";
+          document.getElementById("lozinkaKupca").value = "";
+        })
+        .catch((err) => {
+          toastr["error"](
+            "Korisnik sa navedenim korisničkim imenom već postoji. Molimo pokušajte ponovo."
+          );
+        });
     },
-	
+  },
 });
 
 /*$(document).ready(function() {
