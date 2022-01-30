@@ -43,6 +43,11 @@ public class DelivererService {
 			delivererDAO.setBasePath(getDataDirPath());
 			ctx.setAttribute("delivererDAO",delivererDAO);
 		}
+		if (ctx.getAttribute("usersDAO") == null) {
+			UserDAO usersDAO = new UserDAO();
+			usersDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("usersDAO", usersDAO);	
+		}
 	}
 	
 	public String getDataDirPath() {
@@ -54,35 +59,19 @@ public class DelivererService {
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registration(Deliverer newDeliverer) {
-		System.out.println("Manager object Ive recieved is : " + newDeliverer);
+		System.out.println("Deliverer object Ive recieved is : " + newDeliverer);
+		
 		DelivererDAO delivererDAO = (DelivererDAO) ctx.getAttribute("delivererDAO");
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+
 		if (delivererDAO.getDelivererByUsername(newDeliverer.getUsername()) != null) {
 			return Response.status(Response.Status.BAD_REQUEST)
 					.entity("We already have deliverer with the same username. Please try another one").build();
 		}
-		delivererDAO.addNewDeliverer(newDeliverer);
-		UserDAO userDAO = new UserDAO(); //odavdje
-		User user = (User) request.getSession().getAttribute("loggedInUser");
-		userDAO.setBasePath(getDataDirPath());
-		System.out.println("ne znam zasto ne radi");
-		List<UserDTO> dto = new ArrayList<UserDTO>(); 
+		newDeliverer.setRole(Role.DELIVERER);
+		userDAO.addUser(newDeliverer);
+		delivererDAO.addDeliverer(newDeliverer);
 		
-		for(User u : userDAO.getAllAvailable()) {
-			if(u.getRole() != Role.CUSTOMER && !(u.getUsername().equals(user.getUsername()))) 
-				dto.add(new UserDTO(u));
-			
-		}
-		CustomerDAO customerDAO = new CustomerDAO();
-		customerDAO.setBasePath(getDataDirPath());
-		
-		for(Customer c : customerDAO.getAllAvailable()) {
-			dto.add(new UserDTO(c));
-		}
-		
-		for(UserDTO ud : dto) {
-			System.out.println(ud.getUsername());
-		}
-		request.getSession().setAttribute("usersDAO",dto); //zakljucno sa ovom linijom je dodato
 		return Response.status(Response.Status.ACCEPTED).entity("adminDashboard.html#/users").build(); 																							// accepted
 	}
 }

@@ -17,7 +17,7 @@ let reg = new Vue({
             
             if (!this.errors.length) {
                 axios
-                    .post('rest/registerService/registration', {
+                    .post('rest/registration', {
                    
                                  "fistName": this.newUser.fistName,
                                  "lastName" : this.newUser.lastName,
@@ -70,7 +70,7 @@ let reg = new Vue({
         
 		$('#error').hide();
 		$.post({
-			url: 'rest/registerService/registration',
+			url: 'rest/registration',
 			data: JSON.stringify({
                                  username: username, 
                                  password: password,

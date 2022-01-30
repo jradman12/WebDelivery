@@ -52,6 +52,11 @@ public class ManagerService {
 			managerDAO.setBasePath(getDataDirPath());
 			ctx.setAttribute("managerDAO", managerDAO);
 		}
+		if (ctx.getAttribute("usersDAO") == null) {
+			UserDAO usersDAO = new UserDAO();
+			usersDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("usersDAO", usersDAO);	
+		}
 	}
 	
 	public String getDataDirPath() {
@@ -63,41 +68,19 @@ public class ManagerService {
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registration(Manager newManager) {
+		
 		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+
 		if (managerDAO.getManagerByUsername(newManager.getUsername()) != null) {
 			return Response.status(Response.Status.BAD_REQUEST)
 					.entity("We already have manager with the same username. Please try another one").build();
 		}
-		managerDAO.addNewManager(newManager);
+		newManager.setRole(Role.MANAGER);
+		userDAO.addUser(newManager);
+		managerDAO.addManager(newManager);
 		
-		UserDAO userDAO = new UserDAO(); //odavdje
-		User user = (User) request.getSession().getAttribute("loggedInUser");
-		userDAO.setBasePath(getDataDirPath());
-		System.out.println("ne znam zasto ne radi");
-		List<UserDTO> dto = new ArrayList<UserDTO>(); 
-		
-		for(User u : userDAO.getAllAvailable()) {
-			if(u.getRole() != Role.CUSTOMER && !(u.getUsername().equals(user.getUsername()))) 
-				dto.add(new UserDTO(u));
-			
-		}
-		CustomerDAO customerDAO = new CustomerDAO();
-		customerDAO.setBasePath(getDataDirPath());
-		
-		for(Customer c : customerDAO.getAllAvailable()) {
-			dto.add(new UserDTO(c));
-		}
-		
-		for(UserDTO ud : dto) {
-			System.out.println(ud.getUsername());
-		}
-		request.getSession().setAttribute("usersDAO",dto); //zakljucno sa ovom linijom je dodato
 		return Response.status(Response.Status.ACCEPTED).entity("adminDashboard.html#/users").build(); 		
-		
-		//since I havent found a better solution for my not updating list of available managers, I do redirecting like this
-		//but this means it redirects logged in admin to this form even after 'basic' user adding
-		//so here we should leave 'adminDashboard.html' redirect but let it happen after I find a way to deal with it on the frontend
-																							// accepted
 	}
 	
 	

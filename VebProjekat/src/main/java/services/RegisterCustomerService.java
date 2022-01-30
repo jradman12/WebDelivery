@@ -19,7 +19,7 @@ import dao.UserDAO;
 import enums.Role;
 
 
-@Path("/registerService")
+@Path("")
 public class RegisterCustomerService {
 	
 	@Context
@@ -62,18 +62,18 @@ public class RegisterCustomerService {
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registration(Customer customer) {
-		CustomerDAO customers = (CustomerDAO) ctx.getAttribute("customerDAO");
+		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
 		CartDAO cartDAO = (CartDAO) ctx.getAttribute("cartDAO");
 
-		if (customers.getCustomerByUsername(customer.getUsername()) != null) {
+		if (customerDAO.getCustomerByUsername(customer.getUsername()) != null) {
 			return Response.status(Response.Status.BAD_REQUEST)
 					.entity("We have alredy user with same username. Please try another one").build();
 		}
 		customer.setRole(Role.CUSTOMER);
 		
 		userDAO.addUser(customer);
-		customers.addCustomer(customer);
+		customerDAO.addCustomer(customer);
 		cartDAO.addCartForNewUser(customer.getUsername());
 
 		return Response.status(Response.Status.ACCEPTED).build(); 																						// accepted
