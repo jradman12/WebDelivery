@@ -257,7 +257,8 @@ public String basePath;
 	
 	
 	public Collection<OrderDTO> getOrdersWithRestDetailsDeliverer(String username) {
-		RestaurantDAO rDAO = new RestaurantDAO("");
+		RestaurantDAO rDAO = new RestaurantDAO();
+		rDAO.setBasePath(basePath);
 		Collection<OrderDTO> ret = new ArrayList<OrderDTO>();
 		for(Order o : getOrdersModifiedForDeliverer(username)) {
 			for(Restaurant r : rDAO.getAllAvailable()) {
