@@ -3,8 +3,8 @@ toastr.options = {
   debug: false,
   newestOnTop: false,
   progressBar: false,
-  positionClass: "toast-top-left",
-  preventDuplicates: false,
+  positionClass: "toast-top-right",
+  preventDuplicates: true,
   onclick: null,
   showDuration: "300",
   hideDuration: "1000",
@@ -197,9 +197,13 @@ Vue.component("customer-cart", {
           "rest/cart/updateCartItem/" + this.cartItems[index].product.name,
           this.cartItems[index]
         )
-        .then((response) =>
-          alert("successfully updated " + response.data.product.name)
-        );
+        .then((response) => {
+          // toastr["success"](
+          //   "Količina proizvoda " +
+          //     response.data.product.name +
+          //     " uspješno izmijenjena."
+          // )
+        });
     },
 
     checkQuantity: function (index, event) {
@@ -251,14 +255,12 @@ Vue.component("customer-cart", {
           })
           .then(
             (response) => (
-              // then remove these items from cart
               this.cartItems.forEach((ci) =>
                 axios.delete("rest/cart/removeCartItem/" + ci.product.name)
               ),
               this.cartItems.splice(0, this.cartItems.length),
               (this.price = 0),
               toastr["success"](response.data)
-              //alert(response.data)
             )
           )
       );

@@ -13,7 +13,7 @@ public class Order {
 	private Date dateAndTime;
 	private double price;
 	private String customerID;
-	private OrderStatus status;
+	private OrderStatus status = OrderStatus.PENDING;
 	private boolean isDeleted;
 	
 	public Order() {

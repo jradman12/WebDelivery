@@ -185,6 +185,7 @@ Vue.component("admin-users", {
 
     deleteUser: function (user) {
       axios.put("rest/users/deleteUser/" + user.username).then((response) => {
+        toastr["success"]("Korisnik " + user.username + " uspješno obrisan.");
         this.users = [];
         response.data.forEach((x) => {
           this.users.push(x);

@@ -212,8 +212,7 @@ Vue.component("admin-addNewRestaurant", {
             window.location.assign("adminDashboard.html#/adminsRestaurants");
           })
           .catch((err) => {
-            console.log("There has been an error! Please check this out: ");
-            console.log(err);
+            toastr["error"]("Trenutno nije moguće dodati restoran.");
           });
         return true;
       }
