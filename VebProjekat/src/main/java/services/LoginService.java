@@ -55,11 +55,11 @@ public class LoginService {
 		
 		User loggedUser = userDAO.find(user.getUsername(), user.getPassword());
 		if (loggedUser == null)
-			return Response.status(400).entity("Neispravna lozinka. Molimo pokušajte ponovo.").build();
+			return Response.status(401).entity("Neispravna lozinka. Molimo pokušajte ponovo.").build();
 		else if(loggedUser.isBlocked()) 
 			return Response.status(403).entity("Prijava na sistem nije moguća jer je vaš nalog blokiran.").build();
 		else if(loggedUser.isDeleted())
-			return Response.status(403).entity("Vaš nalog je uklonjen. Molimo kontaktirajte administratora za više informacija.").build();
+			return Response.status(404).entity("Vaš nalog je uklonjen. Molimo kontaktirajte administratora za više informacija.").build();
 		
 		request.getSession().setAttribute("loggedInUser", loggedUser);
 		System.out.println(loggedUser.getFistName() + " is currently logged in.");

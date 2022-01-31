@@ -147,30 +147,9 @@ public String basePath;
 		if (!deliverers.containsValue(deliverer)) {
 			deliverers.put(deliverer.getUsername(), deliverer);
 		}
-		
-	}
-	
-	public void addNewDeliverer(Deliverer deliverer) {
-		Deliverer newDeliverer = new Deliverer();
-		User newUser = new User(deliverer.getUsername(),deliverer.getPassword(),deliverer.getFistName(),deliverer.getLastName(),deliverer.getGender(),deliverer.getDateOfBirth(),Role.DELIVERER,false,false);
-		newDeliverer.setFistName(deliverer.getFistName());
-		newDeliverer.setLastName(deliverer.getLastName());
-		newDeliverer.setUsername(deliverer.getUsername());
-		newDeliverer.setPassword(deliverer.getPassword());
-		newDeliverer.setDateOfBirth(deliverer.getDateOfBirth());
-		newDeliverer.setGender(deliverer.getGender());
-		newDeliverer.setRole(Role.DELIVERER);
-		newDeliverer.setDeleted(false);
-		newDeliverer.setBlocked(false);
-		addDeliverer(newDeliverer);
-		UserDAO userDAO = new UserDAO();
-		userDAO.setBasePath(basePath);
-		userDAO.addNewUser(newUser);
 		saveDeliverersJSON();
 	}
-	
-	
-		
+
 	
 	public static Date parseDate(String date) {
 	     try {

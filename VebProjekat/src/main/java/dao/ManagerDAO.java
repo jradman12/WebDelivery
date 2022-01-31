@@ -146,30 +146,8 @@ public String basePath;
 		if (!managers.containsValue(manager)) {
 			managers.put(manager.getUsername(), manager);
 		}
-		
-	}
-	
-	public void addNewManager(Manager manager) {
-		Manager newManager = new Manager();
-		User newUser = new User(manager.getUsername(),manager.getPassword(),manager.getFistName(),manager.getLastName(),manager.getGender(),manager.getDateOfBirth(),Role.MANAGER,false,false);
-		newManager.setFistName(manager.getFistName());
-		newManager.setLastName(manager.getLastName());
-		newManager.setUsername(manager.getUsername());
-		newManager.setPassword(manager.getPassword());
-		newManager.setDateOfBirth(manager.getDateOfBirth());
-		newManager.setGender(manager.getGender());
-		newManager.setRole(Role.MANAGER);
-		newManager.setDeleted(false);
-		newManager.setBlocked(false);
-		addManager(newManager);
-		UserDAO userDAO = new UserDAO();
-		userDAO.setBasePath(basePath);
-		userDAO.addNewUser(newUser);
 		saveManagersJSON();
 	}
-	
-	
-		
 	
 	public static Date parseDate(String date) {
 	     try {

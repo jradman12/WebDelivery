@@ -7,7 +7,7 @@ public class Customer extends User {
 	private List<Order> orders;
 	private Cart cart;
 	private int points;
-	private CustomerType type;
+	private CustomerType type = new CustomerType("PLATINUM", 0, 0);
 	
 	public Customer() {
 		super();

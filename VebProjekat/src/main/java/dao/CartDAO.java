@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -45,13 +44,15 @@ public class CartDAO {
 	public void addCartForNewUser(String customerUsername) {
 		Cart newCart = new Cart(new ArrayList<CartItem>(), customerUsername, 0.0);
 		carts.put(customerUsername, newCart);
-		
 		saveCartsJSON();
 	}
 	
 	public void deleteCart(String username) {
 		if(carts.containsKey(username)) 
+		{
 			carts.remove(username);
+			saveCartsJSON();
+		}
 	}
 	
 	public void loadCarts(String contextPath) {
