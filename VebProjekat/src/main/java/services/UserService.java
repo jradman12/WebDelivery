@@ -181,7 +181,10 @@ public class UserService {
 	public Response unblockUser(@PathParam("username") String username) {
 		
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+		
 		userDAO.unblockUserById(username);
+		customerDAO.unblockUser(username);
 		
 		return Response
 				.status(Response.Status.ACCEPTED).entity("Uspjesno deblokiran korisnik!").entity(userDAO.getAllAvailable()).build();
@@ -224,7 +227,10 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response blockUser(@PathParam("username") String username) {
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
+		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+
 		userDAO.blockUserById(username);
+		customerDAO.blockUser(username);
 		
 		return Response
 				.status(Response.Status.ACCEPTED).entity("Uspjesno blokiran korisnik!").entity(userDAO.getAllAvailable()).build();

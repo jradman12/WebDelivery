@@ -27,6 +27,7 @@ let login = new Vue({
 
   methods: {
     checkLogin: function (event) {
+	
       event.preventDefault();
       axios
         .post("rest/login", {
@@ -35,6 +36,10 @@ let login = new Vue({
         })
         .then((response) => {
           this.message = response.data;
+
+		document.getElementById("pass").value = "";
+      	document.getElementById("usernamee").value = "";
+
           window.location.assign(response.data);
         })
         .catch((err) => {
@@ -51,8 +56,7 @@ let login = new Vue({
               "Vaš nalog je uklonjen. Molimo kontaktirajte administratora za više informacija."
             );
         });
-      document.getElementById("pass").value = "";
-      document.getElementById("usernamee").value = "";
+      
       return true;
     },
   },

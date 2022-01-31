@@ -74,6 +74,20 @@ public String basePath;
 		return availableCustomers;
 	}
 	
+	public void blockUser(String username) {
+		if (customers.containsKey(username)) {
+			customers.get(username).setBlocked(true);
+			saveCustomersJSON();
+		}
+	}
+	
+	public void unblockUser(String username) {
+		if (customers.containsKey(username)) {
+			customers.get(username).setBlocked(false);
+			saveCustomersJSON();
+		}
+	}
+	
 	public void deleteCustomer(String userID) {
 		customers.get(userID).setDeleted(true);
 		saveCustomersJSON();
