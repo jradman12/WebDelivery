@@ -243,7 +243,7 @@ public String basePath;
 		RestaurantDAO rDAO = new RestaurantDAO();
 		rDAO.setBasePath(basePath);
 		Collection<OrderDTO> ret = new ArrayList<OrderDTO>();
-		for(Order o : orders.values()) {
+		for(Order o : getExistingOrders()) {
 			for(Restaurant r : rDAO.getAllAvailable()) {
 				if(r.getId().equals(o.getRestaurant())) {
 					ret.add(new OrderDTO(o, r.getName(), r.getTypeOfRestaurant()));

@@ -62,6 +62,11 @@ public class OrderService {
 			orderDAO.setBasePath(getDataDirPath());
 			ctx.setAttribute("orderDAO", orderDAO);
 		}
+		if (ctx.getAttribute("customerDAO") == null) {
+			CustomerDAO customerDAO = new CustomerDAO();
+			customerDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("customerDAO", customerDAO);
+		}
 	}
 	
 	public String getDataDirPath() {
@@ -257,16 +262,23 @@ public class OrderService {
 	@Path("/getCustomersOrders")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCustomersOrders(){
-		List<Order> customersOrders = new ArrayList<Order>();
+		//List<Order> customersOrders = new ArrayList<Order>();
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");	
 		User user = (User) request.getSession().getAttribute("loggedInUser");
-		for(Order o : orderDAO.getExistingOrders()) {
-			System.out.println(o);
-			if(o.getCustomerID().equals(user.getUsername())) 
-				customersOrders.add(o);
+//		for(Order o : orderDAO.getExistingOrders()) {
+//			System.out.println(o);
+//			if(o.getCustomerID().equals(user.getUsername())) 
+//				customersOrders.add(o);
+//		}
+		//	public OrderDTO(Order order, String restName, String restType) {
+
+		List<OrderDTO> dtos = new ArrayList<OrderDTO>();
+		for (OrderDTO dto : orderDAO.getOrdersWithRestDetails()) {
+			if (dto.getOrder().getCustomerID().equals(user.getUsername()))
+				dtos.add(dto);
 		}
-		if(customersOrders.size() > 0) {
-			return Response.status(Response.Status.ACCEPTED).entity(customersOrders).build();
+		if(dtos.size() > 0) {
+			return Response.status(Response.Status.ACCEPTED).entity(dtos).build();
 		}
 		return Response.status(Response.Status.BAD_REQUEST).entity("No orders available for this customer.").build();
 	}
@@ -276,11 +288,10 @@ public class OrderService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void removeCartItem(@PathParam("id") String id) {
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");	
-		CustomerDAO customerDAO = new CustomerDAO();
-		customerDAO.setBasePath(getDataDirPath());		//User user = (User) request.getSession().getAttribute("loggedInUser");
+		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
 		for(Order o : orderDAO.getExistingOrders()) {
 			if(o.getId().equals(id)) {
-				o.setDeleted(true);
+				o.setStatus(OrderStatus.CANCELED);
 				for(Customer c : customerDAO.customers.values()) {
 					if(c.getUsername().equals(o.getCustomerID())) {
 						c.addPoints((int) (o.getPrice() / 1000 * 133 * 4) * (-1));

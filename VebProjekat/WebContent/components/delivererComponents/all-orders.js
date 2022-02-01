@@ -1,28 +1,27 @@
 Vue.component("all-orders", {
+  data() {
+    return {
+      dtos: [],
+      message: null,
+      selectedOrder: {},
+      show: true,
+      message: null,
+      selectedOrder: {},
+      show: true,
+      currentSort: "name",
+      currentSortDir: "asc",
+      filter: "",
+      typeFilter: "",
+      statusFilter: "",
+      sortFilter: "",
+      priceFrom: "",
+      priceTo: "",
+      dateFrom: "",
+      dateTo: "",
+    };
+  },
 
-     data() {
-          return {
-               dtos: [],
-               message: null,
-               selectedOrder: {},
-               show: true,
-               message: null,
-               selectedOrder: {},
-               show: true,
-               currentSort: 'name',
-               currentSortDir: 'asc',
-               filter: '',
-               typeFilter: '',
-               statusFilter: '',
-               sortFilter: '',
-               priceFrom: '',
-               priceTo: '',
-               dateFrom: '',
-               dateTo: ''
-          }
-     },
-
-     template: ` 
+  template: ` 
      <div id="ssfDeli">
             <img src="images/ce3232.png" width="100%" height="90px">
             <section class="r-section" v-if="dtos.length!=0">
@@ -189,172 +188,164 @@ Vue.component("all-orders", {
         </div>
      
 `,
-mounted() {
-     axios
-         .get('rest/orders/getAllOrdersWithStatusADAA')
-         .then(response => (this.dtos = response.data))
- },
+  mounted() {
+    axios
+      .get("rest/orders/getAllOrdersWithStatusADAA")
+      .then((response) => (this.dtos = response.data));
+  },
 
-     methods: { 
-          sort: function () {
-          console.log(this.sortFilter);
-          if (this.sortFilter.includes("name")) {
-              this.currentSort = 'restName';
-          } else if (this.sortFilter.includes("price")) {
-              this.currentSort = 'order.price';
+  methods: {
+    sort: function () {
+      console.log(this.sortFilter);
+      if (this.sortFilter.includes("name")) {
+        this.currentSort = "restName";
+      } else if (this.sortFilter.includes("price")) {
+        this.currentSort = "order.price";
+      } else {
+        this.currentSort = "order.dateAndTime";
+      }
+      this.currentSortDir = this.sortFilter.includes("desc") ? "desc" : "asc";
+      console.log(this.currentSortDir);
+    },
+    sendRequest: function (order) {
+      axios
+        .post("rest/requests/sendRequest", {
+          orderID: order.id,
+          restaurantID: order.restaurant,
+        })
+        .then((response) => {
+          this.dtos = [];
+          response.data.forEach((x) => {
+            this.dtos.push(x);
+          });
+        });
+    },
+
+    selectOrder: function (order) {
+      this.selectedOrder = order;
+    },
+  },
+
+  computed: {
+    filteredOrders() {
+      if (this.priceFrom != "" || this.priceTo != "") return this.priceFiltered;
+      else if (this.filter != "") return this.nameFilteredOrders;
+      else if (this.dateFrom != "" && this.dateTo != "")
+        return this.dateFiltered;
+      else return this.dtos;
+    },
+
+    nameFilteredOrders() {
+      return this.dtos.filter((c) => {
+        if (this.filter == "") return true;
+        return c.restName.toLowerCase().includes(this.filter.toLowerCase());
+      });
+    },
+    priceFiltered() {
+      var from = [];
+      var to = [];
+      if (this.priceFrom != "") {
+        from = this.dtos.filter((o) => {
+          return o.order.price > this.priceFrom;
+        });
+      }
+      from.forEach((x) => console.log(x.order.price));
+
+      if (this.priceTo != "") {
+        to = this.dtos.filter((o) => {
+          return o.order.price < this.priceTo;
+        });
+      }
+
+      //console.log('-------------------------------------------------')
+      //to.forEach(x => console.log(x.order.price))
+      //console.log('------------presjekkk------------------------')
+      //from.filter(val => to.includes(val)).forEach(x => console.log(x))
+
+      if (from.length != 0 && to.length != 0) {
+        //console.log('prvi')
+        from.filter((val) => to.includes(val)).forEach((x) => console.log(x));
+        return from.filter((val) => to.includes(val));
+      } else if (from.length != 0 && to.length == 0) {
+        //console.log('drugi')
+
+        from.forEach((x) => console.log(x));
+        return from;
+      } else {
+        // console.log('treci')
+
+        to.forEach((x) => console.log(x));
+        return to;
+      }
+    },
+
+    dateFiltered() {
+      return this.dtos.filter((dto) => {
+        return moment(new Date(dto.order.dateAndTime)).isBetween(
+          new Date(this.dateFrom),
+          new Date(this.dateTo)
+        );
+      });
+    },
+
+    filterType() {
+      return this.filteredOrders.filter((x) => {
+        if (!this.typeFilter) return true;
+        return x.restType === this.typeFilter;
+      });
+    },
+    filterStatus() {
+      return this.filteredOrders.filter((x) => {
+        if (!this.statusFilter) return true;
+        return x.order.status === this.statusFilter;
+      });
+    },
+    sortedOrders: function () {
+      var takeUs = [];
+      if (this.typeFilter != "") takeUs = this.filterType;
+      else if (this.statusFilter != "") takeUs = this.filterStatus;
+      else takeUs = this.filteredOrders;
+      var ret = [];
+      if (this.currentSort != "order.dateAndTime") {
+        ret = takeUs.sort((a, b) => {
+          let modifier = 1;
+          if (this.currentSortDir === "desc") modifier = -1;
+
+          if (this.currentSort === "order.price") {
+            if (a.order.price < b.order.price) return -1 * modifier;
+            if (a.order.price > b.order.price) return 1 * modifier;
           } else {
-              this.currentSort = 'order.dateAndTime';
+            if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+            if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
           }
-          this.currentSortDir = this.sortFilter.includes("desc") ? 'desc' : 'asc';
-          console.log(this.currentSortDir);
-      },
-          sendRequest: function (order) {
-
-               axios
-                    .post('rest/requests/sendRequest', {
-                         "orderID": order.id,
-                         "restaurantID": order.restaurant
-
-                    })
-                    .then(response => {
-                        this.dtos=[];
-                        response.data.forEach(x => {
-                             this.dtos.push(x);
-                        })
-
-                    });
-
-
-          },
-
-          selectOrder: function (order) {
-               this.selectedOrder = order;
-
-          }
-
-
-
-     },
-
-     computed: {
-          filteredOrders() {
-               if (this.priceFrom != '' || this.priceTo != '') return this.priceFiltered;
-               else if (this.filter != '') return this.nameFilteredOrders;
-               else if(this.dateFrom != '' && this.dateTo != '') return this.dateFiltered; 
-               else return this.dtos;
-          },
-
-          nameFilteredOrders () {
-            return this.dtos.filter(c => {
-                if (this.filter == '') return true;
-                return ((c.restName.toLowerCase()).includes(this.filter.toLowerCase()));
-            })
-          },
-          priceFiltered() {
-               var from = []
-               var to = []
-               if (this.priceFrom != '') {
-                    from = this.dtos.filter(o => {
-                         return (o.order.price > this.priceFrom)
-                    })
-               }
-               from.forEach(x => console.log(x.order.price))
-
-               if (this.priceTo != '') {
-                    to = this.dtos.filter(o => { return (o.order.price < this.priceTo) })
-               }
-
-               //console.log('-------------------------------------------------')
-               //to.forEach(x => console.log(x.order.price))
-               //console.log('------------presjekkk------------------------')
-               //from.filter(val => to.includes(val)).forEach(x => console.log(x))
-
-               if (from.length != 0 && to.length != 0) {
-                    //console.log('prvi')
-                    from.filter(val => to.includes(val)).forEach(x => console.log(x))
-                    return from.filter(val => to.includes(val));
-               }
-               else if (from.length != 0 && to.length == 0) {
-                    //console.log('drugi')
-
-                    from.forEach(x => console.log(x));
-                    return from;
-               }
-               else {
-                    // console.log('treci')
-
-                    to.forEach(x => console.log(x));
-                    return to;
-               }
-
-          },
-
-          dateFiltered() {
-            return this.dtos.filter(dto => {
-                return moment(new Date(dto.order.dateAndTime)).isBetween(new Date(this.dateFrom), new Date(this.dateTo))
-            });
-        },
-
-          filterType() {
-                    return this.filteredOrders.filter(x => {
-                         if (!this.typeFilter) return true;
-                         return (x.restType === this.typeFilter);
-                    })
-
-          },
-          filterStatus() {
-                    return this.filteredOrders.filter(x => {
-                         if (!this.statusFilter) return true;
-                         return (x.order.status === this.statusFilter);
-                    })
-
-          },
-          sortedOrders: function () {
-            var takeUs = [];
-            if (this.typeFilter != '') takeUs = this.filterType;
-            else if (this.statusFilter != '') takeUs = this.filterStatus;
-            else takeUs = this.filteredOrders;
-            var ret =[];
-            if(this.currentSort != 'order.dateAndTime'){
-                 ret = takeUs.sort((a, b) => {
-                    let modifier = 1;
-                    if (this.currentSortDir === 'desc') modifier = -1;
-    
-                    if(this.currentSort === 'order.price'){
-                        if(a.order.price < b.order.price) return -1 * modifier;
-                        if(a.order.price > b.order.price) return 1 * modifier;
-                    }else {
-                        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-                        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
-                    } return 0;
-                }
-            )} else {
-                if (this.currentSortDir === 'asc'){
-                    ret = takeUs.sort((a,b) => {
-                        return new Date(a.order.dateAndTime).getTime() - new Date(b.order.dateAndTime).getTime();
-                    })
-                }else {
-                    ret = takeUs.sort((a,b) => {
-                        return (new Date(a.order.dateAndTime).getTime() - new Date(b.order.dateAndTime).getTime()) * (-1);
-                    })
-                }
-
-            } return ret;
+          return 0;
+        });
+      } else {
+        if (this.currentSortDir === "asc") {
+          ret = takeUs.sort((a, b) => {
+            return (
+              new Date(a.order.dateAndTime).getTime() -
+              new Date(b.order.dateAndTime).getTime()
+            );
+          });
+        } else {
+          ret = takeUs.sort((a, b) => {
+            return (
+              (new Date(a.order.dateAndTime).getTime() -
+                new Date(b.order.dateAndTime).getTime()) *
+              -1
+            );
+          });
         }
-     },
+      }
+      return ret;
+    },
+  },
 
-
-
-
-     filters: {
-          dateFormat: function (value, format) {
-               var parsed = moment(value);
-               return parsed.format(format);
-          }
-
-     }
-
-
-
-
+  filters: {
+    dateFormat: function (value, format) {
+      var parsed = moment(value);
+      return parsed.format(format);
+    },
+  },
 });
