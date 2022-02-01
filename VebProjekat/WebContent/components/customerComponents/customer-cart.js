@@ -100,7 +100,7 @@ Vue.component("customer-cart", {
                     </div>
                     <div v-else style="text-align: center;">
                         <h3>Vaša korpa je prazna.</h3>
-                        <button><a href="customerDashboard.html#/restaurants">Potražite proizvode</a></button>
+                        <button @click="lookForProducts()">Potražite proizvode</button>
                     </div>
                 </div>
             </div>
@@ -213,6 +213,10 @@ Vue.component("customer-cart", {
         cartItem.amount = 1;
         this.$set(this.cartItems, index, cartItem);
       }
+    },
+
+    lookForProducts() {
+      location.href = "customerDashboard.html#/restaurants";
     },
 
     removeItem: function (index) {
