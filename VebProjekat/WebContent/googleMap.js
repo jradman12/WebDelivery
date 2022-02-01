@@ -4,7 +4,8 @@ function initMap() {
 		url: 'rest/restaurants/getCurrentRestaurant',
 		contentType: 'application/json',
 		success: function (rest) {
-			var loco = rest.location.address.addressName + rest.location.address.city + rest.location.address.postalCode;
+			//var loco = rest.location.address.addressName + rest.location.address.city + rest.location.address.postalCode;
+			var loco = "Radnicka 44 , Novi Sad , 21000";
 			geocode(loco);
 		}
 	});	
@@ -14,7 +15,7 @@ function geocode(location) {
 	axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
 		params: {
 			address: location,
-			key: 'AIzaSyAPh6HCDbNWHnQaz0ah1KYa0P123mkCAEU'
+			key: 'AIzaSyAdZcoh61MaikwAmRmhKEo44OaMmDtVKK8'
 		}
 	})
 		.then(function (response) {

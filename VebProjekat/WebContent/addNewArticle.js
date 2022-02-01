@@ -1,3 +1,21 @@
+toastr.options = {
+    closeButton: false,
+    debug: false,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: "toast-top-right",
+    preventDuplicates: true,
+    onclick: null,
+    showDuration: "300",
+    hideDuration: "1000",
+    timeOut: "5000",
+    extendedTimeOut: "1000",
+    showEasing: "linear",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut",
+  };
+
 let newArticle = new Vue({
 
     el : "#articles",
@@ -28,7 +46,7 @@ let newArticle = new Vue({
             console.log(this.newArticle.name)
             console.log(this.newArticle.price)
             if(this.newArticle.name == '' || this.newArticle.price == null || this.newArticle.type == undefined || this.newArticle.logo == undefined){
-                alert("Sva polja osim opisa i količine moraju biti popunjena!");
+                toastr["error"]("Sva polja osim opisa i količine moraju biti popunjena!");
             }else {
                 this.errors = [];
                 if (!this.errors.length) {
@@ -44,7 +62,7 @@ let newArticle = new Vue({
                         })
                         .then(response => {
                             this.message = response.data;
-                            alert("Novi proizvod je dodat.");
+                            toastr["success"]("Novi proizvod je dodat.");
                             setTimeout(function(){ location.href = "managerDashboard.html" }, 3000);
                             document.getElementById('ime').value='';
                             document.getElementById('cijena').value='';
@@ -53,7 +71,7 @@ let newArticle = new Vue({
                             
                         })
                         .catch(err => {
-                            if(err.toString() === "Error: Request failed with status code 400") alert("Već postoji proizvod sa unesenim nazivom,molimo Vas pokušajte drugi naziv.");
+                            if(err.toString() === "Error: Request failed with status code 400") toastr["error"]("Već postoji proizvod sa unesenim nazivom,molimo Vas pokušajte drugi naziv.");
                         })
 
                 }
