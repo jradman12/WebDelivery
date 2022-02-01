@@ -225,14 +225,18 @@ public class OrderService {
 		
 		System.out.println("usao u create order, rest id je " + newOrder.getRestaurant());
 		
-		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");	
-		CustomerDAO customerDAO = new CustomerDAO();
-		customerDAO.setBasePath(getDataDirPath());
+		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
+		CustomerDAO customerDAO = (CustomerDAO)  ctx.getAttribute("customerDAO");
+		//CustomerDAO customerDAO = new CustomerDAO();
+		///customerDAO.setBasePath(getDataDirPath());
 		Customer customer = customerDAO.getCustomerByUsername(newOrder.getCustomerID());
 		
 		double orderPrice = 0;
+		double subTotal = 0;
 		for(CartItem ci : newOrder.getOrderedItems())
-			orderPrice += ci.getProduct().getPrice() * ci.getAmount();
+			subTotal += ci.getProduct().getPrice() * ci.getAmount();
+		double discountPrice = (subTotal * customer.getType().getDiscount()) / 100;
+		orderPrice = subTotal - discountPrice;
 		newOrder.setPrice(orderPrice);
 		newOrder.setDateAndTime(new Date());
 		orderDAO.addNewOrder(newOrder);		
@@ -295,6 +299,7 @@ public class OrderService {
 				for(Customer c : customerDAO.customers.values()) {
 					if(c.getUsername().equals(o.getCustomerID())) {
 						c.addPoints((int) (o.getPrice() / 1000 * 133 * 4) * (-1));
+						if(c.getPoints() < 0) c.setPoints(0);
 					}
 				}
 			}
