@@ -69,6 +69,7 @@ Vue.component("admin-addNewRestaurant", {
                                         <option value="Indijski">Indijski</option>
                                         <option value="Roštilj">Roštilj</option>
                                         <option value="Vegan">Vegan</option>
+                                        <option value="Fast food">Fast food</option>
                                    </select>
                               </div>
                          </div>

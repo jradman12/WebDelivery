@@ -22,7 +22,7 @@ import enums.Role;
 
 public class UserDAO {
  
-public Map<String, User> users = new HashMap<>();	
+public Map<String, User> users = new HashMap<String, User>();	
 public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\users.json";
 public String basePath;
 

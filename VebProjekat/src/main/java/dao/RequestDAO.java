@@ -24,7 +24,7 @@ import enums.RequestStatus;
 public class RequestDAO {
 
 	
-public  Map<String,DeliverRequest> requests = new HashMap<>();
+public  Map<String,DeliverRequest> requests = new HashMap<String,DeliverRequest>();
 public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\requests.json";
 public String basePath;
 

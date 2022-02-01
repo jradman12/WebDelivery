@@ -24,7 +24,7 @@ import enums.RestaurantStatus;
 
 public class RestaurantDAO {
 	
-	public  Map<String, Restaurant> restaurants = new HashMap<>();
+	public  Map<String, Restaurant> restaurants = new HashMap<String, Restaurant>();
 	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\restaurants.json";
 	public String basePath;
 

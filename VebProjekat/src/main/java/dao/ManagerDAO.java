@@ -24,7 +24,7 @@ import enums.Role;
 
 public class ManagerDAO {
 	
-private  Map<String, Manager> managers = new HashMap<>();
+private  Map<String, Manager> managers = new HashMap<String, Manager>();
 
 public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\managers.json";
 public String basePath;
@@ -71,6 +71,14 @@ public String basePath;
 				availableManagers.add(u);
 		}
 		return availableManagers;
+	}
+	
+	
+	public void blockUser(String username) {
+		if (managers.containsKey(username)) {
+			managers.get(username).setBlocked(true);
+			saveManagersJSON();
+		}
 	}
 	
 	public void deleteManager(String userID) {

@@ -24,7 +24,7 @@ import enums.Role;
 
 public class CustomerDAO {
 
-public Map<String, Customer> customers = new HashMap<>();
+public Map<String, Customer> customers = new HashMap<String, Customer>();
 
 public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\customers.json";
 public String basePath;

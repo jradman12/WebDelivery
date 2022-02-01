@@ -23,7 +23,7 @@ import enums.StatusOfComment;
 
 public class CommentDAO {
 	
-	public  Map<String, Comment> comments = new HashMap<>();
+	public  Map<String, Comment> comments = new HashMap<String, Comment>();
 	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\comments.json";
 	public String basePath;
 

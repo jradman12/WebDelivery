@@ -26,7 +26,7 @@ import enums.OrderStatus;
 
 public class OrderDAO {
 	
-public  Map<String, Order> orders = new HashMap<>();
+public  Map<String, Order> orders = new HashMap<String, Order>();
 public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\orders.json";
 public String basePath;
 

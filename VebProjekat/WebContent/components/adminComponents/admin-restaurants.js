@@ -44,7 +44,6 @@ Vue.component("admin-restaurants", {
                                 <option value="Indijski">Indijski</option>
                                 <option value="Italijanski">Italijanski</option>
                                 <option value="Roštilj">Roštilj</option>
-                                <option value="Picerija">Picerija</option>
                                 <option value="Vegan">Vegan</option>
                             </select>
                             <span class="r-span"></span>

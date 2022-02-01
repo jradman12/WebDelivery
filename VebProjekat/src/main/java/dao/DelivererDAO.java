@@ -24,7 +24,7 @@ import enums.Role;
 public class DelivererDAO {
 
 	
-private  Map<String,Deliverer> deliverers = new HashMap<>();
+private  Map<String,Deliverer> deliverers = new HashMap<String,Deliverer>();
 
 public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\deliverers.json";
 public String basePath;
@@ -62,6 +62,13 @@ public String basePath;
 			return null;
 		}
 		return deliverer;
+	}
+	
+	public void blockUser(String username) {
+		if (deliverers.containsKey(username)) {
+			deliverers.get(username).setBlocked(true);
+			saveDeliverersJSON();
+		}
 	}
 	
 	public Collection<Deliverer> getAllAvailable(){

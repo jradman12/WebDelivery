@@ -18,7 +18,7 @@ import beans.CartItem;
 
 public class CartDAO {
 	
-	public Map<String, Cart> carts = new HashMap<>();
+	public Map<String, Cart> carts = new HashMap<String, Cart>();
 	
 	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\carts.json";
 	public String basePath;

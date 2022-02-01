@@ -73,6 +73,11 @@ public class UserService {
 			delivererDAO.setBasePath(getDataDirPath());
 			ctx.setAttribute("delivererDAO", delivererDAO);
 		}
+		if(ctx.getAttribute("managerDAO") == null) {
+			ManagerDAO managerDAO = new ManagerDAO();
+			managerDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("managerDAO", managerDAO);
+		}
 	}
 	
 	public String getDataDirPath() {
@@ -228,9 +233,13 @@ public class UserService {
 	public Response blockUser(@PathParam("username") String username) {
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("usersDAO");
 		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
-
+		DelivererDAO delivererDAO = (DelivererDAO) ctx.getAttribute("delivererDAO");
+		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
+		
 		userDAO.blockUserById(username);
 		customerDAO.blockUser(username);
+		delivererDAO.blockUser(username);
+		managerDAO.blockUser(username);
 		
 		return Response
 				.status(Response.Status.ACCEPTED).entity("Uspjesno blokiran korisnik!").entity(userDAO.getAllAvailable()).build();

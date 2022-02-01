@@ -22,7 +22,7 @@ import beans.User;
 
 public class AdministratorDAO {
 
-	private  Map<String, Administrator> admins = new HashMap<>();
+	private  Map<String, Administrator> admins = new HashMap<String, Administrator>();
 	public String path = "C:\\Users\\hp\\Desktop\\WebDelivery\\VebProjekat\\src\\main\\java\\data\\admins.json";
 	public String basePath;
 
