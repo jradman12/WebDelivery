@@ -1,14 +1,31 @@
+toastr.options = {
+  closeButton: false,
+  debug: false,
+  newestOnTop: false,
+  progressBar: false,
+  positionClass: "toast-top-right",
+  preventDuplicates: true,
+  onclick: null,
+  showDuration: "300",
+  hideDuration: "1000",
+  timeOut: "5000",
+  extendedTimeOut: "1000",
+  showEasing: "linear",
+  hideEasing: "linear",
+  showMethod: "fadeIn",
+  hideMethod: "fadeOut",
+};
+
 Vue.component("admin-addNewUser", {
+  data() {
+    return {
+      newUser: {},
+      errors: [],
+      message: null,
+    };
+  },
 
-    data() {
-        return {
-            newUser: {},
-            errors : [],
-            message : null 
-        }
-    },
-
-    template: ` 
+  template: ` 
     <div>
 		<img src="images/ce3232.png" width="100%" height="90px">
 
@@ -123,63 +140,59 @@ Vue.component("admin-addNewUser", {
 
 `,
 
-methods: {
-    addNewUser : function(event){
-        event.preventDefault();
+  methods: {
+    addNewUser: function (event) {
+      event.preventDefault();
 
-        if(this.newUser.type === "MANAGER"){
-            axios
-            .post('rest/managers/registration', {
-           
-                         "fistName": this.newUser.fistName,
-                         "lastName" : this.newUser.lastName,
-                         "dateOfBirth" : this.newUser.dateOfBirth,
-                         "gender" : this.newUser.gender,
-                         "username": this.newUser.username, 
-                         "password" : this.newUser.password,
-                         "restaurantID" : null,
-                         "role" : "MANAGER"
-            })
-            .then(response => {
-                this.message = response.data;
-                alert("Uspješno registrovan novi menadžer!");
-                window.location.assign(response.data)
-            })
-            .catch(err => {
-                console.log("There has been an error! Please check this out: ");
-                console.log(err);
-            })
-        } else if(this.newUser.type === "DELIVERER") {
-            axios
-            .post('rest/deliverers/registration', {
-           
-                         "fistName": this.newUser.fistName,
-                         "lastName" : this.newUser.lastName,
-                         "dateOfBirth" : this.newUser.dateOfBirth,
-                         "gender" : this.newUser.gender,
-                         "username": this.newUser.username, 
-                         "password" : this.newUser.password,
-                         "role" : "DELIVERER"
-            })
-            .then(response => {
-                this.message = response.data;
-                alert("Uspješno registrovan novi dostavljač!");
-                document.getElementById('ime').value='';
-                document.getElementById('prezime').value='';
-                document.getElementById('datum').value='';
-                document.getElementById('pol').value='';
-                document.getElementById('tipUsera').value='';
-                document.getElementById('korisnickoIme').value='';
-                document.getElementById('lozinka').value='';
-                window.location.assign(response.data)
-            })
-            .catch(err => {
-                console.log("There has been an error! Please check this out: ");
-                console.log(err);
-            })
-        }
-            
-    }
-    
-}
+      if (this.newUser.type === "MANAGER") {
+        axios
+          .post("rest/managers/registration", {
+            fistName: this.newUser.fistName,
+            lastName: this.newUser.lastName,
+            dateOfBirth: this.newUser.dateOfBirth,
+            gender: this.newUser.gender,
+            username: this.newUser.username,
+            password: this.newUser.password,
+            restaurantID: null,
+            role: "MANAGER",
+          })
+          .then((response) => {
+            this.message = response.data;
+            toastr["success"]("Uspješno registrovan novi menadžer!");
+            window.location.assign(response.data);
+          })
+          .catch((err) => {
+            console.log("There has been an error! Please check this out: ");
+            console.log(err);
+          });
+      } else if (this.newUser.type === "DELIVERER") {
+        axios
+          .post("rest/deliverers/registration", {
+            fistName: this.newUser.fistName,
+            lastName: this.newUser.lastName,
+            dateOfBirth: this.newUser.dateOfBirth,
+            gender: this.newUser.gender,
+            username: this.newUser.username,
+            password: this.newUser.password,
+            role: "DELIVERER",
+          })
+          .then((response) => {
+            this.message = response.data;
+            toastr["success"]("Uspješno registrovan novi dostavljač!");
+            window.location.assign(response.data);
+          })
+          .catch((err) => {
+            console.log("There has been an error! Please check this out: ");
+            console.log(err);
+          });
+      }
+      document.getElementById("ime").value = "";
+      document.getElementById("prezime").value = "";
+      document.getElementById("datum").value = "";
+      document.getElementById("pol").value = "";
+      document.getElementById("tipUsera").value = "";
+      document.getElementById("korisnickoIme").value = "";
+      document.getElementById("lozinka").value = "";
+    },
+  },
 });

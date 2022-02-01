@@ -152,7 +152,7 @@ Vue.component("admin-users", {
         .put("rest/users/blockUser/" + userToBlock.username)
         .then((response) => {
           toastr["success"](
-            "Korisnik " + userToBlock.username + "uspješno blokiran."
+            "Korisnik " + userToBlock.username + " uspješno blokiran."
           );
           this.users = [];
           response.data.forEach((x) => {
@@ -166,7 +166,7 @@ Vue.component("admin-users", {
         .put("rest/users/unblockUser/" + userToUnblock.username)
         .then((response) => {
           toastr["success"](
-            "Korisnik " + userToUnblock.username + "uspješno deblokiran."
+            "Korisnik " + userToUnblock.username + " uspješno deblokiran."
           );
           this.users = [];
           response.data.forEach((x) => {
@@ -185,6 +185,7 @@ Vue.component("admin-users", {
 
     deleteUser: function (user) {
       axios.put("rest/users/deleteUser/" + user.username).then((response) => {
+        toastr["success"]("Korisnik " + user.username + " uspješno obrisan.");
         this.users = [];
         response.data.forEach((x) => {
           this.users.push(x);
