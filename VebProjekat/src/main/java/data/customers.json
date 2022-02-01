@@ -1,1 +1,54 @@
-{"simke":{"points":-425,"type":{"typeName":"PLATINUM","discount":0,"minPoints":0},"username":"simke","password":"simke","fistName":"Jovana","lastName":"Simeunovic","gender":"FEMALE","dateOfBirth":"Feb 5, 1999, 1:00:00 AM","role":"CUSTOMER","isDeleted":false,"isBlocked":false},"nodi":{"points":0,"type":{"typeName":"PLATINUM","discount":0,"minPoints":0},"username":"nodi","password":"nodi","fistName":"Vukasin","lastName":"Markovic","gender":"MALE","dateOfBirth":"May 10, 1999, 2:00:00 AM","role":"CUSTOMER","isDeleted":false,"isBlocked":false},"grana":{"points":0,"type":{"typeName":"PLATINUM","discount":0,"minPoints":0},"username":"grana","password":"grana","fistName":"Ana","lastName":"Grahovac","gender":"FEMALE","dateOfBirth":"Sep 10, 1999, 2:00:00 AM","role":"CUSTOMER","isDeleted":false,"isBlocked":false},"ninap":{"points":0,"type":{"typeName":"PLATINUM","discount":0,"minPoints":0},"username":"ninap","password":"ninap","fistName":"Nikolina","lastName":"Pavkovic","gender":"FEMALE","dateOfBirth":"Dec 12, 1999, 1:00:00 AM","role":"CUSTOMER","isDeleted":false,"isBlocked":false}}
+{
+  "simke": {
+    "points": 0,
+    "type": { "typeName": "PLATINUM", "discount": 0, "minPoints": 0 },
+    "username": "simke",
+    "password": "simke",
+    "fistName": "Jovana",
+    "lastName": "Simeunovic",
+    "gender": "FEMALE",
+    "dateOfBirth": "Feb 5, 1999, 1:00:00 AM",
+    "role": "CUSTOMER",
+    "isDeleted": false,
+    "isBlocked": false
+  },
+  "nodi": {
+    "points": 250,
+    "type": { "typeName": "PLATINUM", "discount": 0, "minPoints": 0 },
+    "username": "nodi",
+    "password": "nodi",
+    "fistName": "Vukasin",
+    "lastName": "Markovic",
+    "gender": "MALE",
+    "dateOfBirth": "May 10, 1999, 2:00:00 AM",
+    "role": "CUSTOMER",
+    "isDeleted": false,
+    "isBlocked": false
+  },
+  "grana": {
+    "points": 3414,
+    "type": { "typeName": "SILVER", "discount": 3, "minPoints": 3000 },
+    "username": "grana",
+    "password": "grana",
+    "fistName": "Ana",
+    "lastName": "Grahovac",
+    "gender": "FEMALE",
+    "dateOfBirth": "Sep 10, 1999, 2:00:00 AM",
+    "role": "CUSTOMER",
+    "isDeleted": false,
+    "isBlocked": false
+  },
+  "ninap": {
+    "points": 4166,
+    "type": { "typeName": "SILVER", "discount": 3, "minPoints": 3000 },
+    "username": "ninap",
+    "password": "ninap",
+    "fistName": "Nikolina",
+    "lastName": "Pavkovic",
+    "gender": "FEMALE",
+    "dateOfBirth": "Dec 12, 1999, 1:00:00 AM",
+    "role": "CUSTOMER",
+    "isDeleted": false,
+    "isBlocked": false
+  }
+}

@@ -1,1 +1,74 @@
-{"1":{"id":"1","author":"nodi","restaurantID":"4","text":"Najukusniji rostilj u gradu!! A da nema crust dostave, ja bih bio mrsav jer je daleko :)) Hvala crust i hvala Barbecue House!! Najbolji ste!!!","rating":5,"status":"APPROVED","isDeleted":false}}
+{
+  "1": {
+    "id": "1",
+    "author": "nodi",
+    "restaurantID": "4",
+    "text": "Najukusniji rostilj u gradu!! A da nema crust dostave, ja bih bio mrsav jer je daleko :)) Hvala crust i hvala Barbecue House!! Najbolji ste!!!",
+    "rating": 5,
+    "status": "APPROVED",
+    "isDeleted": false
+  },
+  "2": {
+    "id": "2",
+    "author": "ninap",
+    "restaurantID": "5",
+    "text": "Ukusne pice, ali im treba nesto vise vremena. Ako niste bas gladni, odlican izbor. U suprotnom, moj savet je - porucite iz nekog drugog restorana!",
+    "rating": 4,
+    "status": "APPROVED",
+    "isDeleted": false
+  },
+  "3": {
+    "id": "3",
+    "author": "grana",
+    "restaurantID": "5",
+    "text": "Vi ste meni super :)))",
+    "rating": 5,
+    "status": "APPROVED",
+    "isDeleted": false
+  },
+  "4": {
+    "id": "4",
+    "author": "simke",
+    "restaurantID": "5",
+    "text": "Pa ok, nije loša pica",
+    "rating": 5,
+    "status": "APPROVED",
+    "isDeleted": false
+  },
+  "5": {
+    "id": "5",
+    "author": "simke",
+    "restaurantID": "6",
+    "text": "kul kul Maja i ja smo se baš najele",
+    "rating": 5,
+    "status": "APPROVED",
+    "isDeleted": false
+  },
+  "6": {
+    "id": "6",
+    "author": "nodi",
+    "restaurantID": "6",
+    "text": "Mislim da je sir bio pokvaren, jako sam se loše osećao posle. Al brzi ste, zato 2 ",
+    "rating": 2,
+    "status": "REJECTED",
+    "isDeleted": false
+  },
+  "7": {
+    "id": "7",
+    "author": "nodi",
+    "restaurantID": "4",
+    "text": "lav hejt rilejšnšip imam 106 kila alo niste normalni",
+    "rating": 1,
+    "status": "REJECTED",
+    "isDeleted": false
+  },
+  "8": {
+    "id": "8",
+    "author": "simke",
+    "restaurantID": "4",
+    "text": "Meso je uvijek srednje pečeno.",
+    "rating": 3,
+    "status": "WAITING",
+    "isDeleted": false
+  }
+}
