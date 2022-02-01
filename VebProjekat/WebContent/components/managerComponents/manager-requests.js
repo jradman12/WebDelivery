@@ -34,7 +34,7 @@ Vue.component("manager-requests", {
               <table class="r-table" cellpadding="0" cellspacing="0" border="0"  >
                    <tbody v-for="request in requests">
                         <tr >
-                        <td>{{request.id}}</td>
+                        <td>{{request.orderID}}</td>
                         
                         <td>{{request.delivererID}}</td>
                         <td v-if="request.status=='WAITING'">Čeka na odobravanje </td>
