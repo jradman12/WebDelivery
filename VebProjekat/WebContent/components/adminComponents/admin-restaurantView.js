@@ -1,13 +1,30 @@
+toastr.options = {
+  closeButton: false,
+  debug: false,
+  newestOnTop: false,
+  progressBar: false,
+  positionClass: "toast-top-right",
+  preventDuplicates: true,
+  onclick: null,
+  showDuration: "300",
+  hideDuration: "1000",
+  timeOut: "5000",
+  extendedTimeOut: "1000",
+  showEasing: "linear",
+  hideEasing: "linear",
+  showMethod: "fadeIn",
+  hideMethod: "fadeOut",
+};
+
 Vue.component("admin-restaurantView", {
+  data() {
+    return {
+      restaurant: {},
+      comments: [],
+    };
+  },
 
-    data() {
-        return {
-            restaurant: {},
-            comments: []
-        }
-    },
-
-    template: ` 
+  template: ` 
     <div>
     <img src="images/ce3232.png" width="100%" height="90px">
     <section class="r-section">
@@ -142,27 +159,23 @@ Vue.component("admin-restaurantView", {
     </section>
 </div>
 `,
-    mounted() {
-        axios
-            .get("rest/restaurants/getCurrentRestaurant")
-            .then(response => (this.restaurant = response.data)),
+  mounted() {
+    axios
+      .get("rest/restaurants/getCurrentRestaurant")
+      .then((response) => (this.restaurant = response.data)),
+      axios
+        .get("rest/comments/getCommentsForRestaurant")
+        .then((response) => (this.comments = response.data));
+  },
 
-            axios
-                .get('rest/comments/getCommentsForRestaurant')
-                .then(response => (this.comments = response.data))
-                
+  methods: {
+    deleteRest: function (rest, event) {
+      event.preventDefault();
+      console.log("usao u deleteRest");
+      axios.delete("rest/restaurants/delete/" + rest.id).then((response) => {
+        toastr["success"]("Restoran " + rest.name + " uspješno obrisan.");
+        location.href = "adminDashboard.html#/adminsRestaurants";
+      });
     },
-
-    methods:{
-
-        deleteRest:function(rest, event){
-            event.preventDefault();
-            console.log('usao u deleteRest');
-            axios
-            .delete("rest/restaurants/delete/" + rest.id)
-            .then(response => { alert(response.data); location.href = "adminDashboard.html#/adminsRestaurants"; })
-        }
-
-    }
-
+  },
 });

@@ -77,13 +77,23 @@ public String basePath;
 		managers.get(userID).setDeleted(true);
 	}
 	
-	public void updateManagersRest(Manager managerToUpdate, Restaurant newRest) {
-		for(Manager m : getAllAvailable()) {
-			if(m.getUsername().equals(managerToUpdate.getUsername())) {
-				m.setRestaurantID(newRest.getId());
-			}
+	public void updateManagersRest(String managerID, String restID) {
+		System.out.println(" i sent managerID " + managerID);
+
+		System.out.println("Recieved ids: manager is " + managerID + ", rest is " + restID);
+		System.out.println("Trenutni menazeri");
+		for (Manager m : managers.values()) System.out.println(m.getUsername());
+		
+		if (managers.containsKey(managerID)) 
+		{
+			System.out.println("foundi tttttt");
+			System.out.println( "get manager " + managers.get(managerID));
+			managers.get(managerID).setRestaurantID(restID);
+			
+			System.out.println("Izabrani men");
+			System.out.println(managers.get(managerID).getRestaurantID());
+			saveManagersJSON();
 		}
-		saveManagersJSON();
 	}
 	
 	

@@ -1,21 +1,37 @@
-function fixDate(user) {
+toastr.options = {
+  closeButton: false,
+  debug: false,
+  newestOnTop: false,
+  progressBar: false,
+  positionClass: "toast-top-right",
+  preventDuplicates: true,
+  onclick: null,
+  showDuration: "300",
+  hideDuration: "1000",
+  timeOut: "5000",
+  extendedTimeOut: "1000",
+  showEasing: "linear",
+  hideEasing: "linear",
+  showMethod: "fadeIn",
+  hideMethod: "fadeOut",
+};
 
-	user.dateOfBirth = new Date(parseInt(user.dateOfBirth));
-	
-	return user;
+function fixDate(user) {
+  user.dateOfBirth = new Date(parseInt(user.dateOfBirth));
+
+  return user;
 }
 
 Vue.component("admin-profile", {
+  data() {
+    return {
+      loggedUser: {},
+      mode: "BROWSE",
+      message: null,
+    };
+  },
 
-    data() {
-        return {
-            loggedUser: {},
-            mode : 'BROWSE',
-            message : null
-        }
-    },
-	
-	template: ` 
+  template: ` 
 <div class="container">
 <h1></h1>
 <section data-stellar-background-ratio="0.5">
@@ -114,46 +130,46 @@ Vue.component("admin-profile", {
     
     
 `,
-  mounted () {
-        axios
-          .get('rest/users/getLoggedUser')
-          .then(response => (this.loggedUser = fixDate(response.data)))
-          
+  mounted() {
+    axios
+      .get("rest/users/getLoggedUser")
+      .then((response) => (this.loggedUser = fixDate(response.data)));
+  },
+  methods: {
+    changeMode: function (e) {
+      e.preventDefault();
+      this.mode = "EDIT";
     },
-    methods : {
-        changeMode: function(e) {
-                e.preventDefault()
-                this.mode='EDIT'
-        },
 
-        updateUser : function(e){
-             e.preventDefault();
-            axios
-               .put("rest/users/updateUser/" + this.loggedUser.username, 
-                    {"fistName": this.loggedUser.fistName,
-                    "lastName" : this.loggedUser.lastName,
-                    "dateOfBirth" : this.loggedUser.dateOfBirth,
-                    "gender" : this.loggedUser.gender,
-                    "username": this.loggedUser.username, 
-                    "password" : this.loggedUser.password,
-                    "role" : this.loggedUser.role})
-               .then(response => {
-                    this.message = response.data;
-               })
-               .catch(err => {
-                    console.log("There has been an error! Please check this out: ");
-                    console.log(err);
-               })
-          } 
+    updateUser: function (e) {
+      e.preventDefault();
+      axios
+        .put("rest/users/updateUser/" + this.loggedUser.username, {
+          fistName: this.loggedUser.fistName,
+          lastName: this.loggedUser.lastName,
+          dateOfBirth: this.loggedUser.dateOfBirth,
+          gender: this.loggedUser.gender,
+          username: this.loggedUser.username,
+          password: this.loggedUser.password,
+          role: this.loggedUser.role,
+        })
+        .then((response) => {
+          this.message = response.data;
+          toastr["success"]("Uspješno izmijenjeni lični podaci.");
+        })
+        .catch((err) => {
+          console.log("There has been an error! Please check this out: ");
+          console.log(err);
+        });
     },
-    components: {
-      	vuejsDatepicker
+  },
+  components: {
+    vuejsDatepicker,
+  },
+  filters: {
+    dateFormat: function (value, format) {
+      var parsed = moment(value);
+      return parsed.format(format);
     },
-    filters: {
-    	dateFormat: function (value, format) {
-    		var parsed = moment(value);
-    		return parsed.format(format);
-    	}
-   	}
-
+  },
 });

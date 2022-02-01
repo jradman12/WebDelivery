@@ -3,8 +3,8 @@ toastr.options = {
   debug: false,
   newestOnTop: false,
   progressBar: false,
-  positionClass: "toast-top-left",
-  preventDuplicates: false,
+  positionClass: "toast-top-right",
+  preventDuplicates: true,
   onclick: null,
   showDuration: "300",
   hideDuration: "1000",
@@ -100,7 +100,7 @@ Vue.component("customer-cart", {
                     </div>
                     <div v-else style="text-align: center;">
                         <h3>Vaša korpa je prazna.</h3>
-                        <button><a href="customerDashboard.html#/restaurants">Potražite proizvode</a></button>
+                        <button @click="lookForProducts()">Potražite proizvode</button>
                     </div>
                 </div>
             </div>
@@ -197,9 +197,13 @@ Vue.component("customer-cart", {
           "rest/cart/updateCartItem/" + this.cartItems[index].product.name,
           this.cartItems[index]
         )
-        .then((response) =>
-          alert("successfully updated " + response.data.product.name)
-        );
+        .then((response) => {
+          // toastr["success"](
+          //   "Količina proizvoda " +
+          //     response.data.product.name +
+          //     " uspješno izmijenjena."
+          // )
+        });
     },
 
     checkQuantity: function (index, event) {
@@ -209,6 +213,10 @@ Vue.component("customer-cart", {
         cartItem.amount = 1;
         this.$set(this.cartItems, index, cartItem);
       }
+    },
+
+    lookForProducts() {
+      location.href = "customerDashboard.html#/restaurants";
     },
 
     removeItem: function (index) {
@@ -222,13 +230,18 @@ Vue.component("customer-cart", {
     checkout: function () {
       // create new order
       var i;
-      var restIDs = [this.cartItems[0].product.restaurantID];
-      for (i = 1; i < this.cartItems.length; i++) {
+      var restIDs = [];
+      //var restIDs = [this.cartItems[0].product.restaurantID];
+      for (i = 0; i < this.cartItems.length; i++) {
         if (!restIDs.includes(this.cartItems[i].product.restaurantID))
           restIDs.push(this.cartItems[i].product.restaurantID);
       }
 
-      restIDs.forEach((id) =>
+      console.log(restIDs.length);
+      restIDs.forEach((id) => console.log(id));
+
+      restIDs.forEach((id) => {
+        console.log("id je " + id);
         axios
           .post("rest/orders/createNewOrder", {
             customerID: this.customerID,
@@ -251,17 +264,15 @@ Vue.component("customer-cart", {
           })
           .then(
             (response) => (
-              // then remove these items from cart
               this.cartItems.forEach((ci) =>
                 axios.delete("rest/cart/removeCartItem/" + ci.product.name)
               ),
               this.cartItems.splice(0, this.cartItems.length),
               (this.price = 0),
               toastr["success"](response.data)
-              //alert(response.data)
             )
-          )
-      );
+          );
+      });
     },
   },
 });

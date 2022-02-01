@@ -1,16 +1,33 @@
+toastr.options = {
+  closeButton: false,
+  debug: false,
+  newestOnTop: false,
+  progressBar: false,
+  positionClass: "toast-top-right",
+  preventDuplicates: true,
+  onclick: null,
+  showDuration: "300",
+  hideDuration: "1000",
+  timeOut: "5000",
+  extendedTimeOut: "1000",
+  showEasing: "linear",
+  hideEasing: "linear",
+  showMethod: "fadeIn",
+  hideMethod: "fadeOut",
+};
+
 Vue.component("customer-orders", {
+  data() {
+    return {
+      orders: [],
+      message: null,
+      selectedOrder: {},
+      show: true,
+      statusFilter: "",
+    };
+  },
 
-     data() {
-          return {
-               orders: [],
-               message: null,
-               selectedOrder: {},
-               show: true,
-               statusFilter : ''
-         }
-     },
-
-     template: ` 
+  template: ` 
      <div id="container">
     <img src="images/ce3232.png" width="100%" height="90px">
     <section class="r-section" v-if="orders.length!=0">
@@ -134,40 +151,44 @@ Vue.component("customer-orders", {
 </div>
      
 `,
-     mounted: function () {
-          axios
-               .get('rest/orders/getCustomersOrders')
-               .then(response => (this.orders = response.data, this.filteredOrders = response.data))
-     },
+  mounted: function () {
+    axios
+      .get("rest/orders/getCustomersOrders")
+      .then(
+        (response) => (
+          (this.orders = response.data), (this.filteredOrders = response.data)
+        )
+      );
+  },
 
-     methods: {
-          cancelOrder: function (index) {
-            axios
-            .delete('rest/orders/cancelOrder/'+this.orders[index].id)
-            .then(response => alert('Uspješno otkazana porudžbina!'),
-            this.orders.splice(index, 1)
-            )
-          },
+  methods: {
+    cancelOrder: function (index) {
+      axios
+        .delete("rest/orders/cancelOrder/" + this.orders[index].id)
+        .then(
+          (response) => toastr["success"]("Uspješno otkazana porudžbina!"),
+          this.orders.splice(index, 1)
+        );
+    },
 
-          selectOrder: function (order) {
-               this.selectedOrder = order;
-          }
-     },
+    selectOrder: function (order) {
+      this.selectedOrder = order;
+    },
+  },
 
-     computed : {
+  computed: {
+    filteredOrders() {
+      return this.orders.filter((order) => {
+        if (this.statusFilter === "") return true;
+        return order.status === "SHIPPING";
+      });
+    },
+  },
 
-            filteredOrders() {
-                return this.orders.filter( order => {
-                    if(this.statusFilter === '') return true;
-                    return order.status === "SHIPPING"});
-            }
-     },
-
-     filters: {
-          dateFormat: function (value, format) {
-               var parsed = moment(value);
-               return parsed.format(format);
-          }
-
-     }
+  filters: {
+    dateFormat: function (value, format) {
+      var parsed = moment(value);
+      return parsed.format(format);
+    },
+  },
 });

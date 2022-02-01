@@ -218,6 +218,8 @@ public class OrderService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewOrder(Order newOrder) {
 		
+		System.out.println("usao u create order, rest id je " + newOrder.getRestaurant());
+		
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");	
 		CustomerDAO customerDAO = new CustomerDAO();
 		customerDAO.setBasePath(getDataDirPath());
@@ -297,18 +299,14 @@ public class OrderService {
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
 
 		System.out.println("ušao u orderFromRestaurantDeliveredToCustomer ");
-		RestaurantDAO rDAO = new RestaurantDAO();
-		rDAO.setBasePath(getDataDirPath()); 
-		
+
 		String currentRestID = (String) ctx.getAttribute("currentRestID");
 		
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		
 		Map<String, Order> orders = new HashMap<>();
 		orders = orderDAO.orders; 
-		///
 		
-		///
 		for(Order o : orders.values()) {
 			if(o.getRestaurant().equals(currentRestID) && o.getStatus().equals(OrderStatus.DELIVERED) 
 					&& o.getCustomerID().equals(user.getUsername())) {

@@ -1,17 +1,34 @@
+toastr.options = {
+  closeButton: false,
+  debug: false,
+  newestOnTop: false,
+  progressBar: false,
+  positionClass: "toast-top-right",
+  preventDuplicates: true,
+  onclick: null,
+  showDuration: "300",
+  hideDuration: "1000",
+  timeOut: "5000",
+  extendedTimeOut: "1000",
+  showEasing: "linear",
+  hideEasing: "linear",
+  showMethod: "fadeIn",
+  hideMethod: "fadeOut",
+};
+
 Vue.component("customer-restaurantView", {
+  data() {
+    return {
+      restaurant: [],
+      comments: [],
+      productsDTO: [],
+      show: false,
+      newComment: {},
+      message: null,
+    };
+  },
 
-    data() {
-        return {
-            restaurant: [],
-            comments: [],
-            productsDTO : [],
-            show : false,
-            newComment : {},
-            message : null
-        }
-    },
-
-    template: ` 
+  template: ` 
     <div id="dying">
 
             <img src="images/ce3232.png" width="100%" height="90px">
@@ -191,88 +208,92 @@ Vue.component("customer-restaurantView", {
         </div>
 `,
 
-
-mounted : function() {
+  mounted: function () {
     axios
-   .get('rest/comments/getCommentsForRestaurant')
-   .then(response => (this.comments = response.data))
+      .get("rest/comments/getCommentsForRestaurant")
+      .then((response) => (this.comments = response.data));
 
-   axios
-   .get('rest/orders/orderFromRestaurantDeliveredToCustomer')
-   .then(response=>(this.show=response.data))
-
-
-
-},
-    created() {
-        axios
-        .get("rest/restaurants/getCurrentRestaurant")
-        .then(response => (this.restaurant = response.data), 
-			axios
+    axios
+      .get("rest/orders/orderFromRestaurantDeliveredToCustomer")
+      .then((response) => (this.show = response.data));
+  },
+  created() {
+    axios.get("rest/restaurants/getCurrentRestaurant").then(
+      (response) => (this.restaurant = response.data),
+      axios
         .get("rest/restaurants/getProductsOfCurrentRestaurant")
-        .then(response => (this.productsDTO = response.data))
-	)
+        .then((response) => (this.productsDTO = response.data))
+    );
+  },
 
-       
+  methods: {
+    updateQuantity: function (index, event) {
+      //var product = this.productsDTO[index].product;
+      var value = event.target.value;
+      var valueInt = parseInt(value);
+      console.log("im in updateQ");
+      // Minimum quantity is 1, maximum quantity is 100, can left blank to input easily
+      if (value === "") {
+        this.productsDTO[index].amount = value;
+        console.log(
+          "value empty, i set amount to " +
+            value +
+            ", so its " +
+            this.productsDTO[index].amount
+        );
+      } else if (valueInt > 0 && valueInt < 100) {
+        this.productsDTO[index].amount = valueInt;
+        console.log(
+          "value int, i set amount to " +
+            valueInt +
+            ", so its " +
+            this.productsDTO[index].amount
+        );
+      }
+
+      //this.products[index].product = product;
+      //this.$set(this.products, index, product);
+    },
+    checkQuantity: function (index, event) {
+      // Update amount to 1 if it is empty
+      console.log("in checkQ");
+      if (event.target.value === "" || event.target.value === 0) {
+        //var product = this.restaurant.menu[index];
+        this.productsDTO[index].amount = 1;
+        console.log(
+          " i set it to " + this.productsDTO[index].amount + "(should be 1)"
+        );
+        // this.$set(this.products, index, product);
+      }
+    },
+    addToCart(index) {
+      axios
+        .post("rest/cart/addCartItem", {
+          product: this.productsDTO[index].product,
+          amount: this.productsDTO[index].amount,
+        })
+        .then((response) =>
+          toastr["success"](
+            "Proizvod " +
+              response.data.product.name +
+              " uspješno dodat u korpu!"
+          )
+        );
     },
 
-    methods: {
-        updateQuantity: function(index, event) {
-          //var product = this.productsDTO[index].product;
-          var value = event.target.value;
-          var valueInt = parseInt(value);
-    	console.log('im in updateQ')
-         // Minimum quantity is 1, maximum quantity is 100, can left blank to input easily
-         if (value === "") {
-           this.productsDTO[index].amount = value;
-           console.log('value empty, i set amount to ' + value + ", so its " + this.productsDTO[index].amount)
-        } else if (valueInt > 0 && valueInt < 100) {
-           this.productsDTO[index].amount = valueInt;
-           console.log('value int, i set amount to ' + valueInt + ", so its " + this.productsDTO[index].amount)
-
-        }
-          
-    	//this.products[index].product = product;
-          //this.$set(this.products, index, product);
-        },
-        checkQuantity: function(index, event) {
-          // Update amount to 1 if it is empty
-          console.log('in checkQ')
-          if (event.target.value === "" || event.target.value === 0) {
-            //var product = this.restaurant.menu[index];
-             this.productsDTO[index].amount = 1;
-             console.log(' i set it to ' + this.productsDTO[index].amount + '(should be 1)')
-           // this.$set(this.products, index, product);
-          }
-        },
-        addToCart(index){
-            axios
-            .post('rest/cart/addCartItem', {
-                "product" : this.productsDTO[index].product,
-                "amount" : this.productsDTO[index].amount
-            })
-            .then(response => (alert(response.data.product.name + ' successfully added to cart!')))
-        },
-
-        addNewComment : function(event){
-            event.preventDefault();
-            axios
-            .post('rest/comments/addComment',{
-                "rating" : this.newComment.rating,
-                "text" : this.newComment.text
-            })
-            .then(response =>{
-
-                $('#writeCommentModal').modal('hide')
-                document.getElementById('selectRating').value='';
-                document.getElementById('textOfComment').value='';
-
-
-            })
-            
-        }
-    }
-
-
-
+    addNewComment: function (event) {
+      event.preventDefault();
+      axios
+        .post("rest/comments/addComment", {
+          rating: this.newComment.rating,
+          text: this.newComment.text,
+        })
+        .then((response) => {
+          toastr["success"]("Uspješno dodat komentar.");
+          $("#writeCommentModal").modal("hide");
+          document.getElementById("selectRating").value = "";
+          document.getElementById("textOfComment").value = "";
+        });
+    },
+  },
 });

@@ -39,14 +39,16 @@ let reg = new Vue({
           password: this.newUser.password,
         })
         .then((response) => {
+          toastr["success"]("Uspješna registracija.");
           document.getElementById("imeKupca").value = "";
           document.getElementById("prezimeKupca").value = "";
-          document.getElementById("datumRodjenjaKupca").value = "";
+          this.newUser.dateOfBirth = null;
           document.getElementById("polKupca").value = "";
           document.getElementById("korisnickoImeKupca").value = "";
           document.getElementById("lozinkaKupca").value = "";
         })
         .catch((err) => {
+          console.log(err);
           toastr["error"](
             "Korisnik sa navedenim korisničkim imenom već postoji. Molimo pokušajte ponovo."
           );
