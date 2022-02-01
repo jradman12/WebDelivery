@@ -187,41 +187,45 @@ Vue.component("admin-addNewRestaurant", {
       event.preventDefault();
 
       console.log(this.newRestaurant.logo);
+      if(this.newRestaurant.typeOfRestaurant == undefined || this.newRestaurant.name == '' || this.newRestaurant.logo == undefined 
+      || this.selected == undefined  || this.newRestaurant.location == undefined){
+        toastr["error"]("Sva polja moraju biti popunjena!");
+      }else{
+          this.errors = [];
+          if (!this.errors.length) {
+          let aName = this.newRestaurant.location.split(",")[0];
+          let aCity = this.newRestaurant.location.split(",")[1];
+          let aPostCode = this.newRestaurant.location.split(",")[2];
 
-      this.errors = [];
-      if (!this.errors.length) {
-        let aName = this.newRestaurant.location.split(",")[0];
-        let aCity = this.newRestaurant.location.split(",")[1];
-        let aPostCode = this.newRestaurant.location.split(",")[2];
-
-        axios
-          .post("rest/restaurants/registerNewRestaurant", {
-            managerID: this.selected,
-            typeOfRestaurant: this.newRestaurant.typeOfRestaurant,
-            name: this.newRestaurant.name,
-            logo: this.newRestaurant.logo,
-            location: {
-              latitude: 19.84,
-              longitude: 24.24,
-              address: {
-                addressName: aName,
-                city: aCity,
-                postalCode: aPostCode,
-              },
-            },
-          })
-          .then((response) => {
-            toastr["success"]("Uspješno dodat novi restoran!");
-            window.location.assign("adminDashboard.html#/adminsRestaurants");
-          })
-          .catch((err) => {
-            toastr["error"]("Trenutno nije moguće dodati restoran.");
+          axios
+               .post("rest/restaurants/registerNewRestaurant", {
+               managerID: this.selected,
+               typeOfRestaurant: this.newRestaurant.typeOfRestaurant,
+               name: this.newRestaurant.name,
+               logo: this.newRestaurant.logo,
+               location: {
+               latitude: 19.84,
+               longitude: 24.24,
+               address: {
+                    addressName: aName,
+                    city: aCity,
+                    postalCode: aPostCode,
+               },
+               },
+               })
+               .then((response) => {
+               toastr["success"]("Uspješno dodat novi restoran!");
+               window.location.assign("adminDashboard.html#/adminsRestaurants");
+               })
+               .catch((err) => {
+               toastr["error"]("Trenutno nije moguće dodati restoran.");
+               });
+          return true;
+          }
+          this.errors.forEach((element) => {
+          console.log(element);
           });
-        return true;
-      }
-      this.errors.forEach((element) => {
-        console.log(element);
-      });
+     }
     },
   },
 });
