@@ -19,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 
 import beans.Product;
 import beans.Restaurant;
+import dto.RestaurantDTO;
 import enums.RestaurantStatus;
 
 public class RestaurantDAO {
@@ -163,13 +164,13 @@ public class RestaurantDAO {
 		
 	}
 	
-	public void addNewRestaurant(Restaurant restaurant) {
+	public String addNewRestaurant(RestaurantDTO restaurant) {
+		String id = generateNextId();
 		Restaurant newRestaurant = new Restaurant();
 		newRestaurant.setName(restaurant.getName());
-		newRestaurant.setId(generateNextId());
+		newRestaurant.setId(id);
 		newRestaurant.setMenu(restaurant.getMenu());
 		newRestaurant.setLocation(restaurant.getLocation());
-		//newRestaurant.setStatus(restaurant.getStatus());
 		newRestaurant.setStatus(RestaurantStatus.OPEN);
 		newRestaurant.setTypeOfRestaurant(restaurant.getTypeOfRestaurant());
 		newRestaurant.setAverageRating(0.0);	
@@ -177,6 +178,7 @@ public class RestaurantDAO {
 		newRestaurant.setDeleted(false);
 		addRestaurant(newRestaurant);
 		saveRestaurantsJSON();
+		return id;
 	}
 	
 	
@@ -221,6 +223,7 @@ public class RestaurantDAO {
 				newProduct.setLogo(product.getLogo());
 				newProduct.setPrice(product.getPrice());
 				newProduct.setType(product.getType());
+				newProduct.setRestaurantID(id);
 				if(product.getQuantity() != 0) {
 					
 					newProduct.setQuantity(product.getQuantity());

@@ -22,12 +22,14 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import beans.Manager;
 import beans.Product;
 import beans.Restaurant;
 import beans.User;
 import dao.ManagerDAO;
 import dao.RestaurantDAO;
 import dto.ProductForCartDTO;
+import dto.RestaurantDTO;
 
 @Path("/restaurants")
 public class RestaurantService {
@@ -53,6 +55,11 @@ public class RestaurantService {
 			restaurantDAO.setBasePath(getDataDirPath());
 			ctx.setAttribute("restaurantDAO", restaurantDAO);
 		}
+		if (ctx.getAttribute("managerDAO") == null) {
+			ManagerDAO managerDAO = new ManagerDAO();
+			managerDAO.setBasePath(getDataDirPath());
+			ctx.setAttribute("managerDAO", managerDAO);
+		}
 	}
 	public String getDataDirPath() {
 		return (ctx.getRealPath("") + File.separator + "data"+ File.separator);
@@ -73,17 +80,12 @@ public class RestaurantService {
 	@Path("/registerNewRestaurant")
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response registration(Restaurant restaurant) {
+	public Response registration(RestaurantDTO restaurantDTO) {
 		RestaurantDAO restaurantDAO = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
-
-		/*
-		 * if (allRestaurantsDAO.getRestaurantById(restaurant.getId()) != null) { return
-		 * Response.status(Response.Status.BAD_REQUEST)
-		 * .entity("We have alredy restaurant with same id. Please try another one").
-		 * build(); }
-		 */
-		restaurantDAO.addNewRestaurant(restaurant);
-
+		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
+		
+		String id = restaurantDAO.addNewRestaurant(restaurantDTO);
+		managerDAO.updateManagersRest(restaurantDTO.getManagerID(), id);
 		return Response.status(Response.Status.ACCEPTED).build(); // accepted
 	}
 
@@ -137,24 +139,15 @@ public class RestaurantService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getManagersRestaurant(String username) {
-		RestaurantDAO rDAO = getRestaurants();
-		ManagerDAO mDAO = new ManagerDAO();
-		mDAO.setBasePath(getDataDirPath());
-		////////////
+		RestaurantDAO rDAO = (RestaurantDAO) ctx.getAttribute("restaurantDAO");
+		ManagerDAO mDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
 		
-		System.out.println("Restorani: ");
-		for(Restaurant r : rDAO.restaurants.values()){
-			System.out.println(r.getName());
-		}
-		
-		//////////
 		User manager = (User) request.getSession().getAttribute("loggedInUser");
 		
 		
 		for (Restaurant rest : rDAO.restaurants.values()) {
 			System.out.println("in for loop");
 			
-			mDAO.setBasePath(getDataDirPath());
 			if (rest.getId().equals(mDAO.getRestaurantForManager(manager.getUsername()))) {
 				System.out.println("found an equal one - " + rest.getId() + ", " + rest.getName());
 				return Response.status(Response.Status.ACCEPTED).entity(rest).build();
@@ -176,10 +169,12 @@ public class RestaurantService {
 		for (Restaurant rest : rDAO.restaurants.values()) {
 			if (rest.getId().equals(mDAO.getRestaurantForManager(manager.getUsername()))){
 					r = rest;
-					for (Product prod : rest.getMenu()) {
-						if (prod.getName().toUpperCase().equals(product.getName().toUpperCase()))
-							return Response.status(Response.Status.BAD_REQUEST)
-									.entity("There already is a product with that name. Please, try another one.").build();
+					if ( rest.getMenu() != null) {
+						for (Product prod : rest.getMenu()) {
+							if (prod.getName().toUpperCase().equals(product.getName().toUpperCase()))
+								return Response.status(Response.Status.BAD_REQUEST)
+										.entity("There already is a product with that name. Please, try another one.").build();
+						}
 					}
 				}
 			System.out.println("get returns: " + rDAO.restaurants.get(rest.getId()));

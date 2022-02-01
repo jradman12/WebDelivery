@@ -98,6 +98,7 @@ public class RequestService {
 	public Response approveRequest(@PathParam("id") String id) {
 		RequestDAO requestDAO = (RequestDAO) ctx.getAttribute("requestDAO");
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");
+		
 		System.out.println("odobravanje");
 		User user = (User) request.getSession().getAttribute("loggedInUser");
 		if(user == null || !user.getRole().equals(Role.MANAGER)) {
@@ -105,6 +106,7 @@ public class RequestService {
 		}
 		
 		boolean success = requestDAO.approve(id,user.getUsername());
+		orderDAO.changeStatus(OrderStatus.SHIPPING, requestDAO.requests.get(id).getOrderID());
 		if(success) {
 			return Response.status(200).entity(requestDAO.requestsForRestaurantsOrder(id)).build();
 		}

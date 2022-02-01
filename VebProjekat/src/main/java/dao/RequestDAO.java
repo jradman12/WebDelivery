@@ -190,14 +190,14 @@ public String basePath;
 	}
 	
 	public  Boolean approve(String requestId,String managerId) {
-		OrderDAO orderDAO = new OrderDAO();
-		orderDAO.setBasePath(basePath);
+		//OrderDAO orderDAO = new OrderDAO();
+		//orderDAO.setBasePath(basePath);
 		for (DeliverRequest d : requests.values()) {
 			if (d.getId().equals(requestId)) {
 				d.setStatus(RequestStatus.APPROVED);
 				d.setManagerID(managerId);
 				saveRequestsJson();
-				orderDAO.changeStatus(OrderStatus.SHIPPING, d.getOrderID());
+				//orderDAO.changeStatus(OrderStatus.SHIPPING, d.getOrderID());
 
 				return true;
 			}

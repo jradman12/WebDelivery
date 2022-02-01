@@ -25,6 +25,7 @@ Vue.component("admin-addNewRestaurant", {
       errors: [],
       managers: [],
       mapLocation: "",
+      selected: {},
     };
   },
 
@@ -93,8 +94,8 @@ Vue.component("admin-addNewRestaurant", {
                          <label class="col-md-4 control-label">Menadžer</label>
                          <div class="col-md-4 selectContainer">
                               <div class="input-group" v-if="availableManagers.length">
-                                   <select name="department" class="form-control selectpicker" style="width: 300px;">
-                                        <option value="">Izaberi menadžera</option>
+                                   <select v-model="selected"  name="department" class="form-control selectpicker" style="width: 300px;">
+                                        <option>Izaberi menadžera</option>
                                         <option v-for="man in availableManagers">{{ man.username }}</option>
                                    </select>
                               </div>
@@ -194,6 +195,7 @@ Vue.component("admin-addNewRestaurant", {
 
         axios
           .post("rest/restaurants/registerNewRestaurant", {
+            managerID: this.selected,
             typeOfRestaurant: this.newRestaurant.typeOfRestaurant,
             name: this.newRestaurant.name,
             logo: this.newRestaurant.logo,

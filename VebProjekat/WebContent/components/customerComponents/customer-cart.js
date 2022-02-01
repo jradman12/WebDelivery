@@ -230,13 +230,18 @@ Vue.component("customer-cart", {
     checkout: function () {
       // create new order
       var i;
-      var restIDs = [this.cartItems[0].product.restaurantID];
-      for (i = 1; i < this.cartItems.length; i++) {
+      var restIDs = [];
+      //var restIDs = [this.cartItems[0].product.restaurantID];
+      for (i = 0; i < this.cartItems.length; i++) {
         if (!restIDs.includes(this.cartItems[i].product.restaurantID))
           restIDs.push(this.cartItems[i].product.restaurantID);
       }
 
-      restIDs.forEach((id) =>
+      console.log(restIDs.length);
+      restIDs.forEach((id) => console.log(id));
+
+      restIDs.forEach((id) => {
+        console.log("id je " + id);
         axios
           .post("rest/orders/createNewOrder", {
             customerID: this.customerID,
@@ -266,8 +271,8 @@ Vue.component("customer-cart", {
               (this.price = 0),
               toastr["success"](response.data)
             )
-          )
-      );
+          );
+      });
     },
   },
 });

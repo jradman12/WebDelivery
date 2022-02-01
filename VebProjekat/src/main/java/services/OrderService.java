@@ -218,6 +218,8 @@ public class OrderService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewOrder(Order newOrder) {
 		
+		System.out.println("usao u create order, rest id je " + newOrder.getRestaurant());
+		
 		OrderDAO orderDAO = (OrderDAO) ctx.getAttribute("orderDAO");	
 		CustomerDAO customerDAO = new CustomerDAO();
 		customerDAO.setBasePath(getDataDirPath());

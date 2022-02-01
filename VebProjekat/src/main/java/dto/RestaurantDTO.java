@@ -1,39 +1,34 @@
-package beans;
+package dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import beans.Location;
+import beans.Product;
 import enums.RestaurantStatus;
 
-public class Restaurant {
+public class RestaurantDTO {
+	
 	private String id;
 	private String name;
 	private String typeOfRestaurant;
-	private List<Product> menu = new ArrayList<Product>();
+	private List<Product> menu;
 	private RestaurantStatus status;
 	private Location location;
-	private boolean isDeleted;
+	private boolean isDeleted = false;
 	private String logo;
 	private double averageRating;
+	private String managerID;
 	
-	
-	public Restaurant() {
-		
+	public RestaurantDTO() {
+		// TODO Auto-generated constructor stub
 	}
-	
-	
-	public Restaurant(String id, String name, String typeOfRestaurant, List<Product> menu, RestaurantStatus status,
-			Location location, boolean isDeleted, String logo, double averageRating) {
-		super();
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
 		this.id = id;
-		this.name = name;
-		this.typeOfRestaurant = typeOfRestaurant;
-		this.menu = menu;
-		this.status = status;
-		this.location = location;
-		this.isDeleted = isDeleted;
-		this.logo = logo;
-		this.averageRating = averageRating;
 	}
 
 	public String getName() {
@@ -56,8 +51,8 @@ public class Restaurant {
 		return menu;
 	}
 
-	public void setMenu(List<Product> list) {
-		this.menu = list;
+	public void setMenu(List<Product> menu) {
+		this.menu = menu;
 	}
 
 	public RestaurantStatus getStatus() {
@@ -84,42 +79,45 @@ public class Restaurant {
 		this.isDeleted = isDeleted;
 	}
 
-
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-
 	public String getLogo() {
 		return logo;
 	}
-
 
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
 
-
 	public double getAverageRating() {
 		return averageRating;
 	}
 
-
 	public void setAverageRating(double averageRating) {
 		this.averageRating = averageRating;
 	}
-	
-	
-	@Override
-	public String toString() {
-		return this.getName() + ", " +  this.getLocation().getAddress().getAddressName();
-	
+
+	public String getManagerID() {
+		return managerID;
+	}
+
+	public void setManagerID(String managerID) {
+		this.managerID = managerID;
+	}
+
+	public RestaurantDTO(String id, String name, String typeOfRestaurant, List<Product> menu, RestaurantStatus status,
+			Location location, boolean isDeleted, String logo, double averageRating, String managerID) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.typeOfRestaurant = typeOfRestaurant;
+		this.menu = menu;
+		this.status = status;
+		this.location = location;
+		this.isDeleted = isDeleted;
+		this.logo = logo;
+		this.averageRating = averageRating;
+		this.managerID = managerID;
 	}
 	
+	 
 	
 }

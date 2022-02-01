@@ -76,7 +76,7 @@ public class RegisterCustomerService {
 		customerDAO.addCustomer(customer);
 		cartDAO.addCartForNewUser(customer.getUsername());
 
-		return Response.status(Response.Status.ACCEPTED).build(); 																						// accepted
+		return Response.status(Response.Status.OK).build(); 																						// accepted
 	}
 	
 	

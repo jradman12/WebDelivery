@@ -91,7 +91,7 @@ public class ManagerService {
 	public Manager updateProduct(Restaurant newRest, @PathParam("username") String username) {
 		ManagerDAO dao = (ManagerDAO) ctx.getAttribute("managerDAO");
 		Manager manager = dao.getManagerByUsername(username);
-		dao.updateManagersRest(manager, newRest);
+		dao.updateManagersRest(manager.getUsername(), newRest.getId());
 		return manager;
 	}
 	
