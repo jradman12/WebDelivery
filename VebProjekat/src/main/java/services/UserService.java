@@ -270,7 +270,9 @@ public class UserService {
 		CustomerDAO customerDAO = new CustomerDAO();
 		customerDAO.setBasePath(getDataDirPath());
 		success = customerDAO.changeCustomer(username,user);
-	}
+		if(success)
+			 ctx.setAttribute("customerDAO",customerDAO);
+	} 
 
 	private void changeAdministratorInformation(String username,User user) {
 		AdministratorDAO administratorDAO = new AdministratorDAO();
