@@ -1,6 +1,10 @@
 Vue.component("customer-home", {
-
-    template: ` 
+  data() {
+    return {
+      loggedInUser: {},
+    };
+  },
+  template: ` 
    <div id="dash">
    <section  class="admin-dash" data-stellar-background-ratio="0.5">
          <div class="container">
@@ -8,10 +12,11 @@ Vue.component("customer-home", {
 
                    <div class="col-md-8 col-ms-12">
                         <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
-                             <h1>Dobrodošli! </h1>
-                             <h5></h5>
+                             <h1>Dobrodošli, {{loggedInUser.fistName}}! </h1>
+                             <h5>Vi ste naš {{ loggedInUser.type.typeName }} korisnik. Iskoristite popust od {{ loggedInUser.type.discount }}% na svaku porudžbinu i nastavite da sakupljate bodove za sledeću titulu, sa kojom imate još više popusta i pogodnosti!</h5>
                         </div>
                    </div>
+
               </div>
          </div>
     </section>
@@ -64,6 +69,13 @@ Vue.component("customer-home", {
               </div>
          </div>
     </section>
+
     </div>
-`
+`,
+
+  mounted: function () {
+    axios
+      .get("rest/users/getLoggedUser")
+      .then((response) => (this.loggedInUser = response.data));
+  },
 });
