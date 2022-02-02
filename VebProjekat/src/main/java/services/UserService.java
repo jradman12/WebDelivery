@@ -138,8 +138,16 @@ public class UserService {
 	public Response getLoggedUser(){
 		if(isUserAdmin() || isUserManager() || isUserCustomer() || isUserDeliverer()) {
 			
-			User user = (User) request.getSession().getAttribute("loggedInUser");		
+			User user = (User) request.getSession().getAttribute("loggedInUser");	
+			CustomerDAO cust = (CustomerDAO) ctx.getAttribute("customerDAO");
 
+			if(user.getRole() == Role.CUSTOMER) {
+				if( cust.customers.containsKey(user.getUsername())) 
+					return Response
+						.status(Response.Status.ACCEPTED)
+						.entity(cust.customers.get(user.getUsername()))
+						.build();
+			}
 			return Response
 					.status(Response.Status.ACCEPTED)
 					.entity(user)

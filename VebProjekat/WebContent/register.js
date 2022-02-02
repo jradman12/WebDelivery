@@ -42,10 +42,10 @@ let reg = new Vue({
           toastr["success"]("Uspješna registracija.");
           document.getElementById("imeKupca").value = "";
           document.getElementById("prezimeKupca").value = "";
-          this.newUser.dateOfBirth = null;
           document.getElementById("polKupca").value = "";
           document.getElementById("korisnickoImeKupca").value = "";
           document.getElementById("lozinkaKupca").value = "";
+          //this.newUser.dateOfBirth = null;
         })
         .catch((err) => {
           console.log(err);
