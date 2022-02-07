@@ -33,7 +33,6 @@ Vue.component("customer-restaurantView", {
 
             <img src="images/ce3232.png" width="100%" height="90px">
 
-
             <section class="r-section">
                 <div class="recent-listing">
                     <div class="container">
@@ -65,13 +64,9 @@ Vue.component("customer-restaurantView", {
                             </div>
                         </div>
                         <div>
-                            <row></row>
                         </div>
-                        <div class="listing-item">
-                            <div id="map" style="width:80%;height:500px; border-style: inset; border-color:#ce32322d;">
-                            </div>
+                        <div id="map" ref="mapElement" style="width:80%;height:500px; border-style: inset; border-color:#ce32322d;">
                         </div>
-
                         <section>
                         <div class="gtco-section">
                             <div class="gtco-container">
@@ -209,13 +204,11 @@ Vue.component("customer-restaurantView", {
 `,
 
   mounted: function () {
-    axios
-      .get("rest/comments/getCommentsForRestaurant")
-      .then((response) => (this.comments = response.data));
-
-    axios
-      .get("rest/orders/orderFromRestaurantDeliveredToCustomer")
-      .then((response) => (this.show = response.data));
+    // var mymap = L.map(this.$refs["mapElement"]).setView(
+    //   [46.392411189814645, 16.270751953125004],
+    //   6
+    // );
+    // leaflet wont inject since there is a v-if thats fetching data async so nooooope do sth else
   },
   created() {
     axios.get("rest/restaurants/getCurrentRestaurant").then(
@@ -224,6 +217,54 @@ Vue.component("customer-restaurantView", {
         .get("rest/restaurants/getProductsOfCurrentRestaurant")
         .then((response) => (this.productsDTO = response.data))
     );
+
+    axios
+      .get("rest/comments/getCommentsForRestaurant")
+      .then((response) => (this.comments = response.data));
+
+    axios
+      .get("rest/orders/orderFromRestaurantDeliveredToCustomer")
+      .then((response) => (this.show = response.data));
+  },
+
+  updated() {
+    var center = [19.84, 45.24];
+
+    this.$nextTick(function () {
+      mapboxgl.accessToken =
+        "pk.eyJ1Ijoia2p1YmlpIiwiYSI6ImNremQzcHJ0azA1MHoydm1xcTc2d2hhcHAifQ.tqj6PT5zCeut-6puPQ9ELA";
+      var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: center,
+        zoom: 12,
+      });
+
+      const nav = new mapboxgl.NavigationControl();
+      map.addControl(nav);
+
+      // forward geocoding
+      var location =
+        this.restaurant.location.address.addressName +
+        this.restaurant.location.address.city +
+        this.restaurant.location.address.postalCode;
+
+      location = encodeURIComponent(location);
+
+      axios
+        .get(
+          "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+            location +
+            ".json?types=place%2Cpostcode%2Caddress&access_token=pk.eyJ1Ijoia2p1YmlpIiwiYSI6ImNremQzcHJ0azA1MHoydm1xcTc2d2hhcHAifQ.tqj6PT5zCeut-6puPQ9ELA"
+        )
+        .then((res) => {
+          const marker = new mapboxgl.Marker() // Initialize a new marker
+            .setLngLat(res.data.features[1].center) // Marker [lng, lat] coordinates
+            .addTo(map);
+          console.log("coords are " + res.data.features[0].center);
+        })
+        .catch((err) => console.log(err));
+    });
   },
 
   methods: {
